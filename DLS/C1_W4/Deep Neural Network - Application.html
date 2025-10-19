@@ -1,0 +1,1509 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Deep Neural Network for Image Classification: Application &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C1_W4/Deep Neural Network - Application';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C1_W4/Deep Neural Network - Application.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C1_W4/Deep Neural Network - Application.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C1_W4/Deep Neural Network - Application.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Deep Neural Network for Image Classification: Application</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-process-the-dataset">2 - Load and Process the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-architecture">3 - Model Architecture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-neural-network">3.1 - 2-layer Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-layer-deep-neural-network">3.2 - L-layer Deep Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-methodology">3.3 - General Methodology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-layer-neural-network">4 - Two-layer Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-two-layer-model">Exercise 1 - two_layer_model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">4.1 - Train the model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-it-seems-that-your-2-layer-neural-network-has-better-performance-72-than-the-logistic-regression-implementation-70-assignment-week-2-let-s-see-if-you-can-do-even-better-with-an-l-layer-model">Congratulations! It seems that your 2-layer neural network has better performance (72%) than the logistic regression implementation (70%, assignment week 2). Let’s see if you can do even better with an <span class="math notranslate nohighlight">\(L\)</span>-layer model.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-layer-neural-network">5 - L-layer Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-l-layer-model">Exercise 2 - L_layer_model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">5.1 - Train the model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congrats-it-seems-that-your-4-layer-neural-network-has-better-performance-80-than-your-2-layer-neural-network-72-on-the-same-test-set">Congrats! It seems that your 4-layer neural network has better performance (80%) than your 2-layer neural network (72%) on the same test set.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-analysis">6 - Results Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-on-finishing-this-assignment">Congratulations on finishing this assignment!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-with-your-own-image-optional-ungraded-exercise">7 - Test with your own image (optional/ungraded exercise)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="deep-neural-network-for-image-classification-application">
+<h1>Deep Neural Network for Image Classification: Application<a class="headerlink" href="#deep-neural-network-for-image-classification-application" title="Link to this heading">#</a></h1>
+<p>By the time you complete this notebook, you will have finished the last programming assignment of Week 4, and also the last programming assignment of Course 1! Go you!</p>
+<p>To build your cat/not-a-cat classifier, you’ll use the functions from the previous assignment to build a deep network. Hopefully, you’ll see an improvement in accuracy over your previous logistic regression implementation.</p>
+<p><strong>After this assignment you will be able to:</strong></p>
+<ul class="simple">
+<li><p>Build and train a deep L-layer neural network, and apply it to supervised learning</p></li>
+</ul>
+<p>Let’s get started!</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/neural-networks-deep-learning/supplement/iLwon/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Load and Process the Dataset</span></a></p></li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Model Architecture</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - 2-layer Neural Network</span></a></p></li>
+<li><p><a class="reference internal" href="#3-2"><span class="xref myst">3.2 - L-layer Deep Neural Network</span></a></p></li>
+<li><p><a class="reference internal" href="#3-3"><span class="xref myst">3.3 - General Methodology</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Two-layer Neural Network</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - two_layer_model</span></a></p></li>
+<li><p><a class="reference internal" href="#4-1"><span class="xref myst">4.1 - Train the model</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - L-layer Neural Network</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - L_layer_model</span></a></p></li>
+<li><p><a class="reference internal" href="#5-1"><span class="xref myst">5.1 - Train the model</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst">6 - Results Analysis</span></a></p></li>
+<li><p><a class="reference internal" href="#7"><span class="xref myst">7 - Test with your own image (optional/ungraded exercise)</span></a></p></li>
+</ul>
+<p><a name='1'></a></p>
+</section>
+<section id="packages">
+<h2>1 - Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>Begin by importing all the packages you’ll need during this assignment.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.numpy.org/">numpy</a> is the fundamental package for scientific computing with Python.</p></li>
+<li><p><a class="reference external" href="http://matplotlib.org">matplotlib</a> is a library to plot graphs in Python.</p></li>
+<li><p><a class="reference external" href="http://www.h5py.org">h5py</a> is a common package to interact with a dataset that is stored on an H5 file.</p></li>
+<li><p><a class="reference external" href="http://www.pythonware.com/products/pil/">PIL</a> and <a class="reference external" href="https://www.scipy.org/">scipy</a> are used here to test your model with your own picture at the end.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dnn_app_utils</span></code> provides the functions implemented in the “Building your Deep Neural Network: Step by Step” assignment to this notebook.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">np.random.seed(1)</span></code> is used to keep all the random function calls consistent. It helps grade your work - so please don’t change it!</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v1.2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">ndimage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dnn_app_utils_v3</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span> <span class="c1"># set default size of plots</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;image.interpolation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;image.cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2'></a></p>
+</section>
+<section id="load-and-process-the-dataset">
+<h2>2 - Load and Process the Dataset<a class="headerlink" href="#load-and-process-the-dataset" title="Link to this heading">#</a></h2>
+<p>You’ll be using the same “Cat vs non-Cat” dataset as in “Logistic Regression as a Neural Network” (Assignment 2). The model you built back then had 70% test accuracy on classifying cat vs non-cat images. Hopefully, your new model will perform even better!</p>
+<p><strong>Problem Statement</strong>: You are given a dataset (“data.h5”) containing:
+- a training set of <code class="docutils literal notranslate"><span class="pre">m_train</span></code> images labelled as cat (1) or non-cat (0)
+- a test set of <code class="docutils literal notranslate"><span class="pre">m_test</span></code> images labelled as cat and non-cat
+- each image is of shape (num_px, num_px, 3) where 3 is for the 3 channels (RGB).</p>
+<p>Let’s get more familiar with the dataset. Load the data by running the cell below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_x_orig</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x_orig</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following code will show you an image in the dataset. Feel free to change the index and re-run the cell multiple times to check out other images.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example of a picture</span>
+<span class="n">index</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">train_x_orig</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;y = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train_y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">index</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;. It&#39;s a &quot;</span> <span class="o">+</span> <span class="n">classes</span><span class="p">[</span><span class="n">train_y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">index</span><span class="p">]]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="o">+</span>  <span class="s2">&quot; picture.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y = 0. It&#39;s a non-cat picture.
+</pre></div>
+</div>
+<img alt="../../_images/89d379448dbafd4cb82d30cee7166735a0e8065b177d019189236607c68eb294.png" src="../../_images/89d379448dbafd4cb82d30cee7166735a0e8065b177d019189236607c68eb294.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Explore your dataset </span>
+<span class="n">m_train</span> <span class="o">=</span> <span class="n">train_x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">num_px</span> <span class="o">=</span> <span class="n">train_x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">m_test</span> <span class="o">=</span> <span class="n">test_x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Number of training examples: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m_train</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Number of testing examples: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m_test</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Each image is of size: (&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_px</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num_px</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, 3)&quot;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;train_x_orig shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train_x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;train_y shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;test_x_orig shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;test_y shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of training examples: 209
+Number of testing examples: 50
+Each image is of size: (64, 64, 3)
+train_x_orig shape: (209, 64, 64, 3)
+train_y shape: (1, 209)
+test_x_orig shape: (50, 64, 64, 3)
+test_y shape: (1, 50)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As usual, you reshape and standardize the images before feeding them to the network. The code is given in the cell below.</p>
+<img src="/C1_W4/images/imvectorkiank.png" style="width:450px;height:300px;">
+<caption><center><font color='purple'><b>Figure 1</b>: Image to vector conversion.</font></center></caption><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape the training and test examples </span>
+<span class="n">train_x_flatten</span> <span class="o">=</span> <span class="n">train_x_orig</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">train_x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>   <span class="c1"># The &quot;-1&quot; makes reshape flatten the remaining dimensions</span>
+<span class="n">test_x_flatten</span> <span class="o">=</span> <span class="n">test_x_orig</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">test_x_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Standardize data to have feature values between 0 and 1.</span>
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">train_x_flatten</span><span class="o">/</span><span class="mf">255.</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">test_x_flatten</span><span class="o">/</span><span class="mf">255.</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;train_x&#39;s shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;test_x&#39;s shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_x</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train_x&#39;s shape: (12288, 209)
+test_x&#39;s shape: (12288, 50)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Note</strong>:
+<span class="math notranslate nohighlight">\(12,288\)</span> equals <span class="math notranslate nohighlight">\(64 \times 64 \times 3\)</span>, which is the size of one reshaped image vector.</p>
+<p><a name='3'></a></p>
+</section>
+<section id="model-architecture">
+<h2>3 - Model Architecture<a class="headerlink" href="#model-architecture" title="Link to this heading">#</a></h2>
+<p><a name='3-1'></a></p>
+<section id="layer-neural-network">
+<h3>3.1 - 2-layer Neural Network<a class="headerlink" href="#layer-neural-network" title="Link to this heading">#</a></h3>
+<p>Now that you’re familiar with the dataset, it’s time to build a deep neural network to distinguish cat images from non-cat images!</p>
+<p>You’re going to build two different models:</p>
+<ul class="simple">
+<li><p>A 2-layer neural network</p></li>
+<li><p>An L-layer deep neural network</p></li>
+</ul>
+<p>Then, you’ll compare the performance of these models, and try out some different values for <span class="math notranslate nohighlight">\(L\)</span>.</p>
+<p>Let’s look at the two architectures:</p>
+<img src="/C1_W1/images/2layerNN_kiank.png" style="width:650px;height:400px;">
+<caption><center><font color='purple'><b>Figure 2</b>: 2-layer neural network. <br> The model can be summarized as: INPUT -> LINEAR -> RELU -> LINEAR -> SIGMOID -> OUTPUT.</font></center></caption>
+<p><u><b>Detailed Architecture of Figure 2</b></u>:</p>
+<ul class="simple">
+<li><p>The input is a (64,64,3) image which is flattened to a vector of size <span class="math notranslate nohighlight">\((12288,1)\)</span>.</p></li>
+<li><p>The corresponding vector: <span class="math notranslate nohighlight">\([x_0,x_1,...,x_{12287}]^T\)</span> is then multiplied by the weight matrix <span class="math notranslate nohighlight">\(W^{[1]}\)</span> of size <span class="math notranslate nohighlight">\((n^{[1]}, 12288)\)</span>.</p></li>
+<li><p>Then, add a bias term and take its relu to get the following vector: <span class="math notranslate nohighlight">\([a_0^{[1]}, a_1^{[1]},..., a_{n^{[1]}-1}^{[1]}]^T\)</span>.</p></li>
+<li><p>Multiply the resulting vector by <span class="math notranslate nohighlight">\(W^{[2]}\)</span> and add the intercept (bias).</p></li>
+<li><p>Finally, take the sigmoid of the result. If it’s greater than 0.5, classify it as a cat.</p></li>
+</ul>
+<p><a name='3-2'></a></p>
+</section>
+<section id="l-layer-deep-neural-network">
+<h3>3.2 - L-layer Deep Neural Network<a class="headerlink" href="#l-layer-deep-neural-network" title="Link to this heading">#</a></h3>
+<p>It’s pretty difficult to represent an L-layer deep neural network using the above representation. However, here is a simplified network representation:</p>
+<img src="/C1_W4/images/LlayerNN_kiank.png" style="width:650px;height:400px;">
+<caption><center><font color='purple'><b>Figure 3</b>: L-layer neural network. <br> The model can be summarized as: [LINEAR -> RELU] $\times$ (L-1) -> LINEAR -> SIGMOID</font></center></caption>
+<p><u><b>Detailed Architecture of Figure 3</b></u>:</p>
+<ul class="simple">
+<li><p>The input is a (64,64,3) image which is flattened to a vector of size (12288,1).</p></li>
+<li><p>The corresponding vector: <span class="math notranslate nohighlight">\([x_0,x_1,...,x_{12287}]^T\)</span> is then multiplied by the weight matrix <span class="math notranslate nohighlight">\(W^{[1]}\)</span> and then you add the intercept <span class="math notranslate nohighlight">\(b^{[1]}\)</span>. The result is called the linear unit.</p></li>
+<li><p>Next, take the relu of the linear unit. This process could be repeated several times for each <span class="math notranslate nohighlight">\((W^{[l]}, b^{[l]})\)</span> depending on the model architecture.</p></li>
+<li><p>Finally, take the sigmoid of the final linear unit. If it is greater than 0.5, classify it as a cat.</p></li>
+</ul>
+<p><a name='3-3'></a></p>
+</section>
+<section id="general-methodology">
+<h3>3.3 - General Methodology<a class="headerlink" href="#general-methodology" title="Link to this heading">#</a></h3>
+<p>As usual, you’ll follow the Deep Learning methodology to build the model:</p>
+<ol class="arabic simple">
+<li><p>Initialize parameters / Define hyperparameters</p></li>
+<li><p>Loop for num_iterations:
+a. Forward propagation
+b. Compute cost function
+c. Backward propagation
+d. Update parameters (using parameters, and grads from backprop)</p></li>
+<li><p>Use trained parameters to predict labels</p></li>
+</ol>
+<p>Now go ahead and implement those two models!</p>
+<p><a name='4'></a></p>
+</section>
+</section>
+<section id="two-layer-neural-network">
+<h2>4 - Two-layer Neural Network<a class="headerlink" href="#two-layer-neural-network" title="Link to this heading">#</a></h2>
+<p><a name='ex-1'></a></p>
+<section id="exercise-1-two-layer-model">
+<h3>Exercise 1 - two_layer_model<a class="headerlink" href="#exercise-1-two-layer-model" title="Link to this heading">#</a></h3>
+<p>Use the helper functions you have implemented in the previous assignment to build a 2-layer neural network with the following structure: <em>LINEAR -&gt; RELU -&gt; LINEAR -&gt; SIGMOID</em>. The functions and their inputs are:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">initialize_parameters</span><span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">n_h</span><span class="p">,</span> <span class="n">n_y</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">parameters</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">linear_activation_forward</span><span class="p">(</span><span class="n">A_prev</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">activation</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">A</span><span class="p">,</span> <span class="n">cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_cost</span><span class="p">(</span><span class="n">AL</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">cost</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">linear_activation_backward</span><span class="p">(</span><span class="n">dA</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">activation</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">dA_prev</span><span class="p">,</span> <span class="n">dW</span><span class="p">,</span> <span class="n">db</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">parameters</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### CONSTANTS DEFINING THE MODEL ####</span>
+<span class="n">n_x</span> <span class="o">=</span> <span class="mi">12288</span>     <span class="c1"># num_px * num_px * 3</span>
+<span class="n">n_h</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">n_y</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">layers_dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">n_h</span><span class="p">,</span> <span class="n">n_y</span><span class="p">)</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.0075</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: two_layer_model</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">two_layer_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">layers_dims</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.0075</span><span class="p">,</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span> <span class="n">print_cost</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a two-layer neural network: LINEAR-&gt;RELU-&gt;LINEAR-&gt;SIGMOID.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input data, of shape (n_x, number of examples)</span>
+<span class="sd">    Y -- true &quot;label&quot; vector (containing 1 if cat, 0 if non-cat), of shape (1, number of examples)</span>
+<span class="sd">    layers_dims -- dimensions of the layers (n_x, n_h, n_y)</span>
+<span class="sd">    num_iterations -- number of iterations of the optimization loop</span>
+<span class="sd">    learning_rate -- learning rate of the gradient descent update rule</span>
+<span class="sd">    print_cost -- If set to True, this will print the cost every 100 iterations </span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    parameters -- a dictionary containing W1, W2, b1, and b2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>                              <span class="c1"># to keep track of the cost</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                           <span class="c1"># number of examples</span>
+    <span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">n_h</span><span class="p">,</span> <span class="n">n_y</span><span class="p">)</span> <span class="o">=</span> <span class="n">layers_dims</span>
+    
+    <span class="c1"># Initialize parameters dictionary, by calling one of the functions you&#39;d previously implemented</span>
+    <span class="c1">#(≈ 1 line of code)</span>
+    <span class="c1"># parameters = ...</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="c1"># Get W1, b1, W2 and b2 from the dictionary parameters.</span>
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W1&quot;</span><span class="p">]</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b1&quot;</span><span class="p">]</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W2&quot;</span><span class="p">]</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b2&quot;</span><span class="p">]</span>
+    
+    <span class="c1"># Loop (gradient descent)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_iterations</span><span class="p">):</span>
+
+        <span class="c1"># Forward propagation: LINEAR -&gt; RELU -&gt; LINEAR -&gt; SIGMOID. Inputs: &quot;X, W1, b1, W2, b2&quot;. Output: &quot;A1, cache1, A2, cache2&quot;.</span>
+        <span class="c1">#(≈ 2 lines of code)</span>
+        <span class="c1"># A1, cache1 = ...</span>
+        <span class="c1"># A2, cache2 = ...</span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+        
+        <span class="c1"># Compute cost</span>
+        <span class="c1">#(≈ 1 line of code)</span>
+        <span class="c1"># cost = ...</span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+        
+        <span class="c1"># Initializing backward propagation</span>
+        <span class="n">dA2</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">A2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Y</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">A2</span><span class="p">))</span>
+        
+        <span class="c1"># Backward propagation. Inputs: &quot;dA2, cache2, cache1&quot;. Outputs: &quot;dA1, dW2, db2; also dA0 (not used), dW1, db1&quot;.</span>
+        <span class="c1">#(≈ 2 lines of code)</span>
+        <span class="c1"># dA1, dW2, db2 = ...</span>
+        <span class="c1"># dA0, dW1, db1 = ...</span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+        
+        <span class="c1"># Set grads[&#39;dWl&#39;] to dW1, grads[&#39;db1&#39;] to db1, grads[&#39;dW2&#39;] to dW2, grads[&#39;db2&#39;] to db2</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s1">&#39;dW1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dW1</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s1">&#39;db1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">db1</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s1">&#39;dW2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dW2</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s1">&#39;db2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">db2</span>
+        
+        <span class="c1"># Update parameters.</span>
+        <span class="c1">#(approx. 1 line of code)</span>
+        <span class="c1"># parameters = ...</span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+
+        <span class="c1"># Retrieve W1, b1, W2, b2 from parameters</span>
+        <span class="n">W1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W1&quot;</span><span class="p">]</span>
+        <span class="n">b1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b1&quot;</span><span class="p">]</span>
+        <span class="n">W2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W2&quot;</span><span class="p">]</span>
+        <span class="n">b2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b2&quot;</span><span class="p">]</span>
+        
+        <span class="c1"># Print the cost every 100 iterations and for the last iteration</span>
+        <span class="k">if</span> <span class="n">print_cost</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_iterations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cost after iteration </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">cost</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_costs</span><span class="p">(</span><span class="n">costs</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.0075</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">costs</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;cost&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iterations (per hundreds)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Learning rate =&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="n">two_layer_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">layers_dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">n_h</span><span class="p">,</span> <span class="n">n_y</span><span class="p">),</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">print_cost</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cost after first iteration: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">costs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="n">two_layer_model_test</span><span class="p">(</span><span class="n">two_layer_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="n">two_layer_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">layers_dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">n_h</span><span class="p">,</span> <span class="n">n_y</span><span class="p">),</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">print_cost</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cost after first iteration: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">costs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">two_layer_model_test</span><span class="p">(</span><span class="n">two_layer_model</span><span class="p">)</span>
+
+<span class="nn">Cell In[8], line 34,</span> in <span class="ni">two_layer_model</span><span class="nt">(X, Y, layers_dims, learning_rate, num_iterations, print_cost)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">n_h</span><span class="p">,</span> <span class="n">n_y</span><span class="p">)</span> <span class="o">=</span> <span class="n">layers_dims</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="c1"># Initialize parameters dictionary, by calling one of the functions you&#39;d previously implemented</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="c1">#(≈ 1 line of code)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="c1"># parameters = ...</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">32</span> 
+<span class="g g-Whitespace">     </span><span class="mi">33</span> <span class="c1"># Get W1, b1, W2 and b2 from the dictionary parameters.</span>
+<span class="ne">---&gt; </span><span class="mi">34</span> <span class="n">W1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W1&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="n">b1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;b1&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="n">W2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;W2&quot;</span><span class="p">]</span>
+
+<span class="ne">NameError</span>: name &#39;parameters&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="n">after</span> <span class="n">iteration</span> <span class="mi">1</span> <span class="n">must</span> <span class="n">be</span> <span class="n">around</span> <span class="mf">0.69</span>
+</pre></div>
+</div>
+<p><a name='4-1'></a></p>
+</section>
+<section id="train-the-model">
+<h3>4.1 - Train the model<a class="headerlink" href="#train-the-model" title="Link to this heading">#</a></h3>
+<p>If your code passed the previous cell, run the cell below to train your parameters.</p>
+<ul class="simple">
+<li><p>The cost should decrease on every iteration.</p></li>
+<li><p>It may take up to 5 minutes to run 2500 iterations.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="n">two_layer_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">layers_dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_x</span><span class="p">,</span> <span class="n">n_h</span><span class="p">,</span> <span class="n">n_y</span><span class="p">),</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">2500</span><span class="p">,</span> <span class="n">print_cost</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plot_costs</span><span class="p">(</span><span class="n">costs</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table> 
+    <tr>
+        <td> <b>Cost after iteration 0</b></td>
+        <td> 0.6930497356599888 </td>
+    </tr>
+    <tr>
+        <td> <b>Cost after iteration 100</b></td>
+        <td> 0.6464320953428849 </td>
+    </tr>
+    <tr>
+        <td> <b>...</b></td>
+        <td> ... </td>
+    </tr>
+    <tr>
+        <td> <b>Cost after iteration 2499</b></td>
+        <td> 0.04421498215868956 </td>
+    </tr>
+</table><p><strong>Nice!</strong> You successfully trained the model. Good thing you built a vectorized implementation! Otherwise it might have taken 10 times longer to train this.</p>
+<p>Now, you can use the trained parameters to classify images from the dataset. To see your predictions on the training and test sets, run the cell below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions_train</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table> 
+    <tr>
+        <td> <b>Accuracy</b></td>
+        <td> 0.9999999999999998 </td>
+    </tr>
+</table><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions_test</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table> 
+    <tr>
+        <td> <b>Accuracy</b></td>
+        <td> 0.72 </td>
+    </tr>
+</table></section>
+<section id="congratulations-it-seems-that-your-2-layer-neural-network-has-better-performance-72-than-the-logistic-regression-implementation-70-assignment-week-2-let-s-see-if-you-can-do-even-better-with-an-l-layer-model">
+<h3>Congratulations! It seems that your 2-layer neural network has better performance (72%) than the logistic regression implementation (70%, assignment week 2). Let’s see if you can do even better with an <span class="math notranslate nohighlight">\(L\)</span>-layer model.<a class="headerlink" href="#congratulations-it-seems-that-your-2-layer-neural-network-has-better-performance-72-than-the-logistic-regression-implementation-70-assignment-week-2-let-s-see-if-you-can-do-even-better-with-an-l-layer-model" title="Link to this heading">#</a></h3>
+<p><strong>Note</strong>: You may notice that running the model on fewer iterations (say 1500) gives better accuracy on the test set. This is called “early stopping” and you’ll hear more about it in the next course. Early stopping is a way to prevent overfitting.</p>
+<p><a name='5'></a></p>
+</section>
+</section>
+<section id="l-layer-neural-network">
+<h2>5 - L-layer Neural Network<a class="headerlink" href="#l-layer-neural-network" title="Link to this heading">#</a></h2>
+<p><a name='ex-2'></a></p>
+<section id="exercise-2-l-layer-model">
+<h3>Exercise 2 - L_layer_model<a class="headerlink" href="#exercise-2-l-layer-model" title="Link to this heading">#</a></h3>
+<p>Use the helper functions you implemented previously to build an <span class="math notranslate nohighlight">\(L\)</span>-layer neural network with the following structure: <em>[LINEAR -&gt; RELU]<span class="math notranslate nohighlight">\(\times\)</span>(L-1) -&gt; LINEAR -&gt; SIGMOID</em>. The functions and their inputs are:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">initialize_parameters_deep</span><span class="p">(</span><span class="n">layers_dims</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">parameters</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">L_model_forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">AL</span><span class="p">,</span> <span class="n">caches</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_cost</span><span class="p">(</span><span class="n">AL</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">cost</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">L_model_backward</span><span class="p">(</span><span class="n">AL</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">caches</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">grads</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">parameters</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### CONSTANTS ###</span>
+<span class="n">layers_dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12288</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1">#  4-layer model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: L_layer_model</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">L_layer_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">layers_dims</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.0075</span><span class="p">,</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span> <span class="n">print_cost</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a L-layer neural network: [LINEAR-&gt;RELU]*(L-1)-&gt;LINEAR-&gt;SIGMOID.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input data, of shape (n_x, number of examples)</span>
+<span class="sd">    Y -- true &quot;label&quot; vector (containing 1 if cat, 0 if non-cat), of shape (1, number of examples)</span>
+<span class="sd">    layers_dims -- list containing the input size and each layer size, of length (number of layers + 1).</span>
+<span class="sd">    learning_rate -- learning rate of the gradient descent update rule</span>
+<span class="sd">    num_iterations -- number of iterations of the optimization loop</span>
+<span class="sd">    print_cost -- if True, it prints the cost every 100 steps</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    parameters -- parameters learnt by the model. They can then be used to predict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>                         <span class="c1"># keep track of cost</span>
+    
+    <span class="c1"># Parameters initialization.</span>
+    <span class="c1">#(≈ 1 line of code)</span>
+    <span class="c1"># parameters = ...</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="c1"># Loop (gradient descent)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_iterations</span><span class="p">):</span>
+
+        <span class="c1"># Forward propagation: [LINEAR -&gt; RELU]*(L-1) -&gt; LINEAR -&gt; SIGMOID.</span>
+        <span class="c1">#(≈ 1 line of code)</span>
+        <span class="c1"># AL, caches = ...</span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+        
+        <span class="c1"># Compute cost.</span>
+        <span class="c1">#(≈ 1 line of code)</span>
+        <span class="c1"># cost = ...</span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+        <span class="c1"># Backward propagation.</span>
+        <span class="c1">#(≈ 1 line of code)</span>
+        <span class="c1"># grads = ...    </span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+ 
+        <span class="c1"># Update parameters.</span>
+        <span class="c1">#(≈ 1 line of code)</span>
+        <span class="c1"># parameters = ...</span>
+        <span class="c1"># YOUR CODE STARTS HERE</span>
+        
+        
+        <span class="c1"># YOUR CODE ENDS HERE</span>
+                
+        <span class="c1"># Print the cost every 100 iterations and for the last iteration</span>
+        <span class="k">if</span> <span class="n">print_cost</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_iterations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cost after iteration </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">cost</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="n">L_layer_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">layers_dims</span><span class="p">,</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">print_cost</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cost after first iteration: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">costs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="n">L_layer_model_test</span><span class="p">(</span><span class="n">L_layer_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cost</span> <span class="n">after</span> <span class="n">iteration</span> <span class="mi">1</span> <span class="n">must</span> <span class="n">be</span> <span class="n">around</span> <span class="mf">0.77</span>
+</pre></div>
+</div>
+<p><a name='5-1'></a></p>
+</section>
+<section id="id1">
+<h3>5.1 - Train the model<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>If your code passed the previous cell, run the cell below to train your model as a 4-layer neural network.</p>
+<ul class="simple">
+<li><p>The cost should decrease on every iteration.</p></li>
+<li><p>It may take up to 5 minutes to run 2500 iterations.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="n">L_layer_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">layers_dims</span><span class="p">,</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">2500</span><span class="p">,</span> <span class="n">print_cost</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table> 
+    <tr>
+        <td> <b>Cost after iteration 0</b></td>
+        <td> 0.771749 </td>
+    </tr>
+    <tr>
+        <td> <b>Cost after iteration 100</b></td>
+        <td> 0.672053 </td>
+    </tr>
+    <tr>
+        <td> <b>...</b></td>
+        <td> ... </td>
+    </tr>
+    <tr>
+        <td> <b>Cost after iteration 2499</b></td>
+        <td> 0.088439 </td>
+    </tr>
+</table><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_train</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+    <td>
+        <b>Train Accuracy</b>
+    </td>
+    <td>
+    0.985645933014
+    </td>
+    </tr>
+</table><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_test</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table> 
+    <tr>
+        <td> <b>Test Accuracy</b></td>
+        <td> 0.8 </td>
+    </tr>
+</table></section>
+<section id="congrats-it-seems-that-your-4-layer-neural-network-has-better-performance-80-than-your-2-layer-neural-network-72-on-the-same-test-set">
+<h3>Congrats! It seems that your 4-layer neural network has better performance (80%) than your 2-layer neural network (72%) on the same test set.<a class="headerlink" href="#congrats-it-seems-that-your-4-layer-neural-network-has-better-performance-80-than-your-2-layer-neural-network-72-on-the-same-test-set" title="Link to this heading">#</a></h3>
+<p>This is pretty good performance for this task. Nice job!</p>
+<p>In the next course on “Improving deep neural networks,” you’ll be able to obtain even higher accuracy by systematically searching for better hyperparameters: learning_rate, layers_dims, or num_iterations, for example.</p>
+<p><a name='6'></a></p>
+</section>
+</section>
+<section id="results-analysis">
+<h2>6 - Results Analysis<a class="headerlink" href="#results-analysis" title="Link to this heading">#</a></h2>
+<p>First, take a look at some images the L-layer model labeled incorrectly. This will show a few mislabeled images.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_mislabeled_images</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">pred_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>A few types of images the model tends to do poorly on include:</strong></p>
+<ul class="simple">
+<li><p>Cat body in an unusual position</p></li>
+<li><p>Cat appears against a background of a similar color</p></li>
+<li><p>Unusual cat color and species</p></li>
+<li><p>Camera Angle</p></li>
+<li><p>Brightness of the picture</p></li>
+<li><p>Scale variation (cat is very large or small in image)</p></li>
+</ul>
+<section id="congratulations-on-finishing-this-assignment">
+<h3>Congratulations on finishing this assignment!<a class="headerlink" href="#congratulations-on-finishing-this-assignment" title="Link to this heading">#</a></h3>
+<p>You just built and trained a deep L-layer neural network, and applied it in order to distinguish cats from non-cats, a very serious and important task in deep learning. ;)</p>
+<p>By now, you’ve also completed all the assignments for Course 1 in the Deep Learning Specialization. Amazing work! If you’d like to test out how closely you resemble a cat yourself, there’s an optional ungraded exercise below, where you can test your own image.</p>
+<p>Great work and hope to see you in the next course!</p>
+<p><a name='7'></a></p>
+</section>
+</section>
+<section id="test-with-your-own-image-optional-ungraded-exercise">
+<h2>7 - Test with your own image (optional/ungraded exercise)<a class="headerlink" href="#test-with-your-own-image-optional-ungraded-exercise" title="Link to this heading">#</a></h2>
+<p>From this point, if you so choose, you can use your own image to test  the output of your model. To do that follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Click on “File” in the upper bar of this notebook, then click “Open” to go on your Coursera Hub.</p></li>
+<li><p>Add your image to this Jupyter Notebook’s directory, in the “images” folder</p></li>
+<li><p>Change your image’s name in the following code</p></li>
+<li><p>Run the code and check if the algorithm is right (1 = cat, 0 = non-cat)!</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## START CODE HERE ##</span>
+<span class="n">my_image</span> <span class="o">=</span> <span class="s2">&quot;my_image.jpg&quot;</span> <span class="c1"># change this to the name of your image file </span>
+<span class="n">my_label_y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># the true class of your image (1 -&gt; cat, 0 -&gt; non-cat)</span>
+<span class="c1">## END CODE HERE ##</span>
+
+<span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;images/&quot;</span> <span class="o">+</span> <span class="n">my_image</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">num_px</span><span class="p">,</span> <span class="n">num_px</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="o">/</span> <span class="mf">255.</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_px</span> <span class="o">*</span> <span class="n">num_px</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">my_predicted_image</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">my_label_y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;y = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">my_predicted_image</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, your L-layer model predicts a </span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">classes</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">my_predicted_image</span><span class="p">)),]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="o">+</span>  <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2"> picture.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>References</strong>:</p>
+<ul class="simple">
+<li><p>for auto-reloading external module: <a class="reference external" href="http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython">http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C1_W4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-process-the-dataset">2 - Load and Process the Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-architecture">3 - Model Architecture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#layer-neural-network">3.1 - 2-layer Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-layer-deep-neural-network">3.2 - L-layer Deep Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-methodology">3.3 - General Methodology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-layer-neural-network">4 - Two-layer Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-two-layer-model">Exercise 1 - two_layer_model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">4.1 - Train the model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-it-seems-that-your-2-layer-neural-network-has-better-performance-72-than-the-logistic-regression-implementation-70-assignment-week-2-let-s-see-if-you-can-do-even-better-with-an-l-layer-model">Congratulations! It seems that your 2-layer neural network has better performance (72%) than the logistic regression implementation (70%, assignment week 2). Let’s see if you can do even better with an <span class="math notranslate nohighlight">\(L\)</span>-layer model.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-layer-neural-network">5 - L-layer Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-l-layer-model">Exercise 2 - L_layer_model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">5.1 - Train the model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congrats-it-seems-that-your-4-layer-neural-network-has-better-performance-80-than-your-2-layer-neural-network-72-on-the-same-test-set">Congrats! It seems that your 4-layer neural network has better performance (80%) than your 2-layer neural network (72%) on the same test set.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-analysis">6 - Results Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-on-finishing-this-assignment">Congratulations on finishing this assignment!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-with-your-own-image-optional-ungraded-exercise">7 - Test with your own image (optional/ungraded exercise)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

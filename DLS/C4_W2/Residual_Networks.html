@@ -1,0 +1,1559 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Residual Networks &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C4_W2/Residual_Networks';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C4_W2/Residual_Networks.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C4_W2/Residual_Networks.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C4_W2/Residual_Networks.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Residual Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-content">Table of Content</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-of-very-deep-neural-networks">2 - The Problem of Very Deep Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-residual-network">3 - Building a Residual Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-block">3.1 - The Identity Block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-identity-block">Exercise 1 - identity_block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-convolutional-block">3.2 - The Convolutional Block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-convolutional-block">Exercise 2 - convolutional_block</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-your-first-resnet-model-50-layers">4 - Building Your First ResNet Model (50 layers)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-resnet50">Exercise 3 - ResNet50</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#free-up-resources-for-other-learners">Free Up Resources for Other Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-on-your-own-image-optional-ungraded">5 - Test on Your Own Image (Optional/Ungraded)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Free Up Resources for Other Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">6 - Bibliography</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="residual-networks">
+<h1>Residual Networks<a class="headerlink" href="#residual-networks" title="Link to this heading">#</a></h1>
+<p>Welcome to the first assignment of this week! You’ll be building a very deep convolutional network, using Residual Networks (ResNets). In theory, very deep networks can represent very complex functions; but in practice, they are hard to train. Residual Networks, introduced by <a class="reference external" href="https://arxiv.org/pdf/1512.03385.pdf">He et al.</a>, allow you to train much deeper networks than were previously feasible.</p>
+<p><strong>By the end of this assignment, you’ll be able to:</strong></p>
+<ul class="simple">
+<li><p>Implement the basic building blocks of ResNets in a deep neural network using Keras</p></li>
+<li><p>Put together these building blocks to implement and train a state-of-the-art neural network for image classification</p></li>
+<li><p>Implement a skip connection in your network</p></li>
+</ul>
+<p>For this assignment, you’ll use Keras.</p>
+<p>Before jumping into the problem, run the cell below to load the required packages.</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/convolutional-neural-networks/supplement/DS4yP/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-content">
+<h2>Table of Content<a class="headerlink" href="#table-of-content" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - The Problem of Very Deep Neural Networks</span></a></p></li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Building a Residual Network</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - The Identity Block</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - identity_block</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3-2"><span class="xref myst">3.2 - The Convolutional Block</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - convolutional_block</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Building Your First ResNet Model (50 layers)</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - ResNet50</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - Test on Your Own Image (Optional/Ungraded)</span></a></p></li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst">6 - Bibliography</span></a></p></li>
+</ul>
+<p><a name='1'></a></p>
+</section>
+<section id="packages">
+<h2>1 - Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v3.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.misc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.applications.resnet_v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResNet50V2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.applications.resnet_v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocess_input</span><span class="p">,</span> <span class="n">decode_predictions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">layers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Add</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">ZeroPadding2D</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">AveragePooling2D</span><span class="p">,</span> <span class="n">MaxPooling2D</span><span class="p">,</span> <span class="n">GlobalMaxPooling2D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">load_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">resnets_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.initializers</span><span class="w"> </span><span class="kn">import</span> <span class="n">random_uniform</span><span class="p">,</span> <span class="n">glorot_uniform</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">identity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.python.framework.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">EagerTensor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">imshow</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">test_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">summary</span><span class="p">,</span> <span class="n">comparator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">public_tests</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\sangouda\AppData\Local\Temp\ipykernel_31240\3241847024.py:3: DeprecationWarning: scipy.misc is deprecated and will be removed in 2.0.0
+  import scipy.misc
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2'></a></p>
+</section>
+<section id="the-problem-of-very-deep-neural-networks">
+<h2>2 - The Problem of Very Deep Neural Networks<a class="headerlink" href="#the-problem-of-very-deep-neural-networks" title="Link to this heading">#</a></h2>
+<p>Last week, you built your first convolutional neural networks: first manually with numpy, then using Tensorflow and Keras.</p>
+<p>In recent years, neural networks have become much deeper, with state-of-the-art networks evolving from having just a few layers (e.g., AlexNet) to over a hundred layers.</p>
+<ul class="simple">
+<li><p>The main benefit of a very deep network is that it can represent very complex functions. It can also learn features at many different levels of abstraction, from edges (at the shallower layers, closer to the input) to very complex features (at the deeper layers, closer to the output).</p></li>
+<li><p>However, using a deeper network doesn’t always help. A huge barrier to training them is vanishing gradients: very deep networks often have a gradient signal that goes to zero quickly, thus making gradient descent prohibitively slow.</p></li>
+<li><p>More specifically, during gradient descent, as you backpropagate from the final layer back to the first layer, you are multiplying by the weight matrix on each step, and thus the gradient can decrease exponentially quickly to zero (or, in rare cases, grow exponentially quickly and “explode,” from gaining very large values).</p></li>
+<li><p>During training, you might therefore see the magnitude (or norm) of the gradient for the shallower layers decrease to zero very rapidly as training proceeds, as shown below:</p></li>
+</ul>
+<img src="/C4_W2/images/vanishing_grad_kiank.png" style="width:450px;height:220px;">
+<caption><center> <u> <font color='purple'> <b>Figure 1</b> </u><font color='purple'>  : <b>Vanishing gradient</b> <br> The speed of learning decreases very rapidly for the shallower layers as the network trains </center></caption>
+<p>Not to worry! You are now going to solve this problem by building a Residual Network!</p>
+<p><a name='3'></a></p>
+</section>
+<section id="building-a-residual-network">
+<h2>3 - Building a Residual Network<a class="headerlink" href="#building-a-residual-network" title="Link to this heading">#</a></h2>
+<p>In ResNets, a “shortcut” or a “skip connection” allows the model to skip layers:</p>
+<img src="/C4_W2/images/skip_connection_kiank.png" style="width:650px;height:200px;">
+<caption><center> <u> <font color='purple'> <b>Figure 2</b> </u><font color='purple'>  : A ResNet block showing a skip-connection <br> </center></caption>
+<p>The image on the left shows the “main path” through the network. The image on the right adds a shortcut to the main path. By stacking these ResNet blocks on top of each other, you can form a very deep network.</p>
+<p>The lecture mentioned that having ResNet blocks with the shortcut also makes it very easy for one of the blocks to learn an identity function. This means that you can stack on additional ResNet blocks with little risk of harming training set performance.</p>
+<p>On that note, there is also some evidence that the ease of learning an identity function accounts for ResNets’ remarkable performance even more than skip connections help with vanishing gradients.</p>
+<p>Two main types of blocks are used in a ResNet, depending mainly on whether the input/output dimensions are the same or different. You are going to implement both of them: the “identity block” and the “convolutional block.”</p>
+<p><a name='3-1'></a></p>
+<section id="the-identity-block">
+<h3>3.1 - The Identity Block<a class="headerlink" href="#the-identity-block" title="Link to this heading">#</a></h3>
+<p>The identity block is the standard block used in ResNets, and corresponds to the case where the input activation (say <span class="math notranslate nohighlight">\(a^{[l]}\)</span>) has the same dimension as the output activation (say <span class="math notranslate nohighlight">\(a^{[l+2]}\)</span>). To flesh out the different steps of what happens in a ResNet’s identity block, here is an alternative diagram showing the individual steps:</p>
+<img src="/C4_W2/images/idblock2_kiank.png" style="width:650px;height:150px;">
+<caption><center> <u> <font color='purple'> <b>Figure 3</b> </u><font color='purple'>  : <b>Identity block.</b> Skip connection "skips over" 2 layers. </center></caption>
+<p>The upper path is the “shortcut path.” The lower path is the “main path.” In this diagram, notice the CONV2D and ReLU steps in each layer. To speed up training, a BatchNorm step has been added. Don’t worry about this being complicated to implement–you’ll see that BatchNorm is just one line of code in Keras!</p>
+<p>In this exercise, you’ll actually implement a slightly more powerful version of this identity block, in which the skip connection “skips over” 3 hidden layers rather than 2 layers. It looks like this:</p>
+<img src="/C4_W2/images/idblock3_kiank.png" style="width:650px;height:150px;">
+    <caption><center> <u> <font color='purple'> <b>Figure 4</b> </u><font color='purple'>  : <b>Identity block.</b> Skip connection "skips over" 3 layers.</center></caption><p>These are the individual steps:</p>
+<p>First component of main path:</p>
+<ul class="simple">
+<li><p>The first CONV2D has <span class="math notranslate nohighlight">\(F_1\)</span> filters of shape (1,1) and a stride of (1,1). Its padding is “valid”. Use 0 as the seed for the random uniform initialization: <code class="docutils literal notranslate"><span class="pre">kernel_initializer</span> <span class="pre">=</span> <span class="pre">initializer(seed=0)</span></code>.</p></li>
+<li><p>The first BatchNorm is normalizing the ‘channels’ axis.</p></li>
+<li><p>Then apply the ReLU activation function. This has no hyperparameters.</p></li>
+</ul>
+<p>Second component of main path:</p>
+<ul class="simple">
+<li><p>The second CONV2D has <span class="math notranslate nohighlight">\(F_2\)</span> filters of shape <span class="math notranslate nohighlight">\((f,f)\)</span> and a stride of (1,1). Its padding is “same”. Use 0 as the seed for the random uniform initialization: <code class="docutils literal notranslate"><span class="pre">kernel_initializer</span> <span class="pre">=</span> <span class="pre">initializer(seed=0)</span></code>.</p></li>
+<li><p>The second BatchNorm is normalizing the ‘channels’ axis.</p></li>
+<li><p>Then apply the ReLU activation function. This has no hyperparameters.</p></li>
+</ul>
+<p>Third component of main path:</p>
+<ul class="simple">
+<li><p>The third CONV2D has <span class="math notranslate nohighlight">\(F_3\)</span> filters of shape (1,1) and a stride of (1,1). Its padding is “valid”. Use 0 as the seed for the random uniform initialization: <code class="docutils literal notranslate"><span class="pre">kernel_initializer</span> <span class="pre">=</span> <span class="pre">initializer(seed=0)</span></code>.</p></li>
+<li><p>The third BatchNorm is normalizing the ‘channels’ axis.</p></li>
+<li><p>Note that there is <strong>no</strong> ReLU activation function in this component.</p></li>
+</ul>
+<p>Final step:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">X_shortcut</span></code> and the output from the 3rd layer <code class="docutils literal notranslate"><span class="pre">X</span></code> are added together.</p></li>
+<li><p><strong>Hint</strong>: The syntax will look something like <code class="docutils literal notranslate"><span class="pre">Add()([var1,var2])</span></code></p></li>
+<li><p>Then apply the ReLU activation function. This has no hyperparameters.</p></li>
+</ul>
+<p><a name='ex-1'></a></p>
+</section>
+<section id="exercise-1-identity-block">
+<h3>Exercise 1 - identity_block<a class="headerlink" href="#exercise-1-identity-block" title="Link to this heading">#</a></h3>
+<p>Implement the ResNet identity block. The first component of the main path has been implemented for you already! First, you should read these docs carefully to make sure you understand what’s happening. Then, implement the rest.</p>
+<ul class="simple">
+<li><p>To implement the Conv2D step: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/Conv2D">Conv2D</a></p></li>
+<li><p>To implement BatchNorm: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/BatchNormalization">BatchNormalization</a> <code class="docutils literal notranslate"><span class="pre">BatchNormalization(axis</span> <span class="pre">=</span> <span class="pre">3)(X)</span></code>. If training is set to False, its weights are not updated with the new examples. I.e when the model is used in prediction mode.</p></li>
+<li><p>For the activation, use:  <code class="docutils literal notranslate"><span class="pre">Activation('relu')(X)</span></code></p></li>
+<li><p>To add the value passed forward by the shortcut: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/Add">Add</a></p></li>
+</ul>
+<p>We have added the initializer argument to our functions. This parameter receives an initializer function like the ones included in the package <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/initializers">tensorflow.keras.initializers</a> or any other custom initializer. By default it will be set to <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/initializers/RandomUniform">random_uniform</a></p>
+<p>Remember that these functions accept a <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument that can be any value you want, but that in this notebook must set to 0 for <strong>grading purposes</strong>.</p>
+<p>Here is where you’re actually using the power of the Functional API to create a shortcut path:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1</span>
+<span class="c1"># GRADED FUNCTION: identity_block</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">identity_block</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">random_uniform</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implementation of the identity block as defined in Figure 4</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input tensor of shape (m, n_H_prev, n_W_prev, n_C_prev)</span>
+<span class="sd">    f -- integer, specifying the shape of the middle CONV&#39;s window for the main path</span>
+<span class="sd">    filters -- python list of integers, defining the number of filters in the CONV layers of the main path</span>
+<span class="sd">    initializer -- to set up the initial weights of a layer. Equals to random uniform initializer</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    X -- output of the identity block, tensor of shape (m, n_H, n_W, n_C)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Retrieve Filters</span>
+    <span class="n">F1</span><span class="p">,</span> <span class="n">F2</span><span class="p">,</span> <span class="n">F3</span> <span class="o">=</span> <span class="n">filters</span>
+    
+    <span class="c1"># Save the input value. You&#39;ll need this later to add back to the main path. </span>
+    <span class="n">X_shortcut</span> <span class="o">=</span> <span class="n">X</span>
+    
+    <span class="c1"># First component of main path</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span> <span class="o">=</span> <span class="n">F1</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">strides</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">initializer</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">))(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># Default axis</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">X</span><span class="p">)</span>
+    
+    <span class="c1">### START CODE HERE</span>
+    <span class="c1">## Second component of main path (≈3 lines)</span>
+    <span class="c1">## Set the padding = &#39;same&#39;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+
+    <span class="c1">## Third component of main path (≈2 lines)</span>
+    <span class="c1">## Set the padding = &#39;valid&#39;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+    
+    <span class="c1">## Final step: Add shortcut value to main path, and pass it through a RELU activation (≈2 lines)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+    <span class="c1">### END CODE HERE</span>
+
+    <span class="k">return</span> <span class="n">X</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">set_learning_phase</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1</span>
+<span class="n">X3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="mi">3</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">X3</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">A3</span> <span class="o">=</span> <span class="n">identity_block</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                   <span class="n">initializer</span><span class="o">=</span><span class="k">lambda</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span><span class="n">constant</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[1mWith training=False</span><span class="se">\033</span><span class="s1">[0m</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">A3np</span> <span class="o">=</span> <span class="n">A3</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">A3</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[:,(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),:,:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">resume</span> <span class="o">=</span> <span class="n">A3np</span><span class="p">[:,(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),:,:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">resume</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">set_learning_phase</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\033</span><span class="s1">[1mWith training=True</span><span class="se">\033</span><span class="s1">[0m</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">A4</span> <span class="o">=</span> <span class="n">identity_block</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                   <span class="n">initializer</span><span class="o">=</span><span class="k">lambda</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span><span class="n">constant</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">A4</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[:,(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">),:,:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">public_tests</span><span class="o">.</span><span class="n">identity_block_test</span><span class="p">(</span><span class="n">identity_block</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">### you cannot edit this cell</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">set_learning_phase</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: module &#39;keras._tf_keras.keras.backend&#39; has no attribute &#39;set_learning_phase&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected value</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>With training=False
+
+[[[  0.        0.        0.        0.     ]
+  [  0.        0.        0.        0.     ]]
+
+ [[192.99992 192.99992 192.99992  96.99996]
+  [ 96.99996  96.99996  96.99996  48.99998]]
+
+ [[578.99976 578.99976 578.99976 290.99988]
+  [290.99988 290.99988 290.99988 146.99994]]]
+96.99996
+
+With training=True
+
+[[[0.      0.      0.      0.     ]
+  [0.      0.      0.      0.     ]]
+
+ [[0.40732 0.40732 0.40732 0.40732]
+  [0.40732 0.40732 0.40732 0.40732]]
+
+ [[5.00011 5.00011 5.00011 3.25955]
+  [3.25955 3.25955 3.25955 2.40732]]]
+[[[  0.        0.        0.        0.     ]
+  [  0.        0.        0.        0.     ]]
+All tests passed!
+</pre></div>
+</div>
+<p><a name='3-2'></a></p>
+</section>
+<section id="the-convolutional-block">
+<h3>3.2 - The Convolutional Block<a class="headerlink" href="#the-convolutional-block" title="Link to this heading">#</a></h3>
+<p>The ResNet “convolutional block” is the second block type. You can use this type of block when the input and output dimensions don’t match up. The difference with the identity block is that there is a CONV2D layer in the shortcut path:</p>
+<img src="/C4_W2/images/convblock_kiank.png" style="width:650px;height:150px;">
+<caption><center> <u> <font color='purple'> <b>Figure 4</b> </u><font color='purple'>  : <b>Convolutional block</b> </center></caption>
+<ul class="simple">
+<li><p>The CONV2D layer in the shortcut path is used to resize the input <span class="math notranslate nohighlight">\(x\)</span> to a different dimension, so that the dimensions match up in the final addition needed to add the shortcut value back to the main path. (This plays a similar role as the matrix <span class="math notranslate nohighlight">\(W_s\)</span> discussed in lecture.)</p></li>
+<li><p>For example, to reduce the activation dimensions’s height and width by a factor of 2, you can use a 1x1 convolution with a stride of 2.</p></li>
+<li><p>The CONV2D layer on the shortcut path does not use any non-linear activation function. Its main role is to just apply a (learned) linear function that reduces the dimension of the input, so that the dimensions match up for the later addition step.</p></li>
+<li><p>As for the previous exercise, the additional <code class="docutils literal notranslate"><span class="pre">initializer</span></code> argument is required for grading purposes, and it has been set by default to <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/initializers/GlorotUniform">glorot_uniform</a></p></li>
+</ul>
+<p>The details of the convolutional block are as follows.</p>
+<p>First component of main path:</p>
+<ul class="simple">
+<li><p>The first CONV2D has <span class="math notranslate nohighlight">\(F_1\)</span> filters of shape (1,1) and a stride of (s,s). Its padding is “valid”. Use 0 as the <code class="docutils literal notranslate"><span class="pre">glorot_uniform</span></code> seed <code class="docutils literal notranslate"><span class="pre">kernel_initializer</span> <span class="pre">=</span> <span class="pre">initializer(seed=0)</span></code>.</p></li>
+<li><p>The first BatchNorm is normalizing the ‘channels’ axis.</p></li>
+<li><p>Then apply the ReLU activation function. This has no hyperparameters.</p></li>
+</ul>
+<p>Second component of main path:</p>
+<ul class="simple">
+<li><p>The second CONV2D has <span class="math notranslate nohighlight">\(F_2\)</span> filters of shape (f,f) and a stride of (1,1). Its padding is “same”.  Use 0 as the <code class="docutils literal notranslate"><span class="pre">glorot_uniform</span></code> seed <code class="docutils literal notranslate"><span class="pre">kernel_initializer</span> <span class="pre">=</span> <span class="pre">initializer(seed=0)</span></code>.</p></li>
+<li><p>The second BatchNorm is normalizing the ‘channels’ axis.</p></li>
+<li><p>Then apply the ReLU activation function. This has no hyperparameters.</p></li>
+</ul>
+<p>Third component of main path:</p>
+<ul class="simple">
+<li><p>The third CONV2D has <span class="math notranslate nohighlight">\(F_3\)</span> filters of shape (1,1) and a stride of (1,1). Its padding is “valid”.  Use 0 as the <code class="docutils literal notranslate"><span class="pre">glorot_uniform</span></code> seed <code class="docutils literal notranslate"><span class="pre">kernel_initializer</span> <span class="pre">=</span> <span class="pre">initializer(seed=0)</span></code>.</p></li>
+<li><p>The third BatchNorm is normalizing the ‘channels’ axis. Note that there is no ReLU activation function in this component.</p></li>
+</ul>
+<p>Shortcut path:</p>
+<ul class="simple">
+<li><p>The CONV2D has <span class="math notranslate nohighlight">\(F_3\)</span> filters of shape (1,1) and a stride of (s,s). Its padding is “valid”.  Use 0 as the <code class="docutils literal notranslate"><span class="pre">glorot_uniform</span></code> seed <code class="docutils literal notranslate"><span class="pre">kernel_initializer</span> <span class="pre">=</span> <span class="pre">initializer(seed=0)</span></code>.</p></li>
+<li><p>The BatchNorm is normalizing the ‘channels’ axis.</p></li>
+</ul>
+<p>Final step:</p>
+<ul class="simple">
+<li><p>The shortcut and the main path values are added together.</p></li>
+<li><p>Then apply the ReLU activation function. This has no hyperparameters.</p></li>
+</ul>
+<p><a name='ex-2'></a></p>
+</section>
+<section id="exercise-2-convolutional-block">
+<h3>Exercise 2 - convolutional_block<a class="headerlink" href="#exercise-2-convolutional-block" title="Link to this heading">#</a></h3>
+<p>Implement the convolutional block. The first component of the main path is already implemented; then it’s your turn to implement the rest! As before, always use 0 as the seed for the random initialization, to ensure consistency with the grader.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/Conv2D">Conv2D</a></p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/BatchNormalization">BatchNormalization</a> (axis: Integer, the axis that should be normalized (typically the features axis)) <code class="docutils literal notranslate"><span class="pre">BatchNormalization(axis</span> <span class="pre">=</span> <span class="pre">3)(X)</span></code>. If training is set to False, its weights are not updated with the new examples. I.e when the model is used in prediction mode.</p></li>
+<li><p>For the activation, use:  <code class="docutils literal notranslate"><span class="pre">Activation('relu')(X)</span></code></p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/Add">Add</a></p></li>
+</ul>
+<p>We have added the initializer argument to our functions. This parameter receives an initializer function like the ones included in the package <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/initializers">tensorflow.keras.initializers</a> or any other custom initializer. By default it will be set to <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/initializers/GlorotUniform">glorot_uniform</a></p>
+<p>Remember that these functions accept a <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument that can be any value you want, but that in this notebook must set to 0 for <strong>grading purposes</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2</span>
+<span class="c1"># GRADED FUNCTION: convolutional_block</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">convolutional_block</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">glorot_uniform</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implementation of the convolutional block as defined in Figure 4</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input tensor of shape (m, n_H_prev, n_W_prev, n_C_prev)</span>
+<span class="sd">    f -- integer, specifying the shape of the middle CONV&#39;s window for the main path</span>
+<span class="sd">    filters -- python list of integers, defining the number of filters in the CONV layers of the main path</span>
+<span class="sd">    s -- Integer, specifying the stride to be used</span>
+<span class="sd">    initializer -- to set up the initial weights of a layer. Equals to Glorot uniform initializer, </span>
+<span class="sd">                   also called Xavier uniform initializer.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    X -- output of the convolutional block, tensor of shape (m, n_H, n_W, n_C)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Retrieve Filters</span>
+    <span class="n">F1</span><span class="p">,</span> <span class="n">F2</span><span class="p">,</span> <span class="n">F3</span> <span class="o">=</span> <span class="n">filters</span>
+    
+    <span class="c1"># Save the input value</span>
+    <span class="n">X_shortcut</span> <span class="o">=</span> <span class="n">X</span>
+
+
+    <span class="c1">##### MAIN PATH #####</span>
+    
+    <span class="c1"># First component of main path glorot_uniform(seed=0)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span> <span class="o">=</span> <span class="n">F1</span><span class="p">,</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">strides</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">initializer</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">))(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="c1">## Second component of main path (≈3 lines)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+
+    <span class="c1">## Third component of main path (≈2 lines)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span> 
+    
+    <span class="c1">##### SHORTCUT PATH ##### (≈2 lines)</span>
+    <span class="n">X_shortcut</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X_shortcut</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE</span>
+
+    <span class="c1"># Final step: Add shortcut value to main path (Use this order [X, X_shortcut]), and pass it through a RELU activation</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Add</span><span class="p">()([</span><span class="n">X</span><span class="p">,</span> <span class="n">X_shortcut</span><span class="p">])</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">X</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">X</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="n">public_tests</span><span class="o">.</span><span class="n">convolutional_block_test</span><span class="p">(</span><span class="n">convolutional_block</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected value</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>tf.Tensor(
+[[[0.33485505 1.6415989  0.33789736 0.08511472 0.814965   0.        ]
+  [0.17509979 1.5699672  0.2606045  0.         0.767209   0.        ]]
+
+ [[0.         1.4983511  0.16896994 0.         0.61830646 0.        ]
+  [0.         1.4502985  0.11632714 0.         0.58068544 0.        ]]], shape=(2, 2, 6), dtype=float32)
+All tests passed!
+</pre></div>
+</div>
+<p><a name='4'></a></p>
+</section>
+</section>
+<section id="building-your-first-resnet-model-50-layers">
+<h2>4 - Building Your First ResNet Model (50 layers)<a class="headerlink" href="#building-your-first-resnet-model-50-layers" title="Link to this heading">#</a></h2>
+<p>You now have the necessary blocks to build a very deep ResNet. The following figure describes in detail the architecture of this neural network. “ID BLOCK” in the diagram stands for “Identity block,” and “ID BLOCK x3” means you should stack 3 identity blocks together.</p>
+<img src="/C4_W2/images/resnet_kiank.png" style="width:850px;height:150px;">
+<caption><center> <u> <font color='purple'> <b>Figure 5</b> </u><font color='purple'>  : <b>ResNet-50 model</b> </center></caption>
+<p>The details of this ResNet-50 model are:</p>
+<ul class="simple">
+<li><p>Zero-padding pads the input with a pad of (3,3)</p></li>
+<li><p>Stage 1:</p>
+<ul>
+<li><p>The 2D Convolution has 64 filters of shape (7,7) and uses a stride of (2,2).</p></li>
+<li><p>BatchNorm is applied to the ‘channels’ axis of the input.</p></li>
+<li><p>MaxPooling uses a (3,3) window and a (2,2) stride.</p></li>
+</ul>
+</li>
+<li><p>Stage 2:</p>
+<ul>
+<li><p>The convolutional block uses three sets of filters of size [64,64,256], “f” is 3, and “s” is 1.</p></li>
+<li><p>The 2 identity blocks use three sets of filters of size [64,64,256], and “f” is 3.</p></li>
+</ul>
+</li>
+<li><p>Stage 3:</p>
+<ul>
+<li><p>The convolutional block uses three sets of filters of size [128,128,512], “f” is 3 and “s” is 2.</p></li>
+<li><p>The 3 identity blocks use three sets of filters of size [128,128,512] and “f” is 3.</p></li>
+</ul>
+</li>
+<li><p>Stage 4:</p>
+<ul>
+<li><p>The convolutional block uses three sets of filters of size [256, 256, 1024], “f” is 3 and “s” is 2.</p></li>
+<li><p>The 5 identity blocks use three sets of filters of size [256, 256, 1024] and “f” is 3.</p></li>
+</ul>
+</li>
+<li><p>Stage 5:</p>
+<ul>
+<li><p>The convolutional block uses three sets of filters of size [512, 512, 2048], “f” is 3 and “s” is 2.</p></li>
+<li><p>The 2 identity blocks use three sets of filters of size [512, 512, 2048] and “f” is 3.</p></li>
+</ul>
+</li>
+<li><p>The 2D Average Pooling uses a window (pool_size) of shape (2,2).</p></li>
+<li><p>The ‘flatten’ layer doesn’t have any hyperparameters.</p></li>
+<li><p>The Fully Connected (Dense) layer reduces its input to the number of classes using a softmax activation.</p></li>
+</ul>
+<p><a name='ex-3'></a></p>
+<section id="exercise-3-resnet50">
+<h3>Exercise 3 - ResNet50<a class="headerlink" href="#exercise-3-resnet50" title="Link to this heading">#</a></h3>
+<p>Implement the ResNet with 50 layers described in the figure above. We have implemented Stages 1 and 2. Please implement the rest. (The syntax for implementing Stages 3-5 should be quite similar to that of Stage 2) Make sure you follow the naming convention in the text above.</p>
+<p>You’ll need to use this function:</p>
+<ul class="simple">
+<li><p>Average pooling <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/AveragePooling2D">see reference</a></p></li>
+</ul>
+<p>Here are some other functions we used in the code below:</p>
+<ul class="simple">
+<li><p>Conv2D: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/Conv2D">See reference</a></p></li>
+<li><p>BatchNorm: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/BatchNormalization">See reference</a> (axis: Integer, the axis that should be normalized (typically the features axis))</p></li>
+<li><p>Zero padding: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/ZeroPadding2D">See reference</a></p></li>
+<li><p>Max pooling: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/MaxPool2D">See reference</a></p></li>
+<li><p>Fully connected layer: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/Dense">See reference</a></p></li>
+<li><p>Addition: <a class="reference external" href="https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/Add">See reference</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C3</span>
+<span class="c1"># GRADED FUNCTION: ResNet50</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ResNet50</span><span class="p">(</span><span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">classes</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stage-wise implementation of the architecture of the popular ResNet50:</span>
+<span class="sd">    CONV2D -&gt; BATCHNORM -&gt; RELU -&gt; MAXPOOL -&gt; CONVBLOCK -&gt; IDBLOCK*2 -&gt; CONVBLOCK -&gt; IDBLOCK*3</span>
+<span class="sd">    -&gt; CONVBLOCK -&gt; IDBLOCK*5 -&gt; CONVBLOCK -&gt; IDBLOCK*2 -&gt; AVGPOOL -&gt; FLATTEN -&gt; DENSE </span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">    input_shape -- shape of the images of the dataset</span>
+<span class="sd">    classes -- integer, number of classes</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    model -- a Model() instance in Keras</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Define the input as a tensor with shape input_shape</span>
+    <span class="n">X_input</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+
+    
+    <span class="c1"># Zero-Padding</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">ZeroPadding2D</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))(</span><span class="n">X_input</span><span class="p">)</span>
+    
+    <span class="c1"># Stage 1</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">strides</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">glorot_uniform</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">))(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c1"># Stage 2</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">convolutional_block</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">identity_block</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">identity_block</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
+
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="c1"># Use the instructions above in order to implement all of the Stages below</span>
+    <span class="c1"># Make sure you don&#39;t miss adding any required parameter</span>
+    
+    <span class="c1">## Stage 3 (≈4 lines)</span>
+    <span class="c1"># `convolutional_block` with correct values of `f`, `filters` and `s` for this stage</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># the 3 `identity_block` with correct values of `f` and `filters` for this stage</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Stage 4 (≈6 lines)</span>
+    <span class="c1"># add `convolutional_block` with correct values of `f`, `filters` and `s` for this stage</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># the 5 `identity_block` with correct values of `f` and `filters` for this stage</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Stage 5 (≈3 lines)</span>
+    <span class="c1"># add `convolutional_block` with correct values of `f`, `filters` and `s` for this stage</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># the 2 `identity_block` with correct values of `f` and `filters` for this stage</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># AVGPOOL (≈1 line). Use &quot;X = AveragePooling2D()(X)&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE</span>
+
+    <span class="c1"># output layer</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Flatten</span><span class="p">()(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">,</span> <span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">glorot_uniform</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">))(</span><span class="n">X</span><span class="p">)</span>
+    
+    
+    <span class="c1"># Create model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">X_input</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">X</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the following code to build the model’s graph. If your implementation is incorrect, you’ll know it by checking your accuracy when running <code class="docutils literal notranslate"><span class="pre">model.fit(...)</span></code> below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">set_learning_phase</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNet50</span><span class="p">(</span><span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">classes</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">outputs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResNet50_summary</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ResNet50</span><span class="p">(</span><span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">classes</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span>
+
+<span class="n">comparator</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">ResNet50_summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As shown in the Keras Tutorial Notebook, prior to training a model, you need to configure the learning process by compiling the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.00015</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The model is now ready to be trained. The only thing you need now is a dataset!</p>
+<p>Let’s load your old friend, the SIGNS dataset.</p>
+<img src="/C4_W2/images/signs_data_kiank.png" style="width:450px;height:250px;">
+<caption><center> <u> <font color='purple'> <b>Figure 6</b> </u><font color='purple'>  : <b>SIGNS dataset</b> </center></caption>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train_orig</span><span class="p">,</span> <span class="n">Y_train_orig</span><span class="p">,</span> <span class="n">X_test_orig</span><span class="p">,</span> <span class="n">Y_test_orig</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">()</span>
+
+<span class="c1"># Normalize image vectors</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train_orig</span> <span class="o">/</span> <span class="mf">255.</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test_orig</span> <span class="o">/</span> <span class="mf">255.</span>
+
+<span class="c1"># Convert training and test labels to one hot matrices</span>
+<span class="n">Y_train</span> <span class="o">=</span> <span class="n">convert_to_one_hot</span><span class="p">(</span><span class="n">Y_train_orig</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">Y_test</span> <span class="o">=</span> <span class="n">convert_to_one_hot</span><span class="p">(</span><span class="n">Y_test_orig</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;number of training examples = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;number of test examples = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;X_train shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Y_train shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;X_test shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Y_test shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the following cell to train your model on 10 epochs with a batch size of 32. On a GPU, it should take less than 2 minutes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Epoch</span> <span class="mi">1</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">16</span><span class="n">s</span> <span class="mi">64</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">1.7770</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.3111</span>
+<span class="n">Epoch</span> <span class="mi">2</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">50</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">1.1800</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.5583</span>
+<span class="n">Epoch</span> <span class="mi">3</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">51</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.7900</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.6935</span>
+<span class="n">Epoch</span> <span class="mi">4</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">50</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.5295</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8065</span>
+<span class="n">Epoch</span> <span class="mi">5</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">50</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.3665</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8648</span>
+<span class="n">Epoch</span> <span class="mi">6</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">50</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.3032</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8880</span>
+<span class="n">Epoch</span> <span class="mi">7</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">51</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2456</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9194</span>
+<span class="n">Epoch</span> <span class="mi">8</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">51</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2123</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9278</span>
+<span class="n">Epoch</span> <span class="mi">9</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">50</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2113</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9389</span>
+<span class="n">Epoch</span> <span class="mi">10</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">34</span><span class="o">/</span><span class="mi">34</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="n">s</span> <span class="mi">50</span><span class="n">ms</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.1469</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9491</span>
+</pre></div>
+</div>
+<p>The exact values could not match, but don’t worry about that. The important thing that you must see is that the loss value decreases, and the accuracy increases for the firsts 5 epochs.</p>
+<p>Let’s see how this model (trained on only two epochs) performs on the test set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Loss = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Accuracy = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>Test Accuracy</b>
+        </td>
+        <td>
+           >0.70
+        </td>
+    </tr>
+</table><p>For the purposes of this assignment, you’ve been asked to train the model for ten epochs. You can see that it performs well. The online grader will only run your code for a small number of epochs as well. Please go ahead and submit your assignment.</p>
+<p>After you have finished this official (graded) part of this assignment, you can also optionally train the ResNet for more iterations, if you want. It tends to get much better performance when trained for ~20 epochs, but this does take more than an hour when training on a CPU.</p>
+<p>Using a GPU, this ResNet50 model’s weights were trained on the SIGNS dataset. You can load and run the trained model on the test set in the cells below. It may take ≈1min to load the model. Have fun!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_trained_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;resnet50.h5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preds</span> <span class="o">=</span> <span class="n">pre_trained_model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Loss = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Accuracy = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Congratulations</strong> on finishing this assignment! You’ve now implemented a state-of-the-art image classification system! Woo hoo!</p>
+<p>ResNet50 is a powerful model for image classification when it’s trained for an adequate number of iterations. Hopefully, from this point, you can use what you’ve learned and apply it to your own classification problem to perform state-of-the-art accuracy.</p>
+<font color = 'blue'>
+<p><strong>What you should remember</strong>:</p>
+<ul class="simple">
+<li><p>Very deep “plain” networks don’t work in practice because vanishing gradients make them hard to train.</p></li>
+<li><p>Skip connections help address the Vanishing Gradient problem. They also make it easy for a ResNet block to learn an identity function.</p></li>
+<li><p>There are two main types of blocks: The <strong>identity block</strong> and the <strong>convolutional block</strong>.</p></li>
+<li><p>Very deep Residual Networks are built by stacking these blocks together.</p></li>
+</ul>
+</section>
+</section>
+<section id="free-up-resources-for-other-learners">
+<h2>Free Up Resources for Other Learners<a class="headerlink" href="#free-up-resources-for-other-learners" title="Link to this heading">#</a></h2>
+<p>If you don’t plan on continuing to the next <code class="docutils literal notranslate"><span class="pre">Optional</span></code> section, help us to provide our learners a smooth learning experience, by freeing up the resources used by your assignment by running the cell below so that the other learners can take advantage of those resources just as much as you did. Thank you!</p>
+<p><strong>Note</strong>:</p>
+<ul class="simple">
+<li><p>Run the cell below when you are done with the assignment and are ready to submit it for grading.</p></li>
+<li><p>When you’ll run it, a pop up will open, click <code class="docutils literal notranslate"><span class="pre">Ok</span></code>.</p></li>
+<li><p>Running the cell will <code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">the</span> <span class="pre">kernel</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%javascript</span>
+<span class="c1"># IPython.notebook.save_checkpoint();</span>
+<span class="c1"># if (confirm(&quot;Clear memory?&quot;) == true)</span>
+<span class="c1"># {</span>
+<span class="c1">#     IPython.notebook.kernel.restart();</span>
+<span class="c1"># }</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='5'></a></p>
+</section>
+<section id="test-on-your-own-image-optional-ungraded">
+<h2>5 - Test on Your Own Image (Optional/Ungraded)<a class="headerlink" href="#test-on-your-own-image-optional-ungraded" title="Link to this heading">#</a></h2>
+<p>If you wish, you can also take a picture of your own hand and see the output of the model. To do this:
+1. Click on “File” in the upper bar of this notebook, then click “Open” to go on your Coursera Hub.
+2. Add your image to this Jupyter Notebook’s directory, in the “images” folder
+3. Write your image’s name in the following code
+4. Run the code and check if the algorithm is right!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_path</span> <span class="o">=</span> <span class="s1">&#39;images/my_image.jpg&#39;</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="mf">255.0</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">x</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Input image shape:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">pre_trained_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Class prediction vector [p(0), p(1), p(2), p(3), p(4), p(5)] = &quot;</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Class:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">prediction</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Even though the model has high accuracy, it might be performing poorly on your own set of images. Notice that, the shape of the pictures, the lighting where the photos were taken, and all of the preprocessing steps can have an impact on the performance of the model. Considering everything you have learned in this specialization so far, what do you think might be the cause here?</p>
+<p><em>Hint</em>: It might be related to some distributions. Can you come up with a potential solution ?</p>
+<p>You can also print a summary of your model by running the following code.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pre_trained_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h2>Free Up Resources for Other Learners<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>In order to provide our learners a smooth learning experience, please free up the resources used by your assignment by running the cell below so that the other learners can take advantage of those resources just as much as you did. Thank you!</p>
+<p><strong>Note</strong>:</p>
+<ul class="simple">
+<li><p>Run the cell below when you are done with the assignment and are ready to submit it for grading.</p></li>
+<li><p>When you’ll run it, a pop up will open, click <code class="docutils literal notranslate"><span class="pre">Ok</span></code>.</p></li>
+<li><p>Running the cell will <code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">the</span> <span class="pre">kernel</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%javascript</span>
+<span class="nx">IPython</span><span class="p">.</span><span class="nx">notebook</span><span class="p">.</span><span class="nx">save_checkpoint</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">confirm</span><span class="p">(</span><span class="s2">&quot;Clear memory?&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nx">IPython</span><span class="p">.</span><span class="nx">notebook</span><span class="p">.</span><span class="nx">kernel</span><span class="p">.</span><span class="nx">restart</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='6'></a></p>
+</section>
+<section id="bibliography">
+<h2>6 - Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading">#</a></h2>
+<p>This notebook presents the ResNet algorithm from He et al. (2015). The implementation here also took significant inspiration and follows the structure given in the GitHub repository of Francois Chollet:</p>
+<ul class="simple">
+<li><p>Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun - <a class="reference external" href="https://arxiv.org/abs/1512.03385">Deep Residual Learning for Image Recognition (2015)</a></p></li>
+<li><p>Francois Chollet’s GitHub repository: <a class="github reference external" href="https://github.com/fchollet/deep-learning-models/blob/master/resnet50.py">fchollet/deep-learning-models</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C4_W2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-content">Table of Content</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-of-very-deep-neural-networks">2 - The Problem of Very Deep Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-residual-network">3 - Building a Residual Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-block">3.1 - The Identity Block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-identity-block">Exercise 1 - identity_block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-convolutional-block">3.2 - The Convolutional Block</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-convolutional-block">Exercise 2 - convolutional_block</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-your-first-resnet-model-50-layers">4 - Building Your First ResNet Model (50 layers)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-resnet50">Exercise 3 - ResNet50</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#free-up-resources-for-other-learners">Free Up Resources for Other Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-on-your-own-image-optional-ungraded">5 - Test on Your Own Image (Optional/Ungraded)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Free Up Resources for Other Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">6 - Bibliography</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

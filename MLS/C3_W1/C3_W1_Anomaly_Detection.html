@@ -1,0 +1,1420 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Anomaly Detection &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C3_W1/C3_W1_Anomaly_Detection';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Practice lab: Collaborative Filtering Recommender Systems" href="C3_W1_Collaborative_RecSys_Assignment.html" />
+    <link rel="prev" title="Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning" href="ppt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/MLS/C3_W1/C3_W1_Anomaly_Detection.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FMLS/C3_W1/C3_W1_Anomaly_Detection.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/MLS/C3_W1/C3_W1_Anomaly_Detection.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Anomaly Detection</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Anomaly Detection</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2 - Anomaly detection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2.1 Problem Statement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">2.2  Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#view-the-variables">View the variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#check-the-dimensions-of-your-variables">Check the dimensions of your variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-your-data">Visualize your data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-distribution">2.3 Gaussian distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-parameters-for-a-gaussian-distribution">2.3.1 Estimating parameters for a Gaussian distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-the-threshold-epsilon">2.3.2 Selecting the threshold <span class="math notranslate nohighlight">\(\epsilon\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-dataset">2.4 High dimensional dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Check the dimensions of your variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Anomaly detection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="anomaly-detection">
+<h1>Anomaly Detection<a class="headerlink" href="#anomaly-detection" title="Link to this heading">#</a></h1>
+<p>In this exercise, you will implement the anomaly detection algorithm and apply it to detect failing servers on a network.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="outline">
+<h1>Outline<a class="headerlink" href="#outline" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst"> 1 - Packages </span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst"> 2 - Anomaly detection</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2.1"><span class="xref myst"> 2.1 Problem Statement</span></a></p></li>
+<li><p><a class="reference internal" href="#2.2"><span class="xref myst"> 2.2  Dataset</span></a></p></li>
+<li><p><a class="reference internal" href="#2.3"><span class="xref myst"> 2.3 Gaussian distribution</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex01"><span class="xref myst"> Exercise 1</span></a></p></li>
+<li><p><a class="reference internal" href="#ex02"><span class="xref myst"> Exercise 2</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2.4"><span class="xref myst"> 2.4 High dimensional dataset</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p><em><strong>NOTE:</strong> To prevent errors from the autograder, you are not allowed to edit or delete non-graded cells in this lab. Please also refrain from adding any new cells.
+<strong>Once you have passed this assignment</strong> and want to experiment with any of the non-graded code, you may follow the instructions at the bottom of this notebook.</em></p>
+<p><a name="1"></a></p>
+<section id="packages">
+<h2>1 - Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>First, let’s run the cell below to import all the packages that you will need during this assignment.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#www.numpy.org"><span class="xref myst">numpy</span></a> is the fundamental package for working with matrices in Python.</p></li>
+<li><p><a class="reference external" href="http://matplotlib.org">matplotlib</a> is a famous library to plot graphs in Python.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils.py</span></code> contains helper functions for this assignment. You do not need to modify code in this file.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2"></a></p>
+</section>
+<section id="id1">
+<h2>2 - Anomaly detection<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p><a name="2.1"></a></p>
+<section id="problem-statement">
+<h3>2.1 Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h3>
+<p>In this exercise, you will implement an anomaly detection algorithm to
+detect anomalous behavior in server computers.</p>
+<p>The dataset contains two features -</p>
+<ul class="simple">
+<li><p>throughput (mb/s) and</p></li>
+<li><p>latency (ms) of response of each server.</p></li>
+</ul>
+<p>While your servers were operating, you collected <span class="math notranslate nohighlight">\(m=307\)</span> examples of how they were behaving, and thus have an unlabeled dataset <span class="math notranslate nohighlight">\(\{x^{(1)}, \ldots, x^{(m)}\}\)</span>.</p>
+<ul class="simple">
+<li><p>You suspect that the vast majority of these examples are “normal” (non-anomalous) examples of the servers operating normally, but there might also be some examples of servers acting anomalously within this dataset.</p></li>
+</ul>
+<p>You will use a Gaussian model to detect anomalous examples in your
+dataset.</p>
+<ul class="simple">
+<li><p>You will first start on a 2D dataset that will allow you to visualize what the algorithm is doing.</p></li>
+<li><p>On that dataset you will fit a Gaussian distribution and then find values that have very low probability and hence can be considered anomalies.</p></li>
+<li><p>After that, you will apply the anomaly detection algorithm to a larger dataset with many dimensions.</p></li>
+</ul>
+<p><a name="2.2"></a></p>
+</section>
+<section id="dataset">
+<h3>2.2  Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
+<p>You will start by loading the dataset for this task.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">load_data()</span></code> function shown below loads the data into the variables <code class="docutils literal notranslate"><span class="pre">X_train</span></code>, <code class="docutils literal notranslate"><span class="pre">X_val</span></code> and <code class="docutils literal notranslate"><span class="pre">y_val</span></code></p>
+<ul>
+<li><p>You will use <code class="docutils literal notranslate"><span class="pre">X_train</span></code> to fit a Gaussian distribution</p></li>
+<li><p>You will use <code class="docutils literal notranslate"><span class="pre">X_val</span></code> and <code class="docutils literal notranslate"><span class="pre">y_val</span></code> as a cross validation set to select a threshold and determine anomalous vs normal examples</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the dataset</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Load the dataset</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+
+<span class="ne">ValueError</span>: too many values to unpack (expected 3)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="view-the-variables">
+<h4>View the variables<a class="headerlink" href="#view-the-variables" title="Link to this heading">#</a></h4>
+<p>Let’s get more familiar with your dataset.</p>
+<ul class="simple">
+<li><p>A good place to start is to just print out each variable and see what it contains.</p></li>
+</ul>
+<p>The code below prints the first five elements of each of the variables</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display the first five elements of X_train</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The first 5 elements of X_train are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X_train</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display the first five elements of X_val</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The first 5 elements of X_val are</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X_val</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display the first five elements of y_val</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The first 5 elements of y_val are</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_val</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="check-the-dimensions-of-your-variables">
+<h4>Check the dimensions of your variables<a class="headerlink" href="#check-the-dimensions-of-your-variables" title="Link to this heading">#</a></h4>
+<p>Another useful way to get familiar with your data is to view its dimensions.</p>
+<p>The code below prints the shape of <code class="docutils literal notranslate"><span class="pre">X_train</span></code>, <code class="docutils literal notranslate"><span class="pre">X_val</span></code> and <code class="docutils literal notranslate"><span class="pre">y_val</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of X_train is:&#39;</span><span class="p">,</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of X_val is:&#39;</span><span class="p">,</span> <span class="n">X_val</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of y_val is: &#39;</span><span class="p">,</span> <span class="n">y_val</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualize-your-data">
+<h4>Visualize your data<a class="headerlink" href="#visualize-your-data" title="Link to this heading">#</a></h4>
+<p>Before starting on any task, it is often useful to understand the data by visualizing it.</p>
+<ul class="simple">
+<li><p>For this dataset, you can use a scatter plot to visualize the data (<code class="docutils literal notranslate"><span class="pre">X_train</span></code>), since it has only two properties to plot (throughput and latency)</p></li>
+<li><p>Your plot should look similar to the one below
+<img src="/C3_W1/images/figure1.png" width="500" height="500"></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a scatter plot of the data. To change the markers to blue &quot;x&quot;,</span>
+<span class="c1"># we used the &#39;marker&#39; and &#39;c&#39; parameters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span> 
+
+<span class="c1"># Set the title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;The first dataset&quot;</span><span class="p">)</span>
+<span class="c1"># Set the y-axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Throughput (mb/s)&#39;</span><span class="p">)</span>
+<span class="c1"># Set the x-axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Latency (ms)&#39;</span><span class="p">)</span>
+<span class="c1"># Set axis range</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2.3"></a></p>
+</section>
+</section>
+<section id="gaussian-distribution">
+<h3>2.3 Gaussian distribution<a class="headerlink" href="#gaussian-distribution" title="Link to this heading">#</a></h3>
+<p>To perform anomaly detection, you will first need to fit a model to the data’s distribution.</p>
+<ul>
+<li><p>Given a training set <span class="math notranslate nohighlight">\(\{x^{(1)}, ..., x^{(m)}\}\)</span> you want to estimate the Gaussian distribution for each
+of the features <span class="math notranslate nohighlight">\(x_i\)</span>.</p></li>
+<li><p>Recall that the Gaussian distribution is given by</p>
+<div class="math notranslate nohighlight">
+\[ p(x ; \mu,\sigma ^2) = \frac{1}{\sqrt{2 \pi \sigma ^2}}\exp^{ - \frac{(x - \mu)^2}{2 \sigma ^2} }\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the mean and <span class="math notranslate nohighlight">\(\sigma^2\)</span> is the variance.</p>
+</li>
+<li><p>For each feature <span class="math notranslate nohighlight">\(i = 1\ldots n\)</span>, you need to find parameters <span class="math notranslate nohighlight">\(\mu_i\)</span> and <span class="math notranslate nohighlight">\(\sigma_i^2\)</span> that fit the data in the <span class="math notranslate nohighlight">\(i\)</span>-th dimension <span class="math notranslate nohighlight">\(\{x_i^{(1)}, ..., x_i^{(m)}\}\)</span> (the <span class="math notranslate nohighlight">\(i\)</span>-th dimension of each example).</p></li>
+</ul>
+</section>
+<section id="estimating-parameters-for-a-gaussian-distribution">
+<h3>2.3.1 Estimating parameters for a Gaussian distribution<a class="headerlink" href="#estimating-parameters-for-a-gaussian-distribution" title="Link to this heading">#</a></h3>
+<p><strong>Implementation</strong>:</p>
+<p>Your task is to complete the code in <code class="docutils literal notranslate"><span class="pre">estimate_gaussian</span></code> below.</p>
+<p><a name="ex01"></a></p>
+</section>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p>Please complete the <code class="docutils literal notranslate"><span class="pre">estimate_gaussian</span></code> function below to calculate <code class="docutils literal notranslate"><span class="pre">mu</span></code> (mean for each feature in <code class="docutils literal notranslate"><span class="pre">X</span></code>) and <code class="docutils literal notranslate"><span class="pre">var</span></code> (variance for each feature in <code class="docutils literal notranslate"><span class="pre">X</span></code>).</p>
+<p>You can estimate the parameters, (<span class="math notranslate nohighlight">\(\mu_i\)</span>, <span class="math notranslate nohighlight">\(\sigma_i^2\)</span>), of the <span class="math notranslate nohighlight">\(i\)</span>-th
+feature by using the following equations. To estimate the mean, you will
+use:</p>
+<div class="math notranslate nohighlight">
+\[\mu_i = \frac{1}{m} \sum_{j=1}^m x_i^{(j)}\]</div>
+<p>and for the variance you will use:
+$<span class="math notranslate nohighlight">\(\sigma_i^2 = \frac{1}{m} \sum_{j=1}^m (x_i^{(j)} - \mu_i)^2\)</span>$</p>
+<p>If you get stuck, you can check out the hints presented after the cell below to help you with the implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1</span>
+<span class="c1"># GRADED FUNCTION: estimate_gaussian</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_gaussian</span><span class="p">(</span><span class="n">X</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates mean and variance of all features </span>
+<span class="sd">    in the dataset</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        X (ndarray): (m, n) Data matrix</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        mu (ndarray): (n,) Mean of all features</span>
+<span class="sd">        var (ndarray): (n,) Variance of all features</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    
+    <span class="c1">### START CODE HERE ### </span>
+    
+    
+    <span class="c1">### END CODE HERE ### </span>
+        
+    <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">var</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<ul>
+<li><p>You can implement this function in two ways:</p>
+<ul class="simple">
+<li><p>1 - by having two nested for loops - one looping over the <strong>columns</strong> of <code class="docutils literal notranslate"><span class="pre">X</span></code> (each feature) and then looping over each data point.</p></li>
+<li><p>2 - in a vectorized manner by using <code class="docutils literal notranslate"><span class="pre">np.sum()</span></code> with <code class="docutils literal notranslate"><span class="pre">axis</span> <span class="pre">=</span> <span class="pre">0</span></code> parameter (since we want the sum for each column)</p></li>
+</ul>
+</li>
+<li><p>Here’s how you can structure the overall implementation of this function for the vectorized implementation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def estimate_gaussian(X): 
+    m, n = X.shape
+
+    ### START CODE HERE ### 
+    mu = # Your code here to calculate the mean of every feature
+    var = # Your code here to calculate the variance of every feature 
+    ### END CODE HERE ### 
+    
+    return mu, var
+```
+
+If you&#39;re still stuck, you can check the hints presented below to figure out how to calculate `mu` and `var`.
+
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate mu&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+       &amp;emsp; &amp;emsp; You can use &lt;a href=&quot;https://numpy.org/doc/stable/reference/generated/numpy.sum.html&quot;&gt;np.sum&lt;/a&gt; to with `axis = 0` parameter to get the sum for each column of an array
+      &lt;details&gt;
+          &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;blue&quot;&gt;&lt;b&gt;&amp;emsp; &amp;emsp; More hints to calculate mu&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+           &amp;emsp; &amp;emsp; You can compute mu as &lt;code&gt;mu = 1 / m * np.sum(X, axis = 0)&lt;/code&gt;
+       &lt;/details&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate var&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+       &amp;emsp; &amp;emsp; You can use &lt;a href=&quot;https://numpy.org/doc/stable/reference/generated/numpy.sum.html&quot;&gt;np.sum&lt;/a&gt; to with `axis = 0` parameter to get the sum for each column of an array and &lt;code&gt;**2&lt;/code&gt; to get the square.
+      &lt;details&gt;
+          &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;blue&quot;&gt;&lt;b&gt;&amp;emsp; &amp;emsp; More hints to calculate var&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+           &amp;emsp; &amp;emsp; You can compute var as &lt;code&gt; var = 1 / m * np.sum((X - mu) ** 2, axis = 0)&lt;/code&gt;
+       &lt;/details&gt;
+&lt;/details&gt;
+</pre></div>
+</div>
+</details><p>You can check if your implementation is correct by running the following test code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estimate mean and variance of each feature</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="n">estimate_gaussian</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>              
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean of each feature:&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Variance of each feature:&quot;</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+    
+<span class="c1"># UNIT TEST</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">estimate_gaussian_test</span><span class="p">(</span><span class="n">estimate_gaussian</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b>Mean of each feature: <b>  </td> 
+    <td> [14.11222578 14.99771051]</td> 
+   </tr>    
+   <tr>
+    <td> <b>Variance of each feature: <b>  </td>
+     <td> [1.83263141 1.70974533] </td> 
+  </tr>
+</table><p>Now that you have completed the code in <code class="docutils literal notranslate"><span class="pre">estimate_gaussian</span></code>, we will visualize the contours of the fitted Gaussian distribution.</p>
+<p>You should get a plot similar to the figure below.
+<img src="/C3_W1/images/figure2.png" width="500" height="500"></p>
+<p>From your plot you can see that most of the examples are in the region with the highest probability, while the anomalous examples are in the regions with lower probabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Returns the density of the multivariate normal</span>
+<span class="c1"># at each data point (row) of X_train</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">multivariate_gaussian</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+
+<span class="c1">#Plotting code </span>
+<span class="n">visualize_fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="selecting-the-threshold-epsilon">
+<h3>2.3.2 Selecting the threshold <span class="math notranslate nohighlight">\(\epsilon\)</span><a class="headerlink" href="#selecting-the-threshold-epsilon" title="Link to this heading">#</a></h3>
+<p>Now that you have estimated the Gaussian parameters, you can investigate which examples have a very high probability given this distribution and which examples have a very low probability.</p>
+<ul class="simple">
+<li><p>The low probability examples are more likely to be the anomalies in our dataset.</p></li>
+<li><p>One way to determine which examples are anomalies is to select a threshold based on a cross validation set.</p></li>
+</ul>
+<p>In this section, you will complete the code in <code class="docutils literal notranslate"><span class="pre">select_threshold</span></code> to select the threshold <span class="math notranslate nohighlight">\(\varepsilon\)</span> using the <span class="math notranslate nohighlight">\(F_1\)</span> score on a cross validation set.</p>
+<ul class="simple">
+<li><p>For this, we will use a cross validation set
+<span class="math notranslate nohighlight">\(\{(x_{\rm cv}^{(1)}, y_{\rm cv}^{(1)}),\ldots, (x_{\rm cv}^{(m_{\rm cv})}, y_{\rm cv}^{(m_{\rm cv})})\}\)</span>, where the label <span class="math notranslate nohighlight">\(y=1\)</span> corresponds to an anomalous example, and <span class="math notranslate nohighlight">\(y=0\)</span> corresponds to a normal example.</p></li>
+<li><p>For each cross validation example, we will compute <span class="math notranslate nohighlight">\(p(x_{\rm cv}^{(i)})\)</span>. The vector of all of these probabilities <span class="math notranslate nohighlight">\(p(x_{\rm cv}^{(1)}), \ldots, p(x_{\rm cv}^{(m_{\rm cv})})\)</span> is passed to <code class="docutils literal notranslate"><span class="pre">select_threshold</span></code> in the vector <code class="docutils literal notranslate"><span class="pre">p_val</span></code>.</p></li>
+<li><p>The corresponding labels <span class="math notranslate nohighlight">\(y_{\rm cv}^{(1)}, \ldots, y_{\rm cv}^{(m_{\rm cv})}\)</span> are passed to the same function in the vector <code class="docutils literal notranslate"><span class="pre">y_val</span></code>.</p></li>
+</ul>
+<p><a name="ex02"></a></p>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h3>
+<p>Please complete the <code class="docutils literal notranslate"><span class="pre">select_threshold</span></code> function below to find the best threshold to use for selecting outliers based on the results from the validation set (<code class="docutils literal notranslate"><span class="pre">p_val</span></code>) and the ground truth (<code class="docutils literal notranslate"><span class="pre">y_val</span></code>).</p>
+<ul>
+<li><p>In the provided code <code class="docutils literal notranslate"><span class="pre">select_threshold</span></code>, there is already a loop that will try many different values of <span class="math notranslate nohighlight">\(\varepsilon\)</span> and select the best <span class="math notranslate nohighlight">\(\varepsilon\)</span> based on the <span class="math notranslate nohighlight">\(F_1\)</span> score.</p></li>
+<li><p>You need to implement code to calculate the F1 score from choosing <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> as the threshold and place the value in <code class="docutils literal notranslate"><span class="pre">F1</span></code>.</p>
+<ul class="simple">
+<li><p>Recall that if an example <span class="math notranslate nohighlight">\(x\)</span> has a low probability <span class="math notranslate nohighlight">\(p(x) &lt; \varepsilon\)</span>, then it is classified as an anomaly.</p></li>
+<li><p>Then, you can compute precision and recall by:</p></li>
+</ul>
+</li>
+<li><div class="math notranslate nohighlight">
+\[\begin{split}
+   \begin{aligned}
+   prec&amp;=&amp;\frac{tp}{tp+fp}\\
+   rec&amp;=&amp;\frac{tp}{tp+fn},
+   \end{aligned}
+   \end{split}\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(tp\)</span> is the number of true positives: the ground truth label says it’s an anomaly and our algorithm correctly classified it as an anomaly.</p></li>
+<li><p><span class="math notranslate nohighlight">\(fp\)</span> is the number of false positives: the ground truth label says it’s not an anomaly, but our algorithm incorrectly classified it as an anomaly.</p></li>
+<li><p><span class="math notranslate nohighlight">\(fn\)</span> is the number of false negatives: the ground truth label says it’s an anomaly, but our algorithm incorrectly classified it as not being anomalous.</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(F_1\)</span> score is computed using precision (<span class="math notranslate nohighlight">\(prec\)</span>) and recall (<span class="math notranslate nohighlight">\(rec\)</span>) as follows:
+$<span class="math notranslate nohighlight">\(
+F_1 = \frac{2\cdot prec \cdot rec}{prec + rec}
+\)</span>$</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Implementation Note:</strong>
+In order to compute <span class="math notranslate nohighlight">\(tp\)</span>, <span class="math notranslate nohighlight">\(fp\)</span> and <span class="math notranslate nohighlight">\(fn\)</span>, you may be able to use a vectorized implementation rather than loop over all the examples.</p>
+<p>If you get stuck, you can check out the hints presented after the cell below to help you with the implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2</span>
+<span class="c1"># GRADED FUNCTION: select_threshold</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">select_threshold</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">p_val</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the best threshold to use for selecting outliers </span>
+<span class="sd">    based on the results from a validation set (p_val) </span>
+<span class="sd">    and the ground truth (y_val)</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        y_val (ndarray): Ground truth on validation set</span>
+<span class="sd">        p_val (ndarray): Results on validation set</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        epsilon (float): Threshold chosen </span>
+<span class="sd">        F1 (float):      F1 score by choosing epsilon as threshold</span>
+<span class="sd">    &quot;&quot;&quot;</span> 
+
+    <span class="n">best_epsilon</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">best_F1</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">F1</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="n">step_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">p_val</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">p_val</span><span class="p">))</span> <span class="o">/</span> <span class="mi">1000</span>
+    
+    <span class="k">for</span> <span class="n">epsilon</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">p_val</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">p_val</span><span class="p">),</span> <span class="n">step_size</span><span class="p">):</span>
+    
+        <span class="c1">### START CODE HERE ### </span>
+        
+        
+        
+        
+        
+        
+        
+        <span class="c1">### END CODE HERE ### </span>
+        
+        <span class="k">if</span> <span class="n">F1</span> <span class="o">&gt;</span> <span class="n">best_F1</span><span class="p">:</span>
+            <span class="n">best_F1</span> <span class="o">=</span> <span class="n">F1</span>
+            <span class="n">best_epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+        
+    <span class="k">return</span> <span class="n">best_epsilon</span><span class="p">,</span> <span class="n">best_F1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<ul>
+<li><p>Here’s how you can structure the overall implementation of this function for the vectorized implementation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def select_threshold(y_val, p_val): 
+    best_epsilon = 0
+    best_F1 = 0
+    F1 = 0
+
+    step_size = (max(p_val) - min(p_val)) / 1000
+
+    for epsilon in np.arange(min(p_val), max(p_val), step_size):
+
+        ### START CODE HERE ### 
+        predictions = # Your code here to calculate predictions for each example using epsilon as threshold
+    
+        tp = # Your code here to calculate number of true positives
+        fp = # Your code here to calculate number of false positives
+        fn = # Your code here to calculate number of false negatives
+    
+        prec = # Your code here to calculate precision
+        rec = # Your code here to calculate recall
+    
+        F1 = # Your code here to calculate F1
+        ### END CODE HERE ### 
+    
+        if F1 &gt; best_F1:
+            best_F1 = F1
+            best_epsilon = epsilon
+    
+    return best_epsilon, best_F1
+```
+
+If you&#39;re still stuck, you can check the hints presented below to figure out how to calculate each variable.
+
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate predictions&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+       &amp;emsp; &amp;emsp; If an example  𝑥  has a low probability  $p(x) &lt; \epsilon$ , then it is classified as an anomaly. To get predictions for each example (0/ False for normal and 1/True for anomaly), you can use &lt;code&gt;predictions = (p_val &lt; epsilon)&lt;/code&gt;
+&lt;/details&gt;
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate tp, fp, fn&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+       &amp;emsp; &amp;emsp; 
+    &lt;ul&gt;
+      &lt;li&gt;If you have several binary values in an $n$-dimensional
+</pre></div>
+</div>
+<p>binary vector, you can find out how many values in this vector are 0 by using:  <code class="docutils literal notranslate"><span class="pre">np.sum(v</span> <span class="pre">==</span> <span class="pre">0)</span></code></li>
+<li>You can also apply a logical <em>and</em> operator to such binary vectors. For instance,  <code class="docutils literal notranslate"><span class="pre">predictions</span></code> is a binary vector of the size of your number of cross validation set, where the <span class="math notranslate nohighlight">\(i\)</span>-th element is 1 if your algorithm considers <span class="math notranslate nohighlight">\(x_{\rm cv}^{(i)}\)</span> an anomaly, and 0 otherwise. </li>
+<li>You can then, for example, compute the number of false positives using:<br />
+<code>fp = sum((predictions == 1) &amp; (y_val == 0))</code>.</li>
+</ul>
+<details>
+<summary><font size="2" color="blue"><b>    More hints to calculate tp, fn</b></font></summary>
+   
+<ul>
+<li>You can compute tp as <code> tp = np.sum((predictions == 1) &amp; (y_val == 1))</code></li>
+<li>You can compute tn as <code> fn = np.sum((predictions == 0) &amp; (y_val == 1))</code></li><br />
+</ul>
+</details>
+</details>
+<details>
+<summary><font size="2" color="darkblue"><b>Hint to calculate precision</b></font></summary>
+    You can calculate precision as <code>prec = tp / (tp + fp)</code>
+</details>
+<details>
+<summary><font size="2" color="darkblue"><b>Hint to calculate recall</b></font></summary>
+    You can calculate recall as <code>rec = tp / (tp + fn)</code>
+</details>
+<details>
+<summary><font size="2" color="darkblue"><b>Hint to calculate F1</b></font></summary>
+    You can calculate F1 as <code>F1 = 2 * prec * rec / (prec + rec)</code>
+</details></p>
+</details><p>You can check your implementation using the code below</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_val</span> <span class="o">=</span> <span class="n">multivariate_gaussian</span><span class="p">(</span><span class="n">X_val</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+<span class="n">epsilon</span><span class="p">,</span> <span class="n">F1</span> <span class="o">=</span> <span class="n">select_threshold</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">p_val</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best epsilon found using cross-validation: </span><span class="si">%e</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best F1 on Cross Validation Set: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">F1</span><span class="p">)</span>
+    
+<span class="c1"># UNIT TEST</span>
+<span class="n">select_threshold_test</span><span class="p">(</span><span class="n">select_threshold</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b>Best epsilon found using cross-validation: <b>  </td> 
+    <td> 8.99e-05</td> 
+   </tr>    
+   <tr>
+    <td> <b>Best F1 on Cross Validation Set: <b>  </td>
+     <td> 0.875 </td> 
+  </tr>
+</table><p>Now we will run your anomaly detection code and circle the anomalies in the plot (Figure 3 below).</p>
+<img src="/C3_W1/images/figure3.png" width="500" height="500"><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the outliers in the training set </span>
+<span class="n">outliers</span> <span class="o">=</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="n">epsilon</span>
+
+<span class="c1"># Visualize the fit</span>
+<span class="n">visualize_fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+
+<span class="c1"># Draw a red circle around those outliers</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">outliers</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[</span><span class="n">outliers</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span>
+         <span class="n">markersize</span><span class="o">=</span> <span class="mi">10</span><span class="p">,</span><span class="n">markerfacecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2.4"></a></p>
+</section>
+<section id="high-dimensional-dataset">
+<h3>2.4 High dimensional dataset<a class="headerlink" href="#high-dimensional-dataset" title="Link to this heading">#</a></h3>
+<p>Now,  we will run the anomaly detection algorithm that you implemented on a more realistic and much harder dataset.</p>
+<p>In this dataset, each example is described by 11 features, capturing many more properties of your compute servers.</p>
+<p>Let’s start by loading the dataset.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">load_data()</span></code> function shown below loads the data into variables <code class="docutils literal notranslate"><span class="pre">X_train_high</span></code>, <code class="docutils literal notranslate"><span class="pre">X_val_high</span></code> and <code class="docutils literal notranslate"><span class="pre">y_val_high</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">_high</span></code> is meant to distinguish these variables from the ones used in the previous part</p></li>
+<li><p>We will use <code class="docutils literal notranslate"><span class="pre">X_train_high</span></code> to fit Gaussian distribution</p></li>
+<li><p>We will use <code class="docutils literal notranslate"><span class="pre">X_val_high</span></code> and <code class="docutils literal notranslate"><span class="pre">y_val_high</span></code> as a cross validation set to select a threshold and determine anomalous vs normal examples</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the dataset</span>
+<span class="n">X_train_high</span><span class="p">,</span> <span class="n">X_val_high</span><span class="p">,</span> <span class="n">y_val_high</span> <span class="o">=</span> <span class="n">load_data_multi</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id2">
+<h4>Check the dimensions of your variables<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>Let’s check the dimensions of these new variables to become familiar with the data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of X_train_high is:&#39;</span><span class="p">,</span> <span class="n">X_train_high</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of X_val_high is:&#39;</span><span class="p">,</span> <span class="n">X_val_high</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of y_val_high is: &#39;</span><span class="p">,</span> <span class="n">y_val_high</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h4>Anomaly detection<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>Now, let’s run the anomaly detection algorithm on this new dataset.</p>
+<p>The code below will use your code to</p>
+<ul class="simple">
+<li><p>Estimate the Gaussian parameters (<span class="math notranslate nohighlight">\(\mu_i\)</span> and <span class="math notranslate nohighlight">\(\sigma_i^2\)</span>)</p></li>
+<li><p>Evaluate the probabilities for both the training data <code class="docutils literal notranslate"><span class="pre">X_train_high</span></code> from which you estimated the Gaussian parameters, as well as for the the cross-validation set <code class="docutils literal notranslate"><span class="pre">X_val_high</span></code>.</p></li>
+<li><p>Finally, it will use <code class="docutils literal notranslate"><span class="pre">select_threshold</span></code> to find the best threshold <span class="math notranslate nohighlight">\(\varepsilon\)</span>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Apply the same steps to the larger dataset</span>
+
+<span class="c1"># Estimate the Gaussian parameters</span>
+<span class="n">mu_high</span><span class="p">,</span> <span class="n">var_high</span> <span class="o">=</span> <span class="n">estimate_gaussian</span><span class="p">(</span><span class="n">X_train_high</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the probabilites for the training set</span>
+<span class="n">p_high</span> <span class="o">=</span> <span class="n">multivariate_gaussian</span><span class="p">(</span><span class="n">X_train_high</span><span class="p">,</span> <span class="n">mu_high</span><span class="p">,</span> <span class="n">var_high</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the probabilites for the cross validation set</span>
+<span class="n">p_val_high</span> <span class="o">=</span> <span class="n">multivariate_gaussian</span><span class="p">(</span><span class="n">X_val_high</span><span class="p">,</span> <span class="n">mu_high</span><span class="p">,</span> <span class="n">var_high</span><span class="p">)</span>
+
+<span class="c1"># Find the best threshold</span>
+<span class="n">epsilon_high</span><span class="p">,</span> <span class="n">F1_high</span> <span class="o">=</span> <span class="n">select_threshold</span><span class="p">(</span><span class="n">y_val_high</span><span class="p">,</span> <span class="n">p_val_high</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best epsilon found using cross-validation: </span><span class="si">%e</span><span class="s1">&#39;</span><span class="o">%</span> <span class="n">epsilon_high</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best F1 on Cross Validation Set:  </span><span class="si">%f</span><span class="s1">&#39;</span><span class="o">%</span> <span class="n">F1_high</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;# Anomalies found: </span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p_high</span> <span class="o">&lt;</span> <span class="n">epsilon_high</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b>Best epsilon found using cross-validation: <b>  </td> 
+    <td> 1.38e-18</td> 
+   </tr>    
+   <tr>
+    <td> <b>Best F1 on Cross Validation Set: <b>  </td>
+     <td> 0.615385 </td> 
+  </tr>
+    <tr>
+    <td> <b># anomalies found: <b>  </td>
+     <td>  117 </td> 
+  </tr>
+</table><details>
+  <summary><font size="2" color="darkgreen"><b>Please click here if you want to experiment with any of the non-graded code.</b></font></summary>
+    <p><i><b>Important Note: Please only do this when you've already passed the assignment to avoid problems with the autograder.</b></i>
+    <ol>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “Edit Metadata”</li>
+        <li> Hit the “Edit Metadata” button next to the code cell which you want to lock/unlock</li>
+        <li> Set the attribute value for “editable” to:
+            <ul>
+                <li> “true” if you want to unlock it </li>
+                <li> “false” if you want to lock it </li>
+            </ul>
+        </li>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “None” </li>
+    </ol>
+    <p> Here's a short demo of how to do the steps above: 
+        <br>
+        <img src="https://lh3.google.com/u/0/d/14Xy_Mb17CZVgzVAgq7NCjMVBvSae3xO1" align="center" alt="unlock_cells.gif">
+</details></section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./MLS\C3_W1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ppt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C3_W1_Collaborative_RecSys_Assignment.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Practice lab: Collaborative Filtering Recommender Systems</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Anomaly Detection</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2 - Anomaly detection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2.1 Problem Statement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">2.2  Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#view-the-variables">View the variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#check-the-dimensions-of-your-variables">Check the dimensions of your variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-your-data">Visualize your data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-distribution">2.3 Gaussian distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-parameters-for-a-gaussian-distribution">2.3.1 Estimating parameters for a Gaussian distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-the-threshold-epsilon">2.3.2 Selecting the threshold <span class="math notranslate nohighlight">\(\epsilon\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-dimensional-dataset">2.4 High dimensional dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Check the dimensions of your variables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Anomaly detection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

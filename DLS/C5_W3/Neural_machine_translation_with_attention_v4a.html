@@ -1,0 +1,1804 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Neural Machine Translation &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C5_W3/Neural_machine_translation_with_attention_v4a';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C5_W3/Neural_machine_translation_with_attention_v4a.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C5_W3/Neural_machine_translation_with_attention_v4a.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C5_W3/Neural_machine_translation_with_attention_v4a.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Neural Machine Translation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#translating-human-readable-dates-into-machine-readable-dates">1 - Translating Human Readable Dates Into Machine Readable Dates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">1.1 - Dataset</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-machine-translation-with-attention">2 - Neural Machine Translation with Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-mechanism">2.1 - Attention Mechanism</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-attention-and-post-attention-lstms-on-both-sides-of-the-attention-mechanism">Pre-attention and Post-attention LSTMs on both sides of the attention mechanism</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#an-lstm-has-both-a-hidden-state-and-cell-state">An LSTM has both a hidden state and cell state</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#each-time-step-does-not-use-predictions-from-the-previous-time-step">Each time step does not use predictions from the previous time step</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#concatenation-of-hidden-states-from-the-forward-and-backward-pre-attention-lstms">Concatenation of hidden states from the forward and backward pre-attention LSTMs</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-energies-e-langle-t-t-rangle-as-a-function-of-s-langle-t-1-rangle-and-a-langle-t-rangle">Computing “energies” <span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span> as a function of <span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(a^{\langle t' \rangle}\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-details">Implementation Details</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-step-attention">one_step_attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#clarifying-context-and-c">Clarifying ‘context’ and ‘c’</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-one-step-attention">Exercise 1 - one_step_attention</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-modelf">Exercise 2 - modelf</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-note">Troubleshooting Note</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compile-the-model">Exercise 3 - Compile the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-inputs-and-outputs-and-fit-the-model">Define inputs and outputs, and fit the model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-attention-optional-ungraded">3 - Visualizing Attention (Optional / Ungraded)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-the-attention-weights-from-the-network">3.1 - Getting the Attention Weights From the Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#here-s-what-you-should-remember">Here’s what you should remember</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="neural-machine-translation">
+<h1>Neural Machine Translation<a class="headerlink" href="#neural-machine-translation" title="Link to this heading">#</a></h1>
+<p>Welcome to your first programming assignment for this week!</p>
+<ul class="simple">
+<li><p>You will build a Neural Machine Translation (NMT) model to translate human-readable dates (“25th of June, 2009”) into machine-readable dates (“2009-06-25”).</p></li>
+<li><p>You will do this using an attention model, one of the most sophisticated sequence-to-sequence models.</p></li>
+</ul>
+<p>This notebook was produced together with NVIDIA’s Deep Learning Institute.</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/nlp-sequence-models/supplement/qHIve/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#0"><span class="xref myst">Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Translating Human Readable Dates Into Machine Readable Dates</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#1-1"><span class="xref myst">1.1 - Dataset</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Neural Machine Translation with Attention</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2-1"><span class="xref myst">2.1 - Attention Mechanism</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - one_step_attention</span></a></p></li>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - modelf</span></a></p></li>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - Compile the Model</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Visualizing Attention (Optional / Ungraded)</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - Getting the Attention Weights From the Network</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p><a name='0'></a></p>
+</section>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v3.1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bidirectional</span><span class="p">,</span> <span class="n">Concatenate</span><span class="p">,</span> <span class="n">Permute</span><span class="p">,</span> <span class="n">Dot</span><span class="p">,</span> <span class="n">Input</span><span class="p">,</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Multiply</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">RepeatVector</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Lambda</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_categorical</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model</span><span class="p">,</span> <span class="n">Model</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow.keras.backend</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">K</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">faker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Faker</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">babel.dates</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nmt_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">faker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Faker</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;faker&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='1'></a></p>
+</section>
+<section id="translating-human-readable-dates-into-machine-readable-dates">
+<h2>1 - Translating Human Readable Dates Into Machine Readable Dates<a class="headerlink" href="#translating-human-readable-dates-into-machine-readable-dates" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The model you will build here could be used to translate from one language to another, such as translating from English to Hindi.</p></li>
+<li><p>However, language translation requires massive datasets and usually takes days of training on GPUs.</p></li>
+<li><p>To give you a place to experiment with these models without using massive datasets, we will perform a simpler “date translation” task.</p></li>
+<li><p>The network will input a date written in a variety of possible formats (<em>e.g. “the 29th of August 1958”, “03/30/1968”, “24 JUNE 1987”</em>)</p></li>
+<li><p>The network will translate them into standardized, machine readable dates (<em>e.g. “1958-08-29”, “1968-03-30”, “1987-06-24”</em>).</p></li>
+<li><p>We will have the network learn to output dates in the common machine-readable format YYYY-MM-DD.</p></li>
+</ul>
+<!-- 
+Take a look at [nmt_utils.py](./nmt_utils.py) to see all the formatting. Count and figure out how the formats work, you will need this knowledge later. !--> <p><a name='1-1'></a></p>
+<section id="dataset">
+<h3>1.1 - Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
+<p>We will train the model on a dataset of 10,000 human readable dates and their equivalent, standardized, machine readable dates. Let’s run the following cells to load the dataset and print some examples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">dataset</span><span class="p">,</span> <span class="n">human_vocab</span><span class="p">,</span> <span class="n">machine_vocab</span><span class="p">,</span> <span class="n">inv_machine_vocab</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You’ve loaded:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset</span></code>: a list of tuples of (human readable date, machine readable date).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">human_vocab</span></code>: a python dictionary mapping all characters used in the human readable dates to an integer-valued index.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">machine_vocab</span></code>: a python dictionary mapping all characters used in machine readable dates to an integer-valued index.</p>
+<ul>
+<li><p><strong>Note</strong>: These indices are not necessarily consistent with <code class="docutils literal notranslate"><span class="pre">human_vocab</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inv_machine_vocab</span></code>: the inverse dictionary of <code class="docutils literal notranslate"><span class="pre">machine_vocab</span></code>, mapping from indices back to characters.</p></li>
+</ul>
+<p>Let’s preprocess the data and map the raw text data into the index values.</p>
+<ul class="simple">
+<li><p>We will set Tx=30</p>
+<ul>
+<li><p>We assume Tx is the maximum length of the human readable date.</p></li>
+<li><p>If we get a longer input, we would have to truncate it.</p></li>
+</ul>
+</li>
+<li><p>We will set Ty=10</p>
+<ul>
+<li><p>“YYYY-MM-DD” is 10 characters long.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Tx</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">Ty</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Xoh</span><span class="p">,</span> <span class="n">Yoh</span> <span class="o">=</span> <span class="n">preprocess_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">human_vocab</span><span class="p">,</span> <span class="n">machine_vocab</span><span class="p">,</span> <span class="n">Tx</span><span class="p">,</span> <span class="n">Ty</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X.shape:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Y.shape:&quot;</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Xoh.shape:&quot;</span><span class="p">,</span> <span class="n">Xoh</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yoh.shape:&quot;</span><span class="p">,</span> <span class="n">Yoh</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You now have:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code>: a processed version of the human readable dates in the training set.</p>
+<ul>
+<li><p>Each character in X is replaced by an index (integer) mapped to the character using <code class="docutils literal notranslate"><span class="pre">human_vocab</span></code>.</p></li>
+<li><p>Each date is padded to ensure a length of <span class="math notranslate nohighlight">\(T_x\)</span> using a special character (&lt; pad &gt;).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X.shape</span> <span class="pre">=</span> <span class="pre">(m,</span> <span class="pre">Tx)</span></code> where m is the number of training examples in a batch.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: a processed version of the machine readable dates in the training set.</p>
+<ul>
+<li><p>Each character is replaced by the index (integer) it is mapped to in <code class="docutils literal notranslate"><span class="pre">machine_vocab</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y.shape</span> <span class="pre">=</span> <span class="pre">(m,</span> <span class="pre">Ty)</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Xoh</span></code>: one-hot version of <code class="docutils literal notranslate"><span class="pre">X</span></code></p>
+<ul>
+<li><p>Each index in <code class="docutils literal notranslate"><span class="pre">X</span></code> is converted to the one-hot representation (if the index is 2, the one-hot version has the index position 2 set to 1, and the remaining positions are 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Xoh.shape</span> <span class="pre">=</span> <span class="pre">(m,</span> <span class="pre">Tx,</span> <span class="pre">len(human_vocab))</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Yoh</span></code>: one-hot version of <code class="docutils literal notranslate"><span class="pre">Y</span></code></p>
+<ul>
+<li><p>Each index in <code class="docutils literal notranslate"><span class="pre">Y</span></code> is converted to the one-hot representation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Yoh.shape</span> <span class="pre">=</span> <span class="pre">(m,</span> <span class="pre">Ty,</span> <span class="pre">len(machine_vocab))</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">len(machine_vocab)</span> <span class="pre">=</span> <span class="pre">11</span></code> since there are 10 numeric digits (0 to 9) and the <code class="docutils literal notranslate"><span class="pre">-</span></code> symbol.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>Let’s also look at some examples of preprocessed training examples.</p></li>
+<li><p>Feel free to play with <code class="docutils literal notranslate"><span class="pre">index</span></code> in the cell below to navigate the dataset and see how source/target dates are preprocessed.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Source date:&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Target date:&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Source after preprocessing (indices):&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Target after preprocessing (indices):&quot;</span><span class="p">,</span> <span class="n">Y</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Source after preprocessing (one-hot):&quot;</span><span class="p">,</span> <span class="n">Xoh</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Target after preprocessing (one-hot):&quot;</span><span class="p">,</span> <span class="n">Yoh</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2'></a></p>
+</section>
+</section>
+<section id="neural-machine-translation-with-attention">
+<h2>2 - Neural Machine Translation with Attention<a class="headerlink" href="#neural-machine-translation-with-attention" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If you had to translate a book’s paragraph from French to English, you would not read the whole paragraph, then close the book and translate.</p></li>
+<li><p>Even during the translation process, you would read/re-read and focus on the parts of the French paragraph corresponding to the parts of the English you are writing down.</p></li>
+<li><p>The attention mechanism tells a Neural Machine Translation model where it should pay attention to at any step.</p></li>
+</ul>
+<p><a name='2-1'></a></p>
+<section id="attention-mechanism">
+<h3>2.1 - Attention Mechanism<a class="headerlink" href="#attention-mechanism" title="Link to this heading">#</a></h3>
+<p>In this part, you will implement the attention mechanism presented in the lecture videos.</p>
+<ul class="simple">
+<li><p>Here is a figure to remind you how the model works.</p>
+<ul>
+<li><p>The diagram on the left shows the attention model.</p></li>
+<li><p>The diagram on the right shows what one “attention” step does to calculate the attention variables <span class="math notranslate nohighlight">\(\alpha^{\langle t, t' \rangle}\)</span>.</p></li>
+<li><p>The attention variables <span class="math notranslate nohighlight">\(\alpha^{\langle t, t' \rangle}\)</span> are used to compute the context variable <span class="math notranslate nohighlight">\(context^{\langle t \rangle}\)</span> for each timestep in the output (<span class="math notranslate nohighlight">\(t=1, \ldots, T_y\)</span>).</p></li>
+</ul>
+</li>
+</ul>
+<table>
+<td> 
+<img src="/C5_W3/images/attn_model.png" style="width:500;height:500px;"> <br>
+</td> 
+<td> 
+<img src="/C5_W3/images/attn_mechanism.png" style="width:500;height:500px;"> <br>
+</td> 
+</table>
+<caption><center> **Figure 1**: Neural machine translation with attention</center></caption>
+<p>Here are some properties of the model that you may notice:</p>
+<section id="pre-attention-and-post-attention-lstms-on-both-sides-of-the-attention-mechanism">
+<h4>Pre-attention and Post-attention LSTMs on both sides of the attention mechanism<a class="headerlink" href="#pre-attention-and-post-attention-lstms-on-both-sides-of-the-attention-mechanism" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>There are two separate LSTMs in this model (see diagram on the left): pre-attention and post-attention LSTMs.</p></li>
+<li><p><em>Pre-attention</em> Bi-LSTM is the one at the bottom of the picture is a Bi-directional LSTM and comes <em>before</em> the attention mechanism.</p>
+<ul>
+<li><p>The attention mechanism is shown in the middle of the left-hand diagram.</p></li>
+<li><p>The pre-attention Bi-LSTM goes through <span class="math notranslate nohighlight">\(T_x\)</span> time steps</p></li>
+</ul>
+</li>
+<li><p><em>Post-attention</em> LSTM: at the top of the diagram comes <em>after</em> the attention mechanism.</p>
+<ul>
+<li><p>The post-attention LSTM goes through <span class="math notranslate nohighlight">\(T_y\)</span> time steps.</p></li>
+</ul>
+</li>
+<li><p>The post-attention LSTM passes the hidden state <span class="math notranslate nohighlight">\(s^{\langle t \rangle}\)</span> and cell state <span class="math notranslate nohighlight">\(c^{\langle t \rangle}\)</span> from one time step to the next.</p></li>
+</ul>
+</section>
+<section id="an-lstm-has-both-a-hidden-state-and-cell-state">
+<h4>An LSTM has both a hidden state and cell state<a class="headerlink" href="#an-lstm-has-both-a-hidden-state-and-cell-state" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>In the lecture videos, we were using only a basic RNN for the post-attention sequence model</p>
+<ul>
+<li><p>This means that the state captured by the RNN was outputting only the hidden state <span class="math notranslate nohighlight">\(s^{\langle t\rangle}\)</span>.</p></li>
+</ul>
+</li>
+<li><p>In this assignment, we are using an LSTM instead of a basic RNN.</p>
+<ul>
+<li><p>So the LSTM has both the hidden state <span class="math notranslate nohighlight">\(s^{\langle t\rangle}\)</span> and the cell state <span class="math notranslate nohighlight">\(c^{\langle t\rangle}\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="each-time-step-does-not-use-predictions-from-the-previous-time-step">
+<h4>Each time step does not use predictions from the previous time step<a class="headerlink" href="#each-time-step-does-not-use-predictions-from-the-previous-time-step" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Unlike previous text generation examples earlier in the course, in this model, the post-attention LSTM at time <span class="math notranslate nohighlight">\(t\)</span> does not take the previous time step’s prediction <span class="math notranslate nohighlight">\(y^{\langle t-1 \rangle}\)</span> as input.</p></li>
+<li><p>The post-attention LSTM at time ‘t’ only takes the hidden state <span class="math notranslate nohighlight">\(s^{\langle t\rangle}\)</span> and cell state <span class="math notranslate nohighlight">\(c^{\langle t\rangle}\)</span> as input.</p></li>
+<li><p>We have designed the model this way because unlike language generation (where adjacent characters are highly correlated) there isn’t as strong a dependency between the previous character and the next character in a YYYY-MM-DD date.</p></li>
+</ul>
+</section>
+<section id="concatenation-of-hidden-states-from-the-forward-and-backward-pre-attention-lstms">
+<h4>Concatenation of hidden states from the forward and backward pre-attention LSTMs<a class="headerlink" href="#concatenation-of-hidden-states-from-the-forward-and-backward-pre-attention-lstms" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\overrightarrow{a}^{\langle t \rangle}\)</span>: hidden state of the forward-direction, pre-attention LSTM.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\overleftarrow{a}^{\langle t \rangle}\)</span>: hidden state of the backward-direction, pre-attention LSTM.</p></li>
+<li><p><span class="math notranslate nohighlight">\(a^{\langle t \rangle} = [\overrightarrow{a}^{\langle t \rangle}, \overleftarrow{a}^{\langle t \rangle}]\)</span>: the concatenation of the activations of both the forward-direction <span class="math notranslate nohighlight">\(\overrightarrow{a}^{\langle t \rangle}\)</span> and backward-directions <span class="math notranslate nohighlight">\(\overleftarrow{a}^{\langle t \rangle}\)</span> of the pre-attention Bi-LSTM.</p></li>
+</ul>
+</section>
+<section id="computing-energies-e-langle-t-t-rangle-as-a-function-of-s-langle-t-1-rangle-and-a-langle-t-rangle">
+<h4>Computing “energies” <span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span> as a function of <span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(a^{\langle t' \rangle}\)</span><a class="headerlink" href="#computing-energies-e-langle-t-t-rangle-as-a-function-of-s-langle-t-1-rangle-and-a-langle-t-rangle" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Recall in the lesson videos “Attention Model”, at time 6:45 to 8:16, the definition of “e” as a function of <span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(a^{\langle t \rangle}\)</span>.</p>
+<ul>
+<li><p>“e” is called the “energies” variable.</p></li>
+<li><p><span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> is the hidden state of the post-attention LSTM</p></li>
+<li><p><span class="math notranslate nohighlight">\(a^{\langle t' \rangle}\)</span> is the hidden state of the pre-attention LSTM.</p></li>
+<li><p><span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(a^{\langle t \rangle}\)</span> are fed into a simple neural network, which learns the function to output <span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span> is then used when computing the attention <span class="math notranslate nohighlight">\(\alpha^{\langle t, t' \rangle}\)</span> that <span class="math notranslate nohighlight">\(y^{\langle t \rangle}\)</span> should pay to <span class="math notranslate nohighlight">\(a^{\langle t' \rangle}\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>The diagram on the right of figure 1 uses a <code class="docutils literal notranslate"><span class="pre">RepeatVector</span></code> node to copy <span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span>’s value <span class="math notranslate nohighlight">\(T_x\)</span> times.</p></li>
+<li><p>Then it uses <code class="docutils literal notranslate"><span class="pre">Concatenation</span></code> to concatenate <span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(a^{\langle t \rangle}\)</span>.</p></li>
+<li><p>The concatenation of <span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(a^{\langle t \rangle}\)</span> is fed into a “Dense” layer, which computes <span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span> is then passed through a softmax to compute <span class="math notranslate nohighlight">\(\alpha^{\langle t, t' \rangle}\)</span>.</p></li>
+<li><p>Note that the diagram doesn’t explicitly show variable <span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span>, but <span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span> is above the Dense layer and below the Softmax layer in the diagram in the right half of figure 1.</p></li>
+<li><p>We’ll explain how to use <code class="docutils literal notranslate"><span class="pre">RepeatVector</span></code> and <code class="docutils literal notranslate"><span class="pre">Concatenation</span></code> in Keras below.</p></li>
+</ul>
+</section>
+<section id="implementation-details">
+<h4>Implementation Details<a class="headerlink" href="#implementation-details" title="Link to this heading">#</a></h4>
+<p>Let’s implement this neural translator. You will start by implementing two functions: <code class="docutils literal notranslate"><span class="pre">one_step_attention()</span></code> and <code class="docutils literal notranslate"><span class="pre">model()</span></code>.</p>
+</section>
+<section id="one-step-attention">
+<h4>one_step_attention<a class="headerlink" href="#one-step-attention" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>The inputs to the one_step_attention at time step <span class="math notranslate nohighlight">\(t\)</span> are:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\([a^{&lt;1&gt;},a^{&lt;2&gt;}, ..., a^{&lt;T_x&gt;}]\)</span>: all hidden states of the pre-attention Bi-LSTM.</p></li>
+<li><p><span class="math notranslate nohighlight">\(s^{&lt;t-1&gt;}\)</span>: the previous hidden state of the post-attention LSTM</p></li>
+</ul>
+</li>
+<li><p>one_step_attention computes:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\([\alpha^{&lt;t,1&gt;},\alpha^{&lt;t,2&gt;}, ..., \alpha^{&lt;t,T_x&gt;}]\)</span>: the attention weights</p></li>
+<li><p><span class="math notranslate nohighlight">\(context^{ \langle t \rangle }\)</span>: the context vector:</p></li>
+</ul>
+</li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+context^{&lt;t&gt;} = \sum_{t' = 1}^{T_x} \alpha^{&lt;t,t'&gt;}a^{&lt;t'&gt;}\tag{1}
+\]</div>
+<section id="clarifying-context-and-c">
+<h5>Clarifying ‘context’ and ‘c’<a class="headerlink" href="#clarifying-context-and-c" title="Link to this heading">#</a></h5>
+<ul class="simple">
+<li><p>In the lecture videos, the context was denoted <span class="math notranslate nohighlight">\(c^{\langle t \rangle}\)</span></p></li>
+<li><p>In the assignment, we are calling the context <span class="math notranslate nohighlight">\(context^{\langle t \rangle}\)</span>.</p>
+<ul>
+<li><p>This is to avoid confusion with the post-attention LSTM’s internal memory cell variable, which is also denoted <span class="math notranslate nohighlight">\(c^{\langle t \rangle}\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+<p><a name='ex-1'></a></p>
+</section>
+</section>
+</section>
+<section id="exercise-1-one-step-attention">
+<h3>Exercise 1 - one_step_attention<a class="headerlink" href="#exercise-1-one-step-attention" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">one_step_attention()</span></code>.</p>
+<ul class="simple">
+<li><p>The function <code class="docutils literal notranslate"><span class="pre">model()</span></code> will call the layers in <code class="docutils literal notranslate"><span class="pre">one_step_attention()</span></code> <span class="math notranslate nohighlight">\(T_y\)</span> times using a for-loop.</p></li>
+<li><p>It is important that all <span class="math notranslate nohighlight">\(T_y\)</span> copies have the same weights.</p>
+<ul>
+<li><p>It should not reinitialize the weights every time.</p></li>
+<li><p>In other words, all <span class="math notranslate nohighlight">\(T_y\)</span> steps should have shared weights.</p></li>
+</ul>
+</li>
+<li><p>Here’s how you can implement layers with shareable weights in Keras:</p>
+<ol class="arabic simple">
+<li><p>Define the layer objects in a variable scope that is outside of the <code class="docutils literal notranslate"><span class="pre">one_step_attention</span></code> function.  For example, defining the objects as global variables would work.</p>
+<ul>
+<li><p>Note that defining these variables inside the scope of the function <code class="docutils literal notranslate"><span class="pre">model</span></code> would technically work, since <code class="docutils literal notranslate"><span class="pre">model</span></code> will then call the <code class="docutils literal notranslate"><span class="pre">one_step_attention</span></code> function.  For the purposes of making grading and troubleshooting easier, we are defining these as global variables.  Note that the automatic grader will expect these to be global variables as well.</p></li>
+</ul>
+</li>
+<li><p>Call these objects when propagating the input.</p></li>
+</ol>
+</li>
+<li><p>We have defined the layers you need as global variables.</p>
+<ul>
+<li><p>Please run the following cells to create them.</p></li>
+<li><p>Please note that the automatic grader expects these global variables with the given variable names.  For grading purposes, please do not rename the global variables.</p></li>
+</ul>
+</li>
+<li><p>Please check the Keras documentation to learn more about these layers.  The layers are functions.  Below are examples of how to call these functions.</p>
+<ul>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/RepeatVector">RepeatVector()</a></p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">var_repeated</span> <span class="o">=</span> <span class="n">repeat_layer</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* [Concatenate()](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Concatenate)   
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">concatenated_vars</span> <span class="o">=</span> <span class="n">concatenate_layer</span><span class="p">([</span><span class="n">var1</span><span class="p">,</span><span class="n">var2</span><span class="p">,</span><span class="n">var3</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* [Dense()](https://keras.io/layers/core/#dense)  
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">var_out</span> <span class="o">=</span> <span class="n">dense_layer</span><span class="p">(</span><span class="n">var_in</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* [Activation()](https://keras.io/layers/core/#activation)  
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">activation</span> <span class="o">=</span> <span class="n">activation_layer</span><span class="p">(</span><span class="n">var_in</span><span class="p">)</span>  
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* [Dot()](https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dot)  
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">dot_product</span> <span class="o">=</span> <span class="n">dot_layer</span><span class="p">([</span><span class="n">var1</span><span class="p">,</span><span class="n">var2</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># You cannot edit this cell</span>
+
+<span class="c1"># Defined shared layers as global variables</span>
+<span class="n">repeator</span> <span class="o">=</span> <span class="n">RepeatVector</span><span class="p">(</span><span class="n">Tx</span><span class="p">)</span>
+<span class="n">concatenator</span> <span class="o">=</span> <span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">densor1</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="s2">&quot;tanh&quot;</span><span class="p">)</span>
+<span class="n">densor2</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="s2">&quot;relu&quot;</span><span class="p">)</span>
+<span class="n">activator</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="n">softmax</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;attention_weights&#39;</span><span class="p">)</span> <span class="c1"># We are using a custom softmax(axis = 1) loaded in this notebook</span>
+<span class="n">dotor</span> <span class="o">=</span> <span class="n">Dot</span><span class="p">(</span><span class="n">axes</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: one_step_attention</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">one_step_attention</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">s_prev</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs one step of attention: Outputs a context vector computed as a dot product of the attention weights</span>
+<span class="sd">    &quot;alphas&quot; and the hidden states &quot;a&quot; of the Bi-LSTM.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    a -- hidden state output of the Bi-LSTM, numpy-array of shape (m, Tx, 2*n_a)</span>
+<span class="sd">    s_prev -- previous hidden state of the (post-attention) LSTM, numpy-array of shape (m, n_s)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    context -- context vector, input of the next (post-attention) LSTM cell</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Use repeator to repeat s_prev to be of shape (m, Tx, n_s) so that you can concatenate it with all hidden states &quot;a&quot; (≈ 1 line)</span>
+    <span class="n">s_prev</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Use concatenator to concatenate a and s_prev on the last axis (≈ 1 line)</span>
+    <span class="c1"># For grading purposes, please list &#39;a&#39; first and &#39;s_prev&#39; second, in this order.</span>
+    <span class="n">concat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Use densor1 to propagate concat through a small fully-connected neural network to compute the &quot;intermediate energies&quot; variable e. (≈1 lines)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Use densor2 to propagate e through a small fully-connected neural network to compute the &quot;energies&quot; variable energies. (≈1 lines)</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Use &quot;activator&quot; on &quot;energies&quot; to compute the attention weights &quot;alphas&quot; (≈ 1 line)</span>
+    <span class="n">alphas</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Use dotor together with &quot;alphas&quot; and &quot;a&quot;, in this order, to compute the context vector to be given to the next (post-attention) LSTM-cell (≈ 1 line)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">context</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+
+<span class="c1"># UNIT TEST</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_step_attention_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">Tx</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">n_a</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">n_s</span> <span class="o">=</span> <span class="mi">64</span>
+    
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Tx</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_a</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">s_prev</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n_s</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">s_prev</span><span class="p">)</span>
+    
+    <span class="n">expected_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;expected_output_ex1.npy&#39;</span><span class="p">)</span>
+    
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">context</span><span class="p">)</span> <span class="o">==</span> <span class="n">tf</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">framework</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Unexpected type. It should be a Tensor&quot;</span>
+    <span class="k">assert</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_s</span><span class="p">),</span> <span class="s2">&quot;Unexpected output shape&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">==</span> <span class="n">expected_output</span><span class="p">),</span> <span class="s2">&quot;Unexpected values in the result&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed!&quot;</span><span class="p">)</span>
+    
+<span class="n">one_step_attention_test</span><span class="p">(</span><span class="n">one_step_attention</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='ex-2'></a></p>
+</section>
+<section id="exercise-2-modelf">
+<h3>Exercise 2 - modelf<a class="headerlink" href="#exercise-2-modelf" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">modelf()</span></code> as explained in figure 1 and the instructions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">modelf</span></code> first runs the input through a Bi-LSTM to get <span class="math notranslate nohighlight">\([a^{&lt;1&gt;},a^{&lt;2&gt;}, ..., a^{&lt;T_x&gt;}]\)</span>.</p></li>
+<li><p>Then, <code class="docutils literal notranslate"><span class="pre">modelf</span></code> calls <code class="docutils literal notranslate"><span class="pre">one_step_attention()</span></code> <span class="math notranslate nohighlight">\(T_y\)</span> times using a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop.  At each iteration of this loop:</p>
+<ul>
+<li><p>It gives the computed context vector <span class="math notranslate nohighlight">\(context^{&lt;t&gt;}\)</span> to the post-attention LSTM.</p></li>
+<li><p>It runs the output of the post-attention LSTM through a dense layer with softmax activation.</p></li>
+<li><p>The softmax generates a prediction <span class="math notranslate nohighlight">\(\hat{y}^{&lt;t&gt;}\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+<p>Again, we have defined global layers that will share weights to be used in <code class="docutils literal notranslate"><span class="pre">modelf()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+
+<span class="n">n_a</span> <span class="o">=</span> <span class="mi">32</span> <span class="c1"># number of units for the pre-attention, bi-directional LSTM&#39;s hidden state &#39;a&#39;</span>
+<span class="n">n_s</span> <span class="o">=</span> <span class="mi">64</span> <span class="c1"># number of units for the post-attention LSTM&#39;s hidden state &quot;s&quot;</span>
+
+<span class="c1"># Please note, this is the post attention LSTM cell.  </span>
+<span class="n">post_activation_LSTM_cell</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">n_s</span><span class="p">,</span> <span class="n">return_state</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="c1"># Please do not modify this global variable.</span>
+<span class="n">output_layer</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">machine_vocab</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="n">softmax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you can use these layers <span class="math notranslate nohighlight">\(T_y\)</span> times in a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop to generate the outputs, and their parameters will not be reinitialized. You will have to carry out the following steps:</p>
+<ol class="arabic simple">
+<li><p>Propagate the input <code class="docutils literal notranslate"><span class="pre">X</span></code> into a bi-directional LSTM.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://keras.io/layers/wrappers/#bidirectional">Bidirectional</a></p></li>
+<li><p><a class="reference external" href="https://keras.io/layers/recurrent/#lstm">LSTM</a></p></li>
+<li><p>Remember that we want the LSTM to return a full sequence instead of just the last hidden state.</p></li>
+</ul>
+</li>
+</ol>
+<p>Sample code:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">sequence_of_hidden_states</span> <span class="o">=</span> <span class="n">Bidirectional</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="n">units</span><span class="o">=...</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=...</span><span class="p">))(</span><span class="n">the_input_X</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic" start="2">
+<li><p>Iterate for <span class="math notranslate nohighlight">\(t = 0, \cdots, T_y-1\)</span>:</p>
+<ol class="arabic">
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">one_step_attention()</span></code>, passing in the sequence of hidden states <span class="math notranslate nohighlight">\([a^{\langle 1 \rangle},a^{\langle 2 \rangle}, ..., a^{ \langle T_x \rangle}]\)</span> from the pre-attention bi-directional LSTM, and the previous hidden state <span class="math notranslate nohighlight">\(s^{&lt;t-1&gt;}\)</span> from the post-attention LSTM to calculate the context vector <span class="math notranslate nohighlight">\(context^{&lt;t&gt;}\)</span>.</p></li>
+<li><p>Give <span class="math notranslate nohighlight">\(context^{&lt;t&gt;}\)</span> to the post-attention LSTM cell.</p>
+<ul class="simple">
+<li><p>Remember to pass in the previous hidden-state <span class="math notranslate nohighlight">\(s^{\langle t-1\rangle}\)</span> and cell-states <span class="math notranslate nohighlight">\(c^{\langle t-1\rangle}\)</span> of this LSTM</p></li>
+</ul>
+<ul class="simple">
+<li><p>This outputs the new hidden state <span class="math notranslate nohighlight">\(s^{&lt;t&gt;}\)</span> and the new cell state <span class="math notranslate nohighlight">\(c^{&lt;t&gt;}\)</span>.</p></li>
+</ul>
+<p>Sample code:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">next_hidden_state</span><span class="p">,</span> <span class="n">next_cell_state</span> <span class="o">=</span> 
+    <span class="n">post_activation_LSTM_cell</span><span class="p">(</span><span class="n">inputs</span><span class="o">=...</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="p">[</span><span class="n">prev_hidden_state</span><span class="p">,</span> <span class="n">prev_cell_state</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Please note that the layer is actually the “post attention LSTM cell”.  For the purposes of passing the automatic grader, please do not modify the naming of this global variable.  This will be fixed when we deploy updates to the automatic grader.</p>
+</li>
+<li><p>Apply a dense, softmax layer to <span class="math notranslate nohighlight">\(s^{&lt;t&gt;}\)</span>, get the output.<br />
+Sample code:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">output_layer</span><span class="p">(</span><span class="n">inputs</span><span class="o">=...</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Save the output by adding it to the list of outputs.</p></li>
+</ol>
+</li>
+<li><p>Create your Keras model instance.</p>
+<ul class="simple">
+<li><p>It should have three inputs:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code>, the one-hot encoded inputs to the model, of shape (<span class="math notranslate nohighlight">\(T_{x}, humanVocabSize)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(s^{\langle 0 \rangle}\)</span>, the initial hidden state of the post-attention LSTM</p></li>
+<li><p><span class="math notranslate nohighlight">\(c^{\langle 0 \rangle}\)</span>, the initial cell state of the post-attention LSTM</p></li>
+</ul>
+</li>
+<li><p>The output is the list of outputs.<br />
+Sample code</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="o">...</span><span class="p">,</span><span class="o">...</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=...</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: model</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">modelf</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">Ty</span><span class="p">,</span> <span class="n">n_a</span><span class="p">,</span> <span class="n">n_s</span><span class="p">,</span> <span class="n">human_vocab_size</span><span class="p">,</span> <span class="n">machine_vocab_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    Tx -- length of the input sequence</span>
+<span class="sd">    Ty -- length of the output sequence</span>
+<span class="sd">    n_a -- hidden state size of the Bi-LSTM</span>
+<span class="sd">    n_s -- hidden state size of the post-attention LSTM</span>
+<span class="sd">    human_vocab_size -- size of the python dictionary &quot;human_vocab&quot;</span>
+<span class="sd">    machine_vocab_size -- integer, optional, size of the python dictionary &quot;machine_vocab&quot;</span>
+<span class="sd">                          This is not being used</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    model -- Keras model instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Define the inputs of your model with a shape (Tx, human_vocab_size)</span>
+    <span class="c1"># Define s0 (initial hidden state) and c0 (initial cell state)</span>
+    <span class="c1"># for the decoder LSTM with shape (n_s,)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">human_vocab_size</span><span class="p">))</span>
+    <span class="c1"># initial hidden state</span>
+    <span class="n">s0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_s</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
+    <span class="c1"># initial cell state</span>
+    <span class="n">c0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_s</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c0&#39;</span><span class="p">)</span>
+    <span class="c1"># hidden state</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s0</span>
+    <span class="c1"># cell state</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">c0</span>
+    
+    <span class="c1"># Initialize empty list of outputs</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># Step 1: Define your pre-attention Bi-LSTM. (≈ 1 line)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Step 2: Iterate for Ty steps</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+    
+        <span class="c1"># Step 2.A: Perform one step of the attention mechanism to get back the context vector at step t (≈ 1 line)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Step 2.B: Apply the post-attention LSTM cell to the &quot;context&quot; vector. (≈ 1 line)</span>
+        <span class="c1"># Don&#39;t forget to pass: initial_state = [hidden state, cell state] </span>
+        <span class="c1"># Remember: s = hidden state, c = cell state</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Step 2.C: Apply Dense layer to the hidden state output of the post-attention LSTM (≈ 1 line)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Step 2.D: Append &quot;out&quot; to the &quot;outputs&quot; list (≈ 1 line)</span>
+        <span class="kc">None</span>
+    
+    <span class="c1"># Step 3: Create model instance taking three inputs and returning the list of outputs. (≈ 1 line)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+
+<span class="c1"># UNIT TEST 1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">test_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">modelf_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">Tx</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">n_a</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">n_s</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="n">len_human_vocab</span> <span class="o">=</span> <span class="mi">37</span>
+    
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">Ty</span><span class="p">,</span> <span class="n">n_a</span><span class="p">,</span> <span class="n">n_s</span><span class="p">,</span> <span class="n">len_human_vocab</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+
+    
+    <span class="n">expected_summary</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;InputLayer&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">37</span><span class="p">)],</span> <span class="mi">0</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;InputLayer&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">)],</span> <span class="mi">0</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;Bidirectional&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="mi">17920</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;RepeatVector&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;Concatenate&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;Dense&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">1290</span><span class="p">,</span> <span class="s1">&#39;tanh&#39;</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;Dense&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">11</span><span class="p">,</span> <span class="s1">&#39;relu&#39;</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;Activation&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;Dot&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;InputLayer&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">)],</span> <span class="mi">0</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;LSTM&#39;</span><span class="p">,[(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">)],</span> <span class="mi">33024</span><span class="p">,[(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">)],</span><span class="s1">&#39;tanh&#39;</span><span class="p">],</span>
+                         <span class="p">[</span><span class="s1">&#39;Dense&#39;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="mi">715</span><span class="p">,</span> <span class="s1">&#39;softmax&#39;</span><span class="p">]]</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Wrong output shape. Expected 10 != </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">outputs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">comparator</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">expected_summary</span><span class="p">)</span>
+    
+
+<span class="n">modelf_test</span><span class="p">(</span><span class="n">modelf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the test in the next cell to check if your <code class="docutils literal notranslate"><span class="pre">modelf</span></code> function is correctly updating the (next) <code class="docutils literal notranslate"><span class="pre">hidden</span> <span class="pre">state</span></code> and <code class="docutils literal notranslate"><span class="pre">cell</span> <span class="pre">state</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+
+<span class="c1"># UNIT TEST 2</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">modelf_states_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">Tx</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">n_a</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">n_s</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="n">len_human_vocab</span> <span class="o">=</span> <span class="mi">37</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">Ty</span><span class="p">,</span> <span class="n">n_a</span><span class="p">,</span> <span class="n">n_s</span><span class="p">,</span> <span class="n">len_human_vocab</span><span class="p">)</span>
+
+    <span class="c1"># Create test inputs</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Tx</span><span class="p">,</span> <span class="n">len_human_vocab</span><span class="p">)</span>
+    <span class="n">s0_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_s</span><span class="p">))</span>
+    <span class="n">c0_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_s</span><span class="p">))</span>
+
+    <span class="nd">@tf</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">input_signature</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">TensorSpec</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tx</span><span class="p">,</span> <span class="n">len_human_vocab</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">TensorSpec</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_s</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">TensorSpec</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_s</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict_function</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">s0</span><span class="p">,</span> <span class="n">c0</span><span class="p">):</span>
+        <span class="c1"># Call the model directly with input tensors</span>
+        <span class="k">return</span> <span class="n">model</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">s0</span><span class="p">,</span> <span class="n">c0</span><span class="p">])</span>  
+
+    <span class="c1"># Get the outputs of the model for the first five time steps</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">predict_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">s0_test</span><span class="p">,</span> <span class="n">c0_test</span><span class="p">)</span>
+
+    <span class="c1"># Extract the hidden states (s) from the LSTM outputs for each time step</span>
+    <span class="n">hidden_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>
+
+    <span class="c1"># Check if consecutive hidden states are different</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hidden_states</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]),</span> <span class="p">(</span>
+            <span class="s2">&quot;Consecutive hidden states should be different.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Check if the LSTM cell is using the correct previous states.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Make sure you are using s and c, and NOT using s0 and c0 in Step 2.B.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[32mAll tests passed!</span><span class="se">\033</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+
+<span class="n">modelf_states_test</span><span class="p">(</span><span class="n">modelf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the following cell to create your model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## You cannot edit this cell</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">modelf</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">Ty</span><span class="p">,</span> <span class="n">n_a</span><span class="p">,</span> <span class="n">n_s</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">human_vocab</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="troubleshooting-note">
+<h4>Troubleshooting Note<a class="headerlink" href="#troubleshooting-note" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>If you are getting repeated errors after an initially incorrect implementation of “model”, but believe that you have corrected the error, you may still see error messages when building your model.</p></li>
+<li><p>A solution is to save and restart your kernel (or shutdown then restart your notebook), and re-run the cells.</p></li>
+</ul>
+<p>Let’s get a summary of the model to check if it matches the expected output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<p>Here is the summary you should see</p>
+<table>
+    <tr>
+        <td>
+            **Total params:**
+        </td>
+        <td>
+         52,960
+        </td>
+    </tr>
+        <tr>
+        <td>
+            **Trainable params:**
+        </td>
+        <td>
+         52,960
+        </td>
+    </tr>
+            <tr>
+        <td>
+            **Non-trainable params:**
+        </td>
+        <td>
+         0
+        </td>
+    </tr>
+                    <tr>
+        <td>
+            **bidirectional_1's output shape **
+        </td>
+        <td>
+         (None, 30, 64)  
+        </td>
+    </tr>
+    <tr>
+        <td>
+            **repeat_vector_1's output shape **
+        </td>
+        <td>
+         (None, 30, 64) 
+        </td>
+    </tr>
+                <tr>
+        <td>
+            **concatenate_1's output shape **
+        </td>
+        <td>
+         (None, 30, 128) 
+        </td>
+    </tr>
+            <tr>
+        <td>
+            **attention_weights's output shape **
+        </td>
+        <td>
+         (None, 30, 1)  
+        </td>
+    </tr>
+        <tr>
+        <td>
+            **dot_1's output shape **
+        </td>
+        <td>
+         (None, 1, 64)
+        </td>
+    </tr>
+           <tr>
+        <td>
+            **dense_3's output shape **
+        </td>
+        <td>
+         (None, 11) 
+        </td>
+    </tr>
+</table>
+<p><a name='ex-3'></a></p>
+</section>
+</section>
+<section id="exercise-3-compile-the-model">
+<h3>Exercise 3 - Compile the Model<a class="headerlink" href="#exercise-3-compile-the-model" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>After creating your model in Keras, you need to compile it and define the loss function, optimizer and metrics you want to use.</p>
+<ul>
+<li><p>Loss function: ‘categorical_crossentropy’.</p></li>
+<li><p>Optimizer: <a class="reference external" href="https://keras.io/optimizers/#adam">Adam</a> <a class="reference external" href="https://keras.io/optimizers/#usage-of-optimizers">optimizer</a></p>
+<ul>
+<li><p>learning rate = 0.005</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta_1 = 0.9\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta_2 = 0.999\)</span></p></li>
+<li><p>decay = 0.01</p></li>
+</ul>
+</li>
+<li><p>metric: ‘accuracy’</p></li>
+</ul>
+</li>
+</ul>
+<p>Sample code</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=...</span><span class="p">,</span> <span class="n">beta_1</span><span class="o">=...</span><span class="p">,</span> <span class="n">beta_2</span><span class="o">=...</span><span class="p">,</span> <span class="n">decay</span><span class="o">=...</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=...</span><span class="p">,</span> <span class="n">loss</span><span class="o">=...</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### START CODE HERE ### (≈2 lines)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Adam(...) </span>
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">metrics</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<span class="c1">### END CODE HERE ###</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+
+<span class="c1"># UNIT TESTS</span>
+<span class="k">assert</span> <span class="n">opt</span><span class="o">.</span><span class="n">lr</span> <span class="o">==</span> <span class="mf">0.005</span><span class="p">,</span> <span class="s2">&quot;Set the lr parameter to 0.005&quot;</span>
+<span class="k">assert</span> <span class="n">opt</span><span class="o">.</span><span class="n">beta_1</span> <span class="o">==</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;Set the beta_1 parameter to 0.9&quot;</span>
+<span class="k">assert</span> <span class="n">opt</span><span class="o">.</span><span class="n">beta_2</span> <span class="o">==</span> <span class="mf">0.999</span><span class="p">,</span> <span class="s2">&quot;Set the beta_2 parameter to 0.999&quot;</span>
+<span class="k">assert</span> <span class="n">opt</span><span class="o">.</span><span class="n">decay</span> <span class="o">==</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s2">&quot;Set the decay parameter to 0.01&quot;</span>
+<span class="k">assert</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span> <span class="o">==</span> <span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="s2">&quot;Wrong loss. Use &#39;categorical_crossentropy&#39;&quot;</span>
+<span class="k">assert</span> <span class="n">model</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">==</span> <span class="n">opt</span><span class="p">,</span> <span class="s2">&quot;Use the optimizer that you have instantiated&quot;</span>
+<span class="k">assert</span> <span class="n">model</span><span class="o">.</span><span class="n">compiled_metrics</span><span class="o">.</span><span class="n">_user_metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="s2">&quot;set metrics to [&#39;accuracy&#39;]&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="define-inputs-and-outputs-and-fit-the-model">
+<h4>Define inputs and outputs, and fit the model<a class="headerlink" href="#define-inputs-and-outputs-and-fit-the-model" title="Link to this heading">#</a></h4>
+<p>The last step is to define all your inputs and outputs to fit the model:</p>
+<ul class="simple">
+<li><p>You have input <code class="docutils literal notranslate"><span class="pre">Xoh</span></code> of shape <span class="math notranslate nohighlight">\((m = 10000, T_x = 30, human\_vocab=37)\)</span> containing the training examples.</p></li>
+<li><p>You need to create <code class="docutils literal notranslate"><span class="pre">s0</span></code> and <code class="docutils literal notranslate"><span class="pre">c0</span></code> to initialize your <code class="docutils literal notranslate"><span class="pre">post_attention_LSTM_cell</span></code> with zeros.</p></li>
+<li><p>Given the <code class="docutils literal notranslate"><span class="pre">model()</span></code> you coded, you need the “outputs” to be a list of 10 elements of shape (m, T_y).</p>
+<ul>
+<li><p>The list <code class="docutils literal notranslate"><span class="pre">outputs[i][0],</span> <span class="pre">...,</span> <span class="pre">outputs[i][Ty]</span></code> represents the true labels (characters) corresponding to the <span class="math notranslate nohighlight">\(i^{th}\)</span> training example (<code class="docutils literal notranslate"><span class="pre">Xoh[i]</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputs[i][j]</span></code> is the true label of the <span class="math notranslate nohighlight">\(j^{th}\)</span> character in the <span class="math notranslate nohighlight">\(i^{th}\)</span> training example.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+<span class="n">s0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n_s</span><span class="p">))</span>
+<span class="n">c0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n_s</span><span class="p">))</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Yoh</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s now fit the model and run it for one epoch.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">Xoh</span><span class="p">,</span> <span class="n">s0</span><span class="p">,</span> <span class="n">c0</span><span class="p">],</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>While training you can see the loss as well as the accuracy on each of the 10 positions of the output. The table below gives you an example of what the accuracies could be if the batch had 2 examples:</p>
+<p><img src="/C5_W3/images/table.png" style="width:700;height:200px;"> <br></p>
+<caption><center>Thus, <mark> dense_2_8_accuracy: 0.89 </mark> means that you are predicting the 9th character of the output correctly 89% of the time in the current batch of data. </center></caption>
+<p>We have run this model for longer, and saved the weights. Run the next cell to load our weights. (By training a model for several minutes, you should be able to obtain a model of similar accuracy, but loading our model will save you time.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s1">&#39;models/model.h5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can now see the results on new examples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### You cannot edit this cell</span>
+
+<span class="n">EXAMPLES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;3 May 1979&#39;</span><span class="p">,</span> <span class="s1">&#39;5 April 09&#39;</span><span class="p">,</span> <span class="s1">&#39;21th of August 2016&#39;</span><span class="p">,</span> <span class="s1">&#39;Tue 10 Jul 2007&#39;</span><span class="p">,</span> <span class="s1">&#39;Saturday May 9 2018&#39;</span><span class="p">,</span> <span class="s1">&#39;March 3 2001&#39;</span><span class="p">,</span> <span class="s1">&#39;March 3rd 2001&#39;</span><span class="p">,</span> <span class="s1">&#39;1 March 2001&#39;</span><span class="p">]</span>
+<span class="n">s00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_s</span><span class="p">))</span>
+<span class="n">c00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_s</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">EXAMPLES</span><span class="p">:</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">string_to_int</span><span class="p">(</span><span class="n">example</span><span class="p">,</span> <span class="n">Tx</span><span class="p">,</span> <span class="n">human_vocab</span><span class="p">)</span>
+    <span class="c1">#print(source)</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">human_vocab</span><span class="p">)),</span> <span class="n">source</span><span class="p">)))</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">source</span><span class="p">,</span> <span class="n">s00</span><span class="p">,</span> <span class="n">c00</span><span class="p">])</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">inv_machine_vocab</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prediction</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;source:&quot;</span><span class="p">,</span> <span class="n">example</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;output:&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can also change these examples to test with your own examples. The next part will give you a better sense of what the attention mechanism is doing–i.e., what part of the input the network is paying attention to when generating a particular output character.</p>
+<p><a name='3'></a></p>
+</section>
+</section>
+</section>
+<section id="visualizing-attention-optional-ungraded">
+<h2>3 - Visualizing Attention (Optional / Ungraded)<a class="headerlink" href="#visualizing-attention-optional-ungraded" title="Link to this heading">#</a></h2>
+<p>Since the problem has a fixed output length of 10, it is also possible to carry out this task using 10 different softmax units to generate the 10 characters of the output. But one advantage of the attention model is that each part of the output (such as the month) knows it needs to depend only on a small part of the input (the characters in the input giving the month). We can  visualize what each part of the output is looking at which part of the input.</p>
+<p>Consider the task of translating “Saturday 9 May 2018” to “2018-05-09”. If we visualize the computed <span class="math notranslate nohighlight">\(\alpha^{\langle t, t' \rangle}\)</span> we get this:</p>
+<p><img src="/C5_W3/images/date_attention.png" style="width:600;height:300px;"> <br></p>
+<caption><center> **Figure 8**: Full Attention Map</center></caption>
+<p>Notice how the output ignores the “Saturday” portion of the input. None of the output timesteps are paying much attention to that portion of the input. We also see that 9 has been translated as 09 and May has been correctly translated into 05, with the output paying attention to the parts of the input it needs to make the translation. The year mostly requires it to pay attention to the input’s “18” in order to generate “2018.”</p>
+<p><a name='3-1'></a></p>
+<section id="getting-the-attention-weights-from-the-network">
+<h3>3.1 - Getting the Attention Weights From the Network<a class="headerlink" href="#getting-the-attention-weights-from-the-network" title="Link to this heading">#</a></h3>
+<p>Lets now visualize the attention values in your network. We’ll propagate an example through the network, then visualize the values of <span class="math notranslate nohighlight">\(\alpha^{\langle t, t' \rangle}\)</span>.</p>
+<p>To figure out where the attention values are located, let’s start by printing a summary of the model .</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Navigate through the output of <code class="docutils literal notranslate"><span class="pre">model.summary()</span></code> above. You can see that the layer named <code class="docutils literal notranslate"><span class="pre">attention_weights</span></code> outputs the <code class="docutils literal notranslate"><span class="pre">alphas</span></code> of shape (m, 30, 1) before <code class="docutils literal notranslate"><span class="pre">dot_2</span></code> computes the context vector for every time step <span class="math notranslate nohighlight">\(t = 0, \ldots, T_y-1\)</span>. Let’s get the attention weights from this layer.</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">plot_attention_map()</span></code> pulls out the attention values from your model and plots them.</p>
+<p><strong>Note</strong>: We are aware that you might run into an error running the cell below despite a valid implementation for Exercise 2 - <code class="docutils literal notranslate"><span class="pre">modelf</span></code> above. If  you have passed all implementations of the exercises above, don’t worry about the error, it will not affect the grading for this assignment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">attention_map</span> <span class="o">=</span> <span class="n">plot_attention_map</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">human_vocab</span><span class="p">,</span> <span class="n">inv_machine_vocab</span><span class="p">,</span> <span class="s2">&quot;Tuesday 09 Oct 1993&quot;</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">n_s</span> <span class="o">=</span> <span class="mi">64</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>On the generated plot you can observe the values of the attention weights for each character of the predicted output. Examine this plot and check that the places where the network is paying attention makes sense to you.</p>
+<p>In the date translation application, you will observe that most of the time attention helps predict the year, and doesn’t have much impact on predicting the day or month.</p>
+</section>
+<section id="congratulations">
+<h3>Congratulations!<a class="headerlink" href="#congratulations" title="Link to this heading">#</a></h3>
+<p>You have come to the end of this assignment</p>
+<section id="here-s-what-you-should-remember">
+<h4>Here’s what you should remember<a class="headerlink" href="#here-s-what-you-should-remember" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Machine translation models can be used to map from one sequence to another. They are useful not just for translating human languages (like French-&gt;English) but also for tasks like date format translation.</p></li>
+<li><p>An attention mechanism allows a network to focus on the most relevant parts of the input when producing a specific part of the output.</p></li>
+<li><p>A network using an attention mechanism can translate from inputs of length <span class="math notranslate nohighlight">\(T_x\)</span> to outputs of length <span class="math notranslate nohighlight">\(T_y\)</span>, where <span class="math notranslate nohighlight">\(T_x\)</span> and <span class="math notranslate nohighlight">\(T_y\)</span> can be different.</p></li>
+<li><p>You can visualize attention weights <span class="math notranslate nohighlight">\(\alpha^{\langle t,t' \rangle}\)</span> to see what the network is paying attention to while generating each output.</p></li>
+</ul>
+<p>Congratulations on finishing this assignment! You are now able to implement an attention model and use it to learn complex mappings from one sequence to another.</p>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C5_W3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#translating-human-readable-dates-into-machine-readable-dates">1 - Translating Human Readable Dates Into Machine Readable Dates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">1.1 - Dataset</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-machine-translation-with-attention">2 - Neural Machine Translation with Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-mechanism">2.1 - Attention Mechanism</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-attention-and-post-attention-lstms-on-both-sides-of-the-attention-mechanism">Pre-attention and Post-attention LSTMs on both sides of the attention mechanism</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#an-lstm-has-both-a-hidden-state-and-cell-state">An LSTM has both a hidden state and cell state</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#each-time-step-does-not-use-predictions-from-the-previous-time-step">Each time step does not use predictions from the previous time step</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#concatenation-of-hidden-states-from-the-forward-and-backward-pre-attention-lstms">Concatenation of hidden states from the forward and backward pre-attention LSTMs</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-energies-e-langle-t-t-rangle-as-a-function-of-s-langle-t-1-rangle-and-a-langle-t-rangle">Computing “energies” <span class="math notranslate nohighlight">\(e^{\langle t, t' \rangle}\)</span> as a function of <span class="math notranslate nohighlight">\(s^{\langle t-1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(a^{\langle t' \rangle}\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-details">Implementation Details</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-step-attention">one_step_attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#clarifying-context-and-c">Clarifying ‘context’ and ‘c’</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-one-step-attention">Exercise 1 - one_step_attention</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-modelf">Exercise 2 - modelf</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-note">Troubleshooting Note</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compile-the-model">Exercise 3 - Compile the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-inputs-and-outputs-and-fit-the-model">Define inputs and outputs, and fit the model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-attention-optional-ungraded">3 - Visualizing Attention (Optional / Ungraded)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-the-attention-weights-from-the-network">3.1 - Getting the Attention Weights From the Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#here-s-what-you-should-remember">Here’s what you should remember</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

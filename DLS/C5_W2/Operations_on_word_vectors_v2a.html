@@ -1,0 +1,1452 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Operations on Word Vectors &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C5_W2/Operations_on_word_vectors_v2a';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C5_W2/Operations_on_word_vectors_v2a.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C5_W2/Operations_on_word_vectors_v2a.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C5_W2/Operations_on_word_vectors_v2a.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Operations on Word Vectors</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-word-vectors">1 - Load the Word Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-vectors-versus-one-hot-vectors">2 - Embedding Vectors Versus One-Hot Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">3 - Cosine Similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-cosine-similarity">Exercise 1 - cosine_similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints">Additional Hints</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#try-different-words">Try different words!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-analogy-task">4 - Word Analogy Task</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-complete-analogy">Exercise 2 - complete_analogy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debiasing-word-vectors-optional-ungraded">5 - Debiasing Word Vectors (OPTIONAL/UNGRADED)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neutralize-bias-for-non-gender-specific-words">5.1 - Neutralize Bias for Non-Gender Specific Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-neutralize">Exercise 3 - neutralize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equalization-algorithm-for-gender-specific-words">5.2 - Equalization Algorithm for Gender-Specific Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-equalize">Exercise 4 - equalize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Congratulations!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">6 - References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="operations-on-word-vectors">
+<h1>Operations on Word Vectors<a class="headerlink" href="#operations-on-word-vectors" title="Link to this heading">#</a></h1>
+<p>Welcome to your first assignment of Week 2, Course 5 of the Deep Learning Specialization!</p>
+<p>Because word embeddings are very computationally expensive to train, most ML practitioners will load a pre-trained set of embeddings. In this notebook you’ll try your hand at loading, measuring similarity between, and modifying pre-trained embeddings.</p>
+<p><strong>After this assignment you’ll be able to</strong>:</p>
+<ul class="simple">
+<li><p>Explain how word embeddings capture relationships between words</p></li>
+<li><p>Load pre-trained word vectors</p></li>
+<li><p>Measure similarity between word vectors using cosine similarity</p></li>
+<li><p>Use word embeddings to solve word analogy problems such as Man is to Woman as King is to ______.</p></li>
+</ul>
+<p>At the end of this notebook you’ll have a chance to try an optional exercise, where you’ll modify word embeddings to reduce their gender bias. Reducing bias is an important consideration in ML, so you’re encouraged to take this challenge!</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/nlp-sequence-models/supplement/qHIve/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#0"><span class="xref myst">Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Load the Word Vectors</span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Embedding Vectors Versus One-Hot Vectors</span></a></p></li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Cosine Similarity</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - cosine_similarity</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Word Analogy Task</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - complete_analogy</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - Debiasing Word Vectors (OPTIONAL/UNGRADED)</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#5-1"><span class="xref myst">5.1 - Neutralize Bias for Non-Gender Specific Words</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - neutralize</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5-2"><span class="xref myst">5.2 - Equalization Algorithm for Gender-Specific Words</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-4"><span class="xref myst">Exercise 4 - equalize</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst">6 - References</span></a></p></li>
+</ul>
+<p><a name='0'></a></p>
+</section>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>Let’s get started! Run the following cell to load the packages you’ll need.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v1.1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">w2v_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='1'></a></p>
+</section>
+<section id="load-the-word-vectors">
+<h2>1 - Load the Word Vectors<a class="headerlink" href="#load-the-word-vectors" title="Link to this heading">#</a></h2>
+<p>For this assignment, you’ll use 50-dimensional GloVe vectors to represent words.
+Run the following cell to load the <code class="docutils literal notranslate"><span class="pre">word_to_vec_map</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span><span class="p">,</span> <span class="n">word_to_vec_map</span> <span class="o">=</span> <span class="n">read_glove_vecs</span><span class="p">(</span><span class="s1">&#39;data/glove.6B.50d.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">UnicodeDecodeError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">words</span><span class="p">,</span> <span class="n">word_to_vec_map</span> <span class="o">=</span> <span class="n">read_glove_vecs</span><span class="p">(</span><span class="s1">&#39;data/glove.6B.50d.txt&#39;</span><span class="p">)</span>
+
+<span class="nn">File C:\Github\Coursera_Materials\coursera_notes\DLS\C5_W2\w2v_utils.py:106,</span> in <span class="ni">read_glove_vecs</span><span class="nt">(glove_file)</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> <span class="n">words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span> <span class="n">word_to_vec_map</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ne">--&gt; </span><span class="mi">106</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span>     <span class="n">curr_word</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nn">File ~\Python\Lib\encodings\cp1252.py:23,</span> in <span class="ni">IncrementalDecoder.decode</span><span class="nt">(self, input, final)</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">final</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">23</span>     <span class="k">return</span> <span class="n">codecs</span><span class="o">.</span><span class="n">charmap_decode</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span><span class="n">decoding_table</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="ne">UnicodeDecodeError</span>: &#39;charmap&#39; codec can&#39;t decode byte 0x9d in position 2273: character maps to &lt;undefined&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>You’ve loaded:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">words</span></code>: set of words in the vocabulary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">word_to_vec_map</span></code>: dictionary mapping words to their GloVe vector representation.</p></li>
+</ul>
+<p><a name='2'></a></p>
+</section>
+<section id="embedding-vectors-versus-one-hot-vectors">
+<h2>2 - Embedding Vectors Versus One-Hot Vectors<a class="headerlink" href="#embedding-vectors-versus-one-hot-vectors" title="Link to this heading">#</a></h2>
+<p>Recall from the lesson videos that one-hot vectors don’t do a good job of capturing the level of similarity between words. This is because every one-hot vector has the same Euclidean distance from any other one-hot vector.</p>
+<p>Embedding vectors, such as GloVe vectors, provide much more useful information about the meaning of individual words.<br />
+Now, see how you can use GloVe vectors to measure the similarity between two words!</p>
+<p><a name='3'></a></p>
+</section>
+<section id="cosine-similarity">
+<h2>3 - Cosine Similarity<a class="headerlink" href="#cosine-similarity" title="Link to this heading">#</a></h2>
+<p>To measure the similarity between two words, you need a way to measure the degree of similarity between two embedding vectors for the two words. Given two vectors <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>, cosine similarity is defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[\text{CosineSimilarity(u, v)} = \frac {u \cdot v} {||u||_2 ||v||_2} = cos(\theta) \tag{1}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(u \cdot v\)</span> is the dot product (or inner product) of two vectors</p></li>
+<li><p><span class="math notranslate nohighlight">\(||u||_2\)</span> is the norm (or length) of the vector <span class="math notranslate nohighlight">\(u\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta\)</span> is the angle between <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+<li><p>The cosine similarity depends on the angle between <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>.</p>
+<ul>
+<li><p>If <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span> are very similar, their cosine similarity will be close to 1.</p></li>
+<li><p>If they are dissimilar, the cosine similarity will take a smaller value.</p></li>
+</ul>
+</li>
+</ul>
+<img src="/C5_W2/images/cosine_sim.png" style="width:800px;height:250px;">
+<caption><center><font color='purple'><b>Figure 1</b>: The cosine of the angle between two vectors is a measure of their similarity.</font></center></caption>
+<p><a name='ex-1'></a></p>
+<section id="exercise-1-cosine-similarity">
+<h3>Exercise 1 - cosine_similarity<a class="headerlink" href="#exercise-1-cosine-similarity" title="Link to this heading">#</a></h3>
+<p>Implement the function <code class="docutils literal notranslate"><span class="pre">cosine_similarity()</span></code> to evaluate the similarity between word vectors.</p>
+<p><strong>Reminder</strong>: The norm of <span class="math notranslate nohighlight">\(u\)</span> is defined as <span class="math notranslate nohighlight">\( ||u||_2 = \sqrt{\sum_{i=1}^{n} u_i^2}\)</span></p>
+<section id="additional-hints">
+<h4>Additional Hints<a class="headerlink" href="#additional-hints" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>You may find <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dot.html">np.dot</a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.sum.html">np.sum</a>, or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.sqrt.html">np.sqrt</a> useful depending upon the implementation that you choose.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: cosine_similarity</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cosine_similarity</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cosine similarity reflects the degree of similarity between u and v</span>
+<span class="sd">        </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        u -- a word vector of shape (n,)          </span>
+<span class="sd">        v -- a word vector of shape (n,)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        cosine_similarity -- the cosine similarity between u and v defined by the formula above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Special case. Consider the case u = [0, 0], v=[0, 0]</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Compute the dot product between u and v (≈1 line)</span>
+    <span class="n">dot</span> <span class="o">=</span> <span class="kc">None</span> 
+    <span class="c1"># Compute the L2 norm of u (≈1 line)</span>
+    <span class="n">norm_u</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Compute the L2 norm of v (≈1 line)</span>
+    <span class="n">norm_v</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Avoid division by 0</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">norm_u</span> <span class="o">*</span> <span class="n">norm_v</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-32</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    
+    <span class="c1"># Compute the cosine similarity defined by formula (1) (≈1 line)</span>
+    <span class="n">cosine_similarity</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">cosine_similarity</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># START SKIP FOR GRADING</span>
+<span class="n">father</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;father&quot;</span><span class="p">]</span>
+<span class="n">mother</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;mother&quot;</span><span class="p">]</span>
+<span class="n">ball</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;ball&quot;</span><span class="p">]</span>
+<span class="n">crocodile</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;crocodile&quot;</span><span class="p">]</span>
+<span class="n">france</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;france&quot;</span><span class="p">]</span>
+<span class="n">italy</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;italy&quot;</span><span class="p">]</span>
+<span class="n">paris</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;paris&quot;</span><span class="p">]</span>
+<span class="n">rome</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;rome&quot;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine_similarity(father, mother) = &quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">father</span><span class="p">,</span> <span class="n">mother</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine_similarity(ball, crocodile) = &quot;</span><span class="p">,</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">ball</span><span class="p">,</span> <span class="n">crocodile</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine_similarity(france - paris, rome - italy) = &quot;</span><span class="p">,</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">france</span> <span class="o">-</span> <span class="n">paris</span><span class="p">,</span> <span class="n">rome</span> <span class="o">-</span> <span class="n">italy</span><span class="p">))</span>
+<span class="c1"># END SKIP FOR GRADING</span>
+
+<span class="c1"># PUBLIC TESTS</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cosine_similarity_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">23</span><span class="p">)</span>
+        
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;cosine_similarity(a, a) must be 1&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">cosine_similarity</span><span class="p">((</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">c</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;cosine_similarity(a, not(a)) must be 0&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="n">a</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;cosine_similarity(a, -a) must be -1&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)),</span> <span class="s2">&quot;cosine_similarity must be scale-independent. You must divide by the product of the norms of each input&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll test passed!&quot;</span><span class="p">)</span>
+    
+<span class="n">cosine_similarity_test</span><span class="p">(</span><span class="n">cosine_similarity</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="try-different-words">
+<h4>Try different words!<a class="headerlink" href="#try-different-words" title="Link to this heading">#</a></h4>
+<p>After you get the correct expected output, please feel free to modify the inputs and measure the cosine similarity between other pairs of words! Playing around with the cosine similarity of other inputs will give you a better sense of how word vectors behave.</p>
+<p><a name='4'></a></p>
+</section>
+</section>
+</section>
+<section id="word-analogy-task">
+<h2>4 - Word Analogy Task<a class="headerlink" href="#word-analogy-task" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>In the word analogy task, complete this sentence:<br />
+<font color='brown'>”<em>a</em> is to <em>b</em> as <em>c</em> is to <strong>____</strong>”</font>.</p></li>
+<li><p>An example is:<br />
+<font color='brown'> ‘<em>man</em> is to <em>woman</em> as <em>king</em> is to <em>queen</em>’ </font>.</p></li>
+<li><p>You’re trying to find a word <em>d</em>, such that the associated word vectors <span class="math notranslate nohighlight">\(e_a, e_b, e_c, e_d\)</span> are related in the following manner:<br />
+<span class="math notranslate nohighlight">\(e_b - e_a \approx e_d - e_c\)</span></p></li>
+<li><p>Measure the similarity between <span class="math notranslate nohighlight">\(e_b - e_a\)</span> and <span class="math notranslate nohighlight">\(e_d - e_c\)</span> using cosine similarity.</p></li>
+</ul>
+<p><a name='ex-2'></a></p>
+<section id="exercise-2-complete-analogy">
+<h3>Exercise 2 - complete_analogy<a class="headerlink" href="#exercise-2-complete-analogy" title="Link to this heading">#</a></h3>
+<p>Complete the code below to perform word analogies!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: complete_analogy</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">complete_analogy</span><span class="p">(</span><span class="n">word_a</span><span class="p">,</span> <span class="n">word_b</span><span class="p">,</span> <span class="n">word_c</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs the word analogy task as explained above: a is to b as c is to ____. </span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    word_a -- a word, string</span>
+<span class="sd">    word_b -- a word, string</span>
+<span class="sd">    word_c -- a word, string</span>
+<span class="sd">    word_to_vec_map -- dictionary that maps words to their corresponding vectors. </span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    best_word --  the word such that v_b - v_a is close to v_best_word - v_c, as measured by cosine similarity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># convert words to lowercase</span>
+    <span class="n">word_a</span><span class="p">,</span> <span class="n">word_b</span><span class="p">,</span> <span class="n">word_c</span> <span class="o">=</span> <span class="n">word_a</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">word_b</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">word_c</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Get the word embeddings e_a, e_b and e_c (≈1-3 lines)</span>
+    <span class="n">e_a</span><span class="p">,</span> <span class="n">e_b</span><span class="p">,</span> <span class="n">e_c</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="n">words</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="n">max_cosine_sim</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>              <span class="c1"># Initialize max_cosine_sim to a large negative number</span>
+    <span class="n">best_word</span> <span class="o">=</span> <span class="kc">None</span>                   <span class="c1"># Initialize best_word with None, it will help keep track of the word to output</span>
+    
+    <span class="c1"># loop over the whole word vector set</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>   
+        <span class="c1"># to avoid best_word being one the input words, skip the input word_c</span>
+        <span class="c1"># skip word_c from query</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="n">word_c</span><span class="p">:</span>
+            <span class="k">continue</span>
+        
+        <span class="c1">### START CODE HERE ###</span>
+        <span class="c1"># Compute cosine similarity between the vector (e_b - e_a) and the vector ((w&#39;s vector representation) - e_c)  (≈1 line)</span>
+        <span class="n">cosine_sim</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># If the cosine_sim is more than the max_cosine_sim seen so far,</span>
+            <span class="c1"># then: set the new max_cosine_sim to the current cosine_sim and the best_word to the current word (≈3 lines)</span>
+        <span class="k">if</span> <span class="kc">None</span> <span class="o">&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">max_cosine_sim</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">best_word</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1">### END CODE HERE ###</span>
+        
+    <span class="k">return</span> <span class="n">best_word</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PUBLIC TEST</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">complete_analogy_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="c1"># Center at a</span>
+    <span class="n">a_nw</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="c1"># North-West oriented vector from a</span>
+    <span class="n">a_s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="c1"># South oriented vector from a</span>
+    
+    <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># Center at c</span>
+    <span class="c1"># Create a controlled word to vec map</span>
+    <span class="n">word_to_vec_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span>
+                       <span class="s1">&#39;synonym_of_a&#39;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span>
+                       <span class="s1">&#39;a_nw&#39;</span><span class="p">:</span> <span class="n">a_nw</span><span class="p">,</span> 
+                       <span class="s1">&#39;a_s&#39;</span><span class="p">:</span> <span class="n">a_s</span><span class="p">,</span> 
+                       <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">,</span> 
+                       <span class="s1">&#39;c_n&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="c1"># N</span>
+                       <span class="s1">&#39;c_ne&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="c1"># NE</span>
+                       <span class="s1">&#39;c_e&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="c1"># E</span>
+                       <span class="s1">&#39;c_se&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1"># SE</span>
+                       <span class="s1">&#39;c_s&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1"># S</span>
+                       <span class="s1">&#39;c_sw&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1"># SW</span>
+                       <span class="s1">&#39;c_w&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="c1"># W</span>
+                       <span class="s1">&#39;c_nw&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="c1"># NW</span>
+                      <span class="p">}</span>
+    
+    <span class="c1"># Convert lists to np.arrays</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">word_to_vec_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">word_to_vec_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">word_to_vec_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            
+    <span class="k">assert</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;a_nw&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;c_nw&#39;</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;a_s&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;c_s&#39;</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;synonym_of_a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;c&#39;</span><span class="p">),</span> <span class="s2">&quot;Best word cannot be input query&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed&quot;</span><span class="p">)</span>
+    
+<span class="n">complete_analogy_test</span><span class="p">(</span><span class="n">complete_analogy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the cell below to test your code. Patience, young grasshopper…this may take 1-2 minutes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># START SKIP FOR GRADING</span>
+<span class="n">triads_to_try</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;italy&#39;</span><span class="p">,</span> <span class="s1">&#39;italian&#39;</span><span class="p">,</span> <span class="s1">&#39;spain&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;india&#39;</span><span class="p">,</span> <span class="s1">&#39;delhi&#39;</span><span class="p">,</span> <span class="s1">&#39;japan&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">,</span> <span class="s1">&#39;boy&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;small&#39;</span><span class="p">,</span> <span class="s1">&#39;smaller&#39;</span><span class="p">,</span> <span class="s1">&#39;large&#39;</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">triad</span> <span class="ow">in</span> <span class="n">triads_to_try</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> -&gt; </span><span class="si">{}</span><span class="s1"> :: </span><span class="si">{}</span><span class="s1"> -&gt; </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="o">*</span><span class="n">triad</span><span class="p">,</span> <span class="n">complete_analogy</span><span class="p">(</span><span class="o">*</span><span class="n">triad</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">)))</span>
+
+<span class="c1"># END SKIP FOR GRADING</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once you get the output, try modifying the input cells above to test your own analogies.</p>
+<p><strong>Hint</strong>: Try to find some other analogy pairs that will work, along with some others where the algorithm doesn’t give the right answer:
+* For example, you can try small-&gt;smaller as big-&gt;?</p>
+</section>
+</section>
+<section id="congratulations">
+<h2>Congratulations!<a class="headerlink" href="#congratulations" title="Link to this heading">#</a></h2>
+<p>You’ve come to the end of the graded portion of the assignment. By now, you’ve:</p>
+<ul class="simple">
+<li><p>Loaded some pre-trained word vectors</p></li>
+<li><p>Measured the similarity between word vectors using cosine similarity</p></li>
+<li><p>Used word embeddings to solve word analogy problems such as Man is to Woman as King is to __.</p></li>
+</ul>
+<p>Cosine similarity is a relatively simple and intuitive, yet powerful, method you can use to capture nuanced relationships between words. These exercises should be helpful to you in explaining how it works, and applying it to your own projects!</p>
+<font color='blue'>
+    <b>What you should remember</b>:
+<ul class="simple">
+<li><p>Cosine similarity is a good way to compare the similarity between pairs of word vectors.</p>
+<ul>
+<li><p>Note that L2 (Euclidean) distance also works.</p></li>
+</ul>
+</li>
+<li><p>For NLP applications, using a pre-trained set of word vectors is often a great way to get started. </font></p></li>
+</ul>
+<p>Even though you’ve finished the graded portion, please take a look at the rest of this notebook to learn about debiasing word vectors.</p>
+<p><a name='5'></a></p>
+</section>
+<section id="debiasing-word-vectors-optional-ungraded">
+<h2>5 - Debiasing Word Vectors (OPTIONAL/UNGRADED)<a class="headerlink" href="#debiasing-word-vectors-optional-ungraded" title="Link to this heading">#</a></h2>
+<p>In the following exercise, you’ll examine gender biases that can be reflected in a word embedding, and explore algorithms for reducing the bias. In addition to learning about the topic of debiasing, this exercise will also help hone your intuition about what word vectors are doing. This section involves a bit of linear algebra, though you can certainly complete it without being an expert! Go ahead and give it a shot. This portion of the notebook is optional and is not graded…so just have fun and explore.</p>
+<p>First, see how the GloVe word embeddings relate to gender. You’ll begin by computing a vector <span class="math notranslate nohighlight">\(g = e_{woman}-e_{man}\)</span>, where <span class="math notranslate nohighlight">\(e_{woman}\)</span> represents the word vector corresponding to the word <em>woman</em>, and <span class="math notranslate nohighlight">\(e_{man}\)</span> corresponds to the word vector corresponding to the word <em>man</em>. The resulting vector <span class="math notranslate nohighlight">\(g\)</span> roughly encodes the concept of “gender”.</p>
+<p>You might get a more accurate representation if you compute <span class="math notranslate nohighlight">\(g_1 = e_{mother}-e_{father}\)</span>, <span class="math notranslate nohighlight">\(g_2 = e_{girl}-e_{boy}\)</span>, etc. and average over them, but just using <span class="math notranslate nohighlight">\(e_{woman}-e_{man}\)</span> will give good enough results for now.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s1">&#39;woman&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">word_to_vec_map</span><span class="p">[</span><span class="s1">&#39;man&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, consider the cosine similarity of different words with <span class="math notranslate nohighlight">\(g\)</span>. What does a positive value of similarity mean, versus a negative cosine similarity?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;List of names and their similarities with constructed vector:&#39;</span><span class="p">)</span>
+
+<span class="c1"># girls and boys name</span>
+<span class="n">name_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;john&#39;</span><span class="p">,</span> <span class="s1">&#39;marie&#39;</span><span class="p">,</span> <span class="s1">&#39;sophie&#39;</span><span class="p">,</span> <span class="s1">&#39;ronaldo&#39;</span><span class="p">,</span> <span class="s1">&#39;priya&#39;</span><span class="p">,</span> <span class="s1">&#39;rahul&#39;</span><span class="p">,</span> <span class="s1">&#39;danielle&#39;</span><span class="p">,</span> <span class="s1">&#39;reza&#39;</span><span class="p">,</span> <span class="s1">&#39;katy&#39;</span><span class="p">,</span> <span class="s1">&#39;yasmin&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">name_list</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">word_to_vec_map</span><span class="p">[</span><span class="n">w</span><span class="p">],</span> <span class="n">g</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, female first names tend to have a positive cosine similarity with our constructed vector <span class="math notranslate nohighlight">\(g\)</span>, while male first names tend to have a negative cosine similarity. This is not surprising, and the result seems acceptable.</p>
+<p>Now try with some other words:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Other words and their similarities:&#39;</span><span class="p">)</span>
+<span class="n">word_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lipstick&#39;</span><span class="p">,</span> <span class="s1">&#39;guns&#39;</span><span class="p">,</span> <span class="s1">&#39;science&#39;</span><span class="p">,</span> <span class="s1">&#39;arts&#39;</span><span class="p">,</span> <span class="s1">&#39;literature&#39;</span><span class="p">,</span> <span class="s1">&#39;warrior&#39;</span><span class="p">,</span><span class="s1">&#39;doctor&#39;</span><span class="p">,</span> <span class="s1">&#39;tree&#39;</span><span class="p">,</span> <span class="s1">&#39;receptionist&#39;</span><span class="p">,</span> 
+             <span class="s1">&#39;technology&#39;</span><span class="p">,</span>  <span class="s1">&#39;fashion&#39;</span><span class="p">,</span> <span class="s1">&#39;teacher&#39;</span><span class="p">,</span> <span class="s1">&#39;engineer&#39;</span><span class="p">,</span> <span class="s1">&#39;pilot&#39;</span><span class="p">,</span> <span class="s1">&#39;computer&#39;</span><span class="p">,</span> <span class="s1">&#39;singer&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">word_list</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">word_to_vec_map</span><span class="p">[</span><span class="n">w</span><span class="p">],</span> <span class="n">g</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Do you notice anything surprising? It is astonishing how these results reflect certain unhealthy gender stereotypes. For example, we see “computer” is negative and is closer in value to male first names, while “literature” is positive and is closer to female first names. Ouch!</p>
+<p>You’ll see below how to reduce the bias of these vectors, using an algorithm due to <a class="reference external" href="https://arxiv.org/abs/1607.06520">Boliukbasi et al., 2016</a>. Note that some word pairs such as “actor”/”actress” or “grandmother”/”grandfather” should remain gender-specific, while other words such as “receptionist” or “technology” should be neutralized, i.e. not be gender-related. You’ll have to treat these two types of words differently when debiasing.</p>
+<p><a name='5-1'></a></p>
+<section id="neutralize-bias-for-non-gender-specific-words">
+<h3>5.1 - Neutralize Bias for Non-Gender Specific Words<a class="headerlink" href="#neutralize-bias-for-non-gender-specific-words" title="Link to this heading">#</a></h3>
+<p>The figure below should help you visualize what neutralizing does. If you’re using a 50-dimensional word embedding, the 50 dimensional space can be split into two parts: The bias-direction <span class="math notranslate nohighlight">\(g\)</span>, and the remaining 49 dimensions, which is called <span class="math notranslate nohighlight">\(g_{\perp}\)</span> here. In linear algebra, we say that the 49-dimensional <span class="math notranslate nohighlight">\(g_{\perp}\)</span> is perpendicular (or “orthogonal”) to <span class="math notranslate nohighlight">\(g\)</span>, meaning it is at 90 degrees to <span class="math notranslate nohighlight">\(g\)</span>. The neutralization step takes a vector such as <span class="math notranslate nohighlight">\(e_{receptionist}\)</span> and zeros out the component in the direction of <span class="math notranslate nohighlight">\(g\)</span>, giving us <span class="math notranslate nohighlight">\(e_{receptionist}^{debiased}\)</span>.</p>
+<p>Even though <span class="math notranslate nohighlight">\(g_{\perp}\)</span> is 49-dimensional, given the limitations of what you can draw on a 2D screen, it’s illustrated using a 1-dimensional axis below.</p>
+<img src="/C5_W2/images/neutral.png" style="width:800px;height:300px;">
+<caption><center><font color='purple'><b>Figure 2</b>: The word vector for "receptionist" represented before and after applying the neutralize operation.</font> </center></caption>
+<p><a name='ex-3'></a></p>
+</section>
+<section id="exercise-3-neutralize">
+<h3>Exercise 3 - neutralize<a class="headerlink" href="#exercise-3-neutralize" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">neutralize()</span></code> to remove the bias of words such as “receptionist” or “scientist.”</p>
+<p>Given an input embedding <span class="math notranslate nohighlight">\(e\)</span>, you can use the following formulas to compute <span class="math notranslate nohighlight">\(e^{debiased}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[e^{bias\_component} = \frac{e \cdot g}{||g||_2^2} * g\tag{2}\]</div>
+<div class="math notranslate nohighlight">
+\[e^{debiased} = e - e^{bias\_component}\tag{3}\]</div>
+<p>If you are an expert in linear algebra, you may recognize <span class="math notranslate nohighlight">\(e^{bias\_component}\)</span> as the projection of <span class="math notranslate nohighlight">\(e\)</span> onto the direction <span class="math notranslate nohighlight">\(g\)</span>. If you’re not an expert in linear algebra, don’t worry about this. ;)</p>
+<p><strong>Note:</strong> The <a class="reference external" href="https://papers.nips.cc/paper/6228-man-is-to-computer-programmer-as-woman-is-to-homemaker-debiasing-word-embeddings.pdf">paper</a>, which the debiasing algorithm is from, assumes all word vectors to have L2 norm as 1 and hence the need for the calculations below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The paper assumes all word vectors to have L2 norm as 1 and hence the need for this calculation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="n">word_to_vec_map_unit_vectors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">word</span><span class="p">:</span> <span class="n">embedding</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">embedding</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">word_to_vec_map</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="p">}</span>
+<span class="n">g_unit</span> <span class="o">=</span> <span class="n">word_to_vec_map_unit_vectors</span><span class="p">[</span><span class="s1">&#39;woman&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">word_to_vec_map_unit_vectors</span><span class="p">[</span><span class="s1">&#39;man&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">neutralize</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes the bias of &quot;word&quot; by projecting it on the space orthogonal to the bias axis. </span>
+<span class="sd">    This function ensures that gender neutral words are zero in the gender subspace.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        word -- string indicating the word to debias</span>
+<span class="sd">        g -- numpy-array of shape (50,), corresponding to the bias axis (such as gender)</span>
+<span class="sd">        word_to_vec_map -- dictionary mapping words to their corresponding vectors.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        e_debiased -- neutralized word vector representation of the input &quot;word&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Select word vector representation of &quot;word&quot;. Use word_to_vec_map. (≈ 1 line)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Compute e_biascomponent using the formula given above. (≈ 1 line)</span>
+    <span class="n">e_biascomponent</span> <span class="o">=</span> <span class="kc">None</span>
+ 
+    <span class="c1"># Neutralize e by subtracting e_biascomponent from it </span>
+    <span class="c1"># e_debiased should be equal to its orthogonal projection. (≈ 1 line)</span>
+    <span class="n">e_debiased</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">e_debiased</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;receptionist&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine similarity between &quot;</span> <span class="o">+</span> <span class="n">word</span> <span class="o">+</span> <span class="s2">&quot; and g, before neutralizing: &quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">word_to_vec_map</span><span class="p">[</span><span class="n">word</span><span class="p">],</span> <span class="n">g</span><span class="p">))</span>
+
+<span class="n">e_debiased</span> <span class="o">=</span> <span class="n">neutralize</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">g_unit</span><span class="p">,</span> <span class="n">word_to_vec_map_unit_vectors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine similarity between &quot;</span> <span class="o">+</span> <span class="n">word</span> <span class="o">+</span> <span class="s2">&quot; and g_unit, after neutralizing: &quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">e_debiased</span><span class="p">,</span> <span class="n">g_unit</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>: The second result is essentially 0, up to numerical rounding (on the order of <span class="math notranslate nohighlight">\(10^{-17}\)</span>).</p>
+<table>
+    <tr>
+        <td>
+            <b>cosine similarity between receptionist and g, before neutralizing:</b> :
+        </td>
+        <td>
+         0.3307794175059374
+        </td>
+    </tr>
+        <tr>
+        <td>
+            <b>cosine similarity between receptionist and g_unit, after neutralizing</b> :
+        </td>
+        <td>
+         3.5723165491646677e-17
+    </tr>
+</table><p><a name='5-2'></a></p>
+</section>
+<section id="equalization-algorithm-for-gender-specific-words">
+<h3>5.2 - Equalization Algorithm for Gender-Specific Words<a class="headerlink" href="#equalization-algorithm-for-gender-specific-words" title="Link to this heading">#</a></h3>
+<p>Next, let’s see how debiasing can also be applied to word pairs such as “actress” and “actor.” Equalization is applied to pairs of words that you might want to have differ only through the gender property. As a concrete example, suppose that “actress” is closer to “babysit” than “actor.” By applying neutralization to “babysit,” you can reduce the gender stereotype associated with babysitting. But this still does not guarantee that “actor” and “actress” are equidistant from “babysit.” The equalization algorithm takes care of this.</p>
+<p>The key idea behind equalization is to make sure that a particular pair of words are equidistant from the 49-dimensional <span class="math notranslate nohighlight">\(g_\perp\)</span>. The equalization step also ensures that the two equalized steps are now the same distance from <span class="math notranslate nohighlight">\(e_{receptionist}^{debiased}\)</span>, or from any other work that has been neutralized. Visually, this is how equalization works:</p>
+<img src="/C5_W2/images/equalize10.png" style="width:800px;height:400px;">
+<p>The derivation of the linear algebra to do this is a bit more complex. (See Bolukbasi et al., 2016 in the References for details.) Here are the key equations:</p>
+<div class="math notranslate nohighlight">
+\[
+\mu = \frac{e_{w1} + e_{w2}}{2}\tag{4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[ 
+\mu_{B} = \frac {\mu \cdot \text{biasaxis}}{||\text{biasaxis}||_2^2} * \text{biasaxis}\tag{5}
+\]</div>
+<div class="math notranslate nohighlight">
+\[\mu_{\perp} = \mu - \mu_{B} \tag{6}\]</div>
+<div class="math notranslate nohighlight">
+\[
+e_{w1B} = \frac {e_{w1} \cdot \text{biasaxis}}{||\text{biasaxis}||_2^2} *\text{biasaxis}
+\tag{7}\]</div>
+<div class="math notranslate nohighlight">
+\[ 
+e_{w2B} = \frac {e_{w2} \cdot \text{biasaxis}}{||\text{biasaxis}||_2^2} *\text{biasaxis}
+\tag{8}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+e_{w1B}^{corrected} = \sqrt{{1 - ||\mu_{\perp} ||^2_2}} * \frac{e_{\text{w1B}} - \mu_B} {||e_{w1B} - \mu_B||_2} \tag{9}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+e_{w2B}^{corrected} = \sqrt{{1 - ||\mu_{\perp} ||^2_2}} * \frac{e_{\text{w2B}} - \mu_B} {||e_{w2B} - \mu_B||_2} \tag{10}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+e_1 = e_{w1B}^{corrected} + \mu_{\perp} \tag{11}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+e_2 = e_{w2B}^{corrected} + \mu_{\perp} \tag{12}
+\]</div>
+<p><a name='ex-4'></a></p>
+</section>
+<section id="exercise-4-equalize">
+<h3>Exercise 4 - equalize<a class="headerlink" href="#exercise-4-equalize" title="Link to this heading">#</a></h3>
+<p>Implement the <code class="docutils literal notranslate"><span class="pre">equalize()</span></code> function below.</p>
+<p>Use the equations above to get the final equalized version of the pair of words. Good luck!</p>
+<p><strong>Hint</strong></p>
+<ul class="simple">
+<li><p>Use <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html">np.linalg.norm</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">equalize</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="n">bias_axis</span><span class="p">,</span> <span class="n">word_to_vec_map</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Debias gender specific words by following the equalize method described in the figure above.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    pair -- pair of strings of gender specific words to debias, e.g. (&quot;actress&quot;, &quot;actor&quot;) </span>
+<span class="sd">    bias_axis -- numpy-array of shape (50,), vector corresponding to the bias axis, e.g. gender</span>
+<span class="sd">    word_to_vec_map -- dictionary mapping words to their corresponding vectors</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    e_1 -- word vector corresponding to the first word</span>
+<span class="sd">    e_2 -- word vector corresponding to the second word</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Step 1: Select word vector representation of &quot;word&quot;. Use word_to_vec_map. (≈ 2 lines)</span>
+    <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">e_w1</span><span class="p">,</span> <span class="n">e_w2</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Step 2: Compute the mean of e_w1 and e_w2 (≈ 1 line)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Step 3: Compute the projections of mu over the bias axis and the orthogonal axis (≈ 2 lines)</span>
+    <span class="n">mu_B</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">mu_orth</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Step 4: Use equations (7) and (8) to compute e_w1B and e_w2B (≈2 lines)</span>
+    <span class="n">e_w1B</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">e_w2B</span> <span class="o">=</span> <span class="kc">None</span>
+        
+    <span class="c1"># Step 5: Adjust the Bias part of e_w1B and e_w2B using the formulas (9) and (10) given above (≈2 lines)</span>
+    <span class="n">corrected_e_w1B</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">corrected_e_w2B</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Step 6: Debias by equalizing e1 and e2 to the sum of their corrected projections (≈2 lines)</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">e2</span> <span class="o">=</span> <span class="kc">None</span>
+                                                                
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine similarities before equalizing:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine_similarity(word_to_vec_map[</span><span class="se">\&quot;</span><span class="s2">man</span><span class="se">\&quot;</span><span class="s2">], gender) = &quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;man&quot;</span><span class="p">],</span> <span class="n">g</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine_similarity(word_to_vec_map[</span><span class="se">\&quot;</span><span class="s2">woman</span><span class="se">\&quot;</span><span class="s2">], gender) = &quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">word_to_vec_map</span><span class="p">[</span><span class="s2">&quot;woman&quot;</span><span class="p">],</span> <span class="n">g</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">e1</span><span class="p">,</span> <span class="n">e2</span> <span class="o">=</span> <span class="n">equalize</span><span class="p">((</span><span class="s2">&quot;man&quot;</span><span class="p">,</span> <span class="s2">&quot;woman&quot;</span><span class="p">),</span> <span class="n">g_unit</span><span class="p">,</span> <span class="n">word_to_vec_map_unit_vectors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine similarities after equalizing:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine_similarity(e1, gender) = &quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">g_unit</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cosine_similarity(e2, gender) = &quot;</span><span class="p">,</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">e2</span><span class="p">,</span> <span class="n">g_unit</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<p>cosine similarities before equalizing:</p>
+<table>
+    <tr>
+        <td>
+            <b>cosine_similarity(word_to_vec_map["man"], gender)</b> =
+        </td>
+        <td>
+         -0.11711095765336832
+        </td>
+    </tr>
+        <tr>
+        <td>
+            <b>cosine_similarity(word_to_vec_map["woman"], gender)</b> =
+        </td>
+        <td>
+         0.35666618846270376
+        </td>
+    </tr>
+</table>
+<p>cosine similarities after equalizing:</p>
+<table>
+    <tr>
+        <td>
+            <b>cosine_similarity(e1, gender)</b> =
+        </td>
+        <td>
+         -0.23871136142883795
+        </td>
+    </tr>
+        <tr>
+        <td>
+            <b>cosine_similarity(e2, gender)</b> =
+        </td>
+        <td>
+         0.23871136142883792
+        </td>
+    </tr>
+</table><p>Go ahead and play with the input words in the cell above, to apply equalization to other pairs of words.</p>
+<p>Hint: Try…</p>
+<p>These debiasing algorithms are very helpful for reducing bias, but aren’t perfect and don’t eliminate all traces of bias. For example, one weakness of this implementation was that the bias direction <span class="math notranslate nohighlight">\(g\)</span> was defined using only the pair of words <em>woman</em> and <em>man</em>. As discussed earlier, if <span class="math notranslate nohighlight">\(g\)</span> were defined by computing <span class="math notranslate nohighlight">\(g_1 = e_{woman} - e_{man}\)</span>; <span class="math notranslate nohighlight">\(g_2 = e_{mother} - e_{father}\)</span>; <span class="math notranslate nohighlight">\(g_3 = e_{girl} - e_{boy}\)</span>; and so on and averaging over them, you would obtain a better estimate of the “gender” dimension in the 50 dimensional word embedding space. Feel free to play with these types of variants as well!</p>
+</section>
+<section id="id1">
+<h3>Congratulations!<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>You have come to the end of both graded and ungraded portions of this notebook, and have seen several of the ways that word vectors can be applied and  modified. Great work pushing your knowledge in the areas of neutralizing and equalizing word vectors! See you next time.</p>
+<p><a name='6'></a></p>
+</section>
+</section>
+<section id="references">
+<h2>6 - References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The debiasing algorithm is from Bolukbasi et al., 2016, <a class="reference external" href="https://papers.nips.cc/paper/6228-man-is-to-computer-programmer-as-woman-is-to-homemaker-debiasing-word-embeddings.pdf">Man is to Computer Programmer as Woman is to
+Homemaker? Debiasing Word Embeddings</a></p></li>
+<li><p>The GloVe word embeddings were due to Jeffrey Pennington, Richard Socher, and Christopher D. Manning. (<a class="reference external" href="https://nlp.stanford.edu/projects/glove/">https://nlp.stanford.edu/projects/glove/</a>)</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C5_W2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-word-vectors">1 - Load the Word Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-vectors-versus-one-hot-vectors">2 - Embedding Vectors Versus One-Hot Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cosine-similarity">3 - Cosine Similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-cosine-similarity">Exercise 1 - cosine_similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints">Additional Hints</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#try-different-words">Try different words!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-analogy-task">4 - Word Analogy Task</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-complete-analogy">Exercise 2 - complete_analogy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debiasing-word-vectors-optional-ungraded">5 - Debiasing Word Vectors (OPTIONAL/UNGRADED)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neutralize-bias-for-non-gender-specific-words">5.1 - Neutralize Bias for Non-Gender Specific Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-neutralize">Exercise 3 - neutralize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equalization-algorithm-for-gender-specific-words">5.2 - Equalization Algorithm for Gender-Specific Words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-equalize">Exercise 4 - equalize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Congratulations!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">6 - References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

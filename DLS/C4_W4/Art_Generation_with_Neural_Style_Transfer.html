@@ -1,0 +1,2058 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Deep Learning &amp; Art: Neural Style Transfer &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Deep Learning & Art: Neural Style Transfer</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Deep Learning &amp; Art: Neural Style Transfer</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2 - Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">3 - Transfer Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-style-transfer-nst">4 - Neural Style Transfer (NST)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-content-cost">4.1 - Computing the Content Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#make-generated-image-g-match-the-content-of-image-c">4.1.1 - Make Generated Image G Match the Content of Image C</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#to-choose-a-middle-activation-layer-a-l">To choose a “middle” activation layer <span class="math notranslate nohighlight">\(a^{[l]}\)</span> :</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#to-forward-propagate-image-c">To forward propagate image “C:”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#to-forward-propagate-image-g">To forward propagate image “G”:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#content-cost-function-j-content-c-g">4.1.2 - Content Cost Function <span class="math notranslate nohighlight">\(J_{content}(C,G)\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-compute-content-cost">Exercise 1 - compute_content_cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints-for-unrolling">Additional Hints for “Unrolling”</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-style-cost">4.2 - Computing the Style Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#style-matrix">4.2.1 - Style Matrix</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gram-matrix">Gram matrix</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#two-meanings-of-the-variable-g">Two meanings of the variable <span class="math notranslate nohighlight">\(G\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-gram-matrix-g-gram">Compute Gram matrix <span class="math notranslate nohighlight">\(G_{gram}\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#g-gram-ij-correlation"><span class="math notranslate nohighlight">\(G_{(gram)ij}\)</span>: correlation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#g-gram-ii-prevalence-of-patterns-or-textures"><span class="math notranslate nohighlight">\(G_{(gram),ii}\)</span>: prevalence of patterns or textures</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-gram-matrix">Exercise 2 - gram_matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#style-cost">4.2.2 - Style Cost</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compute-layer-style-cost">Exercise 3 - compute_layer_style_cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints">Additional Hints</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#style-weights">4.2.3 Style Weights</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-compute-style-cost">Exercise 4 -  compute_style_cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#description-of-compute-style-cost">Description of <code class="docutils literal notranslate"><span class="pre">compute_style_cost</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-total-cost-to-optimize">4.3 - Defining the Total Cost to Optimize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-total-cost">Exercise 5 - total_cost</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-the-optimization-problem">5 - Solving the Optimization Problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-content-image">5.1 Load the Content Image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-style-image">5.2 Load the Style Image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#randomly-initialize-the-image-to-be-generated">5.3 Randomly Initialize the Image to be Generated</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-pre-trained-vgg19-model">5.4 - Load Pre-trained VGG19 Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-total-cost">5.5 - Compute Total Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-content-image-encoding-a-c">5.5.1 - Compute the Content image Encoding (a_C)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-style-image-encoding-a-s">5.5.2 - Compute the Style image Encoding (a_S)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-train-step">Exercise 6 - train_step</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">5.6 - Train the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#free-up-resources-for-other-learners">Free Up Resources for Other Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-with-your-own-image-optional-ungraded">6 - Test With Your Own Image (Optional/Ungraded)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Free Up Resources for Other Learners</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-should-remember">What you should remember</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-on-finishing-the-course">Congratulations on finishing the course!</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">7 - References</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="deep-learning-art-neural-style-transfer">
+<h1>Deep Learning &amp; Art: Neural Style Transfer<a class="headerlink" href="#deep-learning-art-neural-style-transfer" title="Link to this heading">#</a></h1>
+<p>Welcome to the Week 4 assignment! In this lab assignment, you will learn about Neural Style Transfer, an algorithm created by <a class="reference external" href="https://arxiv.org/abs/1508.06576">Gatys et al. (2015).</a></p>
+<p><strong>Upon completion of this assignment, you will be able to:</strong></p>
+<ul class="simple">
+<li><p>Implement the neural style transfer algorithm</p></li>
+<li><p>Generate novel artistic images using your algorithm</p></li>
+<li><p>Define the style cost function for Neural Style Transfer</p></li>
+<li><p>Define the content cost function for Neural Style Transfer</p></li>
+</ul>
+<p>Most of the algorithms you’ve studied optimize a cost function to get a set of parameter values. With Neural Style Transfer, you’ll get to optimize a cost function to get pixel values. Exciting!</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/convolutional-neural-networks/supplement/DS4yP/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Problem Statement</span></a></p></li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Transfer Learning</span></a></p></li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Neural Style Transfer (NST)</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#4-1"><span class="xref myst">4.1 - Computing the Content Cost</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#4-1-1"><span class="xref myst">4.1.1 - Make Generated Image G Match the Content of Image C</span></a></p></li>
+<li><p><a class="reference internal" href="#4-1-2"><span class="xref myst">4.1.2 - Content Cost Function  𝐽𝑐𝑜𝑛𝑡𝑒𝑛𝑡(𝐶,𝐺)</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - compute_content_cost</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4-2"><span class="xref myst">4.2 - Computing the Style Cost</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#4-2-1"><span class="xref myst">4.2.1 - Style Matrix</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - gram_matrix</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4-2-2"><span class="xref myst">4.2.2 - Style Cost</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - compute_layer_style_cost</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4-2-3"><span class="xref myst">4.2.3 Style Weights</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-4"><span class="xref myst">Exercise 4 - compute_style_cost</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4-3"><span class="xref myst">4.3 - Defining the Total Cost to Optimize</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-5"><span class="xref myst">Exercise 5 - total_cost</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - Solving the Optimization Problem</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#5-1"><span class="xref myst">5.1 Load the Content Image</span></a></p></li>
+<li><p><a class="reference internal" href="#5-2"><span class="xref myst">5.2 Load the Style Image</span></a></p></li>
+<li><p><a class="reference internal" href="#5-3"><span class="xref myst">5.3 Randomly Initialize the Image to be Generated</span></a></p></li>
+<li><p><a class="reference internal" href="#5-4"><span class="xref myst">5.4 - Load Pre-trained VGG19 Model</span></a></p></li>
+<li><p><a class="reference internal" href="#5-5"><span class="xref myst">5.5 - Compute Total Cost</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#5-5-1"><span class="xref myst">5.5.1 - Compute Content Cost</span></a></p></li>
+<li><p><a class="reference internal" href="#5-5-2"><span class="xref myst">5.5.2 - Compute Style Cost</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-6"><span class="xref myst">Exercise 6 - train_step</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5-6"><span class="xref myst">5.6 - Train the Model</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst">6 - Test With Your Own Image (Optional/Ungraded)</span></a></p></li>
+<li><p><a class="reference internal" href="#7"><span class="xref myst">7 - References</span></a></p></li>
+</ul>
+<p><a name='1'></a></p>
+</section>
+<section id="packages">
+<h2>1 - Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>Run the following code cell to import the necessary packages and dependencies you will need to perform Neural Style Transfer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v1.2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.misc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">imshow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\sangouda\AppData\Local\Temp\ipykernel_17124\3459245449.py:4: DeprecationWarning: scipy.misc is deprecated and will be removed in 2.0.0
+  import scipy.misc
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2'></a></p>
+</section>
+<section id="problem-statement">
+<h2>2 - Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h2>
+<p>Neural Style Transfer (NST) is one of the most fun and interesting optimization techniques in deep learning. It merges two images, namely: a <strong>”content” image (C)</strong> and a <strong>”style” image (S)</strong>, to create a <strong>”generated” image (G)</strong>. The generated image G combines the “content” of the image C with the “style” of image S.</p>
+<p>In this assignment, you are going to combine the Louvre museum in Paris (content image C) with the impressionist style of Claude Monet (style image S) to generate the following image:</p>
+<img src="/C4_W4/images/louvre_generated.png" style="width:750px;height:200px;">
+<p>Let’s get started!</p>
+<p><a name='3'></a></p>
+</section>
+<section id="transfer-learning">
+<h2>3 - Transfer Learning<a class="headerlink" href="#transfer-learning" title="Link to this heading">#</a></h2>
+<p>Neural Style Transfer (NST) uses a previously trained convolutional network, and builds on top of that. The idea of using a network trained on a different task and applying it to a new task is called transfer learning.</p>
+<p>You will be using the eponymously named VGG network from the <a class="reference external" href="https://arxiv.org/abs/1508.06576">original NST paper</a> published by the Visual Geometry Group at University of Oxford in 2014. Specifically, you’ll use VGG-19, a 19-layer version of the VGG network. This model has already been trained on the very large ImageNet database, and has learned to recognize a variety of low level features (at the shallower layers) and high level features (at the deeper layers).</p>
+<p>Run the following code to load parameters from the VGG model. This may take a few seconds.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">272</span><span class="p">)</span> <span class="c1"># DO NOT CHANGE THIS VALUE</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">img_size</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">vgg</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">VGG19</span><span class="p">(</span><span class="n">include_top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">img_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                                  <span class="n">weights</span><span class="o">=</span><span class="s1">&#39;pretrained-model/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5&#39;</span><span class="p">)</span>
+
+<span class="n">vgg</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">vgg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Functional name=vgg19, built=True&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='4'></a></p>
+</section>
+<section id="neural-style-transfer-nst">
+<h2>4 - Neural Style Transfer (NST)<a class="headerlink" href="#neural-style-transfer-nst" title="Link to this heading">#</a></h2>
+<p>Next, you will be building the Neural Style Transfer (NST) algorithm in three steps:</p>
+<ul class="simple">
+<li><p>First, you will build the content cost function <span class="math notranslate nohighlight">\(J_{content}(C,G)\)</span></p></li>
+<li><p>Second, you will build the style cost function <span class="math notranslate nohighlight">\(J_{style}(S,G)\)</span></p></li>
+<li><p>Finally, you’ll put it all together to get <span class="math notranslate nohighlight">\(J(G) = \alpha J_{content}(C,G) + \beta J_{style}(S,G)\)</span>. Exciting!</p></li>
+</ul>
+<p><a name='4-1'></a></p>
+<section id="computing-the-content-cost">
+<h3>4.1 - Computing the Content Cost<a class="headerlink" href="#computing-the-content-cost" title="Link to this heading">#</a></h3>
+<p><a name='4-1-1'></a></p>
+<section id="make-generated-image-g-match-the-content-of-image-c">
+<h4>4.1.1 - Make Generated Image G Match the Content of Image C<a class="headerlink" href="#make-generated-image-g-match-the-content-of-image-c" title="Link to this heading">#</a></h4>
+<p>One goal you should aim for when performing NST is for the content in generated image G to match the content of image C. To do so, you’ll need an understanding of <b> shallow versus deep layers </b>:</p>
+<ul class="simple">
+<li><p>The shallower layers of a ConvNet tend to detect lower-level features such as <i>edges and simple textures</i>.</p></li>
+<li><p>The deeper layers tend to detect higher-level features such as more <i> complex textures and object classes</i>.</p></li>
+</ul>
+</section>
+<section id="to-choose-a-middle-activation-layer-a-l">
+<h4>To choose a “middle” activation layer <span class="math notranslate nohighlight">\(a^{[l]}\)</span> :<a class="headerlink" href="#to-choose-a-middle-activation-layer-a-l" title="Link to this heading">#</a></h4>
+<p>You need the “generated” image G to have similar content as the input image C. Suppose you have chosen some layer’s activations to represent the content of an image.</p>
+<ul class="simple">
+<li><p>In practice, you will usually get the most visually pleasing results if you choose a layer from somewhere in the middle of the network–neither too shallow nor too deep. This ensures that the network detects both higher-level and lower-level features.</p></li>
+<li><p>After you have finished this exercise, feel free to come back and experiment with using different layers to see how the results vary!</p></li>
+</ul>
+</section>
+<section id="to-forward-propagate-image-c">
+<h4>To forward propagate image “C:”<a class="headerlink" href="#to-forward-propagate-image-c" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Set the image C as the input to the pretrained VGG network, and run forward propagation.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(a^{(C)}\)</span> be the hidden layer activations in the layer you had chosen. (In lecture, this was written as <span class="math notranslate nohighlight">\(a^{[l](C)}\)</span>, but here the superscript <span class="math notranslate nohighlight">\([l]\)</span> is dropped to simplify the notation.) This will be an <span class="math notranslate nohighlight">\(n_H \times n_W \times n_C\)</span> tensor.</p></li>
+</ul>
+</section>
+<section id="to-forward-propagate-image-g">
+<h4>To forward propagate image “G”:<a class="headerlink" href="#to-forward-propagate-image-g" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Repeat this process with the image G: Set G as the input, and run forward propagation.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(a^{(G)}\)</span> be the corresponding hidden layer activation.</p></li>
+</ul>
+<p>In this running example, the content image C will be the picture of the Louvre Museum in Paris. Run the code below to see a picture of the Louvre.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">content_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/louvre.jpg&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The content image (C) shows the Louvre museum&#39;s pyramid surrounded by old Paris buildings, against a sunny sky with a few clouds.&quot;</span><span class="p">)</span>
+<span class="n">content_image</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The content image (C) shows the Louvre museum&#39;s pyramid surrounded by old Paris buildings, against a sunny sky with a few clouds.
+</pre></div>
+</div>
+<img alt="../../_images/a0986210f2165c639435d8acc98d367cab00cd7ade3b532e74ea186d0ae2a1f7.png" src="../../_images/a0986210f2165c639435d8acc98d367cab00cd7ade3b532e74ea186d0ae2a1f7.png" />
+</div>
+</div>
+<p><a name='4-1-2'></a></p>
+</section>
+<section id="content-cost-function-j-content-c-g">
+<h4>4.1.2 - Content Cost Function <span class="math notranslate nohighlight">\(J_{content}(C,G)\)</span><a class="headerlink" href="#content-cost-function-j-content-c-g" title="Link to this heading">#</a></h4>
+<p>One goal you should aim for when performing NST is for the content in generated image G to match the content of image C. A method to achieve this is to calculate the content cost function, which will be defined as:</p>
+<div class="math notranslate nohighlight">
+\[J_{content}(C,G) =  \frac{1}{4 \times n_H \times n_W \times n_C}\sum _{ \text{all entries}} (a^{(C)} - a^{(G)})^2\tag{1} \]</div>
+<ul class="simple">
+<li><p>Here, <span class="math notranslate nohighlight">\(n_H, n_W\)</span> and <span class="math notranslate nohighlight">\(n_C\)</span> are the height, width and number of channels of the hidden layer you have chosen, and appear in a normalization term in the cost.</p></li>
+<li><p>For clarity, note that <span class="math notranslate nohighlight">\(a^{(C)}\)</span> and <span class="math notranslate nohighlight">\(a^{(G)}\)</span> are the 3D volumes corresponding to a hidden layer’s activations.</p></li>
+<li><p>In order to compute the cost <span class="math notranslate nohighlight">\(J_{content}(C,G)\)</span>, it might also be convenient to unroll these 3D volumes into a 2D matrix, as shown below.</p></li>
+<li><p>Technically this unrolling step isn’t needed to compute <span class="math notranslate nohighlight">\(J_{content}\)</span>, but it will be good practice for when you do need to carry out a similar operation later for computing the style cost <span class="math notranslate nohighlight">\(J_{style}\)</span>.</p></li>
+</ul>
+<img src="/C4_W4/images/NST_LOSS.png" style="width:800px;height:400px;"><p><a name='ex-1'></a></p>
+</section>
+</section>
+<section id="exercise-1-compute-content-cost">
+<h3>Exercise 1 - compute_content_cost<a class="headerlink" href="#exercise-1-compute-content-cost" title="Link to this heading">#</a></h3>
+<p>Compute the “content cost” using TensorFlow.</p>
+<p><strong>Instructions</strong>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">a_G</span></code>: hidden layer activations representing content of the image G
+<br>
+<code class="docutils literal notranslate"><span class="pre">a_C</span></code>: hidden layer activations representing content of the image C</p>
+<p>The 3 steps to implement this function are:</p>
+<ol class="arabic simple">
+<li><p>Retrieve dimensions from <code class="docutils literal notranslate"><span class="pre">a_G</span></code>:</p>
+<ul class="simple">
+<li><p>To retrieve dimensions from a tensor <code class="docutils literal notranslate"><span class="pre">X</span></code>, use: <code class="docutils literal notranslate"><span class="pre">X.get_shape().as_list()</span></code></p></li>
+</ul>
+</li>
+<li><p>Unroll <code class="docutils literal notranslate"><span class="pre">a_C</span></code> and <code class="docutils literal notranslate"><span class="pre">a_G</span></code> as explained in the picture above</p>
+<ul class="simple">
+<li><p>You’ll likely want to use these functions: <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/transpose">tf.transpose</a> and <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/reshape">tf.reshape</a>.</p></li>
+</ul>
+</li>
+<li><p>Compute the content cost:</p>
+<ul class="simple">
+<li><p>You’ll likely want to use these functions: <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/reduce_sum">tf.reduce_sum</a>, <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/square">tf.square</a> and <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/subtract">tf.subtract</a>.</p></li>
+</ul>
+</li>
+</ol>
+<section id="additional-hints-for-unrolling">
+<h4>Additional Hints for “Unrolling”<a class="headerlink" href="#additional-hints-for-unrolling" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>To unroll the tensor, you want the shape to change from <span class="math notranslate nohighlight">\((m,n_H,n_W,n_C)\)</span> to <span class="math notranslate nohighlight">\((m, n_H \times n_W, n_C)\)</span>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.reshape(tensor,</span> <span class="pre">shape)</span></code> takes a list of integers that represent the desired output shape.</p></li>
+<li><p>For the <code class="docutils literal notranslate"><span class="pre">shape</span></code> parameter, a <code class="docutils literal notranslate"><span class="pre">-1</span></code> tells the function to choose the correct dimension size so that the output tensor still contains all the values of the original tensor.</p></li>
+<li><p>So <code class="docutils literal notranslate"><span class="pre">tf.reshape(a_C,</span> <span class="pre">shape=[m,</span> <span class="pre">n_H</span> <span class="pre">*</span> <span class="pre">n_W,</span> <span class="pre">n_C])</span></code> gives the same result as <code class="docutils literal notranslate"><span class="pre">tf.reshape(a_C,</span> <span class="pre">shape=[m,</span> <span class="pre">-1,</span> <span class="pre">n_C])</span></code>.</p></li>
+<li><p>If you prefer to re-order the dimensions, you can use <code class="docutils literal notranslate"><span class="pre">tf.transpose(tensor,</span> <span class="pre">perm)</span></code>, where <code class="docutils literal notranslate"><span class="pre">perm</span></code> is a list of integers containing the original index of the dimensions.</p></li>
+<li><p>For example, <code class="docutils literal notranslate"><span class="pre">tf.transpose(a_C,</span> <span class="pre">perm=[0,3,1,2])</span></code> changes the dimensions from <span class="math notranslate nohighlight">\((m, n_H, n_W, n_C)\)</span> to <span class="math notranslate nohighlight">\((m, n_C, n_H, n_W)\)</span>.</p></li>
+</ul>
+<!-- * There is more than one way you can unroll a tensor.  -->
+<ul class="simple">
+<li><p>Again, note that you don’t necessarily need <code class="docutils literal notranslate"><span class="pre">tf.transpose</span></code> to ‘unroll’ the tensors in this case but this is a useful function to practice and understand for other situations that you’ll encounter.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1</span>
+<span class="c1"># GRADED FUNCTION: compute_content_cost</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_content_cost</span><span class="p">(</span><span class="n">content_output</span><span class="p">,</span> <span class="n">generated_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the content cost</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    a_C -- tensor of dimension (1, n_H, n_W, n_C), hidden layer activations representing content of the image C </span>
+<span class="sd">    a_G -- tensor of dimension (1, n_H, n_W, n_C), hidden layer activations representing content of the image G</span>
+<span class="sd">    </span>
+<span class="sd">    Returns: </span>
+<span class="sd">    J_content -- scalar that you compute using equation 1 above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a_C</span> <span class="o">=</span> <span class="n">content_output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">a_G</span> <span class="o">=</span> <span class="n">generated_output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="c1"># Retrieve dimensions from a_G (≈1 line)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">n_H</span><span class="p">,</span> <span class="n">n_W</span><span class="p">,</span> <span class="n">n_C</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Reshape &#39;a_C&#39; and &#39;a_G&#39; (≈2 lines)</span>
+    <span class="c1"># DO NOT reshape &#39;content_output&#39; or &#39;generated_output&#39;</span>
+    <span class="n">a_C_unrolled</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">a_G_unrolled</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># compute the cost with tensorflow (≈1 line)</span>
+    <span class="n">J_content</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE</span>
+    
+    <span class="k">return</span> <span class="n">J_content</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="n">compute_content_cost_test</span><span class="p">(</span><span class="n">compute_content_cost</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">### you cannot edit this cell</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">compute_content_cost_test</span><span class="p">(</span><span class="n">compute_content_cost</span><span class="p">)</span>
+
+<span class="nn">File C:\Github\Coursera_Materials\coursera_notes\DLS\C4_W4\public_tests.py:10,</span> in <span class="ni">compute_content_cost_test</span><span class="nt">(target)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">a_C</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">a_G</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="n">J_content</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">a_C</span><span class="p">,</span> <span class="n">a_G</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">J_content_0</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">a_C</span><span class="p">,</span> <span class="n">a_C</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">J_content</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use the tensorflow function&quot;</span>
+
+<span class="nn">Cell In[5], line 21,</span> in <span class="ni">compute_content_cost</span><span class="nt">(content_output, generated_output)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">a_G</span> <span class="o">=</span> <span class="n">generated_output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="c1">### START CODE HERE</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> 
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="c1"># Retrieve dimensions from a_G (≈1 line)</span>
+<span class="ne">---&gt; </span><span class="mi">21</span> <span class="n">_</span><span class="p">,</span> <span class="n">n_H</span><span class="p">,</span> <span class="n">n_W</span><span class="p">,</span> <span class="n">n_C</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="c1"># Reshape &#39;a_C&#39; and &#39;a_G&#39; (≈2 lines)</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="c1"># DO NOT reshape &#39;content_output&#39; or &#39;generated_output&#39;</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="n">a_C_unrolled</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="ne">TypeError</span>: cannot unpack non-iterable NoneType object
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>J_content</b>  
+        </td>
+        <td>
+            7.0568767
+        </td>
+    </tr>
+</table>
+<p>Congrats! You’ve now successfully calculated the content cost function!</p>
+<br>
+<font color = 'blue'>
+<p><strong>What you should remember:</strong></p>
+<ul class="simple">
+<li><p>The content cost takes a hidden layer activation of the neural network, and measures how different <span class="math notranslate nohighlight">\(a^{(C)}\)</span> and <span class="math notranslate nohighlight">\(a^{(G)}\)</span> are.</p></li>
+<li><p>When you minimize the content cost later, this will help make sure <span class="math notranslate nohighlight">\(G\)</span> has similar content as <span class="math notranslate nohighlight">\(C\)</span>.</p></li>
+</ul>
+<p><a name='4-2'></a></p>
+</section>
+</section>
+<section id="computing-the-style-cost">
+<h3>4.2 - Computing the Style Cost<a class="headerlink" href="#computing-the-style-cost" title="Link to this heading">#</a></h3>
+<p>For the running example, you will use the following style image:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">example</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/monet_800600.jpg&quot;</span><span class="p">)</span>
+<span class="n">example</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This was painted in the style of <b><a class="reference external" href="https://en.wikipedia.org/wiki/Impressionism">impressionism</a></b>.</p>
+<p>Now let’s see how you can now define a “style” cost function <span class="math notranslate nohighlight">\(J_{style}(S,G)\)</span>!</p>
+<p><a name='4-2-1'></a></p>
+<section id="style-matrix">
+<h4>4.2.1 - Style Matrix<a class="headerlink" href="#style-matrix" title="Link to this heading">#</a></h4>
+</section>
+<section id="gram-matrix">
+<h4>Gram matrix<a class="headerlink" href="#gram-matrix" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>The style matrix is also called a “Gram matrix.”</p></li>
+<li><p>In linear algebra, the Gram matrix G of a set of vectors <span class="math notranslate nohighlight">\((v_{1},\dots ,v_{n})\)</span> is the matrix of dot products, whose entries are <span class="math notranslate nohighlight">\({\displaystyle G_{ij} = v_{i}^T v_{j} = np.dot(v_{i}, v_{j})  }\)</span>.</p></li>
+<li><p>In other words, <span class="math notranslate nohighlight">\(G_{ij}\)</span> compares how similar <span class="math notranslate nohighlight">\(v_i\)</span> is to <span class="math notranslate nohighlight">\(v_j\)</span>: If they are highly similar, you would expect them to have a large dot product, and thus for <span class="math notranslate nohighlight">\(G_{ij}\)</span> to be large.</p></li>
+</ul>
+</section>
+<section id="two-meanings-of-the-variable-g">
+<h4>Two meanings of the variable <span class="math notranslate nohighlight">\(G\)</span><a class="headerlink" href="#two-meanings-of-the-variable-g" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Note that there is an unfortunate collision in the variable names used here. Following the common terminology used in the literature:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(G\)</span> is used to denote the Style matrix (or Gram matrix)</p></li>
+<li><p><span class="math notranslate nohighlight">\(G\)</span> also denotes the generated image.</p></li>
+</ul>
+</li>
+<li><p>For the sake of clarity, in this assignment <span class="math notranslate nohighlight">\(G_{gram}\)</span> will be used to refer to the Gram matrix, and <span class="math notranslate nohighlight">\(G\)</span> to denote the generated image.</p></li>
+</ul>
+</section>
+<section id="compute-gram-matrix-g-gram">
+<h4>Compute Gram matrix <span class="math notranslate nohighlight">\(G_{gram}\)</span><a class="headerlink" href="#compute-gram-matrix-g-gram" title="Link to this heading">#</a></h4>
+<p>You will compute the Style matrix by multiplying the “unrolled” filter matrix with its transpose:</p>
+<img src="/C4_W4/images/NST_GM.png" style="width:900px;height:300px;">
+<div class="math notranslate nohighlight">
+\[\mathbf{G}_{gram} = \mathbf{A}_{unrolled} \mathbf{A}_{unrolled}^T\]</div>
+</section>
+<section id="g-gram-ij-correlation">
+<h4><span class="math notranslate nohighlight">\(G_{(gram)ij}\)</span>: correlation<a class="headerlink" href="#g-gram-ij-correlation" title="Link to this heading">#</a></h4>
+<p>The result is a matrix of dimension <span class="math notranslate nohighlight">\((n_C,n_C)\)</span> where <span class="math notranslate nohighlight">\(n_C\)</span> is the number of filters (channels). The value <span class="math notranslate nohighlight">\(G_{(gram)i,j}\)</span> measures how similar the activations of filter <span class="math notranslate nohighlight">\(i\)</span> are to the activations of filter <span class="math notranslate nohighlight">\(j\)</span>.</p>
+</section>
+<section id="g-gram-ii-prevalence-of-patterns-or-textures">
+<h4><span class="math notranslate nohighlight">\(G_{(gram),ii}\)</span>: prevalence of patterns or textures<a class="headerlink" href="#g-gram-ii-prevalence-of-patterns-or-textures" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>The diagonal elements <span class="math notranslate nohighlight">\(G_{(gram)ii}\)</span> measure how “active” a filter <span class="math notranslate nohighlight">\(i\)</span> is.</p></li>
+<li><p>For example, suppose filter <span class="math notranslate nohighlight">\(i\)</span> is detecting vertical textures in the image. Then <span class="math notranslate nohighlight">\(G_{(gram)ii}\)</span> measures how common  vertical textures are in the image as a whole.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(G_{(gram)ii}\)</span> is large, this means that the image has a lot of vertical texture.</p></li>
+</ul>
+<p>By capturing the prevalence of different types of features (<span class="math notranslate nohighlight">\(G_{(gram)ii}\)</span>), as well as how much different features occur together (<span class="math notranslate nohighlight">\(G_{(gram)ij}\)</span>), the Style matrix <span class="math notranslate nohighlight">\(G_{gram}\)</span> measures the style of an image.</p>
+<p><a name='ex-2'></a></p>
+</section>
+</section>
+<section id="exercise-2-gram-matrix">
+<h3>Exercise 2 - gram_matrix<a class="headerlink" href="#exercise-2-gram-matrix" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Using TensorFlow, implement a function that computes the Gram matrix of a matrix A.</p>
+<ul>
+<li><p>The formula is: The gram matrix of A is <span class="math notranslate nohighlight">\(G_A = AA^T\)</span>.</p></li>
+</ul>
+</li>
+<li><p>You may want to use these functions: <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/matmul">matmul</a> and <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/transpose">transpose</a>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2</span>
+<span class="c1"># GRADED FUNCTION: gram_matrix</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gram_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Argument:</span>
+<span class="sd">    A -- matrix of shape (n_C, n_H*n_W)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    GA -- Gram matrix of A, of shape (n_C, n_C)</span>
+<span class="sd">    &quot;&quot;&quot;</span>  
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="c1">#(≈1 line)</span>
+    <span class="n">GA</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE</span>
+
+    <span class="k">return</span> <span class="n">GA</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="n">gram_matrix_test</span><span class="p">(</span><span class="n">gram_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>GA</b>
+        </td>
+        <td>
+           [[ 63.193256  -26.729713   -7.732155 ] <br>
+ [-26.729713   12.775055   -2.5164719] <br>
+ [ -7.732155   -2.5164719  23.746586 ]] <br>
+        </td>
+    </tr>
+</table><p><a name='4-2-2'></a></p>
+<section id="style-cost">
+<h4>4.2.2 - Style Cost<a class="headerlink" href="#style-cost" title="Link to this heading">#</a></h4>
+<p>You now know how to calculate the Gram matrix. Congrats! Your next goal will be to minimize the distance between the Gram matrix of the “style” image S and the Gram matrix of the “generated” image G.</p>
+<ul class="simple">
+<li><p>For now, you will use only a single hidden layer <span class="math notranslate nohighlight">\(a^{[l]}\)</span>.</p></li>
+<li><p>The corresponding style cost for this layer is defined as:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[J_{style}^{[l]}(S,G) = \frac{1}{4 \times {n_C}^2 \times (n_H \times n_W)^2} \sum _{i=1}^{n_C}\sum_{j=1}^{n_C}(G^{(S)}_{(gram)i,j} - G^{(G)}_{(gram)i,j})^2\tag{2} \]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(G_{gram}^{(S)}\)</span> Gram matrix of the “style” image.</p></li>
+<li><p><span class="math notranslate nohighlight">\(G_{gram}^{(G)}\)</span> Gram matrix of the “generated” image.</p></li>
+<li><p>Make sure you remember that this cost is computed using the hidden layer activations for a particular hidden layer in the network <span class="math notranslate nohighlight">\(a^{[l]}\)</span></p></li>
+</ul>
+<p><a name='ex-3'></a></p>
+</section>
+</section>
+<section id="exercise-3-compute-layer-style-cost">
+<h3>Exercise 3 - compute_layer_style_cost<a class="headerlink" href="#exercise-3-compute-layer-style-cost" title="Link to this heading">#</a></h3>
+<p>Compute the style cost for a single layer.</p>
+<p><strong>Instructions</strong>: The 3 steps to implement this function are:</p>
+<ol class="arabic simple">
+<li><p>Retrieve dimensions from the hidden layer activations a_G:</p>
+<ul class="simple">
+<li><p>To retrieve dimensions from a tensor X, use: <code class="docutils literal notranslate"><span class="pre">X.get_shape().as_list()</span></code></p></li>
+</ul>
+</li>
+<li><p>Unroll the hidden layer activations a_S and a_G into 2D matrices, as explained in the picture above (see the images in the sections “computing the content cost” and “style matrix”).</p>
+<ul class="simple">
+<li><p>You may use <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/transpose">tf.transpose</a> and <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/reshape">tf.reshape</a>.</p></li>
+</ul>
+</li>
+<li><p>Compute the Style matrix of the images S and G. (Use the function you had previously written.)</p></li>
+<li><p>Compute the Style cost:</p>
+<ul class="simple">
+<li><p>You may find <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/reduce_sum">tf.reduce_sum</a>, <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/square">tf.square</a> and <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/subtract">tf.subtract</a> useful.</p></li>
+</ul>
+</li>
+</ol>
+<section id="additional-hints">
+<h4>Additional Hints<a class="headerlink" href="#additional-hints" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Since the activation dimensions are <span class="math notranslate nohighlight">\((m, n_H, n_W, n_C)\)</span> whereas the desired unrolled matrix shape is <span class="math notranslate nohighlight">\((n_C, n_H*n_W)\)</span>, the order of the filter dimension <span class="math notranslate nohighlight">\(n_C\)</span> is changed.  So <code class="docutils literal notranslate"><span class="pre">tf.transpose</span></code> can be used to change the order of the filter dimension.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C3</span>
+<span class="c1"># GRADED FUNCTION: compute_layer_style_cost</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_layer_style_cost</span><span class="p">(</span><span class="n">a_S</span><span class="p">,</span> <span class="n">a_G</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    a_S -- tensor of dimension (1, n_H, n_W, n_C), hidden layer activations representing style of the image S </span>
+<span class="sd">    a_G -- tensor of dimension (1, n_H, n_W, n_C), hidden layer activations representing style of the image G</span>
+<span class="sd">    </span>
+<span class="sd">    Returns: </span>
+<span class="sd">    J_style_layer -- tensor representing a scalar value, style cost defined above by equation (2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="c1"># Retrieve dimensions from a_G (≈1 line)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">n_H</span><span class="p">,</span> <span class="n">n_W</span><span class="p">,</span> <span class="n">n_C</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Reshape the tensors from (1, n_H, n_W, n_C) to (n_C, n_H * n_W) (≈2 lines)</span>
+    <span class="n">a_S</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">a_G</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Computing gram_matrices for both images S and G (≈2 lines)</span>
+    <span class="n">GS</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">GG</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Computing the loss (≈1 line)</span>
+    <span class="n">J_style_layer</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE</span>
+    
+    <span class="k">return</span> <span class="n">J_style_layer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="n">compute_layer_style_cost_test</span><span class="p">(</span><span class="n">compute_layer_style_cost</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>J_style_layer</b>
+        </td>
+        <td>
+           14.01649
+        </td>
+    </tr>
+</table><p><a name='4-2-3'></a></p>
+</section>
+<section id="style-weights">
+<h4>4.2.3 Style Weights<a class="headerlink" href="#style-weights" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>So far you have captured the style from only one layer.</p></li>
+<li><p>You’ll get better results if you “merge” style costs from several different layers.</p></li>
+<li><p>Each layer will be given weights (<span class="math notranslate nohighlight">\(\lambda^{[l]}\)</span>) that reflect how much each layer will contribute to the style.</p></li>
+<li><p>After completing this exercise, feel free to come back and experiment with different weights to see how it changes the generated image <span class="math notranslate nohighlight">\(G\)</span>.</p></li>
+<li><p>By default, give each layer equal weight, and the weights add up to 1.  (<span class="math notranslate nohighlight">\(\sum_{l}^L\lambda^{[l]} = 1\)</span>)</p></li>
+</ul>
+<p>Start by listing the layer names:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">vgg</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Get a look at the output of a layer <code class="docutils literal notranslate"><span class="pre">block5_conv4</span></code>. You will later define this as the content layer, which will represent the image.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vgg</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s1">&#39;block5_conv4&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">output</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now choose layers to represent the style of the image and assign style costs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">STYLE_LAYERS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;block1_conv1&#39;</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;block2_conv1&#39;</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;block3_conv1&#39;</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;block4_conv1&#39;</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;block5_conv1&#39;</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can combine the style costs for different layers as follows:</p>
+<div class="math notranslate nohighlight">
+\[J_{style}(S,G) = \sum_{l} \lambda^{[l]} J^{[l]}_{style}(S,G)\]</div>
+<p>where the values for <span class="math notranslate nohighlight">\(\lambda^{[l]}\)</span> are given in <code class="docutils literal notranslate"><span class="pre">STYLE_LAYERS</span></code>.</p>
+<p><a name='ex-4'></a></p>
+</section>
+</section>
+<section id="exercise-4-compute-style-cost">
+<h3>Exercise 4 -  compute_style_cost<a class="headerlink" href="#exercise-4-compute-style-cost" title="Link to this heading">#</a></h3>
+<p>Compute style cost</p>
+<p><b> Instructions: </b></p>
+<ul class="simple">
+<li><p>A compute_style_cost(…) function has already been implemented.</p></li>
+<li><p>It calls your <code class="docutils literal notranslate"><span class="pre">compute_layer_style_cost(...)</span></code> several times, and weights their results using the values in <code class="docutils literal notranslate"><span class="pre">STYLE_LAYERS</span></code>.</p></li>
+<li><p>Please read over it to make sure you understand what it’s doing.</p></li>
+</ul>
+<section id="description-of-compute-style-cost">
+<h4>Description of <code class="docutils literal notranslate"><span class="pre">compute_style_cost</span></code><a class="headerlink" href="#description-of-compute-style-cost" title="Link to this heading">#</a></h4>
+<p>For each layer:</p>
+<ul class="simple">
+<li><p>Select the activation (the output tensor) of the current layer.</p></li>
+<li><p>Get the style of the style image “S” from the current layer.</p></li>
+<li><p>Get the style of the generated image “G” from the current layer.</p></li>
+<li><p>Compute the “style cost” for the current layer</p></li>
+<li><p>Add the weighted style cost to the overall style cost (J_style)</p></li>
+</ul>
+<p>Once you’re done with the loop:</p>
+<ul class="simple">
+<li><p>Return the overall style cost.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_style_cost</span><span class="p">(</span><span class="n">style_image_output</span><span class="p">,</span> <span class="n">generated_image_output</span><span class="p">,</span> <span class="n">STYLE_LAYERS</span><span class="o">=</span><span class="n">STYLE_LAYERS</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the overall style cost from several chosen layers</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    style_image_output -- our tensorflow model</span>
+<span class="sd">    generated_image_output --</span>
+<span class="sd">    STYLE_LAYERS -- A python list containing:</span>
+<span class="sd">                        - the names of the layers we would like to extract style from</span>
+<span class="sd">                        - a coefficient for each of them</span>
+<span class="sd">    </span>
+<span class="sd">    Returns: </span>
+<span class="sd">    J_style -- tensor representing a scalar value, style cost defined above by equation (2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># initialize the overall style cost</span>
+    <span class="n">J_style</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Set a_S to be the hidden layer activation from the layer we have selected.</span>
+    <span class="c1"># The last element of the array contains the content layer image, which must not be used.</span>
+    <span class="n">a_S</span> <span class="o">=</span> <span class="n">style_image_output</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Set a_G to be the output of the choosen hidden layers.</span>
+    <span class="c1"># The last element of the list contains the content layer image which must not be used.</span>
+    <span class="n">a_G</span> <span class="o">=</span> <span class="n">generated_image_output</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a_S</span><span class="p">)),</span> <span class="n">STYLE_LAYERS</span><span class="p">):</span>  
+        <span class="c1"># Compute style_cost for the current layer</span>
+        <span class="n">J_style_layer</span> <span class="o">=</span> <span class="n">compute_layer_style_cost</span><span class="p">(</span><span class="n">a_S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">a_G</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="c1"># Add weight * J_style_layer of this layer to overall style cost</span>
+        <span class="n">J_style</span> <span class="o">+=</span> <span class="n">weight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">J_style_layer</span>
+
+    <span class="k">return</span> <span class="n">J_style</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>How do you choose the coefficients for each layer? The deeper layers capture higher-level concepts, and the features in the deeper layers are less localized in the image relative to each other. So if you want the generated image to softly follow the style image, try choosing larger weights for deeper layers and smaller weights for the first layers. In contrast, if you want the generated image to strongly follow the style image, try choosing smaller weights for deeper layers and larger weights for the first layers.</p>
+<br>
+<font color = 'blue'>
+<p><strong>What you should remember:</strong></p>
+<ul class="simple">
+<li><p>The style of an image can be represented using the Gram matrix of a hidden layer’s activations.</p></li>
+<li><p>You get even better results by combining this representation from multiple different layers.</p></li>
+<li><p>This is in contrast to the content representation, where usually using just a single hidden layer is sufficient.</p></li>
+<li><p>Minimizing the style cost will cause the image <span class="math notranslate nohighlight">\(G\)</span> to follow the style of the image <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
+</ul>
+<p><a name='4-3'></a></p>
+</section>
+</section>
+<section id="defining-the-total-cost-to-optimize">
+<h3>4.3 - Defining the Total Cost to Optimize<a class="headerlink" href="#defining-the-total-cost-to-optimize" title="Link to this heading">#</a></h3>
+<p>Finally, you will create a cost function that minimizes both the style and the content cost. The formula is:</p>
+<div class="math notranslate nohighlight">
+\[J(G) = \alpha J_{content}(C,G) + \beta J_{style}(S,G)\]</div>
+<p><a name='ex-5'></a></p>
+</section>
+<section id="exercise-5-total-cost">
+<h3>Exercise 5 - total_cost<a class="headerlink" href="#exercise-5-total-cost" title="Link to this heading">#</a></h3>
+<p>Implement the total cost function which includes both the content cost and the style cost.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C4</span>
+<span class="c1"># GRADED FUNCTION: total_cost</span>
+<span class="nd">@tf</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">total_cost</span><span class="p">(</span><span class="n">J_content</span><span class="p">,</span> <span class="n">J_style</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="mi">40</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the total cost function</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    J_content -- content cost coded above</span>
+<span class="sd">    J_style -- style cost coded above</span>
+<span class="sd">    alpha -- hyperparameter weighting the importance of the content cost</span>
+<span class="sd">    beta -- hyperparameter weighting the importance of the style cost</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    J -- total cost as defined by the formula above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="c1">#(≈1 line)</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### START CODE HERE</span>
+
+    <span class="k">return</span> <span class="n">J</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="n">total_cost_test</span><span class="p">(</span><span class="n">total_cost</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>J</b>
+        </td>
+        <td>
+           32.9832
+        </td>
+    </tr>
+</table><font color = 'blue'>
+<p><strong>What you should remember:</strong></p>
+<ul class="simple">
+<li><p>The total cost is a linear combination of the content cost <span class="math notranslate nohighlight">\(J_{content}(C,G)\)</span> and the style cost <span class="math notranslate nohighlight">\(J_{style}(S,G)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are hyperparameters that control the relative weighting between content and style.</p></li>
+</ul>
+<p><a name='5'></a></p>
+</section>
+</section>
+<section id="solving-the-optimization-problem">
+<h2>5 - Solving the Optimization Problem<a class="headerlink" href="#solving-the-optimization-problem" title="Link to this heading">#</a></h2>
+<p>Finally, you get to put everything together to implement Neural Style Transfer!</p>
+<p>Here’s what your program be able to do:</p>
+<ol class="arabic simple">
+<li><p>Load the content image</p></li>
+<li><p>Load the style image</p></li>
+<li><p>Randomly initialize the image to be generated</p></li>
+<li><p>Load the VGG19 model</p></li>
+<li><p>Compute the content cost</p></li>
+<li><p>Compute the style cost</p></li>
+<li><p>Compute the total cost</p></li>
+<li><p>Define the optimizer and learning rate</p></li>
+</ol>
+<p>Here are the individual steps in detail.</p>
+<p><a id='part(4)'></a></p>
+<p><a name='5-1'></a></p>
+<section id="load-the-content-image">
+<h3>5.1 Load the Content Image<a class="headerlink" href="#load-the-content-image" title="Link to this heading">#</a></h3>
+<p>Run the following code cell to load, reshape, and normalize your “content” image C (the Louvre museum picture):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">content_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/louvre_small.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">)))</span>
+<span class="n">content_image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">content_image</span><span class="p">,</span> <span class="p">((</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="n">content_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">content_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">content_image</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='5-2'></a></p>
+</section>
+<section id="load-the-style-image">
+<h3>5.2 Load the Style Image<a class="headerlink" href="#load-the-style-image" title="Link to this heading">#</a></h3>
+<p>Now load, reshape and normalize your “style” image (Claude Monet’s painting):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">style_image</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/monet.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">)))</span>
+<span class="n">style_image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">style_image</span><span class="p">,</span> <span class="p">((</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="n">style_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">style_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">style_image</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='5-3'></a></p>
+</section>
+<section id="randomly-initialize-the-image-to-be-generated">
+<h3>5.3 Randomly Initialize the Image to be Generated<a class="headerlink" href="#randomly-initialize-the-image-to-be-generated" title="Link to this heading">#</a></h3>
+<p>Now, you get to initialize the “generated” image as a noisy image created from the content_image.</p>
+<ul class="simple">
+<li><p>The generated image is slightly correlated with the content image.</p></li>
+<li><p>By initializing the pixels of the generated image to be mostly noise but slightly correlated with the content image, this will help the content of the “generated” image more rapidly match the content of the “content” image.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">generated_image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">convert_image_dtype</span><span class="p">(</span><span class="n">content_image</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">generated_image</span><span class="p">),</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+<span class="n">generated_image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">generated_image</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+<span class="n">generated_image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">clip_by_value</span><span class="p">(</span><span class="n">generated_image</span><span class="p">,</span> <span class="n">clip_value_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">clip_value_max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">generated_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">generated_image</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='5-4'></a></p>
+</section>
+</section>
+<section id="load-pre-trained-vgg19-model">
+<h2>5.4 - Load Pre-trained VGG19 Model<a class="headerlink" href="#load-pre-trained-vgg19-model" title="Link to this heading">#</a></h2>
+<p>Next, as explained in <a class="reference internal" href="#part(2)"><span class="xref myst">part(2)</span></a>, define a function which loads the VGG19 model and returns a list of the outputs for the middle layers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_layer_outputs</span><span class="p">(</span><span class="n">vgg</span><span class="p">,</span> <span class="n">layer_names</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Creates a vgg model that returns a list of intermediate output values.&quot;&quot;&quot;</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">vgg</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">output</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layer_names</span><span class="p">]</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">([</span><span class="n">vgg</span><span class="o">.</span><span class="n">input</span><span class="p">],</span> <span class="n">outputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, define the content layer and build the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">content_layer</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;block5_conv4&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">vgg_model_outputs</span> <span class="o">=</span> <span class="n">get_layer_outputs</span><span class="p">(</span><span class="n">vgg</span><span class="p">,</span> <span class="n">STYLE_LAYERS</span> <span class="o">+</span> <span class="n">content_layer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Save the outputs for the content and style layers in separate variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">content_target</span> <span class="o">=</span> <span class="n">vgg_model_outputs</span><span class="p">(</span><span class="n">content_image</span><span class="p">)</span>  <span class="c1"># Content encoder</span>
+<span class="n">style_targets</span> <span class="o">=</span> <span class="n">vgg_model_outputs</span><span class="p">(</span><span class="n">style_image</span><span class="p">)</span>     <span class="c1"># Style encoder</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='5-5'></a></p>
+<section id="compute-total-cost">
+<h3>5.5 - Compute Total Cost<a class="headerlink" href="#compute-total-cost" title="Link to this heading">#</a></h3>
+<p><a name='5-5-1'></a></p>
+<section id="compute-the-content-image-encoding-a-c">
+<h4>5.5.1 - Compute the Content image Encoding (a_C)<a class="headerlink" href="#compute-the-content-image-encoding-a-c" title="Link to this heading">#</a></h4>
+<p>You’ve built the model, and now to compute the content cost, you will encode your content image using the appropriate hidden layer activations. Set this encoding to the variable <code class="docutils literal notranslate"><span class="pre">a_C</span></code>. Later in the assignment, you will need to do the same for the generated image, by setting the variable <code class="docutils literal notranslate"><span class="pre">a_G</span></code> to be the appropriate hidden layer activations. You will use layer <code class="docutils literal notranslate"><span class="pre">block5_conv4</span></code> to compute the encoding. The code below does the following:</p>
+<ol class="arabic simple">
+<li><p>Set a_C to be the tensor giving the hidden layer activation for layer “block5_conv4” using the content image.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assign the content image to be the input of the VGG model.  </span>
+<span class="c1"># Set a_C to be the hidden layer activation from the layer we have selected</span>
+<span class="n">preprocessed_content</span> <span class="o">=</span>  <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">convert_image_dtype</span><span class="p">(</span><span class="n">content_image</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<span class="n">a_C</span> <span class="o">=</span> <span class="n">vgg_model_outputs</span><span class="p">(</span><span class="n">preprocessed_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='5-5-2'></a></p>
+</section>
+<section id="compute-the-style-image-encoding-a-s">
+<h4>5.5.2 - Compute the Style image Encoding (a_S)<a class="headerlink" href="#compute-the-style-image-encoding-a-s" title="Link to this heading">#</a></h4>
+<p>The code below sets a_S to be the tensor giving the hidden layer activation for <code class="docutils literal notranslate"><span class="pre">STYLE_LAYERS</span></code> using our style image.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assign the input of the model to be the &quot;style&quot; image </span>
+<span class="n">preprocessed_style</span> <span class="o">=</span>  <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">convert_image_dtype</span><span class="p">(</span><span class="n">style_image</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<span class="n">a_S</span> <span class="o">=</span> <span class="n">vgg_model_outputs</span><span class="p">(</span><span class="n">preprocessed_style</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Below are the utils that you will need to display the images generated by the style transfer model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">clip_0_1</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Truncate all the pixels in the tensor to be between 0 and 1</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    image -- Tensor</span>
+<span class="sd">    J_style -- style cost coded above</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    Tensor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">clip_by_value</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">clip_value_min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">clip_value_max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tensor_to_image</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the given tensor into a PIL image</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    tensor -- Tensor</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    Image: A PIL image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span> <span class="o">*</span> <span class="mi">255</span>
+    <span class="n">tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='ex-6'></a></p>
+</section>
+</section>
+<section id="exercise-6-train-step">
+<h3>Exercise 6 - train_step<a class="headerlink" href="#exercise-6-train-step" title="Link to this heading">#</a></h3>
+<p>Implement the train_step() function for transfer learning</p>
+<ul class="simple">
+<li><p>Use the Adam optimizer to minimize the total cost <code class="docutils literal notranslate"><span class="pre">J</span></code>.</p></li>
+<li><p>Use a learning rate of 0.01</p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam">Adam Optimizer documentation</a></p></li>
+<li><p>You will use <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/GradientTape">tf.GradientTape</a> to update the image. (<a class="reference external" href="https://www.coursera.org/learn/deep-neural-network/programming/fuJJY/tensorflow-introduction">Course 2 Week 3: TensorFlow Introduction Assignment</a>)</p></li>
+<li><p>Within the tf.GradientTape():</p>
+<ul>
+<li><p>Compute the encoding of the generated image using vgg_model_outputs. Assign the result to a_G.</p></li>
+<li><p>Compute the total cost J, using the global variables a_C, a_S and the local a_G</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">=</span> <span class="pre">10</span></code> and <code class="docutils literal notranslate"><span class="pre">beta</span> <span class="pre">=</span> <span class="pre">40</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C5</span>
+<span class="c1"># GRADED FUNCTION: train_step</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="nd">@tf</span><span class="o">.</span><span class="n">function</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">train_step</span><span class="p">(</span><span class="n">generated_image</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="c1"># In this function you must use the precomputed encoded images a_S and a_C</span>
+        
+        <span class="c1">### START CODE HERE</span>
+        
+        <span class="c1"># Compute a_G as the vgg_model_outputs for the current generated image</span>
+        <span class="c1">#(1 line)</span>
+        <span class="n">a_G</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Compute the style cost</span>
+        <span class="c1">#(1 line)</span>
+        <span class="n">J_style</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">#(2 lines)</span>
+        <span class="c1"># Compute the content cost</span>
+        <span class="n">J_content</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Compute the total cost</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1">### END CODE HERE</span>
+        
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">generated_image</span><span class="p">)</span>
+
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">([(</span><span class="n">grad</span><span class="p">,</span> <span class="n">generated_image</span><span class="p">)])</span>
+    <span class="n">generated_image</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">clip_0_1</span><span class="p">(</span><span class="n">generated_image</span><span class="p">))</span>
+    <span class="c1"># For grading purposes</span>
+    <span class="k">return</span> <span class="n">J</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### you cannot edit this cell</span>
+
+<span class="c1"># You always must run the last cell before this one. You will get an error if not.</span>
+
+<span class="n">generated_image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">generated_image</span><span class="p">)</span>
+
+<span class="n">train_step_test</span><span class="p">(</span><span class="n">train_step</span><span class="p">,</span> <span class="n">generated_image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">25700.346</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">17778.389</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Looks like it’s working! Now you’ll get to put it all together into one function to better see your results!</p>
+<p><a name='5-6'></a></p>
+</section>
+<section id="train-the-model">
+<h3>5.6 - Train the Model<a class="headerlink" href="#train-the-model" title="Link to this heading">#</a></h3>
+<p>Run the following cell to generate an artistic image. It should take about 3min on a GPU for 2500 iterations. Neural Style Transfer is generally trained using GPUs.</p>
+<p>If you increase the learning rate you can speed up the style transfer, but often at the cost of quality.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show the generated image at some epochs</span>
+<span class="c1"># Uncomment to reset the style transfer process. You will need to compile the train_step function again </span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">2501</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">train_step</span><span class="p">(</span><span class="n">generated_image</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">250</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">250</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">tensor_to_image</span><span class="p">(</span><span class="n">generated_image</span><span class="p">)</span>
+        <span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;output/image_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.jpg&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, run the following code cell to see the results!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show the 3 images in a row</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">content_image</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;Content image&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">style_image</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;Style image&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">generated_image</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;Generated image&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Look at that! You did it! The <code class="docutils literal notranslate"><span class="pre">Generated</span> <span class="pre">image</span></code> on the right is the image you generated with the model.</p>
+<p><strong>Note 1:</strong> These are the results of you training the model with a <code class="docutils literal notranslate"><span class="pre">learning_rate=0.01</span></code> (which was set in <code class="docutils literal notranslate"><span class="pre">Ex</span> <span class="pre">6</span></code>) and ran it for <code class="docutils literal notranslate"><span class="pre">epochs</span> <span class="pre">=</span> <span class="pre">2501</span></code> (set in <code class="docutils literal notranslate"><span class="pre">Section</span> <span class="pre">5.6</span></code>). If you want to look at the in between results after every 250 epochs, click on <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">--&gt;</span> <span class="pre">Open...</span></code>. The go to <code class="docutils literal notranslate"><span class="pre">/output</span></code> directory to see all of the saved images.</p>
+<p><strong>Note 2:</strong> The hyperparameters (<code class="docutils literal notranslate"><span class="pre">learning_rate=0.01</span></code> and <code class="docutils literal notranslate"><span class="pre">epochs</span> <span class="pre">=</span> <span class="pre">2501</span></code>) were set to these values so that you didn’t have to wait too long to see an initial result. To get the best looking results, you may want to try running the optimization algorithm longer (and perhaps with a smaller learning rate). <strong>After completing, submitting and getting your desired grade for this assignment with these hyperparameters (<code class="docutils literal notranslate"><span class="pre">learning_rate=0.01</span></code> and <code class="docutils literal notranslate"><span class="pre">epochs</span> <span class="pre">=</span> <span class="pre">2501</span></code>)</strong>, you can come back and play more with this notebook, and see if you can generate even better looking images. Running for around <code class="docutils literal notranslate"><span class="pre">epochs</span> <span class="pre">=</span> <span class="pre">20000</span></code> with a <code class="docutils literal notranslate"><span class="pre">learning_rate=0.001</span></code>, you should see something like the image presented below on the right. But first, give yourself a pat on the back for finishing this long assignment!</p>
+<img src="/C4_W4/images/louvre_generated.png" style="width:800px;height:300px;"><p>Here are few other examples:</p>
+<ul class="simple">
+<li><p>The beautiful ruins of the ancient city of Persepolis (Iran) with the style of Van Gogh (The Starry Night)
+<img src="/C4_W4/images/perspolis_vangogh.png" style="width:750px;height:300px;"></p></li>
+<li><p>The tomb of Cyrus the great in Pasargadae with the style of a Ceramic Kashi from Ispahan.
+<img src="/C4_W4/images/pasargad_kashi.png" style="width:750px;height:300px;"></p></li>
+<li><p>A scientific study of a turbulent fluid with the style of a abstract blue fluid painting.
+<img src="/C4_W4/images/circle_abstract.png" style="width:750px;height:300px;"></p></li>
+</ul>
+</section>
+</section>
+<section id="free-up-resources-for-other-learners">
+<h2>Free Up Resources for Other Learners<a class="headerlink" href="#free-up-resources-for-other-learners" title="Link to this heading">#</a></h2>
+<p>If you don’t plan on continuing to the next <code class="docutils literal notranslate"><span class="pre">Optional</span></code> section, help us to provide our learners a smooth learning experience, by freeing up the resources used by your assignment by running the cell below so that the other learners can take advantage of those resources just as much as you did. Thank you!</p>
+<p><strong>Note</strong>:</p>
+<ul class="simple">
+<li><p>Run the cell below when you are done with the assignment and are ready to submit it for grading.</p></li>
+<li><p>When you’ll run it, a pop up will open, click <code class="docutils literal notranslate"><span class="pre">Ok</span></code>.</p></li>
+<li><p>Running the cell will <code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">the</span> <span class="pre">kernel</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%javascript</span>
+<span class="nx">IPython</span><span class="p">.</span><span class="nx">notebook</span><span class="p">.</span><span class="nx">save_checkpoint</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">confirm</span><span class="p">(</span><span class="s2">&quot;Clear memory?&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nx">IPython</span><span class="p">.</span><span class="nx">notebook</span><span class="p">.</span><span class="nx">kernel</span><span class="p">.</span><span class="nx">restart</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='6'></a></p>
+</section>
+<section id="test-with-your-own-image-optional-ungraded">
+<h2>6 - Test With Your Own Image (Optional/Ungraded)<a class="headerlink" href="#test-with-your-own-image-optional-ungraded" title="Link to this heading">#</a></h2>
+<p>Finally, you can also rerun the algorithm on your own images!</p>
+<p>To do so, go back to <code class="docutils literal notranslate"><span class="pre">Section</span> <span class="pre">5</span></code> and change the content image and style image with your own pictures. In detail, here’s what you should do:</p>
+<ol class="arabic simple">
+<li><p>Click on <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Open</span></code> in the upper tab of the notebook</p></li>
+<li><p>Go to <code class="docutils literal notranslate"><span class="pre">/images</span></code> and upload your images (images will scaled to 400x400, but you can change that parameter too in section 2), rename them <code class="docutils literal notranslate"><span class="pre">my_content.png</span></code> and <code class="docutils literal notranslate"><span class="pre">my_style.png</span></code> for example.</p></li>
+<li><p>Change the code in <a class="reference internal" href="#5-1"><span class="xref myst">Section 5</span></a> from :</p></li>
+</ol>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">content_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/louvre_small.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">)))</span>
+<span class="n">style_image</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/monet.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">)))</span>
+
+</pre></div>
+</div>
+<p>  to:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">content_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/my_content.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">)))</span>
+<span class="n">style_image</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/my_style.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_size</span><span class="p">,</span> <span class="n">img_size</span><span class="p">)))</span>
+
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Rerun the cells (you may need to restart the Kernel in the upper tab of the notebook).</p></li>
+</ol>
+<p>You can share your generated images with us on social media with the hashtag #deeplearningAI or by tagging us directly!</p>
+<p>Here are some ideas on how to tune your hyperparameters:</p>
+<ul class="simple">
+<li><p>To select different layers to represent the style, redefine <code class="docutils literal notranslate"><span class="pre">STYLE_LAYERS</span></code></p></li>
+<li><p>To alter the number of iterations you want to run the algorithm, try changing <code class="docutils literal notranslate"><span class="pre">epochs</span></code> given in Section 5.6.</p></li>
+<li><p>To alter the relative weight of content versus style, try altering alpha and beta values</p></li>
+</ul>
+<p>Happy coding!</p>
+</section>
+<section id="id1">
+<h2>Free Up Resources for Other Learners<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>In order to provide our learners a smooth learning experience, please free up the resources used by your assignment by running the cell below so that the other learners can take advantage of those resources just as much as you did. Thank you!</p>
+<p><strong>Note</strong>:</p>
+<ul class="simple">
+<li><p>Run the cell below when you are done with the assignment and are ready to submit it for grading.</p></li>
+<li><p>When you’ll run it, a pop up will open, click <code class="docutils literal notranslate"><span class="pre">Ok</span></code>.</p></li>
+<li><p>Running the cell will <code class="docutils literal notranslate"><span class="pre">restart</span> <span class="pre">the</span> <span class="pre">kernel</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%javascript</span>
+<span class="nx">IPython</span><span class="p">.</span><span class="nx">notebook</span><span class="p">.</span><span class="nx">save_checkpoint</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">confirm</span><span class="p">(</span><span class="s2">&quot;Clear memory?&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nx">IPython</span><span class="p">.</span><span class="nx">notebook</span><span class="p">.</span><span class="nx">kernel</span><span class="p">.</span><span class="nx">restart</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="conclusion">
+<h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h3>
+<p>Great job on completing this assignment! You are now able to use Neural Style Transfer to generate artistic images. This is also your first time building a model in which the optimization algorithm updates the pixel values rather than the neural network’s parameters. Deep learning has many different types of models and this is only one of them!</p>
+<font color = 'blue'>
+</section>
+</section>
+<section id="what-you-should-remember">
+<h2>What you should remember<a class="headerlink" href="#what-you-should-remember" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Neural Style Transfer is an algorithm that given a content image C and a style image S can generate an artistic image</p></li>
+<li><p>It uses representations (hidden layer activations) based on a pretrained ConvNet.</p></li>
+<li><p>The content cost function is computed using one hidden layer’s activations.</p></li>
+<li><p>The style cost function for one layer is computed using the Gram matrix of that layer’s activations. The overall style cost function is obtained using several hidden layers.</p></li>
+<li><p>Optimizing the total cost function results in synthesizing new images.</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="congratulations-on-finishing-the-course">
+<h1>Congratulations on finishing the course!<a class="headerlink" href="#congratulations-on-finishing-the-course" title="Link to this heading">#</a></h1>
+<p>This was the final programming exercise of this course. Congratulations - you’ve finished all the programming exercises of this course on Convolutional Networks! See you in Course 5, Sequence Models!</p>
+<p><a name='7'></a></p>
+<section id="references">
+<h2>7 - References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>The Neural Style Transfer algorithm was due to Gatys et al. (2015). Harish Narayanan and Github user “log0” also have highly readable write-ups this lab was inspired by. The pre-trained network used in this implementation is a VGG network, which is due to Simonyan and Zisserman (2015). Pre-trained weights were from the work of the MathConvNet team.</p>
+<ul class="simple">
+<li><p>Leon A. Gatys, Alexander S. Ecker, Matthias Bethge, (2015). <a class="reference external" href="https://arxiv.org/abs/1508.06576">A Neural Algorithm of Artistic Style</a></p></li>
+<li><p>Harish Narayanan, <a class="reference external" href="https://harishnarayanan.org/writing/artistic-style-transfer/">Convolutional neural networks for artistic style transfer.</a></p></li>
+<li><p>Log0, <a class="reference external" href="http://www.chioka.in/tensorflow-implementation-neural-algorithm-of-artistic-style">TensorFlow Implementation of “A Neural Algorithm of Artistic Style”.</a></p></li>
+<li><p>Karen Simonyan and Andrew Zisserman (2015). <a class="reference external" href="https://arxiv.org/pdf/1409.1556.pdf">Very deep convolutional networks for large-scale image recognition</a></p></li>
+<li><p><a class="reference external" href="http://www.vlfeat.org/matconvnet/pretrained/">MatConvNet.</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C4_W4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Deep Learning &amp; Art: Neural Style Transfer</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2 - Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-learning">3 - Transfer Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-style-transfer-nst">4 - Neural Style Transfer (NST)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-content-cost">4.1 - Computing the Content Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#make-generated-image-g-match-the-content-of-image-c">4.1.1 - Make Generated Image G Match the Content of Image C</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#to-choose-a-middle-activation-layer-a-l">To choose a “middle” activation layer <span class="math notranslate nohighlight">\(a^{[l]}\)</span> :</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#to-forward-propagate-image-c">To forward propagate image “C:”</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#to-forward-propagate-image-g">To forward propagate image “G”:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#content-cost-function-j-content-c-g">4.1.2 - Content Cost Function <span class="math notranslate nohighlight">\(J_{content}(C,G)\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-compute-content-cost">Exercise 1 - compute_content_cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints-for-unrolling">Additional Hints for “Unrolling”</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-style-cost">4.2 - Computing the Style Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#style-matrix">4.2.1 - Style Matrix</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gram-matrix">Gram matrix</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#two-meanings-of-the-variable-g">Two meanings of the variable <span class="math notranslate nohighlight">\(G\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-gram-matrix-g-gram">Compute Gram matrix <span class="math notranslate nohighlight">\(G_{gram}\)</span></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#g-gram-ij-correlation"><span class="math notranslate nohighlight">\(G_{(gram)ij}\)</span>: correlation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#g-gram-ii-prevalence-of-patterns-or-textures"><span class="math notranslate nohighlight">\(G_{(gram),ii}\)</span>: prevalence of patterns or textures</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-gram-matrix">Exercise 2 - gram_matrix</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#style-cost">4.2.2 - Style Cost</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-compute-layer-style-cost">Exercise 3 - compute_layer_style_cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints">Additional Hints</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#style-weights">4.2.3 Style Weights</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-compute-style-cost">Exercise 4 -  compute_style_cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#description-of-compute-style-cost">Description of <code class="docutils literal notranslate"><span class="pre">compute_style_cost</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-total-cost-to-optimize">4.3 - Defining the Total Cost to Optimize</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-total-cost">Exercise 5 - total_cost</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-the-optimization-problem">5 - Solving the Optimization Problem</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-content-image">5.1 Load the Content Image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-style-image">5.2 Load the Style Image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#randomly-initialize-the-image-to-be-generated">5.3 Randomly Initialize the Image to be Generated</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-pre-trained-vgg19-model">5.4 - Load Pre-trained VGG19 Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-total-cost">5.5 - Compute Total Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-content-image-encoding-a-c">5.5.1 - Compute the Content image Encoding (a_C)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-style-image-encoding-a-s">5.5.2 - Compute the Style image Encoding (a_S)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-train-step">Exercise 6 - train_step</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">5.6 - Train the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#free-up-resources-for-other-learners">Free Up Resources for Other Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-with-your-own-image-optional-ungraded">6 - Test With Your Own Image (Optional/Ungraded)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Free Up Resources for Other Learners</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-should-remember">What you should remember</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-on-finishing-the-course">Congratulations on finishing the course!</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">7 - References</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

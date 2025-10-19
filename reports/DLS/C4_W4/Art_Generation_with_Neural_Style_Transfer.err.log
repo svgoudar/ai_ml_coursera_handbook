@@ -1,0 +1,58 @@
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+### you cannot edit this cell
+
+compute_content_cost_test(compute_content_cost)
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mTypeError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 3[39m
+[32m      1[39m [38;5;66;03m### you cannot edit this cell[39;00m
+[32m----> [39m[32m3[39m [43mcompute_content_cost_test[49m[43m([49m[43mcompute_content_cost[49m[43m)[49m
+
+[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\DLS\C4_W4\public_tests.py:10[39m, in [36mcompute_content_cost_test[39m[34m(target)[39m
+[32m      8[39m a_C = tf.random.normal([[32m1[39m, [32m1[39m, [32m4[39m, [32m4[39m, [32m3[39m], mean=[32m1[39m, stddev=[32m4[39m)
+[32m      9[39m a_G = tf.random.normal([[32m1[39m, [32m1[39m, [32m4[39m, [32m4[39m, [32m3[39m], mean=[32m1[39m, stddev=[32m4[39m)
+[32m---> [39m[32m10[39m J_content = [43mtarget[49m[43m([49m[43ma_C[49m[43m,[49m[43m [49m[43ma_G[49m[43m)[49m
+[32m     11[39m J_content_0 = target(a_C, a_C)
+[32m     12[39m [38;5;28;01massert[39;00m [38;5;28mtype[39m(J_content) == EagerTensor, [33m"[39m[33mUse the tensorflow function[39m[33m"[39m
+
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 21[39m, in [36mcompute_content_cost[39m[34m(content_output, generated_output)[39m
+[32m     16[39m a_G = generated_output[-[32m1[39m]
+[32m     18[39m [38;5;66;03m### START CODE HERE[39;00m
+[32m     19[39m 
+[32m     20[39m [38;5;66;03m# Retrieve dimensions from a_G (≈1 line)[39;00m
+[32m---> [39m[32m21[39m _, n_H, n_W, n_C = [38;5;28;01mNone[39;00m
+[32m     23[39m [38;5;66;03m# Reshape 'a_C' and 'a_G' (≈2 lines)[39;00m
+[32m     24[39m [38;5;66;03m# DO NOT reshape 'content_output' or 'generated_output'[39;00m
+[32m     25[39m a_C_unrolled = [38;5;28;01mNone[39;00m
+
+[31mTypeError[39m: cannot unpack non-iterable NoneType object
+

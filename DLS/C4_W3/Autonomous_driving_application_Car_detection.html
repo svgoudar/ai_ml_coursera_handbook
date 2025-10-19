@@ -1,0 +1,2006 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Autonomous Driving - Car Detection &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C4_W3/Autonomous_driving_application_Car_detection';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C4_W3/Autonomous_driving_application_Car_detection.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C4_W3/Autonomous_driving_application_Car_detection.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C4_W3/Autonomous_driving_application_Car_detection.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Autonomous Driving - Car Detection</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">1 - Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yolo">2 - YOLO</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-details">2.1 - Model Details</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-and-outputs">Inputs and outputs</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#anchor-boxes">Anchor Boxes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding">Encoding</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-score">Class score</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-figure-4">Example of figure 4</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-classes">Visualizing classes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-bounding-boxes">Visualizing bounding boxes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#non-max-suppression">Non-Max suppression</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-with-a-threshold-on-class-scores">2.2 - Filtering with a Threshold on Class Scores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-yolo-filter-boxes">Exercise 1 - yolo_filter_boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.3 - Non-max Suppression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-iou">Exercise 2 - iou</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yolo-non-max-suppression">2.4 - YOLO Non-max Suppression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-yolo-non-max-suppression">Exercise 3 - yolo_non_max_suppression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up-the-filtering">2.5 - Wrapping Up the Filtering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-yolo-eval">Exercise 4 - yolo_eval</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-yolo-pre-trained-model-on-images">3 - Test YOLO Pre-trained Model on Images</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-classes-anchors-and-image-shape">3.1 - Defining Classes, Anchors and Image Shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-pre-trained-model">3.2 - Loading a Pre-trained Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-output-of-the-model-to-usable-bounding-box-tensors">3.3 - Convert Output of the Model to Usable Bounding Box Tensors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-boxes">3.4 - Filtering Boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-yolo-on-an-image">3.5 - Run the YOLO on an Image</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-for-yolo">4 - Summary for YOLO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5 - References</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#car-detection-dataset">Car detection dataset</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="autonomous-driving-car-detection">
+<h1>Autonomous Driving - Car Detection<a class="headerlink" href="#autonomous-driving-car-detection" title="Link to this heading">#</a></h1>
+<p>Welcome to the Week 3 programming assignment! In this notebook, you’ll implement object detection using the very powerful YOLO model. Many of the ideas in this notebook are described in the two YOLO papers: <a class="reference external" href="https://arxiv.org/abs/1506.02640">Redmon et al., 2016</a> and <a class="reference external" href="https://arxiv.org/abs/1612.08242">Redmon and Farhadi, 2016</a>.</p>
+<p><strong>By the end of this assignment, you’ll be able to</strong>:</p>
+<ul class="simple">
+<li><p>Detect objects in a car detection dataset</p></li>
+<li><p>Implement non-max suppression to increase accuracy</p></li>
+<li><p>Implement intersection over union</p></li>
+<li><p>Handle bounding boxes, a type of image annotation popular in deep learning</p></li>
+</ul>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/convolutional-neural-networks/supplement/b6TbJ/optional-downloading-your-notebook-downloading-your-workspace-and-refreshing">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#0"><span class="xref myst">Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Problem Statement</span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - YOLO</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2-1"><span class="xref myst">2.1 - Model Details</span></a></p></li>
+<li><p><a class="reference internal" href="#2-2"><span class="xref myst">2.2 - Filtering with a Threshold on Class Scores</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - yolo_filter_boxes</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-3"><span class="xref myst">2.3 - Non-max Suppression</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - iou</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-4"><span class="xref myst">2.4 - YOLO Non-max Suppression</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - yolo_non_max_suppression</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-5"><span class="xref myst">2.5 - Wrapping Up the Filtering</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-4"><span class="xref myst">Exercise 4 - yolo_eval</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Test YOLO Pre-trained Model on Images</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - Defining Classes, Anchors and Image Shape</span></a></p></li>
+<li><p><a class="reference internal" href="#3-2"><span class="xref myst">3.2 - Loading a Pre-trained Model</span></a></p></li>
+<li><p><a class="reference internal" href="#3-3"><span class="xref myst">3.3 - Convert Output of the Model to Usable Bounding Box Tensors</span></a></p></li>
+<li><p><a class="reference internal" href="#3-4"><span class="xref myst">3.4 - Filtering Boxes</span></a></p></li>
+<li><p><a class="reference internal" href="#3-5"><span class="xref myst">3.5 - Run the YOLO on an Image</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Summary for YOLO</span></a></p></li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - References</span></a></p></li>
+</ul>
+<p><a name='0'></a></p>
+</section>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>Run the following cell to load the packages and dependencies that will come in handy as you build the object detector!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v2.1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">imshow</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.misc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">PIL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageFont</span><span class="p">,</span> <span class="n">ImageDraw</span><span class="p">,</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.python.framework.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">EagerTensor</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yad2k.models.keras_yolo</span><span class="w"> </span><span class="kn">import</span> <span class="n">yolo_head</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">yad2k.utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw_boxes</span><span class="p">,</span> <span class="n">get_colors_for_classes</span><span class="p">,</span> <span class="n">scale_boxes</span><span class="p">,</span> <span class="n">read_classes</span><span class="p">,</span> <span class="n">read_anchors</span><span class="p">,</span> <span class="n">preprocess_image</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\sangouda\AppData\Local\Temp\ipykernel_32876\1613439058.py:6: DeprecationWarning: scipy.misc is deprecated and will be removed in 2.0.0
+  import scipy.misc
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='1'></a></p>
+</section>
+<section id="problem-statement">
+<h2>1 - Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h2>
+<p>You are working on a self-driving car. Go you! As a critical component of this project, you’d like to first build a car detection system. To collect data, you’ve mounted a camera to the hood (meaning the front) of the car, which takes pictures of the road ahead every few seconds as you drive around.</p>
+<center>
+<video width="400" height="200" src="/C4_W3/images/road_video_compressed2.mp4" type="video/mp4" controls>
+</video>
+</center>
+<caption><center> Pictures taken from a car-mounted camera while driving around Silicon Valley. <br> Dataset provided by <a href="https://www.drive.ai/">drive.ai</a>.
+</center></caption>
+<p>You’ve gathered all these images into a folder and labelled them by drawing bounding boxes around every car you found. Here’s an example of what your bounding boxes look like:</p>
+<img src="/C4_W3/images/box_label.png" style="width:500px;height:250;">
+<caption><center> <u><b>Figure 1</u></b>: Definition of a box<br> </center></caption>
+<p>If there are 80 classes you want the object detector to recognize, you can represent the class label <span class="math notranslate nohighlight">\(c\)</span> either as an integer from 1 to 80, or as an 80-dimensional vector (with 80 numbers) one component of which is 1, and the rest of which are 0. The video lectures used the latter representation; in this notebook, you’ll use both representations, depending on which is more convenient for a particular step.</p>
+<p>In this exercise, you’ll discover how YOLO (“You Only Look Once”) performs object detection, and then apply it to car detection. Because the YOLO model is very computationally expensive to train, the pre-trained weights are already loaded for you to use.</p>
+<p><a name='2'></a></p>
+</section>
+<section id="yolo">
+<h2>2 - YOLO<a class="headerlink" href="#yolo" title="Link to this heading">#</a></h2>
+<p>“You Only Look Once” (YOLO) is a popular algorithm because it achieves high accuracy while also being able to run in real time. This algorithm “only looks once” at the image in the sense that it requires only one forward propagation pass through the network to make predictions. After non-max suppression, it then outputs recognized objects together with the bounding boxes.</p>
+<p><a name='2-1'></a></p>
+<section id="model-details">
+<h3>2.1 - Model Details<a class="headerlink" href="#model-details" title="Link to this heading">#</a></h3>
+<section id="inputs-and-outputs">
+<h4>Inputs and outputs<a class="headerlink" href="#inputs-and-outputs" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>The <strong>input</strong> is a batch of images, and each image has the shape (608, 608, 3)</p></li>
+<li><p>The <strong>output</strong> is a list of bounding boxes along with the recognized classes. Each bounding box is represented by 6 numbers <span class="math notranslate nohighlight">\((p_c, b_x, b_y, b_h, b_w, c)\)</span> as explained above. If you expand <span class="math notranslate nohighlight">\(c\)</span> into an 80-dimensional vector, each bounding box is then represented by 85 numbers.</p></li>
+</ul>
+</section>
+<section id="anchor-boxes">
+<h4>Anchor Boxes<a class="headerlink" href="#anchor-boxes" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Anchor boxes are chosen by exploring the training data to choose reasonable height/width ratios that represent the different classes.  For this assignment, 5 anchor boxes were chosen for you (to cover the 80 classes), and stored in the file ‘./model_data/yolo_anchors.txt’</p></li>
+<li><p>The dimension of the encoding tensor of the second to last dimension based on the anchor boxes is <span class="math notranslate nohighlight">\((m, n_H,n_W,anchors,classes)\)</span>.</p></li>
+<li><p>The YOLO architecture is: IMAGE (m, 608, 608, 3) -&gt; DEEP CNN -&gt; ENCODING (m, 19, 19, 5, 85).</p></li>
+</ul>
+</section>
+<section id="encoding">
+<h4>Encoding<a class="headerlink" href="#encoding" title="Link to this heading">#</a></h4>
+<p>Let’s look in greater detail at what this encoding represents.</p>
+<img src="/C4_W3/images/architecture.png" style="width:700px;height:400;">
+<caption><center> <u><b> Figure 2 </u></b>: Encoding architecture for YOLO<br> </center></caption>
+<p>If the center/midpoint of an object falls into a grid cell, that grid cell is responsible for detecting that object.</p>
+<p>Since you’re using 5 anchor boxes, each of the 19 x19 cells thus encodes information about 5 boxes. Anchor boxes are defined only by their width and height.</p>
+<p>For simplicity, you’ll flatten the last two dimensions of the shape (19, 19, 5, 85) encoding, so the output of the Deep CNN is (19, 19, 425).</p>
+<img src="/C4_W3/images/flatten.png" style="width:700px;height:400;">
+<caption><center> <u><b> Figure 3 </u></b>: Flattening the last two last dimensions<br> </center></caption></section>
+<section id="class-score">
+<h4>Class score<a class="headerlink" href="#class-score" title="Link to this heading">#</a></h4>
+<p>Now, for each box (of each cell) you’ll compute the following element-wise product and extract a probability that the box contains a certain class.<br />
+The class score is <span class="math notranslate nohighlight">\(score_{c,i} = p_{c} \times c_{i}\)</span>: the probability that there is an object <span class="math notranslate nohighlight">\(p_{c}\)</span> times the probability that the object is a certain class <span class="math notranslate nohighlight">\(c_{i}\)</span>.</p>
+<img src="/C4_W3/images/probability_extraction.png" style="width:700px;height:400;">
+<caption><center> <u><b>Figure 4</u></b>: Find the class detected by each box<br> </center></caption>
+<section id="example-of-figure-4">
+<h5>Example of figure 4<a class="headerlink" href="#example-of-figure-4" title="Link to this heading">#</a></h5>
+<ul class="simple">
+<li><p>In figure 4, let’s say for box 1 (cell 1), the probability that an object exists is <span class="math notranslate nohighlight">\(p_{1}=0.60\)</span>.  So there’s a 60% chance that an object exists in box 1 (cell 1).</p></li>
+<li><p>The probability that the object is the class “category 3 (a car)” is <span class="math notranslate nohighlight">\(c_{3}=0.73\)</span>.</p></li>
+<li><p>The score for box 1 and for category “3” is <span class="math notranslate nohighlight">\(score_{1,3}=0.60 \times 0.73 = 0.44\)</span>.</p></li>
+<li><p>Let’s say you calculate the score for all 80 classes in box 1, and find that the score for the car class (class 3) is the maximum.  So you’ll assign the score 0.44 and class “3” to this box “1”.</p></li>
+</ul>
+</section>
+</section>
+<section id="visualizing-classes">
+<h4>Visualizing classes<a class="headerlink" href="#visualizing-classes" title="Link to this heading">#</a></h4>
+<p>Here’s one way to visualize what YOLO is predicting on an image:</p>
+<ul class="simple">
+<li><p>For each of the 19x19 grid cells, find the maximum of the probability scores (taking a max across the 80 classes, one maximum for each of the 5 anchor boxes).</p></li>
+<li><p>Color that grid cell according to what object that grid cell considers the most likely.</p></li>
+</ul>
+<p>Doing this results in this picture:</p>
+<img src="/C4_W3/images/proba_map.png" style="width:300px;height:300;">
+<caption><center> <u><b>Figure 5</u></b>: Each one of the 19x19 grid cells is colored according to which class has the largest predicted probability in that cell.<br> </center></caption>
+<p>Note that this visualization isn’t a core part of the YOLO algorithm itself for making predictions; it’s just a nice way of visualizing an intermediate result of the algorithm.</p>
+</section>
+<section id="visualizing-bounding-boxes">
+<h4>Visualizing bounding boxes<a class="headerlink" href="#visualizing-bounding-boxes" title="Link to this heading">#</a></h4>
+<p>Another way to visualize YOLO’s output is to plot the bounding boxes that it outputs. Doing that results in a visualization like this:</p>
+<img src="/C4_W3/images/anchor_map.png" style="width:200px;height:200;">
+<caption><center> <u><b>Figure 6</u></b>: Each cell gives you 5 boxes. In total, the model predicts: 19x19x5 = 1805 boxes just by looking once at the image (one forward pass through the network)! Different colors denote different classes. <br> </center></caption>
+</section>
+<section id="non-max-suppression">
+<h4>Non-Max suppression<a class="headerlink" href="#non-max-suppression" title="Link to this heading">#</a></h4>
+<p>In the figure above, the only boxes plotted are ones for which the model had assigned a high probability, but this is still too many boxes. You’d like to reduce the algorithm’s output to a much smaller number of detected objects.</p>
+<p>To do so, you’ll use <strong>non-max suppression</strong>. Specifically, you’ll carry out these steps:</p>
+<ul class="simple">
+<li><p>Get rid of boxes with a low score. Meaning, the box is not very confident about detecting a class, either due to the low probability of any object, or low probability of this particular class.</p></li>
+<li><p>Select only one box when several boxes overlap with each other and detect the same object.</p></li>
+</ul>
+<p><a name='2-2'></a></p>
+</section>
+</section>
+<section id="filtering-with-a-threshold-on-class-scores">
+<h3>2.2 - Filtering with a Threshold on Class Scores<a class="headerlink" href="#filtering-with-a-threshold-on-class-scores" title="Link to this heading">#</a></h3>
+<p>You’re going to first apply a filter by thresholding, meaning you’ll get rid of any box for which the class “score” is less than a chosen threshold.</p>
+<p>The model gives you a total of 19x19x5x85 numbers, with each box described by 85 numbers. It’s convenient to rearrange the (19,19,5,85) (or (19,19,425)) dimensional tensor into the following variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">box_confidence</span></code>: tensor of shape <span class="math notranslate nohighlight">\((19, 19, 5, 1)\)</span> containing <span class="math notranslate nohighlight">\(p_c\)</span> (confidence probability that there’s some object) for each of the 5 boxes predicted in each of the 19x19 cells.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boxes</span></code>: tensor of shape <span class="math notranslate nohighlight">\((19, 19, 5, 4)\)</span> containing the midpoint and dimensions <span class="math notranslate nohighlight">\((b_x, b_y, b_h, b_w)\)</span> for each of the 5 boxes in each cell.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">box_class_probs</span></code>: tensor of shape <span class="math notranslate nohighlight">\((19, 19, 5, 80)\)</span> containing the “class probabilities” <span class="math notranslate nohighlight">\((c_1, c_2, ... c_{80})\)</span> for each of the 80 classes for each of the 5 boxes per cell.</p></li>
+</ul>
+<p><a name='ex-1'></a></p>
+</section>
+<section id="exercise-1-yolo-filter-boxes">
+<h3>Exercise 1 - yolo_filter_boxes<a class="headerlink" href="#exercise-1-yolo-filter-boxes" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">yolo_filter_boxes()</span></code>.</p>
+<ol class="arabic simple">
+<li><p>Compute box scores by doing the elementwise product as described in Figure 4 (<span class="math notranslate nohighlight">\(p \times c\)</span>).<br />
+The following code may help you choose the right operator:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="c1"># shape of c will be (19, 19, 5, 80)</span>
+</pre></div>
+</div>
+<p>This is an example of <strong>broadcasting</strong> (multiplying vectors of different sizes).</p>
+<ol class="arabic" start="2">
+<li><p>For each box, find:</p>
+<ul class="simple">
+<li><p>the index of the class with the maximum box score</p></li>
+<li><p>the corresponding box score</p></li>
+</ul>
+<p><strong>Useful References</strong>
+* <a class="reference external" href="https://www.tensorflow.org/versions/r2.3/api_docs/python/tf/math/argmax">tf.math.argmax</a>
+* <a class="reference external" href="https://www.tensorflow.org/versions/r2.3/api_docs/python/tf/math/reduce_max">tf.math.reduce_max</a></p>
+<p><strong>Helpful Hints</strong>
+* For the <code class="docutils literal notranslate"><span class="pre">axis</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">argmax</span></code> and <code class="docutils literal notranslate"><span class="pre">reduce_max</span></code>, if you want to select the <strong>last</strong> axis, one way to do so is to set <code class="docutils literal notranslate"><span class="pre">axis=-1</span></code>.  This is similar to Python array indexing, where you can select the last position of an array using <code class="docutils literal notranslate"><span class="pre">arrayname[-1]</span></code>.
+* Applying <code class="docutils literal notranslate"><span class="pre">reduce_max</span></code> normally collapses the axis for which the maximum is applied.  <code class="docutils literal notranslate"><span class="pre">keepdims=False</span></code> is the default option, and allows that dimension to be removed.  You don’t need to keep the last dimension after applying the maximum here.</p>
+</li>
+<li><p>Create a mask by using a threshold. As a reminder: <code class="docutils literal notranslate"><span class="pre">([0.9,</span> <span class="pre">0.3,</span> <span class="pre">0.4,</span> <span class="pre">0.5,</span> <span class="pre">0.1]</span> <span class="pre">&lt;</span> <span class="pre">0.4)</span></code> returns: <code class="docutils literal notranslate"><span class="pre">[False,</span> <span class="pre">True,</span> <span class="pre">False,</span> <span class="pre">False,</span> <span class="pre">True]</span></code>. The mask should be <code class="docutils literal notranslate"><span class="pre">True</span></code> for the boxes you want to keep.</p></li>
+<li><p>Use TensorFlow to apply the mask to <code class="docutils literal notranslate"><span class="pre">box_class_scores</span></code>, <code class="docutils literal notranslate"><span class="pre">boxes</span></code> and <code class="docutils literal notranslate"><span class="pre">box_classes</span></code> to filter out the boxes you don’t want. You should be left with just the subset of boxes you want to keep.</p>
+<p><strong>One more useful reference</strong>:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.3/api_docs/python/tf/boolean_mask">tf.boolean mask</a></p></li>
+</ul>
+<p><strong>And one more helpful hint</strong>: :)</p>
+<ul class="simple">
+<li><p>For the <code class="docutils literal notranslate"><span class="pre">tf.boolean_mask</span></code>, you can keep the default <code class="docutils literal notranslate"><span class="pre">axis=None</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: yolo_filter_boxes</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">yolo_filter_boxes</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">box_confidence</span><span class="p">,</span> <span class="n">box_class_probs</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">.6</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filters YOLO boxes by thresholding on object and class confidence.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        boxes -- tensor of shape (19, 19, 5, 4)</span>
+<span class="sd">        box_confidence -- tensor of shape (19, 19, 5, 1)</span>
+<span class="sd">        box_class_probs -- tensor of shape (19, 19, 5, 80)</span>
+<span class="sd">        threshold -- real value, if [ highest class probability score &lt; threshold],</span>
+<span class="sd">                     then get rid of the corresponding box</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        scores -- tensor of shape (None,), containing the class probability score for selected boxes</span>
+<span class="sd">        boxes -- tensor of shape (None, 4), containing (b_x, b_y, b_h, b_w) coordinates of selected boxes</span>
+<span class="sd">        classes -- tensor of shape (None,), containing the index of the class detected by the selected boxes</span>
+
+<span class="sd">    Note: &quot;None&quot; is here because you don&#39;t know the exact number of selected boxes, as it depends on the threshold. </span>
+<span class="sd">    For example, the actual output size of scores would be (10,) if there are 10 boxes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE</span>
+    <span class="c1"># Step 1: Compute box scores</span>
+    <span class="c1">##(≈ 1 line)</span>
+    <span class="n">box_scores</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Step 2: Find the box_classes using the max box_scores, keep track of the corresponding score</span>
+    <span class="c1">##(≈ 2 lines)</span>
+    <span class="c1"># IMPORTANT: set axis to -1</span>
+    <span class="n">box_classes</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box_class_scores</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Step 3: Create a filtering mask based on &quot;box_class_scores&quot; by using &quot;threshold&quot;. The mask should have the</span>
+    <span class="c1"># same dimension as box_class_scores, and be True for the boxes you want to keep (with probability &gt;= threshold)</span>
+    <span class="c1">## (≈ 1 line)</span>
+    <span class="n">filtering_mask</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Step 4: Apply the mask to box_class_scores, boxes and box_classes</span>
+    <span class="c1">## (≈ 3 lines)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE</span>
+    
+    <span class="k">return</span> <span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN UNIT TEST</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">box_confidence</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">boxes</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">box_class_probs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="n">yolo_filter_boxes</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">box_confidence</span><span class="p">,</span> <span class="n">box_class_probs</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scores[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;boxes[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;classes[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">classes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scores.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;boxes.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boxes</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;classes.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">classes</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use tensorflow functions&quot;</span>
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">boxes</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use tensorflow functions&quot;</span>
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use tensorflow functions&quot;</span>
+
+<span class="k">assert</span> <span class="n">scores</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1789</span><span class="p">,),</span> <span class="s2">&quot;Wrong shape in scores&quot;</span>
+<span class="k">assert</span> <span class="n">boxes</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1789</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">&quot;Wrong shape in boxes&quot;</span>
+<span class="k">assert</span> <span class="n">classes</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1789</span><span class="p">,),</span> <span class="s2">&quot;Wrong shape in classes&quot;</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="mf">9.270486</span><span class="p">),</span> <span class="s2">&quot;Values are wrong on scores&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mf">4.6399336</span><span class="p">,</span> <span class="mf">3.2303846</span><span class="p">,</span> <span class="mf">4.431282</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.202031</span><span class="p">]),</span> <span class="s2">&quot;Values are wrong on boxes&quot;</span>
+<span class="k">assert</span> <span class="n">classes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">==</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;Values are wrong on classes&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92m All tests passed!&quot;</span><span class="p">)</span>
+<span class="c1"># END UNIT TEST</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">box_class_probs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="n">yolo_filter_boxes</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">box_confidence</span><span class="p">,</span> <span class="n">box_class_probs</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scores[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;boxes[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;classes[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">classes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+
+<span class="ne">TypeError</span>: &#39;NoneType&#39; object is not subscriptable
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>scores[2]</b>
+        </td>
+        <td>
+           9.270486
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>boxes[2]</b>
+        </td>
+        <td>
+           [ 4.6399336  3.2303846  4.431282  -2.202031 ]
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>classes[2]</b>
+        </td>
+        <td>
+           8
+        </td>
+    </tr>
+        <tr>
+        <td>
+            <b>scores.shape</b>
+        </td>
+        <td>
+           (1789,)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>boxes.shape</b>
+        </td>
+        <td>
+           (1789, 4)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>classes.shape</b>
+        </td>
+        <td>
+           (1789,)
+        </td>
+    </tr>
+</table><p><strong>Note</strong> In the test for <code class="docutils literal notranslate"><span class="pre">yolo_filter_boxes</span></code>, you’re using random numbers to test the function.  In real data, the <code class="docutils literal notranslate"><span class="pre">box_class_probs</span></code> would contain non-zero values between 0 and 1 for the probabilities.  The box coordinates in <code class="docutils literal notranslate"><span class="pre">boxes</span></code> would also be chosen so that lengths and heights are non-negative.</p>
+<p><a name='2-3'></a></p>
+</section>
+<section id="id1">
+<h3>2.3 - Non-max Suppression<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Even after filtering by thresholding over the class scores, you still end up with a lot of overlapping boxes. A second filter for selecting the right boxes is called non-maximum suppression (NMS).</p>
+<img src="/C4_W3/images/non-max-suppression.png" style="width:500px;height:400;">
+<caption><center> <u> <b>Figure 7</b> </u>: In this example, the model has predicted 3 cars, but it's actually 3 predictions of the same car. Running non-max suppression (NMS) will select only the most accurate (highest probability) of the 3 boxes. <br> </center></caption>
+<p>Non-max suppression uses the very important function called <strong>“Intersection over Union”</strong>, or IoU.
+<img src="/C4_W3/images/iou.png" style="width:500px;height:400;"></p>
+<caption><center> <u> <b>Figure 8</b> </u>: Definition of "Intersection over Union". <br> </center></caption>
+<p><a name='ex-2'></a></p>
+</section>
+<section id="exercise-2-iou">
+<h3>Exercise 2 - iou<a class="headerlink" href="#exercise-2-iou" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">iou()</span></code></p>
+<p>Some hints:</p>
+<ul class="simple">
+<li><p>This code uses the convention that (0,0) is the top-left corner of an image, (1,0) is the upper-right corner, and (1,1) is the lower-right corner. In other words, the (0,0) origin starts at the top left corner of the image. As x increases, you move to the right.  As y increases, you move down.</p></li>
+<li><p>For this exercise, a box is defined using its two corners: upper left <span class="math notranslate nohighlight">\((x_1, y_1)\)</span> and lower right <span class="math notranslate nohighlight">\((x_2,y_2)\)</span>, instead of using the midpoint, height and width. This makes it a bit easier to calculate the intersection.</p></li>
+<li><p>To calculate the area of a rectangle, multiply its height <span class="math notranslate nohighlight">\((y_2 - y_1)\)</span> by its width <span class="math notranslate nohighlight">\((x_2 - x_1)\)</span>. Since <span class="math notranslate nohighlight">\((x_1,y_1)\)</span> is the top left and <span class="math notranslate nohighlight">\(x_2,y_2\)</span> are the bottom right, these differences should be non-negative.</p></li>
+<li><p>To find the <strong>intersection</strong> of the two boxes <span class="math notranslate nohighlight">\((xi_{1}, yi_{1}, xi_{2}, yi_{2})\)</span>:</p>
+<ul>
+<li><p>Feel free to draw some examples on paper to clarify this conceptually.</p></li>
+<li><p>The top left corner of the intersection <span class="math notranslate nohighlight">\((xi_{1}, yi_{1})\)</span> is found by comparing the top left corners <span class="math notranslate nohighlight">\((x_1, y_1)\)</span> of the two boxes and finding a vertex that has an x-coordinate that is closer to the right, and y-coordinate that is closer to the bottom.</p></li>
+<li><p>The bottom right corner of the intersection <span class="math notranslate nohighlight">\((xi_{2}, yi_{2})\)</span> is found by comparing the bottom right corners <span class="math notranslate nohighlight">\((x_2,y_2)\)</span> of the two boxes and finding a vertex whose x-coordinate is closer to the left, and the y-coordinate that is closer to the top.</p></li>
+<li><p>The two boxes <strong>may have no intersection</strong>.  You can detect this if the intersection coordinates you calculate end up being the top right and/or bottom left corners of an intersection box.  Another way to think of this is if you calculate the height <span class="math notranslate nohighlight">\((y_2 - y_1)\)</span> or width <span class="math notranslate nohighlight">\((x_2 - x_1)\)</span> and find that at least one of these lengths is negative, then there is no intersection (intersection area is zero).</p></li>
+<li><p>The two boxes may intersect at the <strong>edges or vertices</strong>, in which case the intersection area is still zero.  This happens when either the height or width (or both) of the calculated intersection is zero.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Additional Hints</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xi1</span></code> = <strong>max</strong>imum of the x1 coordinates of the two boxes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yi1</span></code> = <strong>max</strong>imum of the y1 coordinates of the two boxes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xi2</span></code> = <strong>min</strong>imum of the x2 coordinates of the two boxes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yi2</span></code> = <strong>min</strong>imum of the y2 coordinates of the two boxes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inter_area</span></code> = You can use <code class="docutils literal notranslate"><span class="pre">max(height,</span> <span class="pre">0)</span></code> and <code class="docutils literal notranslate"><span class="pre">max(width,</span> <span class="pre">0)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: iou</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span> <span class="n">box2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implement the intersection over union (IoU) between box1 and box2</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    box1 -- first box, list object with coordinates (box1_x1, box1_y1, box1_x2, box_1_y2)</span>
+<span class="sd">    box2 -- second box, list object with coordinates (box2_x1, box2_y1, box2_x2, box2_y2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="p">(</span><span class="n">box1_x1</span><span class="p">,</span> <span class="n">box1_y1</span><span class="p">,</span> <span class="n">box1_x2</span><span class="p">,</span> <span class="n">box1_y2</span><span class="p">)</span> <span class="o">=</span> <span class="n">box1</span>
+    <span class="p">(</span><span class="n">box2_x1</span><span class="p">,</span> <span class="n">box2_y1</span><span class="p">,</span> <span class="n">box2_x2</span><span class="p">,</span> <span class="n">box2_y2</span><span class="p">)</span> <span class="o">=</span> <span class="n">box2</span>
+
+    <span class="c1">### START CODE HERE</span>
+    <span class="c1"># Calculate the (yi1, xi1, yi2, xi2) coordinates of the intersection of box1 and box2. Calculate its Area.</span>
+    <span class="c1">##(≈ 7 lines)</span>
+    <span class="n">xi1</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">yi1</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">xi2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">yi2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">inter_width</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">inter_height</span> <span class="o">=</span>  <span class="kc">None</span>
+    <span class="n">inter_area</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Calculate the Union area by using Formula: Union(A,B) = A + B - Inter(A,B)</span>
+    <span class="c1">## (≈ 3 lines)</span>
+    <span class="n">box1_area</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box2_area</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">union_area</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># compute the IoU</span>
+    <span class="n">iou</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE</span>
+    
+    <span class="k">return</span> <span class="n">iou</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN UNIT TEST</span>
+<span class="c1">## Test case 1: boxes intersect</span>
+<span class="n">box1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">box2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iou for intersecting boxes = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span> <span class="n">box2</span><span class="p">)))</span>
+<span class="k">assert</span> <span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span> <span class="n">box2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;The intersection area must be always smaller or equal than the union area.&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span> <span class="n">box2</span><span class="p">),</span> <span class="mf">0.14285714</span><span class="p">),</span> <span class="s2">&quot;Wrong value. Check your implementation. Problem with intersecting boxes&quot;</span>
+
+<span class="c1">## Test case 2: boxes do not intersect</span>
+<span class="n">box1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">box2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iou for non-intersecting boxes = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span><span class="n">box2</span><span class="p">)))</span>
+<span class="k">assert</span> <span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span> <span class="n">box2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Intersection must be 0&quot;</span>
+
+<span class="c1">## Test case 3: boxes intersect at vertices only</span>
+<span class="n">box1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">box2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iou for boxes that only touch at vertices = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span><span class="n">box2</span><span class="p">)))</span>
+<span class="k">assert</span> <span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span> <span class="n">box2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Intersection at vertices must be 0&quot;</span>
+
+<span class="c1">## Test case 4: boxes intersect at edge only</span>
+<span class="n">box1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">box2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iou for boxes that only touch at edges = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span><span class="n">box2</span><span class="p">)))</span>
+<span class="k">assert</span> <span class="n">iou</span><span class="p">(</span><span class="n">box1</span><span class="p">,</span> <span class="n">box2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Intersection at edges must be 0&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92m All tests passed!&quot;</span><span class="p">)</span>
+<span class="c1"># END UNIT TEST</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iou</span> <span class="k">for</span> <span class="n">intersecting</span> <span class="n">boxes</span> <span class="o">=</span> <span class="mf">0.14285714285714285</span>
+<span class="n">iou</span> <span class="k">for</span> <span class="n">non</span><span class="o">-</span><span class="n">intersecting</span> <span class="n">boxes</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">iou</span> <span class="k">for</span> <span class="n">boxes</span> <span class="n">that</span> <span class="n">only</span> <span class="n">touch</span> <span class="n">at</span> <span class="n">vertices</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">iou</span> <span class="k">for</span> <span class="n">boxes</span> <span class="n">that</span> <span class="n">only</span> <span class="n">touch</span> <span class="n">at</span> <span class="n">edges</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p><a name='2-4'></a></p>
+</section>
+<section id="yolo-non-max-suppression">
+<h3>2.4 - YOLO Non-max Suppression<a class="headerlink" href="#yolo-non-max-suppression" title="Link to this heading">#</a></h3>
+<p>You are now ready to implement non-max suppression. The key steps are as follows:</p>
+<ol class="arabic simple">
+<li><p><strong>Select the box with the highest score.</strong></p></li>
+<li><p><strong>Compute the overlap</strong> of this box with all other boxes of the same class. Remove any boxes that significantly overlap (IoU &gt;= <code class="docutils literal notranslate"><span class="pre">iou_threshold</span></code>).</p></li>
+<li><p><strong>Repeat</strong> the process: go back to step 1 and iterate until no remaining boxes have a score lower than the currently selected box.</p></li>
+</ol>
+<p>This process effectively eliminates boxes that overlap significantly with the selected boxes, leaving only the “best” candidates.</p>
+<p>For implementation, consider using a divide-and-conquer approach:</p>
+<ul class="simple">
+<li><p><strong>Divide</strong> all the boxes by class.</p></li>
+<li><p>Apply non-max suppression for each class individually.</p></li>
+<li><p>Finally, <strong>merge</strong> the results from each class into a single set of boxes.</p></li>
+</ul>
+<p>This approach is recommended for the upcoming exercise, as it simplifies the implementation while ensuring accuracy across multiple classes.</p>
+<p><a name='ex-3'></a></p>
+</section>
+<section id="exercise-3-yolo-non-max-suppression">
+<h3>Exercise 3 - yolo_non_max_suppression<a class="headerlink" href="#exercise-3-yolo-non-max-suppression" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">yolo_non_max_suppression()</span></code> using TensorFlow. TensorFlow has two built-in functions that are used to implement non-max suppression (so you don’t actually need to use your <code class="docutils literal notranslate"><span class="pre">iou()</span></code> implementation):</p>
+<p><strong>Reference documentation</strong>:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.3/api_docs/python/tf/image/non_max_suppression">tf.image.non_max_suppression()</a></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">non_max_suppression</span><span class="p">(</span>
+    <span class="n">boxes</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">max_output_size</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">score_threshold</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: In the exercise below, for <code class="docutils literal notranslate"><span class="pre">tf.image.non_max_suppression()</span></code> you only need to set <code class="docutils literal notranslate"><span class="pre">boxes</span></code>, <code class="docutils literal notranslate"><span class="pre">scores</span></code>, <code class="docutils literal notranslate"><span class="pre">max_output_size</span></code> and <code class="docutils literal notranslate"><span class="pre">iou_threshold</span></code> parameters.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.3/api_docs/python/tf/gather">tf.gather()</a></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">validate_indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">batch_dims</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: In the exercise below, for <code class="docutils literal notranslate"><span class="pre">tf.gather()</span></code> you only need to set <code class="docutils literal notranslate"><span class="pre">params</span></code> and <code class="docutils literal notranslate"><span class="pre">indices</span></code> parameters.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.3/api_docs/python/tf/boolean_mask">tf.boolean mask()</a></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">boolean_mask</span><span class="p">(</span>
+    <span class="n">tensor</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;boolean_mask&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: In the exercise below, for <code class="docutils literal notranslate"><span class="pre">tf.boolean_mask()</span></code> you only need to set <code class="docutils literal notranslate"><span class="pre">tensor</span></code> and <code class="docutils literal notranslate"><span class="pre">mask</span></code> parameters.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/versions/r2.3/api_docs/python/tf/concat">tf.concat()</a></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="n">values</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;concat&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C3 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: yolo_non_max_suppression</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">yolo_non_max_suppression</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">max_boxes</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">iou_threshold</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Non-max suppression (NMS) to set of boxes</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    scores -- tensor of shape (None,), output of yolo_filter_boxes()</span>
+<span class="sd">    boxes -- tensor of shape (None, 4), output of yolo_filter_boxes() that have been scaled to the image size (see later)</span>
+<span class="sd">    classes -- tensor of shape (None,), output of yolo_filter_boxes()</span>
+<span class="sd">    max_boxes -- integer, maximum number of predicted boxes you&#39;d like</span>
+<span class="sd">    iou_threshold -- real value, &quot;intersection over union&quot; threshold used for NMS filtering</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    scores -- tensor of shape (None, ), predicted score for each box</span>
+<span class="sd">    boxes -- tensor of shape (None, 4), predicted box coordinates</span>
+<span class="sd">    classes -- tensor of shape (None, ), predicted class for each box</span>
+<span class="sd">    </span>
+<span class="sd">    Note: The &quot;None&quot; dimension of the output tensors has obviously to be less than max_boxes. Note also that this</span>
+<span class="sd">    function will transpose the shapes of scores, boxes, classes. This is made for convenience.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="n">nms_indices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">classes_labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">classes</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Get unique classes</span>
+    
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">classes_labels</span><span class="p">:</span>
+        <span class="n">filtering_mask</span> <span class="o">=</span> <span class="n">classes</span> <span class="o">==</span> <span class="n">label</span>
+    
+    <span class="c1">#### START CODE HERE</span>
+
+        <span class="c1"># Get boxes for this class</span>
+        <span class="c1"># Use tf.boolean_mask() with &#39;boxes&#39; and `filtering_mask`</span>
+        <span class="n">boxes_label</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Get scores for this class</span>
+        <span class="c1"># Use tf.boolean_mask() with &#39;scores&#39; and `filtering_mask`</span>
+        <span class="n">scores_label</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">scores_label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Check if there are any boxes to process</span>
+            
+            <span class="c1"># Use tf.image.non_max_suppression() to get the list of indices corresponding to boxes you keep</span>
+            <span class="c1">##(≈ 5 lines)</span>
+            <span class="n">nms_indices_label</span> <span class="o">=</span> <span class="kc">None</span><span class="p">(</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">iou_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> 
+
+            <span class="c1"># Get original indices of the selected boxes</span>
+            <span class="n">selected_indices</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">filtering_mask</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="c1"># Append the resulting boxes into the partial result</span>
+            <span class="c1"># Use tf.gather() with &#39;selected_indices&#39; and `nms_indices_label`</span>
+            <span class="n">nms_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Flatten the list of indices and concatenate</span>
+    <span class="c1"># Use tf.concat() with &#39;nms_indices&#39; and `axis=0`</span>
+    <span class="n">nms_indices</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Use tf.gather() to select only nms_indices from scores, boxes and classes</span>
+    <span class="c1">##(≈ 3 lines)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE       </span>
+    
+    <span class="c1"># Sort by scores and return the top max_boxes</span>
+    <span class="n">sort_order</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;DESCENDING&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">sort_order</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">max_boxes</span><span class="p">])</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">sort_order</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">max_boxes</span><span class="p">])</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">classes</span><span class="p">,</span> <span class="n">sort_order</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">max_boxes</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN UNIT TEST</span>
+<span class="c1"># This example mimics the case shown in the slides where a car overlaps with a person</span>
+<span class="c1"># As both boxes are of different classes, they are never suppressed, despite the iou_threshold</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.855</span><span class="p">,</span> <span class="mf">0.828</span><span class="p">])</span>
+<span class="n">boxes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">1.01</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.42</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">]])</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;iou:    </span><span class="se">\t</span><span class="si">{</span><span class="n">iou</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">boxes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">scores2</span><span class="p">,</span> <span class="n">boxes2</span><span class="p">,</span> <span class="n">classes2</span> <span class="o">=</span> <span class="n">yolo_non_max_suppression</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">iou_threshold</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mf">0.855</span><span class="p">,</span> <span class="mf">0.828</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on scores </span><span class="si">{</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">1.01</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.42</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">]]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on boxes </span><span class="si">{</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on classes </span><span class="si">{</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">scores2</span><span class="p">,</span> <span class="n">boxes2</span><span class="p">,</span> <span class="n">classes2</span> <span class="o">=</span> <span class="n">yolo_non_max_suppression</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">iou_threshold</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mf">0.855</span><span class="p">,</span> <span class="mf">0.828</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on scores </span><span class="si">{</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">1.01</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.42</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">]]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on boxes </span><span class="si">{</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on classes </span><span class="si">{</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># If both boxes belongs to the same class, one box is suppressed if iou is under the iou_threshold</span>
+<span class="n">scores2</span><span class="p">,</span> <span class="n">boxes2</span><span class="p">,</span> <span class="n">classes2</span> <span class="o">=</span> <span class="n">yolo_non_max_suppression</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">iou_threshold</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mf">0.855</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on scores </span><span class="si">{</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">1.01</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">]]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on boxes </span><span class="si">{</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on classes </span><span class="si">{</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># It must return both boxes, as they belong to different classes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scores:  </span><span class="se">\t</span><span class="si">{</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;boxes:  </span><span class="se">\t</span><span class="si">{</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>     
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;classes:</span><span class="se">\t</span><span class="si">{</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># If both boxes belongs to the same class, one box is suppressed if iou is under the iou_threshold</span>
+<span class="n">scores2</span><span class="p">,</span> <span class="n">boxes2</span><span class="p">,</span> <span class="n">classes2</span> <span class="o">=</span> <span class="n">yolo_non_max_suppression</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">iou_threshold</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mf">0.855</span><span class="p">,</span> <span class="mf">0.828</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on scores </span><span class="si">{</span><span class="n">scores2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">1.01</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.42</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">]]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on boxes </span><span class="si">{</span><span class="n">boxes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Wrong value on classes </span><span class="si">{</span><span class="n">classes2</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">unit_tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_yolo_non_max_suppression</span>
+
+<span class="n">test_yolo_non_max_suppression</span><span class="p">(</span><span class="n">yolo_non_max_suppression</span><span class="p">)</span>
+<span class="c1"># END UNIT TEST</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>iou between boxes:</b>
+        </td>
+        <td>
+            0.22780233025311375
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>scores</b>
+        </td>
+        <td>
+           [0.855]
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>boxes:</b>
+        </td>
+        <td>
+           [[0.45 0.20 1.01 2.60 ]]
+        </td>
+    </tr>
+        <tr>
+        <td>
+            <b>classes:</b>
+        </td>
+        <td>
+           [0]
+        </td>
+    </tr>
+</table><p><a name='2-5'></a></p>
+</section>
+<section id="wrapping-up-the-filtering">
+<h3>2.5 - Wrapping Up the Filtering<a class="headerlink" href="#wrapping-up-the-filtering" title="Link to this heading">#</a></h3>
+<p>It’s time to implement a function taking the output of the deep CNN (the 19x19x5x85 dimensional encoding) and filtering through all the boxes using the functions you’ve just implemented.</p>
+<p><a name='ex-4'></a></p>
+</section>
+<section id="exercise-4-yolo-eval">
+<h3>Exercise 4 - yolo_eval<a class="headerlink" href="#exercise-4-yolo-eval" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">yolo_eval()</span></code> which takes the output of the YOLO encoding and filters the boxes using score threshold and NMS. There’s just one last implementational detail you have to know. There’re a few ways of representing boxes, such as via their corners or via their midpoint and height/width. YOLO converts between a few such formats at different times, using the following functions (which are provided):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">boxes</span> <span class="o">=</span> <span class="n">yolo_boxes_to_corners</span><span class="p">(</span><span class="n">box_xy</span><span class="p">,</span> <span class="n">box_wh</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>which converts the yolo box coordinates (x,y,w,h) to box corners’ coordinates (x1, y1, x2, y2) to fit the input of <code class="docutils literal notranslate"><span class="pre">yolo_filter_boxes</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">boxes</span> <span class="o">=</span> <span class="n">scale_boxes</span><span class="p">(</span><span class="n">boxes</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>YOLO’s network was trained to run on 608x608 images. If you are testing this data on a different size image – for example, the car detection dataset had 720x1280 images – this step rescales the boxes so that they can be plotted on top of the original 720x1280 image.</p>
+<p>Don’t worry about these two functions; you’ll see where they need to be called below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">yolo_boxes_to_corners</span><span class="p">(</span><span class="n">box_xy</span><span class="p">,</span> <span class="n">box_wh</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert YOLO box predictions to bounding box corners.&quot;&quot;&quot;</span>
+    <span class="n">box_mins</span> <span class="o">=</span> <span class="n">box_xy</span> <span class="o">-</span> <span class="p">(</span><span class="n">box_wh</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span>
+    <span class="n">box_maxes</span> <span class="o">=</span> <span class="n">box_xy</span> <span class="o">+</span> <span class="p">(</span><span class="n">box_wh</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span>
+        <span class="n">box_mins</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span>  <span class="c1"># y_min</span>
+        <span class="n">box_mins</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">],</span>  <span class="c1"># x_min</span>
+        <span class="n">box_maxes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span>  <span class="c1"># y_max</span>
+        <span class="n">box_maxes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># x_max</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C4 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: yolo_eval</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">yolo_eval</span><span class="p">(</span><span class="n">yolo_outputs</span><span class="p">,</span> <span class="n">image_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">720</span><span class="p">,</span> <span class="mi">1280</span><span class="p">),</span> <span class="n">max_boxes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">score_threshold</span><span class="o">=</span><span class="mf">.6</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="o">=</span><span class="mf">.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts the output of YOLO encoding (a lot of boxes) to your predicted boxes along with their scores, box coordinates and classes.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    yolo_outputs -- output of the encoding model (for image_shape of (608, 608, 3)), contains 4 tensors:</span>
+<span class="sd">                    box_xy: tensor of shape (None, 19, 19, 5, 2)</span>
+<span class="sd">                    box_wh: tensor of shape (None, 19, 19, 5, 2)</span>
+<span class="sd">                    box_confidence: tensor of shape (None, 19, 19, 5, 1)</span>
+<span class="sd">                    box_class_probs: tensor of shape (None, 19, 19, 5, 80)</span>
+<span class="sd">    image_shape -- tensor of shape (2,) containing the input shape, in this notebook we use (608., 608.) (has to be float32 dtype)</span>
+<span class="sd">    max_boxes -- integer, maximum number of predicted boxes you&#39;d like</span>
+<span class="sd">    score_threshold -- real value, if [ highest class probability score &lt; threshold], then get rid of the corresponding box</span>
+<span class="sd">    iou_threshold -- real value, &quot;intersection over union&quot; threshold used for NMS filtering</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    scores -- tensor of shape (None, ), predicted score for each box</span>
+<span class="sd">    boxes -- tensor of shape (None, 4), predicted box coordinates</span>
+<span class="sd">    classes -- tensor of shape (None,), predicted class for each box</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="c1"># Retrieve outputs of the YOLO model (≈1 line)</span>
+    <span class="n">box_xy</span><span class="p">,</span> <span class="n">box_wh</span><span class="p">,</span> <span class="n">box_confidence</span><span class="p">,</span> <span class="n">box_class_probs</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Convert boxes to be ready for filtering functions (convert boxes box_xy and box_wh to corner coordinates)</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Use the function `yolo_filter_boxes` you&#39;ve implemented to perform Score-filtering with a threshold of score_threshold</span>
+    <span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># Use boxes</span>
+                                  <span class="kc">None</span><span class="p">,</span> <span class="c1"># Use box confidence</span>
+                                  <span class="kc">None</span><span class="p">,</span> <span class="c1"># Use box class probability</span>
+                                  <span class="kc">None</span>  <span class="c1"># Use threshold=score_threshold</span>
+                                 <span class="p">)</span>
+    
+    <span class="c1"># Scale boxes back to original image shape.</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Use the function `yolo_non_max_suppression` you&#39;ve implemented to perform Non-max suppression with </span>
+    <span class="c1"># maximum number of boxes set to max_boxes and a threshold of iou_threshold</span>
+    <span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># Use scores</span>
+                                  <span class="kc">None</span><span class="p">,</span> <span class="c1"># Use boxes</span>
+                                  <span class="kc">None</span><span class="p">,</span> <span class="c1"># Use classes</span>
+                                  <span class="kc">None</span><span class="p">,</span> <span class="c1"># Use max boxes</span>
+                                  <span class="kc">None</span>  <span class="c1"># Use iou_threshold=iou_threshold</span>
+                                 <span class="p">)</span>
+    
+    <span class="c1">### END CODE HERE</span>
+    
+    <span class="k">return</span> <span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN UNIT TEST</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">yolo_outputs</span> <span class="o">=</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">mean</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">boxes</span><span class="p">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="n">yolo_eval</span><span class="p">(</span><span class="n">yolo_outputs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scores[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;boxes[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;classes[2] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">classes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;scores.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;boxes.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">boxes</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;classes.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">classes</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use tensoflow functions&quot;</span>
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">boxes</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use tensoflow functions&quot;</span>
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use tensoflow functions&quot;</span>
+
+<span class="k">assert</span> <span class="n">scores</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="s2">&quot;Wrong shape&quot;</span>
+<span class="k">assert</span> <span class="n">boxes</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">&quot;Wrong shape&quot;</span>
+<span class="k">assert</span> <span class="n">classes</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="s2">&quot;Wrong shape&quot;</span>
+    
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="mf">171.60194</span><span class="p">),</span> <span class="s2">&quot;Wrong value on scores&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">boxes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">[</span><span class="o">-</span><span class="mf">1240.3483</span><span class="p">,</span> <span class="o">-</span><span class="mf">3212.5881</span><span class="p">,</span> <span class="o">-</span><span class="mf">645.78</span><span class="p">,</span> <span class="mf">2024.3052</span><span class="p">]),</span> <span class="s2">&quot;Wrong value on boxes&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">classes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="mi">16</span><span class="p">),</span> <span class="s2">&quot;Wrong value on classes&quot;</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92m All tests passed!&quot;</span><span class="p">)</span>
+<span class="c1"># END UNIT TEST</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>scores[2]</b>
+        </td>
+        <td>
+           171.60194
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>boxes[2]</b>
+        </td>
+        <td>
+           [-1240.3483 -3212.5881  -645.78    2024.3052]
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>classes[2]</b>
+        </td>
+        <td>
+           16
+        </td>
+    </tr> 
+        <tr>
+        <td>
+            <b>scores.shape</b>
+        </td>
+        <td>
+           (10,)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>boxes.shape</b>
+        </td>
+        <td>
+           (10, 4)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>classes.shape</b>
+        </td>
+        <td>
+           (10,)
+        </td>
+    </tr>
+</table><p><a name='3'></a></p>
+</section>
+</section>
+<section id="test-yolo-pre-trained-model-on-images">
+<h2>3 - Test YOLO Pre-trained Model on Images<a class="headerlink" href="#test-yolo-pre-trained-model-on-images" title="Link to this heading">#</a></h2>
+<p>In this section, you are going to use a pre-trained model and test it on the car detection dataset.</p>
+<p><a name='3-1'></a></p>
+<section id="defining-classes-anchors-and-image-shape">
+<h3>3.1 - Defining Classes, Anchors and Image Shape<a class="headerlink" href="#defining-classes-anchors-and-image-shape" title="Link to this heading">#</a></h3>
+<p>You’re trying to detect 80 classes, and are using 5 anchor boxes. The information on the 80 classes and 5 boxes is gathered in two files: “coco_classes.txt” and “yolo_anchors.txt”. You’ll read class names and anchors from text files. The car detection dataset has 720x1280 images, which are pre-processed into 608x608 images.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">class_names</span> <span class="o">=</span> <span class="n">read_classes</span><span class="p">(</span><span class="s2">&quot;model_data/coco_classes.txt&quot;</span><span class="p">)</span>
+<span class="n">anchors</span> <span class="o">=</span> <span class="n">read_anchors</span><span class="p">(</span><span class="s2">&quot;model_data/yolo_anchors.txt&quot;</span><span class="p">)</span>
+<span class="n">model_image_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">608</span><span class="p">,</span> <span class="mi">608</span><span class="p">)</span> <span class="c1"># Same as yolo_model input layer size</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='3-2'></a></p>
+</section>
+<section id="loading-a-pre-trained-model">
+<h3>3.2 - Loading a Pre-trained Model<a class="headerlink" href="#loading-a-pre-trained-model" title="Link to this heading">#</a></h3>
+<p>Training a YOLO model takes a very long time and requires a fairly large dataset of labelled bounding boxes for a large range of target classes. You are going to load an existing pre-trained Keras YOLO model stored in “yolo.h5”. These weights come from the official YOLO website, and were converted using a function written by Allan Zelener. References are at the end of this notebook. Technically, these are the parameters from the “YOLOv2” model, but are simply referred to as “YOLO” in this notebook.</p>
+<p>Run the cell below to load the model from this file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yolo_model</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;model_data/&quot;</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This loads the weights of a trained YOLO model. Here’s a summary of the layers your model contains:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yolo_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Note</strong>: On some computers, you may see a warning message from Keras. Don’t worry about it if you do – this is fine!</p>
+<p><strong>Reminder</strong>: This model converts a preprocessed batch of input images (shape: (m, 608, 608, 3)) into a tensor of shape (m, 19, 19, 5, 85) as explained in Figure (2).</p>
+<p><a name='3-3'></a></p>
+</section>
+<section id="convert-output-of-the-model-to-usable-bounding-box-tensors">
+<h3>3.3 - Convert Output of the Model to Usable Bounding Box Tensors<a class="headerlink" href="#convert-output-of-the-model-to-usable-bounding-box-tensors" title="Link to this heading">#</a></h3>
+<p>The output of <code class="docutils literal notranslate"><span class="pre">yolo_model</span></code> is a (m, 19, 19, 5, 85) tensor that needs to pass through non-trivial processing and conversion. You will need to call <code class="docutils literal notranslate"><span class="pre">yolo_head</span></code> to format the encoding of the model you got from <code class="docutils literal notranslate"><span class="pre">yolo_model</span></code> into something decipherable:</p>
+<p>yolo_model_outputs = yolo_model(image_data)
+yolo_outputs = yolo_head(yolo_model_outputs, anchors, len(class_names))
+The variable <code class="docutils literal notranslate"><span class="pre">yolo_outputs</span></code> will be defined as a set of 4 tensors that you can then use as input by your yolo_eval function. If you are curious about how yolo_head is implemented, you can find the function definition in the file <code class="docutils literal notranslate"><span class="pre">keras_yolo.py</span></code>. The file is also located in your workspace in this path: <code class="docutils literal notranslate"><span class="pre">yad2k/models/keras_yolo.py</span></code>.</p>
+<p><a name='3-4'></a></p>
+</section>
+<section id="filtering-boxes">
+<h3>3.4 - Filtering Boxes<a class="headerlink" href="#filtering-boxes" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">yolo_outputs</span></code> gave you all the predicted boxes of <code class="docutils literal notranslate"><span class="pre">yolo_model</span></code> in the correct format. To perform filtering and select only the best boxes, you will call <code class="docutils literal notranslate"><span class="pre">yolo_eval</span></code>, which you had previously implemented, to do so:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>out_scores, out_boxes, out_classes = yolo_eval(yolo_outputs, [image.size[1],  image.size[0]], 10, 0.3, 0.5)
+</pre></div>
+</div>
+<p><a name='3-5'></a></p>
+</section>
+<section id="run-the-yolo-on-an-image">
+<h3>3.5 - Run the YOLO on an Image<a class="headerlink" href="#run-the-yolo-on-an-image" title="Link to this heading">#</a></h3>
+<p>Let the fun begin! You will create a graph that can be summarized as follows:</p>
+<p><code class="docutils literal notranslate"><span class="pre">yolo_model.input</span></code> is given to <code class="docutils literal notranslate"><span class="pre">yolo_model</span></code>. The model is used to compute the output <code class="docutils literal notranslate"><span class="pre">yolo_model.output</span></code>
+<code class="docutils literal notranslate"><span class="pre">yolo_model.output</span></code> is processed by <code class="docutils literal notranslate"><span class="pre">yolo_head</span></code>. It gives you <code class="docutils literal notranslate"><span class="pre">yolo_outputs</span></code>
+<code class="docutils literal notranslate"><span class="pre">yolo_outputs</span></code> goes through a filtering function, <code class="docutils literal notranslate"><span class="pre">yolo_eval</span></code>. It outputs your predictions: <code class="docutils literal notranslate"><span class="pre">out_scores</span></code>, <code class="docutils literal notranslate"><span class="pre">out_boxes</span></code>, <code class="docutils literal notranslate"><span class="pre">out_classes</span></code>.</p>
+<p>Now, we have implemented for you the <code class="docutils literal notranslate"><span class="pre">predict(image_file)</span></code> function, which runs the graph to test YOLO on an image to compute <code class="docutils literal notranslate"><span class="pre">out_scores</span></code>, <code class="docutils literal notranslate"><span class="pre">out_boxes</span></code>, <code class="docutils literal notranslate"><span class="pre">out_classes</span></code>.</p>
+<p>The code below also uses the following function:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>image, image_data = preprocess_image(&quot;images/&quot; + image_file, model_image_size = (608, 608))
+</pre></div>
+</div>
+<p>which opens the image file and scales, reshapes and normalizes the image. It returns the outputs:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>image: a python (PIL) representation of your image used for drawing boxes. You won&#39;t need to use it.
+image_data: a numpy-array representing the image. This will be the input to the CNN.
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">image_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs the graph to predict boxes for &quot;image_file&quot;. Prints and plots the predictions.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    image_file -- name of an image stored in the &quot;images&quot; folder.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    out_scores -- tensor of shape (None, ), scores of the predicted boxes</span>
+<span class="sd">    out_boxes -- tensor of shape (None, 4), coordinates of the predicted boxes</span>
+<span class="sd">    out_classes -- tensor of shape (None, ), class index of the predicted boxes</span>
+<span class="sd">    </span>
+<span class="sd">    Note: &quot;None&quot; actually represents the number of predicted boxes, it varies between 0 and max_boxes. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Preprocess your image</span>
+    <span class="n">image</span><span class="p">,</span> <span class="n">image_data</span> <span class="o">=</span> <span class="n">preprocess_image</span><span class="p">(</span><span class="s2">&quot;images/&quot;</span> <span class="o">+</span> <span class="n">image_file</span><span class="p">,</span> <span class="n">model_image_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">608</span><span class="p">,</span> <span class="mi">608</span><span class="p">))</span>
+    
+    <span class="n">yolo_model_outputs</span> <span class="o">=</span> <span class="n">yolo_model</span><span class="p">(</span><span class="n">image_data</span><span class="p">)</span>
+    <span class="n">yolo_outputs</span> <span class="o">=</span> <span class="n">yolo_head</span><span class="p">(</span><span class="n">yolo_model_outputs</span><span class="p">,</span> <span class="n">anchors</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_names</span><span class="p">))</span>
+    
+    <span class="n">out_scores</span><span class="p">,</span> <span class="n">out_boxes</span><span class="p">,</span> <span class="n">out_classes</span> <span class="o">=</span> <span class="n">yolo_eval</span><span class="p">(</span><span class="n">yolo_outputs</span><span class="p">,</span> <span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>  <span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Print predictions info</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Found </span><span class="si">{}</span><span class="s1"> boxes for </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out_boxes</span><span class="p">),</span> <span class="s2">&quot;images/&quot;</span> <span class="o">+</span> <span class="n">image_file</span><span class="p">))</span>
+    <span class="c1"># Generate colors for drawing bounding boxes.</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">get_colors_for_classes</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">class_names</span><span class="p">))</span>
+    <span class="c1"># Draw bounding boxes on the image file</span>
+    <span class="c1">#draw_boxes2(image, out_scores, out_boxes, out_classes, class_names, colors, image_shape)</span>
+    <span class="n">draw_boxes</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">out_boxes</span><span class="p">,</span> <span class="n">out_classes</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">out_scores</span><span class="p">)</span>
+    <span class="c1"># Save the predicted bounding box on the image</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="n">image_file</span><span class="p">),</span> <span class="n">quality</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># Display the results in the notebook</span>
+    <span class="n">output_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="n">image_file</span><span class="p">))</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">output_image</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out_scores</span><span class="p">,</span> <span class="n">out_boxes</span><span class="p">,</span> <span class="n">out_classes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the following cell on the “test.jpg” image to verify that your function is correct.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">out_scores</span><span class="p">,</span> <span class="n">out_boxes</span><span class="p">,</span> <span class="n">out_classes</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="s2">&quot;test.jpg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+    <tr>
+        <td>
+            <b>Found 10 boxes for images/test.jpg</b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+           0.89 (367, 300) (745, 648)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+           0.80 (761, 282) (942, 412)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+           0.74 (159, 303) (346, 440)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+          0.70 (947, 324) (1280, 705)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>bus</b>
+        </td>
+        <td>
+           0.67 (5, 266) (220, 407)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+           0.66 (706, 279) (786, 350)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+           0.60 (925, 285) (1045, 374)
+        </td>
+    </tr>
+        <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+           0.44 (336, 296) (378, 335)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>car</b>
+        </td>
+        <td>
+           0.37 (965, 273) (1022, 292)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>traffic light</b>
+        </td>
+        <td>
+           00.36 (681, 195) (692, 214)
+        </td>
+    </tr>
+</table><p>The model you’ve just run is actually able to detect 80 different classes listed in “coco_classes.txt”. To test the model on your own images:
+1. Click on “File” in the upper bar of this notebook, then click “Open” to go on your Coursera Hub.
+2. Add your image to this Jupyter Notebook’s directory, in the “images” folder
+3. Write your image’s name in the cell above code
+4. Run the code and see the output of the algorithm!</p>
+<p>If you were to run your session in a for loop over all your images. Here’s what you would get:</p>
+<center>
+<video width="400" height="200" src="/C4_W3/images/pred_video_compressed2.mp4" type="video/mp4" controls>
+</video>
+</center>
+<caption><center> Predictions of the YOLO model on pictures taken from a camera while driving around the Silicon Valley <br> Thanks to <a href="https://www.drive.ai/">drive.ai</a> for providing this dataset! </center></caption><p><a name='4'></a></p>
+</section>
+</section>
+<section id="summary-for-yolo">
+<h2>4 - Summary for YOLO<a class="headerlink" href="#summary-for-yolo" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Input image (608, 608, 3)</p></li>
+<li><p>The input image goes through a CNN, resulting in a (19,19,5,85) dimensional output.</p></li>
+<li><p>After flattening the last two dimensions, the output is a volume of shape (19, 19, 425):</p>
+<ul>
+<li><p>Each cell in a 19x19 grid over the input image gives 425 numbers.</p></li>
+<li><p>425 = 5 x 85 because each cell contains predictions for 5 boxes, corresponding to 5 anchor boxes, as seen in lecture.</p></li>
+<li><p>85 = 5 + 80 where 5 is because <span class="math notranslate nohighlight">\((p_c, b_x, b_y, b_h, b_w)\)</span> has 5 numbers, and 80 is the number of classes we’d like to detect</p></li>
+</ul>
+</li>
+<li><p>You then select only few boxes based on:</p>
+<ul>
+<li><p>Score-thresholding: throw away boxes that have detected a class with a score less than the threshold</p></li>
+<li><p>Non-max suppression: Compute the Intersection over Union and avoid selecting overlapping boxes</p></li>
+</ul>
+</li>
+<li><p>This gives you YOLO’s final output.</p></li>
+</ul>
+<font color='blue'>
+<p><strong>What you should remember</strong>:</p>
+<ul class="simple">
+<li><p>YOLO is a state-of-the-art object detection model that is fast and accurate</p></li>
+<li><p>It runs an input image through a CNN, which outputs a 19x19x5x85 dimensional volume.</p></li>
+<li><p>The encoding can be seen as a grid where each of the 19x19 cells contains information about 5 boxes.</p></li>
+<li><p>You filter through all the boxes using non-max suppression. Specifically:</p>
+<ul>
+<li><p>Score thresholding on the probability of detecting a class to keep only accurate (high probability) boxes</p></li>
+<li><p>Intersection over Union (IoU) thresholding to eliminate overlapping boxes</p></li>
+</ul>
+</li>
+<li><p>Because training a YOLO model from randomly initialized weights is non-trivial and requires a large dataset as well as lot of computation, previously trained model parameters were used in this exercise. If you wish, you can also try fine-tuning the YOLO model with your own dataset, though this would be a fairly non-trivial exercise.</p></li>
+</ul>
+<p><strong>Congratulations!</strong> You’ve come to the end of this assignment.</p>
+<p>Here’s a quick recap of all you’ve accomplished.</p>
+<p>You’ve:</p>
+<ul class="simple">
+<li><p>Detected objects in a car detection dataset</p></li>
+<li><p>Implemented non-max suppression to achieve better accuracy</p></li>
+<li><p>Implemented intersection over union as a function of NMS</p></li>
+<li><p>Created usable bounding box tensors from the model’s predictions</p></li>
+</ul>
+<p>Amazing work! If you’d like to know more about the origins of these ideas, spend some time on the papers referenced below.</p>
+<p><a name='5'></a></p>
+</section>
+<section id="references">
+<h2>5 - References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>The ideas presented in this notebook came primarily from the two YOLO papers. The implementation here also took significant inspiration and used many components from Allan Zelener’s GitHub repository. The pre-trained weights used in this exercise came from the official YOLO website.</p>
+<ul class="simple">
+<li><p>Joseph Redmon, Santosh Divvala, Ross Girshick, Ali Farhadi - <a class="reference external" href="https://arxiv.org/abs/1506.02640">You Only Look Once: Unified, Real-Time Object Detection</a> (2015)</p></li>
+<li><p>Joseph Redmon, Ali Farhadi - <a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLO9000: Better, Faster, Stronger</a> (2016)</p></li>
+<li><p>Allan Zelener - <a class="reference external" href="https://github.com/allanzelener/YAD2K">YAD2K: Yet Another Darknet 2 Keras</a></p></li>
+<li><p>The official YOLO website (<a class="reference external" href="https://pjreddie.com/darknet/yolo/">https://pjreddie.com/darknet/yolo/</a>)</p></li>
+</ul>
+<section id="car-detection-dataset">
+<h3>Car detection dataset<a class="headerlink" href="#car-detection-dataset" title="Link to this heading">#</a></h3>
+<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">The <a class="reference external" href="http://Drive.ai">Drive.ai</a> Sample Dataset</span> (provided by <a class="reference external" href="http://drive.ai">drive.ai</a>) is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. Thanks to Brody Huval, Chih Hu and Rahul Patel for  providing this data.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C4_W3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">1 - Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yolo">2 - YOLO</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-details">2.1 - Model Details</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-and-outputs">Inputs and outputs</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#anchor-boxes">Anchor Boxes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding">Encoding</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-score">Class score</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-figure-4">Example of figure 4</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-classes">Visualizing classes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-bounding-boxes">Visualizing bounding boxes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#non-max-suppression">Non-Max suppression</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-with-a-threshold-on-class-scores">2.2 - Filtering with a Threshold on Class Scores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-yolo-filter-boxes">Exercise 1 - yolo_filter_boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.3 - Non-max Suppression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-iou">Exercise 2 - iou</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yolo-non-max-suppression">2.4 - YOLO Non-max Suppression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-yolo-non-max-suppression">Exercise 3 - yolo_non_max_suppression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up-the-filtering">2.5 - Wrapping Up the Filtering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-yolo-eval">Exercise 4 - yolo_eval</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-yolo-pre-trained-model-on-images">3 - Test YOLO Pre-trained Model on Images</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-classes-anchors-and-image-shape">3.1 - Defining Classes, Anchors and Image Shape</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-pre-trained-model">3.2 - Loading a Pre-trained Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-output-of-the-model-to-usable-bounding-box-tensors">3.3 - Convert Output of the Model to Usable Bounding Box Tensors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-boxes">3.4 - Filtering Boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-yolo-on-an-image">3.5 - Run the YOLO on an Image</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-for-yolo">4 - Summary for YOLO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5 - References</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#car-detection-dataset">Car detection dataset</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

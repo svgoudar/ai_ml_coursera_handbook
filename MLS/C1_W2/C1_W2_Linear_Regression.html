@@ -1,0 +1,1641 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Practice Lab: Linear Regression &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C1_W2/C1_W2_Linear_Regression';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Course 1 Week 3: Classification" href="../C1_W3/ppt.html" />
+    <link rel="prev" title="Optional Lab: Linear Regression using Scikit-Learn" href="C1_W2_Lab06_Sklearn_Normal_Soln.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/MLS/C1_W2/C1_W2_Linear_Regression.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FMLS/C1_W2/C1_W2_Linear_Regression.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/MLS/C1_W2/C1_W2_Linear_Regression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Practice Lab: Linear Regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Practice Lab: Linear Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2 -  Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">3 - Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-the-variables">View the variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-the-dimensions-of-your-variables">Check the dimensions of your variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-your-data">Visualize your data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refresher-on-linear-regression">4 - Refresher on linear regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-cost">5 - Compute Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-function">Cost function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-prediction">Model prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">6 - Gradient descent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-parameters-using-batch-gradient-descent">2.6 Learning parameters using batch gradient descent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="practice-lab-linear-regression">
+<h1>Practice Lab: Linear Regression<a class="headerlink" href="#practice-lab-linear-regression" title="Link to this heading">#</a></h1>
+<p>Welcome to your first practice lab! In this lab, you will implement linear regression with one variable to predict profits for a restaurant franchise.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="outline">
+<h1>Outline<a class="headerlink" href="#outline" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst"> 1 - Packages </span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst"> 2 - Linear regression with one variable </span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2.1"><span class="xref myst"> 2.1 Problem Statement</span></a></p></li>
+<li><p><a class="reference internal" href="#2.2"><span class="xref myst"> 2.2  Dataset</span></a></p></li>
+<li><p><a class="reference internal" href="#2.3"><span class="xref myst"> 2.3 Refresher on linear regression</span></a></p></li>
+<li><p><a class="reference internal" href="#2.4"><span class="xref myst"> 2.4  Compute Cost</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex01"><span class="xref myst"> Exercise 1</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2.5"><span class="xref myst"> 2.5 Gradient descent </span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex02"><span class="xref myst"> Exercise 2</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2.6"><span class="xref myst"> 2.6 Learning parameters using batch gradient descent </span></a></p></li>
+</ul>
+</li>
+</ul>
+<p><em><strong>NOTE:</strong> To prevent errors from the autograder, you are not allowed to edit or delete non-graded cells in this notebook . Please also refrain from adding any new cells.
+<strong>Once you have passed this assignment</strong> and want to experiment with any of the non-graded code, you may follow the instructions at the bottom of this notebook.</em></p>
+<p><a name="1"></a></p>
+<section id="packages">
+<h2>1 - Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>First, let’s run the cell below to import all the packages that you will need during this assignment.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.numpy.org">numpy</a> is the fundamental package for working with matrices in Python.</p></li>
+<li><p><a class="reference external" href="https://matplotlib.org">matplotlib</a> is a famous library to plot graphs in Python.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils.py</span></code> contains helper functions for this assignment. You do not need to modify code in this file.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-statement">
+<h2>2 -  Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h2>
+<p>Suppose you are the CEO of a restaurant franchise and are considering different cities for opening a new outlet.</p>
+<ul class="simple">
+<li><p>You would like to expand your business to cities that may give your restaurant higher profits.</p></li>
+<li><p>The chain already has restaurants in various cities and you have data for profits and populations from the cities.</p></li>
+<li><p>You also have data on cities that are candidates for a new restaurant.</p>
+<ul>
+<li><p>For these cities, you have the city population.</p></li>
+</ul>
+</li>
+</ul>
+<p>Can you use the data to help you identify which cities may potentially give your business higher profits?</p>
+</section>
+<section id="dataset">
+<h2>3 - Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
+<p>You will start by loading the dataset for this task.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">load_data()</span></code> function shown below loads the data into variables <code class="docutils literal notranslate"><span class="pre">x_train</span></code> and <code class="docutils literal notranslate"><span class="pre">y_train</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_train</span></code> is the population of a city</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_train</span></code> is the profit of a restaurant in that city. A negative value for profit indicates a loss.</p></li>
+<li><p>Both <code class="docutils literal notranslate"><span class="pre">X_train</span></code> and <code class="docutils literal notranslate"><span class="pre">y_train</span></code> are numpy arrays.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the dataset</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="view-the-variables">
+<h3>View the variables<a class="headerlink" href="#view-the-variables" title="Link to this heading">#</a></h3>
+<p>Before starting on any task, it is useful to get more familiar with your dataset.</p>
+<ul class="simple">
+<li><p>A good place to start is to just print out each variable and see what it contains.</p></li>
+</ul>
+<p>The code below prints the variable <code class="docutils literal notranslate"><span class="pre">x_train</span></code> and the type of the variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print x_train</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Type of x_train:&quot;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">x_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First five elements of x_train are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x_train</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type of x_train: &lt;class &#39;numpy.ndarray&#39;&gt;
+First five elements of x_train are:
+ [6.1101 5.5277 8.5186 7.0032 5.8598]
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">x_train</span></code> is a numpy array that contains decimal values that are all greater than zero.</p>
+<ul class="simple">
+<li><p>These values represent the city population times 10,000</p></li>
+<li><p>For example, 6.1101 means that the population for that city is 61,101</p></li>
+</ul>
+<p>Now, let’s print <code class="docutils literal notranslate"><span class="pre">y_train</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print y_train</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Type of y_train:&quot;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First five elements of y_train are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y_train</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Type of y_train: &lt;class &#39;numpy.ndarray&#39;&gt;
+First five elements of y_train are:
+ [17.592   9.1302 13.662  11.854   6.8233]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Similarly, <code class="docutils literal notranslate"><span class="pre">y_train</span></code> is a numpy array that has decimal values, some negative, some positive.</p>
+<ul class="simple">
+<li><p>These represent your restaurant’s average monthly profits in each city, in units of $10,000.</p>
+<ul>
+<li><p>For example, 17.592 represents $175,920 in average monthly profits for that city.</p></li>
+<li><p>-2.6807 represents -$26,807 in average monthly loss for that city.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="check-the-dimensions-of-your-variables">
+<h3>Check the dimensions of your variables<a class="headerlink" href="#check-the-dimensions-of-your-variables" title="Link to this heading">#</a></h3>
+<p>Another useful way to get familiar with your data is to view its dimensions.</p>
+<p>Please print the shape of <code class="docutils literal notranslate"><span class="pre">x_train</span></code> and <code class="docutils literal notranslate"><span class="pre">y_train</span></code> and see how many training examples you have in your dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of x_train is:&#39;</span><span class="p">,</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;The shape of y_train is: &#39;</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Number of training examples (m):&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The shape of x_train is: (97,)
+The shape of y_train is:  (97,)
+Number of training examples (m): 97
+</pre></div>
+</div>
+</div>
+</div>
+<p>The city population array has 97 data points, and the monthly average profits also has 97 data points. These are NumPy 1D arrays.</p>
+</section>
+<section id="visualize-your-data">
+<h3>Visualize your data<a class="headerlink" href="#visualize-your-data" title="Link to this heading">#</a></h3>
+<p>It is often useful to understand the data by visualizing it.</p>
+<ul class="simple">
+<li><p>For this dataset, you can use a scatter plot to visualize the data, since it has only two properties to plot (profit and population).</p></li>
+<li><p>Many other problems that you will encounter in real life have more than two properties (for example, population, average household income, monthly profits, monthly sales).When you have more than two properties, you can still use a scatter plot to see the relationship between each pair of properties.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a scatter plot of the data. To change the markers to red &quot;x&quot;,</span>
+<span class="c1"># we used the &#39;marker&#39; and &#39;c&#39; parameters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> 
+
+<span class="c1"># Set the title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Profits vs. Population per city&quot;</span><span class="p">)</span>
+<span class="c1"># Set the y-axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Profit in $10,000&#39;</span><span class="p">)</span>
+<span class="c1"># Set the x-axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Population of City in 10,000s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1da554a3977e65f2f443552f5c6e04cc8081f25896b6b45c2206ea90055d6389.png" src="../../_images/1da554a3977e65f2f443552f5c6e04cc8081f25896b6b45c2206ea90055d6389.png" />
+</div>
+</div>
+<p>Your goal is to build a linear regression model to fit this data.</p>
+<ul class="simple">
+<li><p>With this model, you can then input a new city’s population, and have the model estimate your restaurant’s potential monthly profits for that city.</p></li>
+</ul>
+<p><a name="4"></a></p>
+</section>
+</section>
+<section id="refresher-on-linear-regression">
+<h2>4 - Refresher on linear regression<a class="headerlink" href="#refresher-on-linear-regression" title="Link to this heading">#</a></h2>
+<p>In this practice lab, you will fit the linear regression parameters <span class="math notranslate nohighlight">\((w,b)\)</span> to your dataset.</p>
+<ul class="simple">
+<li><p>The model function for linear regression, which is a function that maps from <code class="docutils literal notranslate"><span class="pre">x</span></code> (city population) to <code class="docutils literal notranslate"><span class="pre">y</span></code> (your restaurant’s monthly profit for that city) is represented as
+$<span class="math notranslate nohighlight">\(f_{w,b}(x) = wx + b\)</span>$</p></li>
+<li><p>To train a linear regression model, you want to find the best <span class="math notranslate nohighlight">\((w,b)\)</span> parameters that fit your dataset.</p>
+<ul>
+<li><p>To compare how one choice of <span class="math notranslate nohighlight">\((w,b)\)</span> is better or worse than another choice, you can evaluate it with a cost function <span class="math notranslate nohighlight">\(J(w,b)\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(J\)</span> is a function of <span class="math notranslate nohighlight">\((w,b)\)</span>. That is, the value of the cost <span class="math notranslate nohighlight">\(J(w,b)\)</span> depends on the value of <span class="math notranslate nohighlight">\((w,b)\)</span>.</p></li>
+</ul>
+</li>
+<li><p>The choice of <span class="math notranslate nohighlight">\((w,b)\)</span> that fits your data the best is the one that has the smallest cost <span class="math notranslate nohighlight">\(J(w,b)\)</span>.</p></li>
+</ul>
+</li>
+<li><p>To find the values <span class="math notranslate nohighlight">\((w,b)\)</span> that gets the smallest possible cost <span class="math notranslate nohighlight">\(J(w,b)\)</span>, you can use a method called <strong>gradient descent</strong>.</p>
+<ul>
+<li><p>With each step of gradient descent, your parameters <span class="math notranslate nohighlight">\((w,b)\)</span> come closer to the optimal values that will achieve the lowest cost <span class="math notranslate nohighlight">\(J(w,b)\)</span>.</p></li>
+</ul>
+</li>
+<li><p>The trained linear regression model can then take the input feature <span class="math notranslate nohighlight">\(x\)</span> (city population) and output a prediction <span class="math notranslate nohighlight">\(f_{w,b}(x)\)</span> (predicted monthly profit for a restaurant in that city).</p></li>
+</ul>
+<p><a name="5"></a></p>
+</section>
+<section id="compute-cost">
+<h2>5 - Compute Cost<a class="headerlink" href="#compute-cost" title="Link to this heading">#</a></h2>
+<p>Gradient descent involves repeated steps to adjust the value of your parameter <span class="math notranslate nohighlight">\((w,b)\)</span> to gradually get a smaller and smaller cost <span class="math notranslate nohighlight">\(J(w,b)\)</span>.</p>
+<ul class="simple">
+<li><p>At each step of gradient descent, it will be helpful for you to monitor your progress by computing the cost <span class="math notranslate nohighlight">\(J(w,b)\)</span> as <span class="math notranslate nohighlight">\((w,b)\)</span> gets updated.</p></li>
+<li><p>In this section, you will implement a function to calculate <span class="math notranslate nohighlight">\(J(w,b)\)</span> so that you can check the progress of your gradient descent implementation.</p></li>
+</ul>
+<section id="cost-function">
+<h3>Cost function<a class="headerlink" href="#cost-function" title="Link to this heading">#</a></h3>
+<p>As you may recall from the lecture, for one variable, the cost function for linear regression <span class="math notranslate nohighlight">\(J(w,b)\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+J(w,b) = \frac{1}{2m} \sum\limits_{i = 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)})^2
+\]</div>
+<ul class="simple">
+<li><p>You can think of <span class="math notranslate nohighlight">\(f_{w,b}(x^{(i)})\)</span> as the model’s prediction of your restaurant’s profit, as opposed to <span class="math notranslate nohighlight">\(y^{(i)}\)</span>, which is the actual profit that is recorded in the data.</p></li>
+<li><p><span class="math notranslate nohighlight">\(m\)</span> is the number of training examples in the dataset</p></li>
+</ul>
+</section>
+<section id="model-prediction">
+<h3>Model prediction<a class="headerlink" href="#model-prediction" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>For linear regression with one variable, the prediction of the model <span class="math notranslate nohighlight">\(f_{w,b}\)</span> for an example <span class="math notranslate nohighlight">\(x^{(i)}\)</span> is representented as:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ f_{w,b}(x^{(i)}) = wx^{(i)} + b\]</div>
+<p>This is the equation for a line, with an intercept <span class="math notranslate nohighlight">\(b\)</span> and a slope <span class="math notranslate nohighlight">\(w\)</span></p>
+</section>
+<section id="implementation">
+<h3>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h3>
+<p>Please complete the <code class="docutils literal notranslate"><span class="pre">compute_cost()</span></code> function below to compute the cost <span class="math notranslate nohighlight">\(J(w,b)\)</span>.</p>
+<p><a name="ex01"></a></p>
+</section>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p>Complete the <code class="docutils literal notranslate"><span class="pre">compute_cost</span></code> below to:</p>
+<ul class="simple">
+<li><p>Iterate over the training examples, and for each example, compute:</p>
+<ul>
+<li><p>The prediction of the model for that example
+$<span class="math notranslate nohighlight">\(
+f_{wb}(x^{(i)}) =  wx^{(i)} + b 
+\)</span>$</p></li>
+<li><p>The cost for that example  $<span class="math notranslate nohighlight">\(cost^{(i)} =  (f_{wb} - y^{(i)})^2\)</span>$</p></li>
+</ul>
+</li>
+<li><p>Return the total cost over all examples
+$<span class="math notranslate nohighlight">\(J(\mathbf{w},b) = \frac{1}{2m} \sum\limits_{i = 0}^{m-1} cost^{(i)}\)</span>$</p>
+<ul>
+<li><p>Here, <span class="math notranslate nohighlight">\(m\)</span> is the number of training examples and <span class="math notranslate nohighlight">\(\sum\)</span> is the summation operator</p></li>
+</ul>
+</li>
+</ul>
+<p>If you get stuck, you can check out the hints presented after the cell below to help you with the implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1</span>
+<span class="c1"># GRADED FUNCTION: compute_cost</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_cost</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the cost function for linear regression.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        x (ndarray): Shape (m,) Input to the model (Population of cities) </span>
+<span class="sd">        y (ndarray): Shape (m,) Label (Actual profits for the cities)</span>
+<span class="sd">        w, b (scalar): Parameters of the model</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">        total_cost (float): The cost of using w,b as the parameters for linear regression</span>
+<span class="sd">               to fit the data points in x and y</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># number of training examples</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+    
+    <span class="c1"># You need to return this variable correctly</span>
+    <span class="n">total_cost</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span> 
+        <span class="n">f_wb</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span>   
+        <span class="n">cost</span> <span class="o">=</span> <span class="p">(</span><span class="n">f_wb</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>  
+        <span class="n">total_cost</span> <span class="o">=</span> <span class="n">total_cost</span> <span class="o">+</span> <span class="n">cost</span>  
+    <span class="n">total_cost</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m</span><span class="p">))</span> <span class="o">*</span> <span class="n">total_cost</span>  
+
+<span class="c1">#     return total_cost</span>
+    <span class="c1">### END CODE HERE ### </span>
+
+    <span class="k">return</span> <span class="n">total_cost</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<ul class="simple">
+<li><p>You can represent a summation operator eg: <span class="math notranslate nohighlight">\(h = \sum\limits_{i = 0}^{m-1} 2i\)</span> in code as follows:</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>```python 
+h = 0
+for i in range(m):
+    h = h + 2*i
+```
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>In this case, you can iterate over all the examples in <code class="docutils literal notranslate"><span class="pre">x</span></code> using a for loop and add the <code class="docutils literal notranslate"><span class="pre">cost</span></code> from each iteration to a variable (<code class="docutils literal notranslate"><span class="pre">cost_sum</span></code>) initialized outside the loop.</p></li>
+<li><p>Then, you can return the <code class="docutils literal notranslate"><span class="pre">total_cost</span></code> as <code class="docutils literal notranslate"><span class="pre">cost_sum</span></code> divided by <code class="docutils literal notranslate"><span class="pre">2m</span></code>.</p></li>
+<li><p>If you are new to Python, please check that your code is properly indented with consistent spaces or tabs. Otherwise, it might produce a different output or raise an <code class="docutils literal notranslate"><span class="pre">IndentationError:</span> <span class="pre">unexpected</span> <span class="pre">indent</span></code> error. You can refer to <a class="reference external" href="https://community.deeplearning.ai/t/indentation-in-python-indentationerror-unexpected-indent/159398">this topic</a> in our community for details.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt; Click for more hints&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+    
+* Here&#39;s how you can structure the overall implementation for this function
+
+```python 
+def compute_cost(x, y, w, b):
+    # number of training examples
+    m = x.shape[0] 
+
+    # You need to return this variable correctly
+    total_cost = 0
+
+    ### START CODE HERE ###  
+    # Variable to keep track of sum of cost from each example
+    cost_sum = 0
+
+    # Loop over training examples
+    for i in range(m):
+        # Your code here to get the prediction f_wb for the ith example
+        f_wb = 
+        # Your code here to get the cost associated with the ith example
+        cost = 
+    
+        # Add to sum of cost for each example
+        cost_sum = cost_sum + cost 
+
+    # Get the total cost as the sum divided by (2*m)
+    total_cost = (1 / (2 * m)) * cost_sum
+    ### END CODE HERE ### 
+
+    return total_cost
+```
+
+* If you&#39;re still stuck, you can check the hints presented below to figure out how to calculate `f_wb` and `cost`.
+
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate f_wb&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+       &amp;emsp; &amp;emsp; For scalars $a$, $b$ and $c$ (&lt;code&gt;x[i]&lt;/code&gt;, &lt;code&gt;w&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; are all scalars), you can calculate the equation $h = ab + c$ in code as &lt;code&gt;h = a * b + c&lt;/code&gt;
+      &lt;details&gt;
+          &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;blue&quot;&gt;&lt;b&gt;&amp;emsp; &amp;emsp; More hints to calculate f&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+           &amp;emsp; &amp;emsp; You can compute f_wb as &lt;code&gt;f_wb = w * x[i] + b &lt;/code&gt;
+       &lt;/details&gt;
+&lt;/details&gt;
+
+ &lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate cost&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+      &amp;emsp; &amp;emsp; You can calculate the square of a variable z as z**2
+      &lt;details&gt;
+          &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;blue&quot;&gt;&lt;b&gt;&amp;emsp; &amp;emsp; More hints to calculate cost&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+          &amp;emsp; &amp;emsp; You can compute cost as &lt;code&gt;cost = (f_wb - y[i]) ** 2&lt;/code&gt;
+      &lt;/details&gt;
+&lt;/details&gt;
+    
+&lt;/details&gt;
+</pre></div>
+</div>
+</details>
+<p>You can check if your implementation was correct by running the following test code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute cost with some initial values for paramaters w, b</span>
+<span class="n">initial_w</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">initial_b</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">cost</span> <span class="o">=</span> <span class="n">compute_cost</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">initial_w</span><span class="p">,</span> <span class="n">initial_b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">cost</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cost at initial w: </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Public tests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">compute_cost_test</span><span class="p">(</span><span class="n">compute_cost</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;numpy.float64&#39;&gt;
+Cost at initial w: 75.203
+All tests passed!
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b>Cost at initial w:<b> 75.203 </td> 
+  </tr>
+</table><p><a name="6"></a></p>
+</section>
+</section>
+<section id="gradient-descent">
+<h2>6 - Gradient descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h2>
+<p>In this section, you will implement the gradient for parameters <span class="math notranslate nohighlight">\(w, b\)</span> for linear regression.</p>
+<p>As described in the lecture videos, the gradient descent algorithm is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{align*}&amp; \text{repeat until convergence:} \; \lbrace \newline \; &amp; \phantom {0000} b := b -  \alpha \frac{\partial J(w,b)}{\partial b} \newline       \; &amp; \phantom {0000} w := w -  \alpha \frac{\partial J(w,b)}{\partial w} \tag{1}  \; &amp; 
+\newline &amp; \rbrace\end{align*}\]</div>
+<p>where, parameters <span class="math notranslate nohighlight">\(w, b\)</span> are both updated simultaniously and where<br />
+$<span class="math notranslate nohighlight">\(
+\frac{\partial J(w,b)}{\partial b}  = \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{w,b}(x^{(i)}) - y^{(i)}) \tag{2}
+\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(
+\frac{\partial J(w,b)}{\partial w}  = \frac{1}{m} \sum\limits_{i = 0}^{m-1} (f_{w,b}(x^{(i)}) -y^{(i)})x^{(i)} \tag{3}
+\)</span>$</p>
+<ul class="simple">
+<li><p>m is the number of training examples in the dataset</p></li>
+<li><p><span class="math notranslate nohighlight">\(f_{w,b}(x^{(i)})\)</span> is the model’s prediction, while <span class="math notranslate nohighlight">\(y^{(i)}\)</span>, is the target value</p></li>
+</ul>
+<p>You will implement a function called <code class="docutils literal notranslate"><span class="pre">compute_gradient</span></code> which calculates <span class="math notranslate nohighlight">\(\frac{\partial J(w)}{\partial w}\)</span>, <span class="math notranslate nohighlight">\(\frac{\partial J(w)}{\partial b}\)</span></p>
+<p><a name="ex02"></a></p>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h3>
+<p>Please complete the <code class="docutils literal notranslate"><span class="pre">compute_gradient</span></code> function to:</p>
+<ul>
+<li><p>Iterate over the training examples, and for each example, compute:</p>
+<ul class="simple">
+<li><p>The prediction of the model for that example
+$<span class="math notranslate nohighlight">\(
+f_{wb}(x^{(i)}) =  wx^{(i)} + b 
+\)</span>$</p></li>
+<li><p>The gradient for the parameters <span class="math notranslate nohighlight">\(w, b\)</span> from that example
+$<span class="math notranslate nohighlight">\(
+  \frac{\partial J(w,b)}{\partial b}^{(i)}  =  (f_{w,b}(x^{(i)}) - y^{(i)}) 
+  \)</span><span class="math notranslate nohighlight">\(
+  \)</span><span class="math notranslate nohighlight">\(
+  \frac{\partial J(w,b)}{\partial w}^{(i)}  =  (f_{w,b}(x^{(i)}) -y^{(i)})x^{(i)} 
+  \)</span>$</p></li>
+</ul>
+</li>
+<li><p>Return the total gradient update from all the examples
+$<span class="math notranslate nohighlight">\(
+  \frac{\partial J(w,b)}{\partial b}  = \frac{1}{m} \sum\limits_{i = 0}^{m-1} \frac{\partial J(w,b)}{\partial b}^{(i)}
+  \)</span>$</p>
+<div class="math notranslate nohighlight">
+\[
+    \frac{\partial J(w,b)}{\partial w}  = \frac{1}{m} \sum\limits_{i = 0}^{m-1} \frac{\partial J(w,b)}{\partial w}^{(i)} 
+    \]</div>
+<ul class="simple">
+<li><p>Here, <span class="math notranslate nohighlight">\(m\)</span> is the number of training examples and <span class="math notranslate nohighlight">\(\sum\)</span> is the summation operator</p></li>
+</ul>
+</li>
+</ul>
+<p>If you get stuck, you can check out the hints presented after the cell below to help you with the implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2</span>
+<span class="c1"># GRADED FUNCTION: compute_gradient</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the gradient for linear regression </span>
+<span class="sd">    Args:</span>
+<span class="sd">      x (ndarray): Shape (m,) Input to the model (Population of cities) </span>
+<span class="sd">      y (ndarray): Shape (m,) Label (Actual profits for the cities)</span>
+<span class="sd">      w, b (scalar): Parameters of the model  </span>
+<span class="sd">    Returns</span>
+<span class="sd">      dj_dw (scalar): The gradient of the cost w.r.t. the parameters w</span>
+<span class="sd">      dj_db (scalar): The gradient of the cost w.r.t. the parameter b     </span>
+<span class="sd">     &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Number of training examples</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># You need to return the following variables correctly</span>
+    <span class="n">dj_dw</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dj_db</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">f_wb</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span>
+        <span class="n">dj_dw_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">f_wb</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">dj_db_i</span> <span class="o">=</span> <span class="n">f_wb</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">dj_db</span> <span class="o">+=</span> <span class="n">dj_db_i</span>
+        <span class="n">dj_dw</span> <span class="o">+=</span> <span class="n">dj_dw_i</span>
+    <span class="n">dj_dw</span> <span class="o">=</span> <span class="n">dj_dw</span> <span class="o">/</span> <span class="n">m</span>
+    <span class="n">dj_db</span> <span class="o">=</span> <span class="n">dj_db</span> <span class="o">/</span> <span class="n">m</span>
+
+    
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1">### END CODE HERE ### </span>
+        
+    <span class="k">return</span> <span class="n">dj_dw</span><span class="p">,</span> <span class="n">dj_db</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<ul class="simple">
+<li><p>You can represent a summation operator eg: <span class="math notranslate nohighlight">\(h = \sum\limits_{i = 0}^{m-1} 2i\)</span> in code as follows:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span>
+ <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+     <span class="n">h</span> <span class="o">=</span> <span class="n">h</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">i</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>In this case, you can iterate over all the examples in <code class="docutils literal notranslate"><span class="pre">x</span></code> using a for loop and for each example, keep adding the gradient from that example to the variables <code class="docutils literal notranslate"><span class="pre">dj_dw</span></code> and <code class="docutils literal notranslate"><span class="pre">dj_db</span></code> which are initialized outside the loop.</p></li>
+<li><p>Then, you can return <code class="docutils literal notranslate"><span class="pre">dj_dw</span></code> and <code class="docutils literal notranslate"><span class="pre">dj_db</span></code> both divided by <code class="docutils literal notranslate"><span class="pre">m</span></code>.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt; Click for more hints&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+    
+* Here&#39;s how you can structure the overall implementation for this function
+
+```python 
+def compute_gradient(x, y, w, b): 
+    &quot;&quot;&quot;
+    Computes the gradient for linear regression 
+    Args:
+      x (ndarray): Shape (m,) Input to the model (Population of cities) 
+      y (ndarray): Shape (m,) Label (Actual profits for the cities)
+      w, b (scalar): Parameters of the model  
+    Returns
+      dj_dw (scalar): The gradient of the cost w.r.t. the parameters w
+      dj_db (scalar): The gradient of the cost w.r.t. the parameter b     
+    &quot;&quot;&quot;
+
+    # Number of training examples
+    m = x.shape[0]
+
+    # You need to return the following variables correctly
+    dj_dw = 0
+    dj_db = 0
+
+    ### START CODE HERE ### 
+    # Loop over examples
+    for i in range(m):  
+        # Your code here to get prediction f_wb for the ith example
+        f_wb = 
+        
+        # Your code here to get the gradient for w from the ith example 
+        dj_dw_i = 
+    
+        # Your code here to get the gradient for b from the ith example 
+        dj_db_i = 
+ 
+        # Update dj_db : In Python, a += 1  is the same as a = a + 1
+        dj_db += dj_db_i
+    
+        # Update dj_dw
+        dj_dw += dj_dw_i
+
+    # Divide both dj_dw and dj_db by m
+    dj_dw = dj_dw / m
+    dj_db = dj_db / m
+    ### END CODE HERE ### 
+    
+    return dj_dw, dj_db
+```
+    
+* If you&#39;re still stuck, you can check the hints presented below to figure out how to calculate `f_wb` and `cost`.
+
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate f_wb&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+       &amp;emsp; &amp;emsp; You did this in the previous exercise! For scalars $a$, $b$ and $c$ (&lt;code&gt;x[i]&lt;/code&gt;, &lt;code&gt;w&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; are all scalars), you can calculate the equation $h = ab + c$ in code as &lt;code&gt;h = a * b + c&lt;/code&gt;
+      &lt;details&gt;
+          &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;blue&quot;&gt;&lt;b&gt;&amp;emsp; &amp;emsp; More hints to calculate f&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+           &amp;emsp; &amp;emsp; You can compute f_wb as &lt;code&gt;f_wb = w * x[i] + b &lt;/code&gt;
+       &lt;/details&gt;
+&lt;/details&gt;
+    
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate dj_dw_i&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+       &amp;emsp; &amp;emsp; For scalars $a$, $b$ and $c$ (&lt;code&gt;f_wb&lt;/code&gt;, &lt;code&gt;y[i]&lt;/code&gt; and &lt;code&gt;x[i]&lt;/code&gt; are all scalars), you can calculate the equation $h = (a - b)c$ in code as &lt;code&gt;h = (a-b)*c&lt;/code&gt;
+      &lt;details&gt;
+          &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;blue&quot;&gt;&lt;b&gt;&amp;emsp; &amp;emsp; More hints to calculate f&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+           &amp;emsp; &amp;emsp; You can compute dj_dw_i as &lt;code&gt;dj_dw_i = (f_wb - y[i]) * x[i] &lt;/code&gt;
+       &lt;/details&gt;
+&lt;/details&gt;
+    
+&lt;details&gt;
+      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate dj_db_i&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
+         &amp;emsp; &amp;emsp; You can compute dj_db_i as &lt;code&gt; dj_db_i = f_wb - y[i] &lt;/code&gt;
+&lt;/details&gt;
+    
+&lt;/details&gt;
+</pre></div>
+</div>
+</details>
+<p>Run the cells below to check your implementation of the <code class="docutils literal notranslate"><span class="pre">compute_gradient</span></code> function with two different initializations of the parameters <span class="math notranslate nohighlight">\(w\)</span>,<span class="math notranslate nohighlight">\(b\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute and display gradient with w initialized to zeroes</span>
+<span class="n">initial_w</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">initial_b</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">tmp_dj_dw</span><span class="p">,</span> <span class="n">tmp_dj_db</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">initial_w</span><span class="p">,</span> <span class="n">initial_b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Gradient at initial w, b (zeros):&#39;</span><span class="p">,</span> <span class="n">tmp_dj_dw</span><span class="p">,</span> <span class="n">tmp_dj_db</span><span class="p">)</span>
+
+<span class="n">compute_gradient_test</span><span class="p">(</span><span class="n">compute_gradient</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient at initial w, b (zeros): -65.32884974555672 -5.83913505154639
+Using X with shape (4, 1)
+All tests passed!
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s run the gradient descent algorithm implemented above on our dataset.</p>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b>Gradient at initial , b (zeros)<b></td>
+    <td> -65.32884975 -5.83913505154639</td> 
+  </tr>
+</table><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute and display cost and gradient with non-zero w</span>
+<span class="n">test_w</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">test_b</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">tmp_dj_dw</span><span class="p">,</span> <span class="n">tmp_dj_db</span> <span class="o">=</span> <span class="n">compute_gradient</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">test_w</span><span class="p">,</span> <span class="n">test_b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Gradient at test w, b:&#39;</span><span class="p">,</span> <span class="n">tmp_dj_dw</span><span class="p">,</span> <span class="n">tmp_dj_db</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradient at test w, b: -47.41610118114435 -4.007175051546391
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b>Gradient at test w<b></td>
+    <td> -47.41610118 -4.007175051546391</td> 
+  </tr>
+</table><p><a name="2.6"></a></p>
+</section>
+<section id="learning-parameters-using-batch-gradient-descent">
+<h3>2.6 Learning parameters using batch gradient descent<a class="headerlink" href="#learning-parameters-using-batch-gradient-descent" title="Link to this heading">#</a></h3>
+<p>You will now find the optimal parameters of a linear regression model by using batch gradient descent. Recall batch refers to running all the examples in one iteration.</p>
+<ul class="simple">
+<li><p>You don’t need to implement anything for this part. Simply run the cells below.</p></li>
+<li><p>A good way to verify that gradient descent is working correctly is to look
+at the value of <span class="math notranslate nohighlight">\(J(w,b)\)</span> and check that it is decreasing with each step.</p></li>
+<li><p>Assuming you have implemented the gradient and computed the cost correctly and you have an appropriate value for the learning rate alpha, <span class="math notranslate nohighlight">\(J(w,b)\)</span> should never increase and should converge to a steady value by the end of the algorithm.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gradient_descent</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w_in</span><span class="p">,</span> <span class="n">b_in</span><span class="p">,</span> <span class="n">cost_function</span><span class="p">,</span> <span class="n">gradient_function</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs batch gradient descent to learn theta. Updates theta by taking </span>
+<span class="sd">    num_iters gradient steps with learning rate alpha</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">      x :    (ndarray): Shape (m,)</span>
+<span class="sd">      y :    (ndarray): Shape (m,)</span>
+<span class="sd">      w_in, b_in : (scalar) Initial values of parameters of the model</span>
+<span class="sd">      cost_function: function to compute cost</span>
+<span class="sd">      gradient_function: function to compute the gradient</span>
+<span class="sd">      alpha : (float) Learning rate</span>
+<span class="sd">      num_iters : (int) number of iterations to run gradient descent</span>
+<span class="sd">    Returns</span>
+<span class="sd">      w : (ndarray): Shape (1,) Updated values of parameters of the model after</span>
+<span class="sd">          running gradient descent</span>
+<span class="sd">      b : (scalar)                Updated value of parameter of the model after</span>
+<span class="sd">          running gradient descent</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># number of training examples</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="c1"># An array to store cost J and w&#39;s at each iteration — primarily for graphing later</span>
+    <span class="n">J_history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">w_history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">w_in</span><span class="p">)</span>  <span class="c1">#avoid modifying global w within function</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">b_in</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_iters</span><span class="p">):</span>
+
+        <span class="c1"># Calculate the gradient and update the parameters</span>
+        <span class="n">dj_dw</span><span class="p">,</span> <span class="n">dj_db</span> <span class="o">=</span> <span class="n">gradient_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span> <span class="p">)</span>  
+
+        <span class="c1"># Update Parameters using w, b, alpha and gradient</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">dj_dw</span>               
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">dj_db</span>               
+
+        <span class="c1"># Save cost J at each iteration</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">100000</span><span class="p">:</span>      <span class="c1"># prevent resource exhaustion </span>
+            <span class="n">cost</span> <span class="o">=</span>  <span class="n">cost_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="n">J_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+
+        <span class="c1"># Print cost every at intervals 10 times or as many iterations if &lt; 10</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">%</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_iters</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">w_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">4</span><span class="si">}</span><span class="s2">: Cost </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">J_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2">   &quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">J_history</span><span class="p">,</span> <span class="n">w_history</span> <span class="c1">#return w and J,w history for graphing</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s run the gradient descent algorithm above to learn the parameters for our dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize fitting parameters. Recall that the shape of w is (n,)</span>
+<span class="n">initial_w</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">initial_b</span> <span class="o">=</span> <span class="mf">0.</span>
+
+<span class="c1"># some gradient descent settings</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">1500</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="n">w</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">x_train</span> <span class="p">,</span><span class="n">y_train</span><span class="p">,</span> <span class="n">initial_w</span><span class="p">,</span> <span class="n">initial_b</span><span class="p">,</span> 
+                     <span class="n">compute_cost</span><span class="p">,</span> <span class="n">compute_gradient</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;w,b found by gradient descent:&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration    0: Cost     6.74   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration  150: Cost     5.31   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration  300: Cost     4.96   
+Iteration  450: Cost     4.76   
+Iteration  600: Cost     4.64   
+Iteration  750: Cost     4.57   
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration  900: Cost     4.53   
+Iteration 1050: Cost     4.51   
+Iteration 1200: Cost     4.50   
+Iteration 1350: Cost     4.49   
+w,b found by gradient descent: 1.166362350335582 -3.63029143940436
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b> w, b found by gradient descent<b></td>
+    <td> 1.16636235 -3.63029143940436</td> 
+  </tr>
+</table><p>We will now use the final parameters from gradient descent to plot the linear fit.</p>
+<p>Recall that we can get the prediction for a single example <span class="math notranslate nohighlight">\(f(x^{(i)})= wx^{(i)}+b\)</span>.</p>
+<p>To calculate the predictions on the entire dataset, we can loop through all the training examples and calculate the prediction for each example. This is shown in the code block below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="n">predicted</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">x_train</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will now plot the predicted values to see the linear fit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the linear fit</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a scatter plot of the data. </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> 
+
+<span class="c1"># Set the title</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Profits vs. Population per city&quot;</span><span class="p">)</span>
+<span class="c1"># Set the y-axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Profit in $10,000&#39;</span><span class="p">)</span>
+<span class="c1"># Set the x-axis label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Population of City in 10,000s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Population of City in 10,000s&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/9db430d99813e82d07d325df017de2fce8fa7d598949384452994ad244ba225d.png" src="../../_images/9db430d99813e82d07d325df017de2fce8fa7d598949384452994ad244ba225d.png" />
+</div>
+</div>
+<p>Your final values of <span class="math notranslate nohighlight">\(w,b\)</span> can also be used to make predictions on profits. Let’s predict what the profit would be in areas of 35,000 and 70,000 people.</p>
+<ul class="simple">
+<li><p>The model takes in population of a city in 10,000s as input.</p></li>
+<li><p>Therefore, 35,000 people can be translated into an input to the model as <code class="docutils literal notranslate"><span class="pre">np.array([3.5])</span></code></p></li>
+<li><p>Similarly, 70,000 people can be translated into an input to the model as <code class="docutils literal notranslate"><span class="pre">np.array([7.])</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predict1</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;For population = 35,000, we predict a profit of $</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">predict1</span><span class="o">*</span><span class="mi">10000</span><span class="p">))</span>
+
+<span class="n">predict2</span> <span class="o">=</span> <span class="mf">7.0</span> <span class="o">*</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;For population = 70,000, we predict a profit of $</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">predict2</span><span class="o">*</span><span class="mi">10000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>For population = 35,000, we predict a profit of $4519.77
+For population = 70,000, we predict a profit of $45342.45
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b> For population = 35,000, we predict a profit of<b></td>
+    <td> $4519.77 </td> 
+  </tr>
+  <tr>
+    <td> <b> For population = 70,000, we predict a profit of<b></td>
+    <td> $45342.45 </td> 
+  </tr>
+</table><p><strong>Congratulations on completing this practice lab on linear regression! Next week, you will create models to solve a different type of problem: classification. See you there!</strong></p>
+<details>
+  <summary><font size="2" color="darkgreen"><b>Please click here if you want to experiment with any of the non-graded code.</b></font></summary>
+    <p><i><b>Important Note: Please only do this when you've already passed the assignment to avoid problems with the autograder.</b></i>
+    <ol>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “Edit Metadata”</li>
+        <li> Hit the “Edit Metadata” button next to the code cell which you want to lock/unlock</li>
+        <li> Set the attribute value for “editable” to:
+            <ul>
+                <li> “true” if you want to unlock it </li>
+                <li> “false” if you want to lock it </li>
+            </ul>
+        </li>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “None” </li>
+    </ol>
+    <p> Here's a short demo of how to do the steps above: 
+        <br>
+        <img src="https://lh3.google.com/u/0/d/14Xy_Mb17CZVgzVAgq7NCjMVBvSae3xO1" align="center" alt="unlock_cells.gif">
+</details></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./MLS\C1_W2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C1_W2_Lab06_Sklearn_Normal_Soln.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Optional Lab: Linear Regression using Scikit-Learn</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../C1_W3/ppt.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Course 1 Week 3: Classification</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Practice Lab: Linear Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">2 -  Problem Statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">3 - Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-the-variables">View the variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-the-dimensions-of-your-variables">Check the dimensions of your variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-your-data">Visualize your data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refresher-on-linear-regression">4 - Refresher on linear regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-cost">5 - Compute Cost</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-function">Cost function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-prediction">Model prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">6 - Gradient descent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-parameters-using-batch-gradient-descent">2.6 Learning parameters using batch gradient descent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

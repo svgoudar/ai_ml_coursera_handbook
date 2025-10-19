@@ -1,0 +1,1545 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Deep Q-Learning - Lunar Lander &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C3_W3/C3_W3_A1_Assignment';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Deep Learning Specialization Overview" href="../../DLS/overview.html" />
+    <link rel="prev" title="Course 3 Week 3 : Reinforcement Learning Introduction" href="ppt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/MLS/C3_W3/C3_W3_A1_Assignment.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FMLS/C3_W3/C3_W3_A1_Assignment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/MLS/C3_W3/C3_W3_A1_Assignment.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Deep Q-Learning - Lunar Lander</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Deep Q-Learning - Lunar Lander</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages">1 - Import Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters">2 - Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lunar-lander-environment">3 - The Lunar Lander Environment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#action-space">3.1 Action Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-space">3.2 Observation Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rewards">3.3 Rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#episode-termination">3.4 Episode Termination</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-environment">4 - Load the Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interacting-with-the-gym-environment">5 - Interacting with the Gym Environment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-environment-s-dynamics">5.1 Exploring the Environment’s Dynamics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-q-learning">6 - Deep Q-Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#target-network">6.1 Target Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experience-replay">6.2 Experience Replay</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-q-learning-algorithm-with-experience-replay">7 - Deep Q-Learning Algorithm with Experience Replay</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-network-weights">8 - Update the Network Weights</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-agent">9 - Train the Agent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-the-trained-agent-in-action">10 - See the Trained Agent In Action</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">11 - Congratulations!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">12 - References</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="deep-q-learning-lunar-lander">
+<h1>Deep Q-Learning - Lunar Lander<a class="headerlink" href="#deep-q-learning-lunar-lander" title="Link to this heading">#</a></h1>
+<p>In this assignment, you will train an agent to land a lunar lander safely on a landing pad on the surface of the moon.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="outline">
+<h1>Outline<a class="headerlink" href="#outline" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst"> 1 - Import Packages <img align="Right" src="./images/lunar_lander.gif" width = 60% ></span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst"> 2 - Hyperparameters</span></a></p></li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst"> 3 - The Lunar Lander Environment</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3.1"><span class="xref myst"> 3.1 Action Space</span></a></p></li>
+<li><p><a class="reference internal" href="#3.2"><span class="xref myst"> 3.2 Observation Space</span></a></p></li>
+<li><p><a class="reference internal" href="#3.3"><span class="xref myst"> 3.3 Rewards</span></a></p></li>
+<li><p><a class="reference internal" href="#3.4"><span class="xref myst"> 3.4 Episode Termination</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst"> 4 - Load the Environment</span></a></p></li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst"> 5 - Interacting with the Gym Environment</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#5.1"><span class="xref myst"> 5.1 Exploring the Environment’s Dynamics</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst"> 6 - Deep Q-Learning</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#6.1"><span class="xref myst"> 6.1 Target Network</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex01"><span class="xref myst"> Exercise 1</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#6.2"><span class="xref myst"> 6.2 Experience Replay</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#7"><span class="xref myst"> 7 - Deep Q-Learning Algorithm with Experience Replay</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex02"><span class="xref myst"> Exercise 2</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#8"><span class="xref myst"> 8 - Update the Network Weights</span></a></p></li>
+<li><p><a class="reference internal" href="#9"><span class="xref myst"> 9 - Train the Agent</span></a></p></li>
+<li><p><a class="reference internal" href="#10"><span class="xref myst"> 10 - See the Trained Agent In Action</span></a></p></li>
+<li><p><a class="reference internal" href="#11"><span class="xref myst"> 11 - Congratulations!</span></a></p></li>
+<li><p><a class="reference internal" href="#12"><span class="xref myst"> 12 - References</span></a></p></li>
+</ul>
+<p><em><strong>NOTE:</strong> To prevent errors from the autograder, you are not allowed to edit or delete non-graded cells in this lab. Please also refrain from adding any new cells.
+<strong>Once you have passed this assignment</strong> and want to experiment with any of the non-graded code, you may follow the instructions at the bottom of this notebook.</em></p>
+<p><a name="1"></a></p>
+<section id="import-packages">
+<h2>1 - Import Packages<a class="headerlink" href="#import-packages" title="Link to this heading">#</a></h2>
+<p>We’ll make use of the following packages:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code> is a package for scientific computing in python.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deque</span></code> will be our data structure for our memory buffer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">namedtuple</span></code> will be used to store the experience tuples.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">gym</span></code> toolkit is a collection of environments that can be used to test reinforcement learning algorithms. We should note that in this notebook we are using <code class="docutils literal notranslate"><span class="pre">gym</span></code> version <code class="docutils literal notranslate"><span class="pre">0.24.0</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PIL.Image</span></code> and <code class="docutils literal notranslate"><span class="pre">pyvirtualdisplay</span></code> are needed to render the Lunar Lander environment.</p></li>
+<li><p>We will use several modules from the <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code> framework for building deep learning models.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils</span></code> is a module that contains helper functions for this assignment. You do not need to modify the code in this file.</p></li>
+</ul>
+<p>Run the cell below to import all the necessary packages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">namedtuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">gym</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">PIL.Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">utils</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyvirtualdisplay</span><span class="w"> </span><span class="kn">import</span> <span class="n">Display</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.losses</span><span class="w"> </span><span class="kn">import</span> <span class="n">MSE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">namedtuple</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">import</span><span class="w"> </span><span class="nn">gym</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span><span class="w"> </span><span class="nn">PIL.Image</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;gym&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up a virtual display to render the Lunar Lander environment.</span>
+<span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">840</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span><span class="o">.</span><span class="n">start</span><span class="p">();</span>
+
+<span class="c1"># Set the random seed for TensorFlow</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">SEED</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2"></a></p>
+</section>
+<section id="hyperparameters">
+<h2>2 - Hyperparameters<a class="headerlink" href="#hyperparameters" title="Link to this heading">#</a></h2>
+<p>Run the cell below to set the hyperparameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">MEMORY_SIZE</span> <span class="o">=</span> <span class="mi">100_000</span>     <span class="c1"># size of memory buffer</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.995</span>             <span class="c1"># discount factor</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">1e-3</span>              <span class="c1"># learning rate  </span>
+<span class="n">NUM_STEPS_FOR_UPDATE</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># perform a learning update every C time steps</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3"></a></p>
+</section>
+<section id="the-lunar-lander-environment">
+<h2>3 - The Lunar Lander Environment<a class="headerlink" href="#the-lunar-lander-environment" title="Link to this heading">#</a></h2>
+<p>In this notebook we will be using <a class="reference external" href="https://www.gymlibrary.dev/">OpenAI’s Gym Library</a>. The Gym library provides a wide variety of environments for reinforcement learning. To put it simply, an environment represents a problem or task to be solved. In this notebook, we will try to solve the Lunar Lander environment using reinforcement learning.</p>
+<p>The goal of the Lunar Lander environment is to land the lunar lander safely on the landing pad on the surface of the moon. The landing pad is designated by two flag poles and its center is at coordinates <code class="docutils literal notranslate"><span class="pre">(0,0)</span></code> but the lander is also allowed to land outside of the landing pad. The lander starts at the top center of the environment with a random initial force applied to its center of mass and has infinite fuel. The environment is considered solved if you get <code class="docutils literal notranslate"><span class="pre">200</span></code> points.</p>
+<br>
+<br>
+<figure>
+  <img src = "images/lunar_lander.gif" width = 40%>
+      <figcaption style = "text-align: center; font-style: italic">Fig 1. Lunar Lander Environment.</figcaption>
+</figure>
+<p><a name="3.1"></a></p>
+<section id="action-space">
+<h3>3.1 Action Space<a class="headerlink" href="#action-space" title="Link to this heading">#</a></h3>
+<p>The agent has four discrete actions available:</p>
+<ul class="simple">
+<li><p>Do nothing.</p></li>
+<li><p>Fire right engine.</p></li>
+<li><p>Fire main engine.</p></li>
+<li><p>Fire left engine.</p></li>
+</ul>
+<p>Each action has a corresponding numerical value:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Do</span> <span class="n">nothing</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Fire</span> <span class="n">right</span> <span class="n">engine</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Fire</span> <span class="n">main</span> <span class="n">engine</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">Fire</span> <span class="n">left</span> <span class="n">engine</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p><a name="3.2"></a></p>
+</section>
+<section id="observation-space">
+<h3>3.2 Observation Space<a class="headerlink" href="#observation-space" title="Link to this heading">#</a></h3>
+<p>The agent’s observation space consists of a state vector with 8 variables:</p>
+<ul class="simple">
+<li><p>Its <span class="math notranslate nohighlight">\((x,y)\)</span> coordinates. The landing pad is always at coordinates <span class="math notranslate nohighlight">\((0,0)\)</span>.</p></li>
+<li><p>Its linear velocities <span class="math notranslate nohighlight">\((\dot x,\dot y)\)</span>.</p></li>
+<li><p>Its angle <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>Its angular velocity <span class="math notranslate nohighlight">\(\dot \theta\)</span>.</p></li>
+<li><p>Two booleans, <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(r\)</span>, that represent whether each leg is in contact with the ground or not.</p></li>
+</ul>
+<p><a name="3.3"></a></p>
+</section>
+<section id="rewards">
+<h3>3.3 Rewards<a class="headerlink" href="#rewards" title="Link to this heading">#</a></h3>
+<p>After every step, a reward is granted. The total reward of an episode is the sum of the rewards for all the steps within that episode.</p>
+<p>For each step, the reward:</p>
+<ul class="simple">
+<li><p>is increased/decreased the closer/further the lander is to the landing pad.</p></li>
+<li><p>is increased/decreased the slower/faster the lander is moving.</p></li>
+<li><p>is decreased the more the lander is tilted (angle not horizontal).</p></li>
+<li><p>is increased by 10 points for each leg that is in contact with the ground.</p></li>
+<li><p>is decreased by 0.03 points each frame a side engine is firing.</p></li>
+<li><p>is decreased by 0.3 points each frame the main engine is firing.</p></li>
+</ul>
+<p>The episode receives an additional reward of -100 or +100 points for crashing or landing safely respectively.</p>
+<p><a name="3.4"></a></p>
+</section>
+<section id="episode-termination">
+<h3>3.4 Episode Termination<a class="headerlink" href="#episode-termination" title="Link to this heading">#</a></h3>
+<p>An episode ends (i.e the environment enters a terminal state) if:</p>
+<ul class="simple">
+<li><p>The lunar lander crashes (i.e if the body of the lunar lander comes in contact with the surface of the moon).</p></li>
+<li><p>The absolute value of the lander’s <span class="math notranslate nohighlight">\(x\)</span>-coordinate is greater than 1 (i.e. it goes beyond the left or right border)</p></li>
+</ul>
+<p>You can check out the <a class="reference external" href="https://www.gymlibrary.dev/environments/box2d/lunar_lander/">Open AI Gym documentation</a> for a full description of the environment.</p>
+<p><a name="4"></a></p>
+</section>
+</section>
+<section id="load-the-environment">
+<h2>4 - Load the Environment<a class="headerlink" href="#load-the-environment" title="Link to this heading">#</a></h2>
+<p>We start by loading the <code class="docutils literal notranslate"><span class="pre">LunarLander-v2</span></code> environment from the <code class="docutils literal notranslate"><span class="pre">gym</span></code> library by using the <code class="docutils literal notranslate"><span class="pre">.make()</span></code> method. <code class="docutils literal notranslate"><span class="pre">LunarLander-v2</span></code> is the latest version of the Lunar Lander environment and you can read about its version history in the <a class="reference external" href="https://www.gymlibrary.dev/environments/box2d/lunar_lander/#version-history">Open AI Gym documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;LunarLander-v2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once we load the environment we use the <code class="docutils literal notranslate"><span class="pre">.reset()</span></code> method to reset the environment to the initial state. The lander starts at the top center of the environment and we can render the first frame of the environment by using the <code class="docutils literal notranslate"><span class="pre">.render()</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rgb_array&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In order to build our neural network later on we need to know the size of the state vector and the number of valid actions. We can get this information from our environment by using the <code class="docutils literal notranslate"><span class="pre">.observation_space.shape</span></code> and <code class="docutils literal notranslate"><span class="pre">action_space.n</span></code> methods, respectively.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state_size</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">num_actions</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;State Shape:&#39;</span><span class="p">,</span> <span class="n">state_size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of actions:&#39;</span><span class="p">,</span> <span class="n">num_actions</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="5"></a></p>
+</section>
+<section id="interacting-with-the-gym-environment">
+<h2>5 - Interacting with the Gym Environment<a class="headerlink" href="#interacting-with-the-gym-environment" title="Link to this heading">#</a></h2>
+<p>The Gym library implements the standard “agent-environment loop” formalism:</p>
+<br>
+<center>
+<video src = "./videos/rl_formalism.m4v" width="840" height="480" controls autoplay loop poster="./images/rl_formalism.png"> </video>
+<figcaption style = "text-align:center; font-style:italic">Fig 2. Agent-environment Loop Formalism.</figcaption>
+</center>
+<br>
+<p>In the standard “agent-environment loop” formalism, an agent interacts with the environment in discrete time steps <span class="math notranslate nohighlight">\(t=0,1,2,...\)</span>. At each time step <span class="math notranslate nohighlight">\(t\)</span>, the agent uses a policy <span class="math notranslate nohighlight">\(\pi\)</span> to select an action <span class="math notranslate nohighlight">\(A_t\)</span> based on its observation of the environment’s state <span class="math notranslate nohighlight">\(S_t\)</span>. The agent receives a numerical reward <span class="math notranslate nohighlight">\(R_t\)</span> and on the next time step, moves to a new state <span class="math notranslate nohighlight">\(S_{t+1}\)</span>.</p>
+<p><a name="5.1"></a></p>
+<section id="exploring-the-environment-s-dynamics">
+<h3>5.1 Exploring the Environment’s Dynamics<a class="headerlink" href="#exploring-the-environment-s-dynamics" title="Link to this heading">#</a></h3>
+<p>In Open AI’s Gym environments, we use the <code class="docutils literal notranslate"><span class="pre">.step()</span></code> method to run a single time step of the environment’s dynamics. In the version of <code class="docutils literal notranslate"><span class="pre">gym</span></code> that we are using the <code class="docutils literal notranslate"><span class="pre">.step()</span></code> method accepts an action and returns four values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">observation</span></code> (<strong>object</strong>): an environment-specific object representing your observation of the environment. In the Lunar Lander environment this corresponds to a numpy array containing the positions and velocities of the lander as described in section <a class="reference internal" href="#3.2"><span class="xref myst">3.2 Observation Space</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reward</span></code> (<strong>float</strong>): amount of reward returned as a result of taking the given action. In the Lunar Lander environment this corresponds to a float of type <code class="docutils literal notranslate"><span class="pre">numpy.float64</span></code> as described in section <a class="reference internal" href="#3.3"><span class="xref myst">3.3 Rewards</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">done</span></code> (<strong>boolean</strong>): When done is <code class="docutils literal notranslate"><span class="pre">True</span></code>, it indicates the episode has terminated and it’s time to reset the environment.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">info</span></code> (<strong>dictionary</strong>): diagnostic information useful for debugging. We won’t be using this variable in this notebook but it is shown here for completeness.</p></li>
+</ul>
+<p>To begin an episode, we need to reset the environment to an initial state. We do this by using the <code class="docutils literal notranslate"><span class="pre">.reset()</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reset the environment and get the initial state.</span>
+<span class="n">current_state</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once the environment is reset, the agent can start taking actions in the environment by using the <code class="docutils literal notranslate"><span class="pre">.step()</span></code> method. Note that the agent can only take one action per time step.</p>
+<p>In the cell below you can select different actions and see how the returned values change depending on the action taken. Remember that in this environment the agent has four discrete actions available and we specify them in code by using their corresponding numerical value:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Do</span> <span class="n">nothing</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Fire</span> <span class="n">right</span> <span class="n">engine</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Fire</span> <span class="n">main</span> <span class="n">engine</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">Fire</span> <span class="n">left</span> <span class="n">engine</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select an action</span>
+<span class="n">action</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Run a single time step of the environment&#39;s dynamics with the given action.</span>
+<span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+<span class="c1"># Display table with values.</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">display_table</span><span class="p">(</span><span class="n">current_state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">)</span>
+
+<span class="c1"># Replace the `current_state` with the state after the action is taken</span>
+<span class="n">current_state</span> <span class="o">=</span> <span class="n">next_state</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In practice, when we train the agent we use a loop to allow the agent to take many consecutive actions during an episode.</p>
+<p><a name="6"></a></p>
+</section>
+</section>
+<section id="deep-q-learning">
+<h2>6 - Deep Q-Learning<a class="headerlink" href="#deep-q-learning" title="Link to this heading">#</a></h2>
+<p>In cases where both the state and action space are discrete we can estimate the action-value function iteratively by using the Bellman equation:</p>
+<div class="math notranslate nohighlight">
+\[
+Q_{i+1}(s,a) = R + \gamma \max_{a'}Q_i(s',a')
+\]</div>
+<p>This iterative method converges to the optimal action-value function <span class="math notranslate nohighlight">\(Q^*(s,a)\)</span> as <span class="math notranslate nohighlight">\(i\to\infty\)</span>. This means that the agent just needs to gradually explore the state-action space and keep updating the estimate of <span class="math notranslate nohighlight">\(Q(s,a)\)</span> until it converges to the optimal action-value function <span class="math notranslate nohighlight">\(Q^*(s,a)\)</span>. However, in cases where the state space is continuous it becomes practically impossible to explore the entire state-action space. Consequently, this also makes it practically impossible to gradually estimate <span class="math notranslate nohighlight">\(Q(s,a)\)</span> until it converges to <span class="math notranslate nohighlight">\(Q^*(s,a)\)</span>.</p>
+<p>In the Deep <span class="math notranslate nohighlight">\(Q\)</span>-Learning, we solve this problem by using a neural network to estimate the action-value function <span class="math notranslate nohighlight">\(Q(s,a)\approx Q^*(s,a)\)</span>. We call this neural network a <span class="math notranslate nohighlight">\(Q\)</span>-Network and it can be trained by adjusting its weights at each iteration to minimize the mean-squared error in the Bellman equation.</p>
+<p>Unfortunately, using neural networks in reinforcement learning to estimate action-value functions has proven to be highly unstable. Luckily, there’s a couple of techniques that can be employed to avoid instabilities. These techniques consist of using a <em><strong>Target Network</strong></em> and <em><strong>Experience Replay</strong></em>. We will explore these two techniques in the following sections.</p>
+<p><a name="6.1"></a></p>
+<section id="target-network">
+<h3>6.1 Target Network<a class="headerlink" href="#target-network" title="Link to this heading">#</a></h3>
+<p>We can train the <span class="math notranslate nohighlight">\(Q\)</span>-Network by adjusting it’s weights at each iteration to minimize the mean-squared error in the Bellman equation, where the target values are given by:</p>
+<div class="math notranslate nohighlight">
+\[
+y = R + \gamma \max_{a'}Q(s',a';w)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(w\)</span> are the weights of the <span class="math notranslate nohighlight">\(Q\)</span>-Network. This means that we are adjusting the weights <span class="math notranslate nohighlight">\(w\)</span> at each iteration to minimize the following error:</p>
+<div class="math notranslate nohighlight">
+\[
+\overbrace{\underbrace{R + \gamma \max_{a'}Q(s',a'; w)}_{\rm {y~target}} - Q(s,a;w)}^{\rm {Error}}
+\]</div>
+<p>Notice that this forms a problem because the <span class="math notranslate nohighlight">\(y\)</span> target is changing on every iteration. Having a constantly moving target can lead to oscillations and instabilities. To avoid this, we can create
+a separate neural network for generating the <span class="math notranslate nohighlight">\(y\)</span> targets. We call this separate neural network the <strong>target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network</strong> and it will have the same architecture as the original <span class="math notranslate nohighlight">\(Q\)</span>-Network. By using the target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network, the above error becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\overbrace{\underbrace{R + \gamma \max_{a'}\hat{Q}(s',a'; w^-)}_{\rm {y~target}} - Q(s,a;w)}^{\rm {Error}}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(w^-\)</span> and <span class="math notranslate nohighlight">\(w\)</span> are the weights of the target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network and <span class="math notranslate nohighlight">\(Q\)</span>-Network, respectively.</p>
+<p>In practice, we will use the following algorithm: every <span class="math notranslate nohighlight">\(C\)</span> time steps we will use the <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network to generate the <span class="math notranslate nohighlight">\(y\)</span> targets and update the weights of the target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network using the weights of the <span class="math notranslate nohighlight">\(Q\)</span>-Network. We will update the weights <span class="math notranslate nohighlight">\(w^-\)</span> of the the target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network using a <strong>soft update</strong>. This means that we will update the weights <span class="math notranslate nohighlight">\(w^-\)</span> using the following rule:</p>
+<div class="math notranslate nohighlight">
+\[
+w^-\leftarrow \tau w + (1 - \tau) w^-
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tau\ll 1\)</span>. By using the soft update, we are ensuring that the target values, <span class="math notranslate nohighlight">\(y\)</span>, change slowly, which greatly improves the stability of our learning algorithm.</p>
+<p><a name="ex01"></a></p>
+</section>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p>In this exercise you will create the <span class="math notranslate nohighlight">\(Q\)</span> and target <span class="math notranslate nohighlight">\(\hat Q\)</span> networks and set the optimizer. Remember that the Deep <span class="math notranslate nohighlight">\(Q\)</span>-Network (DQN) is a neural network that approximates the action-value function <span class="math notranslate nohighlight">\(Q(s,a)\approx Q^*(s,a)\)</span>. It does this by learning how to map states to <span class="math notranslate nohighlight">\(Q\)</span> values.</p>
+<p>To solve the Lunar Lander environment, we are going to employ a DQN with the following architecture:</p>
+<ul class="simple">
+<li><p>An <code class="docutils literal notranslate"><span class="pre">Input</span></code> layer that takes <code class="docutils literal notranslate"><span class="pre">state_size</span></code> as input.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">Dense</span></code> layer with <code class="docutils literal notranslate"><span class="pre">64</span></code> units and a <code class="docutils literal notranslate"><span class="pre">relu</span></code> activation function.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">Dense</span></code> layer with <code class="docutils literal notranslate"><span class="pre">64</span></code> units and a <code class="docutils literal notranslate"><span class="pre">relu</span></code> activation function.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">Dense</span></code> layer with <code class="docutils literal notranslate"><span class="pre">num_actions</span></code> units and a <code class="docutils literal notranslate"><span class="pre">linear</span></code> activation function. This will be the output layer of our network.</p></li>
+</ul>
+<p>In the cell below you should create the <span class="math notranslate nohighlight">\(Q\)</span>-Network and the target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network using the model architecture described above. Remember that both the <span class="math notranslate nohighlight">\(Q\)</span>-Network and the target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network have the same architecture.</p>
+<p>Lastly, you should set <code class="docutils literal notranslate"><span class="pre">Adam</span></code> as the optimizer with a learning rate equal to <code class="docutils literal notranslate"><span class="pre">ALPHA</span></code>. Recall that <code class="docutils literal notranslate"><span class="pre">ALPHA</span></code> was defined in the <a class="reference internal" href="#2"><span class="xref myst">Hyperparameters</span></a> section. We should note that for this exercise you should use the already imported packages:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1</span>
+<span class="c1"># GRADED CELL</span>
+
+<span class="c1"># Create the Q-Network</span>
+<span class="n">q_network</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+    <span class="c1">### START CODE HERE ### </span>
+    
+    
+    
+    
+    <span class="c1">### END CODE HERE ### </span>
+    <span class="p">])</span>
+
+<span class="c1"># Create the target Q^-Network</span>
+<span class="n">target_q_network</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+    <span class="c1">### START CODE HERE ### </span>
+    
+    
+    
+    
+    <span class="c1">### END CODE HERE ###</span>
+    <span class="p">])</span>
+
+<span class="c1">### START CODE HERE ### </span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="c1">### END CODE HERE ###</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNIT TEST</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">test_network</span><span class="p">(</span><span class="n">q_network</span><span class="p">)</span>
+<span class="n">test_network</span><span class="p">(</span><span class="n">target_q_network</span><span class="p">)</span>
+<span class="n">test_optimizer</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the Q-Network</span>
+<span class="n">q_network</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">state_size</span><span class="p">),</span>                      
+    <span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>            
+    <span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>            
+    <span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">num_actions</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span>
+    <span class="p">])</span>
+
+<span class="c1"># Create the target Q^-Network</span>
+<span class="n">target_q_network</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">state_size</span><span class="p">),</span>                       
+    <span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>            
+    <span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>            
+    <span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">num_actions</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">),</span> 
+    <span class="p">])</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">ALPHA</span><span class="p">)</span>                                  
+</pre></div>
+</div>
+<p><a name="6.2"></a></p>
+</section>
+<section id="experience-replay">
+<h3>6.2 Experience Replay<a class="headerlink" href="#experience-replay" title="Link to this heading">#</a></h3>
+<p>When an agent interacts with the environment, the states, actions, and rewards the agent experiences are sequential by nature. If the agent tries to learn from these consecutive experiences it can run into problems due to the strong correlations between them. To avoid this, we employ a technique known as <strong>Experience Replay</strong> to generate uncorrelated experiences for training our agent. Experience replay consists of storing the agent’s experiences (i.e the states, actions, and rewards the agent receives) in a memory buffer and then sampling a random mini-batch of experiences from the buffer to do the learning. The experience tuples <span class="math notranslate nohighlight">\((S_t, A_t, R_t, S_{t+1})\)</span> will be added to the memory buffer at each time step as the agent interacts with the environment.</p>
+<p>For convenience, we will store the experiences as named tuples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store experiences as named tuples</span>
+<span class="n">experience</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Experience&quot;</span><span class="p">,</span> <span class="n">field_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="s2">&quot;reward&quot;</span><span class="p">,</span> <span class="s2">&quot;next_state&quot;</span><span class="p">,</span> <span class="s2">&quot;done&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By using experience replay we avoid problematic correlations, oscillations and instabilities. In addition, experience replay also allows the agent to potentially use the same experience in multiple weight updates, which increases data efficiency.</p>
+<p><a name="7"></a></p>
+</section>
+</section>
+<section id="deep-q-learning-algorithm-with-experience-replay">
+<h2>7 - Deep Q-Learning Algorithm with Experience Replay<a class="headerlink" href="#deep-q-learning-algorithm-with-experience-replay" title="Link to this heading">#</a></h2>
+<p>Now that we know all the techniques that we are going to use, we can put them together to arrive at the Deep Q-Learning Algorithm With Experience Replay.
+<br>
+<br></p>
+<figure>
+  <img src = "images/deep_q_algorithm.png" width = 90% style = "border: thin silver solid; padding: 0px">
+      <figcaption style = "text-align: center; font-style: italic">Fig 3. Deep Q-Learning with Experience Replay.</figcaption>
+</figure><p><a name="ex02"></a></p>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h3>
+<p>In this exercise you will implement line <em><strong>12</strong></em> of the algorithm outlined in <em>Fig 3</em> above and you will also compute the loss between the <span class="math notranslate nohighlight">\(y\)</span> targets and the <span class="math notranslate nohighlight">\(Q(s,a)\)</span> values. In the cell below, complete the <code class="docutils literal notranslate"><span class="pre">compute_loss</span></code> function by setting the <span class="math notranslate nohighlight">\(y\)</span> targets equal to:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{equation}
+    y_j =
+    \begin{cases}
+      R_j &amp; \text{if episode terminates at step  } j+1\\
+      R_j + \gamma \max_{a'}\hat{Q}(s_{j+1},a') &amp; \text{otherwise}\\
+    \end{cases}       
+\end{equation}
+\end{split}\]</div>
+<p>Here are a couple of things to note:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">compute_loss</span></code> function takes in a mini-batch of experience tuples. This mini-batch of experience tuples is unpacked to extract the <code class="docutils literal notranslate"><span class="pre">states</span></code>, <code class="docutils literal notranslate"><span class="pre">actions</span></code>, <code class="docutils literal notranslate"><span class="pre">rewards</span></code>, <code class="docutils literal notranslate"><span class="pre">next_states</span></code>, and <code class="docutils literal notranslate"><span class="pre">done_vals</span></code>. You should keep in mind that these variables are <em>TensorFlow Tensors</em> whose size will depend on the mini-batch size. For example, if the mini-batch size is <code class="docutils literal notranslate"><span class="pre">64</span></code> then both <code class="docutils literal notranslate"><span class="pre">rewards</span></code> and <code class="docutils literal notranslate"><span class="pre">done_vals</span></code> will be TensorFlow Tensors with <code class="docutils literal notranslate"><span class="pre">64</span></code> elements.</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">if/else</span></code> statements to set the <span class="math notranslate nohighlight">\(y\)</span> targets will not work when the variables are tensors with many elements. However, notice that you can use the <code class="docutils literal notranslate"><span class="pre">done_vals</span></code> to implement the above in a single line of code. To do this, recall that the <code class="docutils literal notranslate"><span class="pre">done</span></code> variable is a Boolean variable that takes the value <code class="docutils literal notranslate"><span class="pre">True</span></code> when an episode terminates at step <span class="math notranslate nohighlight">\(j+1\)</span> and it is <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise. Taking into account that a Boolean value of <code class="docutils literal notranslate"><span class="pre">True</span></code> has the numerical value of <code class="docutils literal notranslate"><span class="pre">1</span></code> and a Boolean value of <code class="docutils literal notranslate"><span class="pre">False</span></code> has the numerical value of <code class="docutils literal notranslate"><span class="pre">0</span></code>, you can use the factor <code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span> <span class="pre">done_vals)</span></code> to implement the above in a single line of code. Here’s a hint: notice that <code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">-</span> <span class="pre">done_vals)</span></code> has a value of <code class="docutils literal notranslate"><span class="pre">0</span></code> when <code class="docutils literal notranslate"><span class="pre">done_vals</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code> and a value of <code class="docutils literal notranslate"><span class="pre">1</span></code> when <code class="docutils literal notranslate"><span class="pre">done_vals</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+<p>Lastly, compute the loss by calculating the Mean-Squared Error (<code class="docutils literal notranslate"><span class="pre">MSE</span></code>) between the <code class="docutils literal notranslate"><span class="pre">y_targets</span></code> and the <code class="docutils literal notranslate"><span class="pre">q_values</span></code>. To calculate the mean-squared error you should use the already imported package <code class="docutils literal notranslate"><span class="pre">MSE</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.losses</span><span class="w"> </span><span class="kn">import</span> <span class="n">MSE</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2</span>
+<span class="c1"># GRADED FUNCTION: calculate_loss</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_loss</span><span class="p">(</span><span class="n">experiences</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q_network</span><span class="p">,</span> <span class="n">target_q_network</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Calculates the loss.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">      experiences: (tuple) tuple of [&quot;state&quot;, &quot;action&quot;, &quot;reward&quot;, &quot;next_state&quot;, &quot;done&quot;] namedtuples</span>
+<span class="sd">      gamma: (float) The discount factor.</span>
+<span class="sd">      q_network: (tf.keras.Sequential) Keras model for predicting the q_values</span>
+<span class="sd">      target_q_network: (tf.keras.Sequential) Keras model for predicting the targets</span>
+<span class="sd">          </span>
+<span class="sd">    Returns:</span>
+<span class="sd">      loss: (TensorFlow Tensor(shape=(0,), dtype=int32)) the Mean-Squared Error between</span>
+<span class="sd">            the y targets and the Q(s,a) values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Unpack the mini-batch of experience tuples</span>
+    <span class="n">states</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">next_states</span><span class="p">,</span> <span class="n">done_vals</span> <span class="o">=</span> <span class="n">experiences</span>
+    
+    <span class="c1"># Compute max Q^(s,a)</span>
+    <span class="n">max_qsa</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">target_q_network</span><span class="p">(</span><span class="n">next_states</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Set y = R if episode terminates, otherwise set y = R + γ max Q^(s,a).</span>
+    <span class="c1">### START CODE HERE ### </span>
+    <span class="n">y_targets</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="c1"># Get the q_values and reshape to match y_targets</span>
+    <span class="n">q_values</span> <span class="o">=</span> <span class="n">q_network</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+    <span class="n">q_values</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather_nd</span><span class="p">(</span><span class="n">q_values</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">q_values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                                <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        
+    <span class="c1"># Compute the loss</span>
+    <span class="c1">### START CODE HERE ### </span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span> 
+    <span class="c1">### END CODE HERE ### </span>
+    
+    <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNIT TEST    </span>
+<span class="n">test_compute_loss</span><span class="p">(</span><span class="n">compute_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_loss</span><span class="p">(</span><span class="n">experiences</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q_network</span><span class="p">,</span> <span class="n">target_q_network</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Calculates the loss.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">      experiences: (tuple) tuple of [&quot;state&quot;, &quot;action&quot;, &quot;reward&quot;, &quot;next_state&quot;, &quot;done&quot;] namedtuples</span>
+<span class="sd">      gamma: (float) The discount factor.</span>
+<span class="sd">      q_network: (tf.keras.Sequential) Keras model for predicting the q_values</span>
+<span class="sd">      target_q_network: (tf.keras.Sequential) Keras model for predicting the targets</span>
+<span class="sd">          </span>
+<span class="sd">    Returns:</span>
+<span class="sd">      loss: (TensorFlow Tensor(shape=(0,), dtype=int32)) the Mean-Squared Error between</span>
+<span class="sd">            the y targets and the Q(s,a) values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    
+    <span class="c1"># Unpack the mini-batch of experience tuples</span>
+    <span class="n">states</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">next_states</span><span class="p">,</span> <span class="n">done_vals</span> <span class="o">=</span> <span class="n">experiences</span>
+    
+    <span class="c1"># Compute max Q^(s,a)</span>
+    <span class="n">max_qsa</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">target_q_network</span><span class="p">(</span><span class="n">next_states</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Set y = R if episode terminates, otherwise set y = R + γ max Q^(s,a).</span>
+    <span class="n">y_targets</span> <span class="o">=</span> <span class="n">rewards</span> <span class="o">+</span> <span class="p">(</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">max_qsa</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">done_vals</span><span class="p">))</span>
+    
+    <span class="c1"># Get the q_values</span>
+    <span class="n">q_values</span> <span class="o">=</span> <span class="n">q_network</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+    <span class="n">q_values</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather_nd</span><span class="p">(</span><span class="n">q_values</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">q_values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                                                <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    
+    <span class="c1"># Calculate the loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">y_targets</span><span class="p">,</span> <span class="n">q_values</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">loss</span>
+
+</pre></div>
+</div>
+<p><a name="8"></a></p>
+</section>
+</section>
+<section id="update-the-network-weights">
+<h2>8 - Update the Network Weights<a class="headerlink" href="#update-the-network-weights" title="Link to this heading">#</a></h2>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">agent_learn</span></code> function below to implement lines <em><strong>12 -14</strong></em> of the algorithm outlined in <a class="reference internal" href="#7"><span class="xref myst">Fig 3</span></a>. The <code class="docutils literal notranslate"><span class="pre">agent_learn</span></code> function will update the weights of the <span class="math notranslate nohighlight">\(Q\)</span> and target <span class="math notranslate nohighlight">\(\hat Q\)</span> networks using a custom training loop. Because we are using a custom training loop we need to retrieve the gradients via a <code class="docutils literal notranslate"><span class="pre">tf.GradientTape</span></code> instance, and then call <code class="docutils literal notranslate"><span class="pre">optimizer.apply_gradients()</span></code> to update the weights of our <span class="math notranslate nohighlight">\(Q\)</span>-Network. Note that we are also using the <code class="docutils literal notranslate"><span class="pre">&#64;tf.function</span></code> decorator to increase performance. Without this decorator our training will take twice as long. If you would like to know more about how to increase performance with <code class="docutils literal notranslate"><span class="pre">&#64;tf.function</span></code> take a look at the <a class="reference external" href="https://www.tensorflow.org/guide/function">TensorFlow documentation</a>.</p>
+<p>The last line of this function updates the weights of the target <span class="math notranslate nohighlight">\(\hat Q\)</span>-Network using a <a class="reference internal" href="#6.1"><span class="xref myst">soft update</span></a>. If you want to know how this is implemented in code we encourage you to take a look at the <code class="docutils literal notranslate"><span class="pre">utils.update_target_network</span></code> function in the <code class="docutils literal notranslate"><span class="pre">utils</span></code> module.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@tf</span><span class="o">.</span><span class="n">function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">agent_learn</span><span class="p">(</span><span class="n">experiences</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates the weights of the Q networks.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">      experiences: (tuple) tuple of [&quot;state&quot;, &quot;action&quot;, &quot;reward&quot;, &quot;next_state&quot;, &quot;done&quot;] namedtuples</span>
+<span class="sd">      gamma: (float) The discount factor.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Calculate the loss</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">compute_loss</span><span class="p">(</span><span class="n">experiences</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">q_network</span><span class="p">,</span> <span class="n">target_q_network</span><span class="p">)</span>
+
+    <span class="c1"># Get the gradients of the loss with respect to the weights.</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">q_network</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+    
+    <span class="c1"># Update the weights of the q_network.</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">q_network</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
+
+    <span class="c1"># update the weights of target q_network</span>
+    <span class="n">utils</span><span class="o">.</span><span class="n">update_target_network</span><span class="p">(</span><span class="n">q_network</span><span class="p">,</span> <span class="n">target_q_network</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="9"></a></p>
+</section>
+<section id="train-the-agent">
+<h2>9 - Train the Agent<a class="headerlink" href="#train-the-agent" title="Link to this heading">#</a></h2>
+<p>We are now ready to train our agent to solve the Lunar Lander environment. In the cell below we will implement the algorithm in <a class="reference internal" href="#7"><span class="xref myst">Fig 3</span></a> line by line (please note that we have included the same algorithm below for easy reference. This will prevent you from scrolling up and down the notebook):</p>
+<ul class="simple">
+<li><p><strong>Line 1</strong>: We initialize the <code class="docutils literal notranslate"><span class="pre">memory_buffer</span></code> with a capacity of <span class="math notranslate nohighlight">\(N =\)</span> <code class="docutils literal notranslate"><span class="pre">MEMORY_SIZE</span></code>. Notice that we are using a <code class="docutils literal notranslate"><span class="pre">deque</span></code> as the data structure for our <code class="docutils literal notranslate"><span class="pre">memory_buffer</span></code>.</p></li>
+<li><p><strong>Line 2</strong>: We skip this line since we already initialized the <code class="docutils literal notranslate"><span class="pre">q_network</span></code> in <a class="reference internal" href="#ex01"><span class="xref myst">Exercise 1</span></a>.</p></li>
+<li><p><strong>Line 3</strong>: We initialize the <code class="docutils literal notranslate"><span class="pre">target_q_network</span></code> by setting its weights to be equal to those of the <code class="docutils literal notranslate"><span class="pre">q_network</span></code>.</p></li>
+<li><p><strong>Line 4</strong>: We start the outer loop. Notice that we have set <span class="math notranslate nohighlight">\(M =\)</span> <code class="docutils literal notranslate"><span class="pre">num_episodes</span> <span class="pre">=</span> <span class="pre">2000</span></code>. This number is reasonable because the agent should be able to solve the Lunar Lander environment in less than <code class="docutils literal notranslate"><span class="pre">2000</span></code> episodes using this notebook’s default parameters.</p></li>
+<li><p><strong>Line 5</strong>: We use the <code class="docutils literal notranslate"><span class="pre">.reset()</span></code> method to reset the environment to the initial state and get the initial state.</p></li>
+<li><p><strong>Line 6</strong>: We start the inner loop. Notice that we have set <span class="math notranslate nohighlight">\(T =\)</span> <code class="docutils literal notranslate"><span class="pre">max_num_timesteps</span> <span class="pre">=</span> <span class="pre">1000</span></code>. This means that the episode will automatically terminate if the episode hasn’t terminated after <code class="docutils literal notranslate"><span class="pre">1000</span></code> time steps.</p></li>
+<li><p><strong>Line 7</strong>: The agent observes the current <code class="docutils literal notranslate"><span class="pre">state</span></code> and chooses an <code class="docutils literal notranslate"><span class="pre">action</span></code> using an <span class="math notranslate nohighlight">\(\epsilon\)</span>-greedy policy. Our agent starts out using a value of <span class="math notranslate nohighlight">\(\epsilon =\)</span> <code class="docutils literal notranslate"><span class="pre">epsilon</span> <span class="pre">=</span> <span class="pre">1</span></code> which yields an <span class="math notranslate nohighlight">\(\epsilon\)</span>-greedy policy that is equivalent to the equiprobable random policy. This means that at the beginning of our training, the agent is just going to take random actions regardless of the observed <code class="docutils literal notranslate"><span class="pre">state</span></code>. As training progresses we will decrease the value of <span class="math notranslate nohighlight">\(\epsilon\)</span> slowly towards a minimum value using a given <span class="math notranslate nohighlight">\(\epsilon\)</span>-decay rate. We want this minimum value to be close to zero because a value of <span class="math notranslate nohighlight">\(\epsilon = 0\)</span> will yield an <span class="math notranslate nohighlight">\(\epsilon\)</span>-greedy policy that is equivalent to the greedy policy. This means that towards the end of training, the agent will lean towards selecting the <code class="docutils literal notranslate"><span class="pre">action</span></code> that it believes (based on its past experiences) will maximize <span class="math notranslate nohighlight">\(Q(s,a)\)</span>. We will set the minimum <span class="math notranslate nohighlight">\(\epsilon\)</span> value to be <code class="docutils literal notranslate"><span class="pre">0.01</span></code> and not exactly 0 because we always want to keep a little bit of exploration during training. If you want to know how this is implemented in code we encourage you to take a look at the <code class="docutils literal notranslate"><span class="pre">utils.get_action</span></code> function in the <code class="docutils literal notranslate"><span class="pre">utils</span></code> module.</p></li>
+<li><p><strong>Line 8</strong>: We use the <code class="docutils literal notranslate"><span class="pre">.step()</span></code> method to take the given <code class="docutils literal notranslate"><span class="pre">action</span></code> in the environment and get the <code class="docutils literal notranslate"><span class="pre">reward</span></code> and the <code class="docutils literal notranslate"><span class="pre">next_state</span></code>.</p></li>
+<li><p><strong>Line 9</strong>: We store the <code class="docutils literal notranslate"><span class="pre">experience(state,</span> <span class="pre">action,</span> <span class="pre">reward,</span> <span class="pre">next_state,</span> <span class="pre">done)</span></code> tuple in our <code class="docutils literal notranslate"><span class="pre">memory_buffer</span></code>. Notice that we also store the <code class="docutils literal notranslate"><span class="pre">done</span></code> variable so that we can keep track of when an episode terminates. This allowed us to set the <span class="math notranslate nohighlight">\(y\)</span> targets in <a class="reference internal" href="#ex02"><span class="xref myst">Exercise 2</span></a>.</p></li>
+<li><p><strong>Line 10</strong>: We check if the conditions are met to perform a learning update. We do this by using our custom <code class="docutils literal notranslate"><span class="pre">utils.check_update_conditions</span></code> function. This function checks if <span class="math notranslate nohighlight">\(C =\)</span> <code class="docutils literal notranslate"><span class="pre">NUM_STEPS_FOR_UPDATE</span> <span class="pre">=</span> <span class="pre">4</span></code> time steps have occured and if our <code class="docutils literal notranslate"><span class="pre">memory_buffer</span></code> has enough experience tuples to fill a mini-batch. For example, if the mini-batch size is <code class="docutils literal notranslate"><span class="pre">64</span></code>, then our <code class="docutils literal notranslate"><span class="pre">memory_buffer</span></code> should have more than <code class="docutils literal notranslate"><span class="pre">64</span></code> experience tuples in order to pass the latter condition. If the conditions are met, then the <code class="docutils literal notranslate"><span class="pre">utils.check_update_conditions</span></code> function will return a value of <code class="docutils literal notranslate"><span class="pre">True</span></code>, otherwise it will return a value of <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>Lines 11 - 14</strong>: If the <code class="docutils literal notranslate"><span class="pre">update</span></code> variable is <code class="docutils literal notranslate"><span class="pre">True</span></code> then we perform a learning update. The learning update consists of sampling a random mini-batch of experience tuples from our <code class="docutils literal notranslate"><span class="pre">memory_buffer</span></code>, setting the <span class="math notranslate nohighlight">\(y\)</span> targets, performing gradient descent, and updating the weights of the networks. We will use the <code class="docutils literal notranslate"><span class="pre">agent_learn</span></code> function we defined in <a class="reference internal" href="#8"><span class="xref myst">Section 8</span></a> to perform the latter 3.</p></li>
+<li><p><strong>Line 15</strong>: At the end of each iteration of the inner loop we set <code class="docutils literal notranslate"><span class="pre">next_state</span></code> as our new <code class="docutils literal notranslate"><span class="pre">state</span></code> so that the loop can start again from this new state. In addition, we check if the episode has reached a terminal state (i.e we check if <code class="docutils literal notranslate"><span class="pre">done</span> <span class="pre">=</span> <span class="pre">True</span></code>). If a terminal state has been reached, then we break out of the inner loop.</p></li>
+<li><p><strong>Line 16</strong>: At the end of each iteration of the outer loop we update the value of <span class="math notranslate nohighlight">\(\epsilon\)</span>, and check if the environment has been solved. We consider that the environment has been solved if the agent receives an average of <code class="docutils literal notranslate"><span class="pre">200</span></code> points in the last <code class="docutils literal notranslate"><span class="pre">100</span></code> episodes. If the environment has not been solved we continue the outer loop and start a new episode.</p></li>
+</ul>
+<p>Finally, we wanted to note that we have included some extra variables to keep track of the total number of points the agent received in each episode. This will help us determine if the agent has solved the environment and it will also allow us to see how our agent performed during training. We also use the <code class="docutils literal notranslate"><span class="pre">time</span></code> module to measure how long the training takes.</p>
+<br>
+<br>
+<figure>
+  <img src = "images/deep_q_algorithm.png" width = 90% style = "border: thin silver solid; padding: 0px">
+      <figcaption style = "text-align: center; font-style: italic">Fig 4. Deep Q-Learning with Experience Replay.</figcaption>
+</figure>
+<br>
+<p><strong>Note:</strong> With this notebook’s default parameters, the following cell takes between 10 to 15 minutes to run.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">num_episodes</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">max_num_timesteps</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">total_point_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">num_p_av</span> <span class="o">=</span> <span class="mi">100</span>    <span class="c1"># number of total points to use for averaging</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span>     <span class="c1"># initial ε value for ε-greedy policy</span>
+
+<span class="c1"># Create a memory buffer D with capacity N</span>
+<span class="n">memory_buffer</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">MEMORY_SIZE</span><span class="p">)</span>
+
+<span class="c1"># Set the target network weights equal to the Q-Network weights</span>
+<span class="n">target_q_network</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">q_network</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+    
+    <span class="c1"># Reset the environment to the initial state and get the initial state</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">total_points</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_timesteps</span><span class="p">):</span>
+        
+        <span class="c1"># From the current state S choose an action A using an ε-greedy policy</span>
+        <span class="n">state_qn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># state needs to be the right shape for the q_network</span>
+        <span class="n">q_values</span> <span class="o">=</span> <span class="n">q_network</span><span class="p">(</span><span class="n">state_qn</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_action</span><span class="p">(</span><span class="n">q_values</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+        
+        <span class="c1"># Take action A and receive reward R and the next state S&#39;</span>
+        <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        
+        <span class="c1"># Store experience tuple (S,A,R,S&#39;) in the memory buffer.</span>
+        <span class="c1"># We store the done variable as well for convenience.</span>
+        <span class="n">memory_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">experience</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">done</span><span class="p">))</span>
+        
+        <span class="c1"># Only update the network every NUM_STEPS_FOR_UPDATE time steps.</span>
+        <span class="n">update</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">check_update_conditions</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">NUM_STEPS_FOR_UPDATE</span><span class="p">,</span> <span class="n">memory_buffer</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">update</span><span class="p">:</span>
+            <span class="c1"># Sample random mini-batch of experience tuples (S,A,R,S&#39;) from D</span>
+            <span class="n">experiences</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_experiences</span><span class="p">(</span><span class="n">memory_buffer</span><span class="p">)</span>
+            
+            <span class="c1"># Set the y targets, perform a gradient descent step,</span>
+            <span class="c1"># and update the network weights.</span>
+            <span class="n">agent_learn</span><span class="p">(</span><span class="n">experiences</span><span class="p">,</span> <span class="n">GAMMA</span><span class="p">)</span>
+        
+        <span class="n">state</span> <span class="o">=</span> <span class="n">next_state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">total_points</span> <span class="o">+=</span> <span class="n">reward</span>
+        
+        <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+            <span class="k">break</span>
+            
+    <span class="n">total_point_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">total_points</span><span class="p">)</span>
+    <span class="n">av_latest_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">total_point_history</span><span class="p">[</span><span class="o">-</span><span class="n">num_p_av</span><span class="p">:])</span>
+    
+    <span class="c1"># Update the ε value</span>
+    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_new_eps</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Episode </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> | Total point average of the last </span><span class="si">{</span><span class="n">num_p_av</span><span class="si">}</span><span class="s2"> episodes: </span><span class="si">{</span><span class="n">av_latest_points</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">num_p_av</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Episode </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> | Total point average of the last </span><span class="si">{</span><span class="n">num_p_av</span><span class="si">}</span><span class="s2"> episodes: </span><span class="si">{</span><span class="n">av_latest_points</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># We will consider that the environment is solved if we get an</span>
+    <span class="c1"># average of 200 points in the last 100 episodes.</span>
+    <span class="k">if</span> <span class="n">av_latest_points</span> <span class="o">&gt;=</span> <span class="mf">200.0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Environment solved in </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> episodes!&quot;</span><span class="p">)</span>
+        <span class="n">q_network</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;lunar_lander_model.h5&#39;</span><span class="p">)</span>
+        <span class="k">break</span>
+        
+<span class="n">tot_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total Runtime: </span><span class="si">{</span><span class="n">tot_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s (</span><span class="si">{</span><span class="p">(</span><span class="n">tot_time</span><span class="o">/</span><span class="mi">60</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> min)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can plot the total point history along with the moving average to see how our agent improved during training. If you want to know about the different plotting options available in the <code class="docutils literal notranslate"><span class="pre">utils.plot_history</span></code> function we encourage you to take a look at the <code class="docutils literal notranslate"><span class="pre">utils</span></code> module.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the total point history along with the moving average</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">plot_history</span><span class="p">(</span><span class="n">total_point_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="10"></a></p>
+</section>
+<section id="see-the-trained-agent-in-action">
+<h2>10 - See the Trained Agent In Action<a class="headerlink" href="#see-the-trained-agent-in-action" title="Link to this heading">#</a></h2>
+<p>Now that we have trained our agent, we can see it in action. We will use the <code class="docutils literal notranslate"><span class="pre">utils.create_video</span></code> function to create a video of our agent interacting with the environment using the trained <span class="math notranslate nohighlight">\(Q\)</span>-Network. The <code class="docutils literal notranslate"><span class="pre">utils.create_video</span></code> function uses the <code class="docutils literal notranslate"><span class="pre">imageio</span></code> library to create the video. This library produces some warnings that can be distracting, so, to suppress these warnings we run the code below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress warnings from imageio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the cell below we create a video of our agent interacting with the Lunar Lander environment using the trained <code class="docutils literal notranslate"><span class="pre">q_network</span></code>. The video is saved to the <code class="docutils literal notranslate"><span class="pre">videos</span></code> folder with the given <code class="docutils literal notranslate"><span class="pre">filename</span></code>. We use the <code class="docutils literal notranslate"><span class="pre">utils.embed_mp4</span></code> function to embed the video in the Jupyter Notebook so that we can see it here directly without having to download it.</p>
+<p>We should note that since the lunar lander starts with a random initial force applied to its center of mass, every time you run the cell below you will see a different video. If the agent was trained properly, it should be able to land the lunar lander in the landing pad every time, regardless of the initial force applied to its center of mass.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./videos/lunar_lander.mp4&quot;</span>
+
+<span class="n">utils</span><span class="o">.</span><span class="n">create_video</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">q_network</span><span class="p">)</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">embed_mp4</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="11"></a></p>
+</section>
+<section id="congratulations">
+<h2>11 - Congratulations!<a class="headerlink" href="#congratulations" title="Link to this heading">#</a></h2>
+<p>You have successfully used Deep Q-Learning with Experience Replay to train an agent to land a lunar lander safely on a landing pad on the surface of the moon. Congratulations!</p>
+<p><a name="12"></a></p>
+</section>
+<section id="references">
+<h2>12 - References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>If you would like to learn more about Deep Q-Learning, we recommend you check out the following papers.</p>
+<ul class="simple">
+<li><p>Mnih, V., Kavukcuoglu, K., Silver, D. et al. Human-level control through deep reinforcement learning. Nature 518, 529–533 (2015).</p></li>
+<li><p>Lillicrap, T. P., Hunt, J. J., Pritzel, A., et al. Continuous Control with Deep Reinforcement Learning. ICLR (2016).</p></li>
+<li><p>Mnih, V., Kavukcuoglu, K., Silver, D. et al. Playing Atari with Deep Reinforcement Learning. arXiv e-prints.  arXiv:1312.5602 (2013).</p></li>
+</ul>
+<details>
+  <summary><font size="2" color="darkgreen"><b>Please click here if you want to experiment with any of the non-graded code.</b></font></summary>
+    <p><i><b>Important Note: Please only do this when you've already passed the assignment to avoid problems with the autograder.</b></i>
+    <ol>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “Edit Metadata”</li>
+        <li> Hit the “Edit Metadata” button next to the code cell which you want to lock/unlock</li>
+        <li> Set the attribute value for “editable” to:
+            <ul>
+                <li> “true” if you want to unlock it </li>
+                <li> “false” if you want to lock it </li>
+            </ul>
+        </li>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “None” </li>
+    </ol>
+    <p> Here's a short demo of how to do the steps above: 
+        <br>
+        <img src="https://lh3.google.com/u/0/d/14Xy_Mb17CZVgzVAgq7NCjMVBvSae3xO1" align="center" alt="unlock_cells.gif">
+</details></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./MLS\C3_W3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ppt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Course 3 Week 3 : Reinforcement Learning Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../DLS/overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Deep Learning Specialization Overview</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Deep Q-Learning - Lunar Lander</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages">1 - Import Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameters">2 - Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lunar-lander-environment">3 - The Lunar Lander Environment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#action-space">3.1 Action Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observation-space">3.2 Observation Space</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rewards">3.3 Rewards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#episode-termination">3.4 Episode Termination</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-environment">4 - Load the Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interacting-with-the-gym-environment">5 - Interacting with the Gym Environment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-environment-s-dynamics">5.1 Exploring the Environment’s Dynamics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-q-learning">6 - Deep Q-Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#target-network">6.1 Target Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experience-replay">6.2 Experience Replay</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-q-learning-algorithm-with-experience-replay">7 - Deep Q-Learning Algorithm with Experience Replay</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-network-weights">8 - Update the Network Weights</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-agent">9 - Train the Agent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-the-trained-agent-in-action">10 - See the Trained Agent In Action</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">11 - Congratulations!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">12 - References</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

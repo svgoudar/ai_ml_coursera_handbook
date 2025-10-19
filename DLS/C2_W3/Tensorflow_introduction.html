@@ -1,0 +1,1848 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction to TensorFlow &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C2_W3/Tensorflow_introduction';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C2_W3/Tensorflow_introduction.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C2_W3/Tensorflow_introduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C2_W3/Tensorflow_introduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction to TensorFlow</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-tensorflow-version">1.1 - Checking TensorFlow Version</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-optimization-with-gradienttape">2 - Basic Optimization with GradientTape</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-function">2.1 - Linear Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-linear-function">Exercise 1 - linear_function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-sigmoid">2.2 - Computing the Sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-sigmoid">Exercise 2 - sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-one-hot-encodings">2.3 - Using One Hot Encodings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-one-hot-matrix">Exercise 3 - one_hot_matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-the-parameters">2.4 - Initialize the Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-initialize-parameters">Exercise 4 - initialize_parameters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-your-first-neural-network-in-tensorflow">3 - Building Your First Neural Network in TensorFlow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-forward-propagation">3.1 - Implement Forward Propagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-forward-propagation">Exercise 5 - forward_propagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-total-loss">3.2 Compute the Total Loss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-compute-total-loss">Exercise 6 -  compute_total_loss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">3.3 - Train the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">4 - Bibliography</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-tensorflow">
+<h1>Introduction to TensorFlow<a class="headerlink" href="#introduction-to-tensorflow" title="Link to this heading">#</a></h1>
+<p>Welcome to this week’s programming assignment! Up until now, you’ve always used Numpy to build neural networks, but this week you’ll explore a deep learning framework that allows you to build neural networks more easily. Machine learning frameworks like TensorFlow, PaddlePaddle, Torch, Caffe, Keras, and many others can speed up your machine learning development significantly. TensorFlow 2.3 has made significant improvements over its predecessor, some of which you’ll encounter and implement here!</p>
+<p>By the end of this assignment, you’ll be able to do the following in TensorFlow 2.3:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">tf.Variable</span></code> to modify the state of a variable</p></li>
+<li><p>Explain the difference between a variable and a constant</p></li>
+<li><p>Train a Neural Network on a TensorFlow dataset</p></li>
+</ul>
+<p>Programming frameworks like TensorFlow not only cut down on time spent coding, but can also perform optimizations that speed up the code itself.</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/deep-neural-network/supplement/QWEnZ/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1- Packages</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#1-1"><span class="xref myst">1.1 - Checking TensorFlow Version</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Basic Optimization with GradientTape</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2-1"><span class="xref myst">2.1 - Linear Function</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - linear_function</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-2"><span class="xref myst">2.2 - Computing the Sigmoid</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - sigmoid</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-3"><span class="xref myst">2.3 - Using One Hot Encodings</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - one_hot_matrix</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-4"><span class="xref myst">2.4 - Initialize the Parameters</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-4"><span class="xref myst">Exercise 4 - initialize_parameters</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Building Your First Neural Network in TensorFlow</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - Implement Forward Propagation</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-5"><span class="xref myst">Exercise 5 - forward_propagation</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3-2"><span class="xref myst">3.2 Compute the Total Loss</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-6"><span class="xref myst">Exercise 6 - compute_total_loss</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3-3"><span class="xref myst">3.3 - Train the Model</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Bibliography</span></a></p></li>
+</ul>
+<p><a name='1'></a></p>
+</section>
+<section id="packages">
+<h2>1 - Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v3.1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.python.framework.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">EagerTensor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.python.ops.resource_variable_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceVariable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='1-1'></a></p>
+<section id="checking-tensorflow-version">
+<h3>1.1 - Checking TensorFlow Version<a class="headerlink" href="#checking-tensorflow-version" title="Link to this heading">#</a></h3>
+<p>You will be using v2.3 for this assignment, for maximum speed and efficiency.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2.20.0&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2'></a></p>
+</section>
+</section>
+<section id="basic-optimization-with-gradienttape">
+<h2>2 - Basic Optimization with GradientTape<a class="headerlink" href="#basic-optimization-with-gradienttape" title="Link to this heading">#</a></h2>
+<p>The beauty of TensorFlow 2 is in its simplicity. Basically, all you need to do is implement forward propagation through a computational graph. TensorFlow will compute the derivatives for you, by moving backwards through the graph recorded with <code class="docutils literal notranslate"><span class="pre">GradientTape</span></code>. All that’s left for you to do then is specify the cost function and optimizer you want to use!</p>
+<p>When writing a TensorFlow program, the main object to get used and transformed is the <code class="docutils literal notranslate"><span class="pre">tf.Tensor</span></code>. These tensors are the TensorFlow equivalent of Numpy arrays, i.e. multidimensional arrays of a given data type that also contain information about the computational graph.</p>
+<p>Below, you’ll use <code class="docutils literal notranslate"><span class="pre">tf.Variable</span></code> to store the state of your variables. Variables can only be created once as its initial value defines the variable shape and type. Additionally, the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> arg in <code class="docutils literal notranslate"><span class="pre">tf.Variable</span></code> can be set to allow data to be converted to that type. But if none is specified, either the datatype will be kept if the initial value is a Tensor, or <code class="docutils literal notranslate"><span class="pre">convert_to_tensor</span></code> will decide. It’s generally best for you to specify directly, so nothing breaks!</p>
+<p>Here you’ll call the TensorFlow dataset created on a HDF5 file, which you can use in place of a Numpy array to store your datasets. You can think of this as a TensorFlow data generator!</p>
+<p>You will use the Hand sign data set, that is composed of images with shape 64x64x3.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;datasets/train_signs.h5&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;datasets/test_signs.h5&#39;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">[</span><span class="s1">&#39;train_set_x&#39;</span><span class="p">])</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">[</span><span class="s1">&#39;train_set_y&#39;</span><span class="p">])</span>
+
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">[</span><span class="s1">&#39;test_set_x&#39;</span><span class="p">])</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">[</span><span class="s1">&#39;test_set_y&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensorflow.python.data.ops.from_tensor_slices_op._TensorSliceDataset
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since TensorFlow Datasets are generators, you can’t access directly the contents unless you iterate over them in a for loop, or by explicitly creating a Python iterator using <code class="docutils literal notranslate"><span class="pre">iter</span></code> and consuming its
+elements using <code class="docutils literal notranslate"><span class="pre">next</span></code>. Also, you can inspect the <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">dtype</span></code> of each element using the <code class="docutils literal notranslate"><span class="pre">element_spec</span></code> attribute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">element_spec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TensorSpec(shape=(64, 64, 3), dtype=tf.uint8, name=None)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">x_train</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tf.Tensor(
+[[[227 220 214]
+  [227 221 215]
+  [227 222 215]
+  ...
+  [232 230 224]
+  [231 229 222]
+  [230 229 221]]
+
+ [[227 221 214]
+  [227 221 215]
+  [228 221 215]
+  ...
+  [232 230 224]
+  [231 229 222]
+  [231 229 221]]
+
+ [[227 221 214]
+  [227 221 214]
+  [227 221 215]
+  ...
+  [232 230 224]
+  [231 229 223]
+  [230 229 221]]
+
+ ...
+
+ [[119  81  51]
+  [124  85  55]
+  [127  87  58]
+  ...
+  [210 211 211]
+  [211 212 210]
+  [210 211 210]]
+
+ [[119  79  51]
+  [124  84  55]
+  [126  85  56]
+  ...
+  [210 211 210]
+  [210 211 210]
+  [209 210 209]]
+
+ [[119  81  51]
+  [123  83  55]
+  [122  82  54]
+  ...
+  [209 210 210]
+  [209 210 209]
+  [208 209 209]]], shape=(64, 64, 3), dtype=uint8)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The dataset that you’ll be using during this assignment is a subset of the sign language digits. It contains six different classes representing the digits from 0 to 5.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unique_labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">y_train</span><span class="p">:</span>
+    <span class="n">unique_labels</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">unique_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{np.int64(0), np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5)}
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see some of the images in the dataset by running the following cell.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">images_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+<span class="n">labels_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">images_iter</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">labels_iter</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e4e145c6e63400a21c40f3176a3f81aa783595129010fe8639bf38e9148864c5.png" src="../../_images/e4e145c6e63400a21c40f3176a3f81aa783595129010fe8639bf38e9148864c5.png" />
+</div>
+</div>
+<p>There’s one more additional difference between TensorFlow datasets and Numpy arrays: If you need to transform one, you would invoke the <code class="docutils literal notranslate"><span class="pre">map</span></code> method to apply the function passed as an argument to each of the elements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">normalize</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform an image into a tensor of shape (64 * 64 * 3, )</span>
+<span class="sd">    and normalize its components.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments</span>
+<span class="sd">    image - Tensor.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns: </span>
+<span class="sd">    result -- Transformed tensor </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,])</span>
+    <span class="k">return</span> <span class="n">image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_train</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">normalize</span><span class="p">)</span>
+<span class="n">new_test</span> <span class="o">=</span> <span class="n">x_test</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">normalize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_train</span><span class="o">.</span><span class="n">element_spec</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TensorSpec(shape=(12288,), dtype=tf.float32, name=None)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">new_train</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tf.Tensor([0.8901961  0.8627451  0.8392157  ... 0.8156863  0.81960785 0.81960785], shape=(12288,), dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2-1'></a></p>
+<section id="linear-function">
+<h3>2.1 - Linear Function<a class="headerlink" href="#linear-function" title="Link to this heading">#</a></h3>
+<p>Let’s begin this programming exercise by computing the following equation: <span class="math notranslate nohighlight">\(Y = WX + b\)</span>, where <span class="math notranslate nohighlight">\(W\)</span> and <span class="math notranslate nohighlight">\(X\)</span> are random matrices and b is a random vector.</p>
+<p><a name='ex-1'></a></p>
+</section>
+<section id="exercise-1-linear-function">
+<h3>Exercise 1 - linear_function<a class="headerlink" href="#exercise-1-linear-function" title="Link to this heading">#</a></h3>
+<p>Compute <span class="math notranslate nohighlight">\(WX + b\)</span> where <span class="math notranslate nohighlight">\(W, X\)</span>, and <span class="math notranslate nohighlight">\(b\)</span> are drawn from a random normal distribution. W is of shape (4, 3), X is (3,1) and b is (4,1). As an example, this is how to define a constant X with the shape (3,1):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p>Note that the difference between <code class="docutils literal notranslate"><span class="pre">tf.constant</span></code> and <code class="docutils literal notranslate"><span class="pre">tf.Variable</span></code> is that you can modify the state of a <code class="docutils literal notranslate"><span class="pre">tf.Variable</span></code> but cannot change the state of a <code class="docutils literal notranslate"><span class="pre">tf.constant</span></code>.</p>
+<p>You might find the following functions helpful:</p>
+<ul class="simple">
+<li><p>tf.matmul(…, …) to do a matrix multiplication</p></li>
+<li><p>tf.add(…, …) to do an addition</p></li>
+<li><p>np.random.randn(…) to initialize randomly</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: linear_function</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">linear_function</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a linear function: </span>
+<span class="sd">            Initializes X to be a random tensor of shape (3,1)</span>
+<span class="sd">            Initializes W to be a random tensor of shape (4,3)</span>
+<span class="sd">            Initializes b to be a random tensor of shape (4,1)</span>
+<span class="sd">    Returns: </span>
+<span class="sd">    result -- Y = WX + b </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Note, to ensure that the &quot;random&quot; numbers generated match the expected results,</span>
+<span class="sd">    please create the variables in the order given in the starting code below.</span>
+<span class="sd">    (Do not re-arrange the order).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># (approx. 4 lines)</span>
+    <span class="c1"># X = ...</span>
+    <span class="c1"># W = ...</span>
+    <span class="c1"># b = ...</span>
+    <span class="c1"># Y = ...</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="k">return</span> <span class="n">Y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">linear_function</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use the TensorFlow API&quot;</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[[</span><span class="o">-</span><span class="mf">2.15657382</span><span class="p">],</span> <span class="p">[</span> <span class="mf">2.95891446</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.08926781</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.84538042</span><span class="p">]]),</span> <span class="s2">&quot;Error&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll test passed&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">result</span> <span class="o">=</span> <span class="n">linear_function</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Use the TensorFlow API&quot;</span>
+
+<span class="nn">Cell In[15], line 29,</span> in <span class="ni">linear_function</span><span class="nt">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span><span class="sd"> Note, to ensure that the &quot;random&quot; numbers generated match the expected results,</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span><span class="sd"> please create the variables in the order given in the starting code below.</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span><span class="sd"> (Do not re-arrange the order).</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="c1"># (approx. 4 lines)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="c1"># X = ...</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="c1"># W = ...</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">27</span> 
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="c1"># YOUR CODE ENDS HERE</span>
+<span class="ne">---&gt; </span><span class="mi">29</span> <span class="k">return</span> <span class="n">Y</span>
+
+<span class="ne">NameError</span>: name &#39;Y&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> 
+<span class="p">[[</span><span class="o">-</span><span class="mf">2.15657382</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">2.95891446</span><span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">1.08926781</span><span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">0.84538042</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p><a name='2-2'></a></p>
+</section>
+<section id="computing-the-sigmoid">
+<h3>2.2 - Computing the Sigmoid<a class="headerlink" href="#computing-the-sigmoid" title="Link to this heading">#</a></h3>
+<p>Amazing! You just implemented a linear function. TensorFlow offers a variety of commonly used neural network functions like <code class="docutils literal notranslate"><span class="pre">tf.sigmoid</span></code> and <code class="docutils literal notranslate"><span class="pre">tf.softmax</span></code>.</p>
+<p>For this exercise, compute the sigmoid of z.</p>
+<p>In this exercise, you will: Cast your tensor to type <code class="docutils literal notranslate"><span class="pre">float32</span></code> using <code class="docutils literal notranslate"><span class="pre">tf.cast</span></code>, then compute the sigmoid using <code class="docutils literal notranslate"><span class="pre">tf.keras.activations.sigmoid</span></code>.</p>
+<p><a name='ex-2'></a></p>
+</section>
+<section id="exercise-2-sigmoid">
+<h3>Exercise 2 - sigmoid<a class="headerlink" href="#exercise-2-sigmoid" title="Link to this heading">#</a></h3>
+<p>Implement the sigmoid function below. You should use the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.cast(&quot;...&quot;,</span> <span class="pre">tf.float32)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.keras.activations.sigmoid(&quot;...&quot;)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: sigmoid</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the sigmoid of z</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    z -- input value, scalar or vector</span>
+<span class="sd">    </span>
+<span class="sd">    Returns: </span>
+<span class="sd">    a -- (tf.float32) the sigmoid of z</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># tf.keras.activations.sigmoid requires float16, float32, float64, complex64, or complex128.</span>
+    
+    <span class="c1"># (approx. 2 lines)</span>
+    <span class="c1"># z = ...</span>
+    <span class="c1"># a = ...</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;type: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;dtype: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;sigmoid(-1) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;sigmoid(0) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;sigmoid(12) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="mi">12</span><span class="p">)))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">sigmoid</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;Error&quot;</span>
+    <span class="k">assert</span> <span class="n">sigmoid</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.26894143</span><span class="p">,</span> <span class="s2">&quot;Error&quot;</span>
+    <span class="k">assert</span> <span class="n">sigmoid</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.9999939</span><span class="p">,</span> <span class="s2">&quot;Error&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll test passed&quot;</span><span class="p">)</span>
+
+<span class="n">sigmoid_test</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+<tr> 
+<td>
+type
+</td>
+<td>
+class 'tensorflow.python.framework.ops.EagerTensor'
+</td>
+</tr><tr> 
+<td>
+dtype
+</td>
+<td>
+"dtype: 'float32'
+</td>
+</tr>
+<tr> 
+<td>
+Sigmoid(-1)
+</td>
+<td>
+0.2689414
+</td>
+</tr>
+<tr> 
+<td>
+Sigmoid(0)
+</td>
+<td>
+0.5
+</td>
+</tr>
+<tr> 
+<td>
+Sigmoid(12)
+</td>
+<td>
+0.999994
+</td>
+</tr> 
+</table> <p><a name='2-3'></a></p>
+</section>
+<section id="using-one-hot-encodings">
+<h3>2.3 - Using One Hot Encodings<a class="headerlink" href="#using-one-hot-encodings" title="Link to this heading">#</a></h3>
+<p>Many times in deep learning you will have a <span class="math notranslate nohighlight">\(Y\)</span> vector with numbers ranging from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(C-1\)</span>, where <span class="math notranslate nohighlight">\(C\)</span> is the number of classes. If <span class="math notranslate nohighlight">\(C\)</span> is for example 4, then you might have the following y vector which you will need to convert like this:</p>
+<img src="/C2_W3/images/onehot.png" style="width:600px;height:150px;">
+<p>This is called “one hot” encoding, because in the converted representation, exactly one element of each column is “hot” (meaning set to 1). To do this conversion in numpy, you might have to write a few lines of code. In TensorFlow, you can use one line of code:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/one_hot">tf.one_hot(labels, depth, axis=0)</a></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">axis=0</span></code> indicates the new axis is created at dimension 0</p>
+<p><a name='ex-3'></a></p>
+</section>
+<section id="exercise-3-one-hot-matrix">
+<h3>Exercise 3 - one_hot_matrix<a class="headerlink" href="#exercise-3-one-hot-matrix" title="Link to this heading">#</a></h3>
+<p>Implement the function below to take one label and the total number of classes <span class="math notranslate nohighlight">\(C\)</span>, and return the one hot encoding in a one-dimensional tensor (array) (you can look at the expected output below to get an idea). Use <code class="docutils literal notranslate"><span class="pre">tf.one_hot()</span></code> to do this, and <code class="docutils literal notranslate"><span class="pre">tf.reshape()</span></code> to reshape your one hot tensor!</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.reshape(tensor,</span> <span class="pre">shape)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: one_hot_matrix</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_hot_matrix</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the one hot encoding for a single label</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        label --  (int) Categorical labels</span>
+<span class="sd">        C --  (int) Number of different classes that label can take</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">         one_hot -- tf.Tensor A one-dimensional tensor (array) with the one hot encoding.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># (approx. 1 line)</span>
+    <span class="c1"># one_hot = None(None(None, None, None), shape=[C, ]) </span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="k">return</span> <span class="n">one_hot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">one_hot_matrix_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 1:&quot;</span><span class="p">,</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">C</span><span class="p">,</span> <span class="s2">&quot;Use the parameter C&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span> <span class="p">,</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span> <span class="p">),</span> <span class="s2">&quot;Wrong output. Use tf.one_hot&quot;</span>
+    <span class="n">label_2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">label_2</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 2:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">C</span><span class="p">,</span> <span class="s2">&quot;Use the parameter C&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span> <span class="p">,</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span> <span class="p">),</span> <span class="s2">&quot;Wrong output. Use tf.reshape as instructed&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll test passed&quot;</span><span class="p">)</span>
+
+<span class="n">one_hot_matrix_test</span><span class="p">(</span><span class="n">one_hot_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="mi">1</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">Test</span> <span class="mi">2</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">one_hot_matrix</span><span class="p">)</span>
+<span class="n">new_y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">one_hot_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">new_y_test</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2-4'></a></p>
+</section>
+<section id="initialize-the-parameters">
+<h3>2.4 - Initialize the Parameters<a class="headerlink" href="#initialize-the-parameters" title="Link to this heading">#</a></h3>
+<p>Now you’ll initialize a vector of numbers with the Glorot initializer. The function you’ll be calling is <code class="docutils literal notranslate"><span class="pre">tf.keras.initializers.GlorotNormal</span></code>, which draws samples from a truncated normal distribution centered on 0, with <code class="docutils literal notranslate"><span class="pre">stddev</span> <span class="pre">=</span> <span class="pre">sqrt(2</span> <span class="pre">/</span> <span class="pre">(fan_in</span> <span class="pre">+</span> <span class="pre">fan_out))</span></code>, where <code class="docutils literal notranslate"><span class="pre">fan_in</span></code> is the number of input units and <code class="docutils literal notranslate"><span class="pre">fan_out</span></code> is the number of output units, both in the weight tensor.</p>
+<p>To initialize with zeros or ones you could use <code class="docutils literal notranslate"><span class="pre">tf.zeros()</span></code> or <code class="docutils literal notranslate"><span class="pre">tf.ones()</span></code> instead.</p>
+<p><a name='ex-4'></a></p>
+</section>
+<section id="exercise-4-initialize-parameters">
+<h3>Exercise 4 - initialize_parameters<a class="headerlink" href="#exercise-4-initialize-parameters" title="Link to this heading">#</a></h3>
+<p>Implement the function below to take in a shape and to return an array of numbers using the GlorotNormal initializer.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.keras.initializers.GlorotNormal(seed=1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.Variable(initializer(shape=())</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: initialize_parameters</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">initialize_parameters</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes parameters to build a neural network with TensorFlow. The shapes are:</span>
+<span class="sd">                        W1 : [25, 12288]</span>
+<span class="sd">                        b1 : [25, 1]</span>
+<span class="sd">                        W2 : [12, 25]</span>
+<span class="sd">                        b2 : [12, 1]</span>
+<span class="sd">                        W3 : [6, 12]</span>
+<span class="sd">                        b3 : [6, 1]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    parameters -- a dictionary of tensors containing W1, b1, W2, b2, W3, b3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+                                
+    <span class="n">initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">initializers</span><span class="o">.</span><span class="n">GlorotNormal</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   
+    <span class="c1">#(approx. 6 lines of code)</span>
+    <span class="c1"># W1 = ...</span>
+    <span class="c1"># b1 = ...</span>
+    <span class="c1"># W2 = ...</span>
+    <span class="c1"># b2 = ...</span>
+    <span class="c1"># W3 = ...</span>
+    <span class="c1"># b3 = ...</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;W1&quot;</span><span class="p">:</span> <span class="n">W1</span><span class="p">,</span>
+                  <span class="s2">&quot;b1&quot;</span><span class="p">:</span> <span class="n">b1</span><span class="p">,</span>
+                  <span class="s2">&quot;W2&quot;</span><span class="p">:</span> <span class="n">W2</span><span class="p">,</span>
+                  <span class="s2">&quot;b2&quot;</span><span class="p">:</span> <span class="n">b2</span><span class="p">,</span>
+                  <span class="s2">&quot;W3&quot;</span><span class="p">:</span> <span class="n">W3</span><span class="p">,</span>
+                  <span class="s2">&quot;b3&quot;</span><span class="p">:</span> <span class="n">b3</span><span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">parameters</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">initialize_parameters_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">target</span><span class="p">()</span>
+
+    <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;W1&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">12288</span><span class="p">),</span>
+              <span class="s2">&quot;b1&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+              <span class="s2">&quot;W2&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span>
+              <span class="s2">&quot;b2&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+              <span class="s2">&quot;W3&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+              <span class="s2">&quot;b3&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> shape: </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="o">==</span> <span class="n">ResourceVariable</span><span class="p">,</span> <span class="s2">&quot;All parameter must be created using tf.Variable&quot;</span>
+        <span class="k">assert</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: wrong shape&quot;</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">,</span>  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: Use the GlorotNormal initializer&quot;</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: Use the GlorotNormal initializer&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll test passed&quot;</span><span class="p">)</span>
+    
+<span class="n">initialize_parameters_test</span><span class="p">(</span><span class="n">initialize_parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">W1</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">12288</span><span class="p">)</span>
+<span class="n">b1</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">W2</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">b2</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">W3</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">b3</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">initialize_parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='3'></a></p>
+</section>
+</section>
+<section id="building-your-first-neural-network-in-tensorflow">
+<h2>3 - Building Your First Neural Network in TensorFlow<a class="headerlink" href="#building-your-first-neural-network-in-tensorflow" title="Link to this heading">#</a></h2>
+<p>In this part of the assignment you will build a neural network using TensorFlow. Remember that there are two parts to implementing a TensorFlow model:</p>
+<ul class="simple">
+<li><p>Implement forward propagation</p></li>
+<li><p>Retrieve the gradients and train the model</p></li>
+</ul>
+<p>Let’s get into it!</p>
+<p><a name='3-1'></a></p>
+<section id="implement-forward-propagation">
+<h3>3.1 - Implement Forward Propagation<a class="headerlink" href="#implement-forward-propagation" title="Link to this heading">#</a></h3>
+<p>One of TensorFlow’s great strengths lies in the fact that you only need to implement the forward propagation function and it will keep track of the operations you did to calculate the back propagation automatically.</p>
+<p><a name='ex-5'></a></p>
+</section>
+<section id="exercise-5-forward-propagation">
+<h3>Exercise 5 - forward_propagation<a class="headerlink" href="#exercise-5-forward-propagation" title="Link to this heading">#</a></h3>
+<p>Implement the <code class="docutils literal notranslate"><span class="pre">forward_propagation</span></code> function.</p>
+<p><strong>Note</strong> Use only the TF API.</p>
+<ul class="simple">
+<li><p>tf.math.add</p></li>
+<li><p>tf.linalg.matmul</p></li>
+<li><p>tf.keras.activations.relu</p></li>
+</ul>
+<p>You will not apply “softmax” here. You’ll see below, in <code class="docutils literal notranslate"><span class="pre">Exercise</span> <span class="pre">6</span></code>, how the computation for it can be done internally by TensorFlow.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: forward_propagation</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">forward_propagation</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the forward propagation for the model: LINEAR -&gt; RELU -&gt; LINEAR -&gt; RELU -&gt; LINEAR</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- input dataset placeholder, of shape (input size, number of examples)</span>
+<span class="sd">    parameters -- python dictionary containing your parameters &quot;W1&quot;, &quot;b1&quot;, &quot;W2&quot;, &quot;b2&quot;, &quot;W3&quot;, &quot;b3&quot;</span>
+<span class="sd">                  the shapes are given in initialize_parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    Z3 -- the output of the last LINEAR unit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Retrieve the parameters from the dictionary &quot;parameters&quot; </span>
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W1&#39;</span><span class="p">]</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b1&#39;</span><span class="p">]</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W2&#39;</span><span class="p">]</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b2&#39;</span><span class="p">]</span>
+    <span class="n">W3</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W3&#39;</span><span class="p">]</span>
+    <span class="n">b3</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b3&#39;</span><span class="p">]</span>
+    
+    <span class="c1">#(approx. 5 lines)                   # Numpy Equivalents (NumPy not to be used. Use TF API):</span>
+    <span class="c1"># Z1 = ...                           # Z1 = np.dot(W1, X) + b1</span>
+    <span class="c1"># A1 = ...                           # A1 = relu(Z1)</span>
+    <span class="c1"># Z2 = ...                           # Z2 = np.dot(W2, A1) + b2</span>
+    <span class="c1"># A2 = ...                           # A2 = relu(Z2)</span>
+    <span class="c1"># Z3 = ...                           # Z3 = np.dot(W3, A2) + b3</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    
+    <span class="k">return</span> <span class="n">Z3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">forward_propagation_test</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">examples</span><span class="p">):</span>
+    <span class="n">minibatches</span> <span class="o">=</span> <span class="n">examples</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">parametersk</span> <span class="o">=</span> <span class="n">initialize_parameters</span><span class="p">()</span>
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">parametersk</span><span class="p">[</span><span class="s1">&#39;W1&#39;</span><span class="p">]</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">parametersk</span><span class="p">[</span><span class="s1">&#39;b1&#39;</span><span class="p">]</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">parametersk</span><span class="p">[</span><span class="s1">&#39;W2&#39;</span><span class="p">]</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">parametersk</span><span class="p">[</span><span class="s1">&#39;b2&#39;</span><span class="p">]</span>
+    <span class="n">W3</span> <span class="o">=</span> <span class="n">parametersk</span><span class="p">[</span><span class="s1">&#39;W3&#39;</span><span class="p">]</span>
+    <span class="n">b3</span> <span class="o">=</span> <span class="n">parametersk</span><span class="p">[</span><span class="s1">&#39;b3&#39;</span><span class="p">]</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">minibatch</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">minibatches</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="n">forward_pass</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">minibatch</span><span class="p">),</span> <span class="n">parametersk</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">forward_pass</span><span class="p">)</span>
+        <span class="n">fake_cost</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">forward_pass</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+
+        <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">forward_pass</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">,</span> <span class="s2">&quot;Your output is not a tensor&quot;</span>
+        <span class="k">assert</span> <span class="n">forward_pass</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;Last layer must use W3 and b3&quot;</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">forward_pass</span><span class="p">,</span> 
+                           <span class="p">[[</span><span class="o">-</span><span class="mf">0.13430887</span><span class="p">,</span>  <span class="mf">0.14086473</span><span class="p">],</span>
+                            <span class="p">[</span> <span class="mf">0.21588647</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02582335</span><span class="p">],</span>
+                            <span class="p">[</span> <span class="mf">0.7059658</span><span class="p">,</span>   <span class="mf">0.6484556</span> <span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">1.1260961</span><span class="p">,</span>  <span class="o">-</span><span class="mf">0.9329492</span> <span class="p">],</span>
+                            <span class="p">[</span><span class="o">-</span><span class="mf">0.20181894</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3382722</span> <span class="p">],</span>
+                            <span class="p">[</span> <span class="mf">0.9558965</span><span class="p">,</span>   <span class="mf">0.94167566</span><span class="p">]]),</span> <span class="s2">&quot;Output does not match&quot;</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">trainable_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">W3</span><span class="p">,</span> <span class="n">b3</span><span class="p">]</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">fake_cost</span><span class="p">,</span> <span class="n">trainable_variables</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span><span class="p">(</span><span class="kc">None</span> <span class="ow">in</span> <span class="n">grads</span><span class="p">),</span> <span class="s2">&quot;Wrong gradients. It could be due to the use of tf.Variable whithin forward_propagation&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll test passed&quot;</span><span class="p">)</span>
+
+<span class="n">forward_propagation_test</span><span class="p">(</span><span class="n">forward_propagation</span><span class="p">,</span> <span class="n">new_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span>
+<span class="p">[[</span><span class="o">-</span><span class="mf">0.13430887</span>  <span class="mf">0.14086473</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.21588647</span> <span class="o">-</span><span class="mf">0.02582335</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.7059658</span>   <span class="mf">0.6484556</span> <span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">1.1260961</span>  <span class="o">-</span><span class="mf">0.9329492</span> <span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">0.20181894</span> <span class="o">-</span><span class="mf">0.3382722</span> <span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.9558965</span>   <span class="mf">0.94167566</span><span class="p">]],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a name='3-2'></a></p>
+</section>
+<section id="compute-the-total-loss">
+<h3>3.2 Compute the Total Loss<a class="headerlink" href="#compute-the-total-loss" title="Link to this heading">#</a></h3>
+<p>All you have to do now is define the loss function that you’re going to use. For this case, since we have a classification problem with 6 labels, a categorical cross entropy will work!</p>
+<p>You are used to compute the cost value which sums the losses over the whole batch (i.e. all mini-batches) of samples, then divide the sum by the total number of samples. Here, you will achieve this in two steps.</p>
+<p>In step 1, the <code class="docutils literal notranslate"><span class="pre">compute_total_loss</span></code> function will only take care of summing the losses from one mini-batch of samples. Then, as you train the model (in section 3.3) which will call this <code class="docutils literal notranslate"><span class="pre">compute_total_loss</span></code> function once per mini-batch, step 2 will be done by accumulating the sums from each of the mini-batches, and finishing it with the division by the total number of samples to get the final cost value.</p>
+<p>Computing the “total loss” instead of “mean loss” in step 1 can make sure the final cost value to be consistent. For example, if the mini-batch size is 4 but there are just 5 samples in the whole batch, then the last mini-batch is going to have 1 sample only. Considering the 5 samples, losses to be [0, 1, 2, 3, 4] respectively, we know the final cost should be their average which is 2. Adopting the “total loss” approach will get us the same answer. However, the “mean loss” approach will first get us 1.5 and 4 for the two mini-batches, and then finally 2.75 after taking average of them, which is different from the desired result of 2. Therefore, the “total loss” approach is adopted here.</p>
+<p><a name='ex-6'></a></p>
+</section>
+<section id="exercise-6-compute-total-loss">
+<h3>Exercise 6 -  compute_total_loss<a class="headerlink" href="#exercise-6-compute-total-loss" title="Link to this heading">#</a></h3>
+<p>Implement the total loss function below. You will use it to compute the total loss of a batch of samples. With this convenient function, you can sum the losses across many batches, and divide the sum by the total number of samples to get the cost value.</p>
+<ul class="simple">
+<li><p>It’s important to note that the “<code class="docutils literal notranslate"><span class="pre">y_pred</span></code>” and “<code class="docutils literal notranslate"><span class="pre">y_true</span></code>” inputs of <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/losses/categorical_crossentropy">tf.keras.losses.categorical_crossentropy</a> are expected to be of shape (number of examples, num_classes).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.reduce_sum</span></code> does the summation over the examples.</p></li>
+<li><p>You skipped applying “softmax” in <code class="docutils literal notranslate"><span class="pre">Exercise</span> <span class="pre">5</span></code> which will now be taken care by the <code class="docutils literal notranslate"><span class="pre">tf.keras.losses.categorical_crossentropy</span></code> by setting its parameter <code class="docutils literal notranslate"><span class="pre">from_logits=True</span></code> (You can read the response by one of our mentors <a class="reference external" href="https://community.deeplearning.ai/t/week-3-assignment-compute-total-loss-try-to-set-from-logits-false/243049/2?u=paulinpaloalto">here</a> in the Community for the mathematical reasoning behind it. If you are not part of the Community already, you can do so by going <a class="reference external" href="https://www.coursera.org/learn/deep-neural-network/ungradedLti/ZE1VR/important-have-questions-issues-or-ideas-join-our-community">here</a>.)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: compute_total_loss </span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_total_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the total loss</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    logits -- output of forward propagation (output of the last LINEAR unit), of shape (6, num_examples)</span>
+<span class="sd">    labels -- &quot;true&quot; labels vector, same shape as Z3</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    total_loss - Tensor of the total loss value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">#(1 line of code)</span>
+    <span class="c1"># remember to set `from_logits=True`</span>
+    <span class="c1"># total_loss = ...</span>
+    <span class="c1"># YOUR CODE STARTS HERE</span>
+    
+    
+    <span class="c1"># YOUR CODE ENDS HERE</span>
+    <span class="k">return</span> <span class="n">total_loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_total_loss_test</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span> <span class="mf">2.4048107</span><span class="p">,</span>   <span class="mf">5.0334096</span> <span class="p">],</span>
+             <span class="p">[</span><span class="o">-</span><span class="mf">0.7921977</span><span class="p">,</span>  <span class="o">-</span><span class="mf">4.1523376</span> <span class="p">],</span>
+             <span class="p">[</span> <span class="mf">0.9447198</span><span class="p">,</span>  <span class="o">-</span><span class="mf">0.46802214</span><span class="p">],</span>
+             <span class="p">[</span> <span class="mf">1.158121</span><span class="p">,</span>    <span class="mf">3.9810789</span> <span class="p">],</span>
+             <span class="p">[</span> <span class="mf">4.768706</span><span class="p">,</span>    <span class="mf">2.3220146</span> <span class="p">],</span>
+             <span class="p">[</span> <span class="mf">6.1481323</span><span class="p">,</span>   <span class="mf">3.909829</span>  <span class="p">]])</span>
+    <span class="n">minibatches</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">minibatch</span> <span class="ow">in</span> <span class="n">minibatches</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">minibatch</span><span class="p">))</span>
+        <span class="k">break</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 1: &quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="n">EagerTensor</span><span class="p">),</span> <span class="s2">&quot;Use the TensorFlow API&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">result</span> <span class="o">-</span> <span class="p">(</span><span class="mf">0.50722074</span> <span class="o">+</span> <span class="mf">1.1133534</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">),</span> <span class="s2">&quot;Test 1 does not match. Did you get the reduce sum of your loss functions?&quot;</span>
+    
+    <span class="c1">### Test 2</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="n">compute_total_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test 2: &quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mf">3.295837</span> <span class="p">),</span> <span class="s2">&quot;Test 2 does not match.&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll test passed&quot;</span><span class="p">)</span>
+
+<span class="n">compute_total_loss_test</span><span class="p">(</span><span class="n">compute_total_loss</span><span class="p">,</span> <span class="n">new_y_train</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="mi">1</span><span class="p">:</span>  <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">0.810287</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">Test</span> <span class="mi">2</span><span class="p">:</span>  <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">3.295837</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> When using sum of losses for gradient computation, it’s important to reduce the learning rate as the size of the mini-batch increases. This ensures that you don’t take large steps towards minimum.</p>
+<p><a name='3-3'></a></p>
+</section>
+<section id="train-the-model">
+<h3>3.3 - Train the Model<a class="headerlink" href="#train-the-model" title="Link to this heading">#</a></h3>
+<p>Let’s talk optimizers. You’ll specify the type of optimizer in one line, in this case <code class="docutils literal notranslate"><span class="pre">tf.keras.optimizers.Adam</span></code> (though you can use others such as SGD), and then call it within the training loop.</p>
+<p>Notice the <code class="docutils literal notranslate"><span class="pre">tape.gradient</span></code> function: this allows you to retrieve the operations recorded for automatic differentiation inside the <code class="docutils literal notranslate"><span class="pre">GradientTape</span></code> block. Then, calling the optimizer method <code class="docutils literal notranslate"><span class="pre">apply_gradients</span></code>, will apply the optimizer’s update rules to each trainable parameter. At the end of this assignment, you’ll find some documentation that explains this more in detail, but for now, a simple explanation will do. ;)</p>
+<p>Here you should take note of an important extra step that’s been added to the batch training process:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.Data.dataset</span> <span class="pre">=</span> <span class="pre">dataset.prefetch(8)</span></code></p></li>
+</ul>
+<p>What this does is prevent a memory bottleneck that can occur when reading from disk. <code class="docutils literal notranslate"><span class="pre">prefetch()</span></code> sets aside some data and keeps it ready for when it’s needed. It does this by creating a source dataset from your input data, applying a transformation to preprocess the data, then iterating over the dataset the specified number of elements at a time. This works because the iteration is streaming, so the data doesn’t need to fit into the memory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span>
+          <span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">minibatch_size</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">print_cost</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements a three-layer tensorflow neural network: LINEAR-&gt;RELU-&gt;LINEAR-&gt;RELU-&gt;LINEAR-&gt;SOFTMAX.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X_train -- training set, of shape (input size = 12288, number of training examples = 1080)</span>
+<span class="sd">    Y_train -- test set, of shape (output size = 6, number of training examples = 1080)</span>
+<span class="sd">    X_test -- training set, of shape (input size = 12288, number of training examples = 120)</span>
+<span class="sd">    Y_test -- test set, of shape (output size = 6, number of test examples = 120)</span>
+<span class="sd">    learning_rate -- learning rate of the optimization</span>
+<span class="sd">    num_epochs -- number of epochs of the optimization loop</span>
+<span class="sd">    minibatch_size -- size of a minibatch</span>
+<span class="sd">    print_cost -- True to print the cost every 10 epochs</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    parameters -- parameters learnt by the model. They can then be used to predict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">costs</span> <span class="o">=</span> <span class="p">[]</span>                                        <span class="c1"># To keep track of the cost</span>
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">test_acc</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># Initialize your parameters</span>
+    <span class="c1">#(1 line)</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">initialize_parameters</span><span class="p">()</span>
+
+    <span class="n">W1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W1&#39;</span><span class="p">]</span>
+    <span class="n">b1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b1&#39;</span><span class="p">]</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W2&#39;</span><span class="p">]</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b2&#39;</span><span class="p">]</span>
+    <span class="n">W3</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W3&#39;</span><span class="p">]</span>
+    <span class="n">b3</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b3&#39;</span><span class="p">]</span>
+
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+    
+    <span class="c1"># The CategoricalAccuracy will track the accuracy for this multiclass problem</span>
+    <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">()</span>
+    <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">()</span>
+    
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">zip</span><span class="p">((</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">))</span>
+    <span class="n">test_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">zip</span><span class="p">((</span><span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">))</span>
+    
+    <span class="c1"># We can get the number of elements of a dataset using the cardinality method</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">cardinality</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    
+    <span class="n">minibatches</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">minibatch_size</span><span class="p">)</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">test_minibatches</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">minibatch_size</span><span class="p">)</span><span class="o">.</span><span class="n">prefetch</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="c1">#X_train = X_train.batch(minibatch_size, drop_remainder=True).prefetch(8)# &lt;&lt;&lt; extra step    </span>
+    <span class="c1">#Y_train = Y_train.batch(minibatch_size, drop_remainder=True).prefetch(8) # loads memory faster </span>
+
+    <span class="c1"># Do the training loop</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+
+        <span class="n">epoch_total_loss</span> <span class="o">=</span> <span class="mf">0.</span>
+        
+        <span class="c1">#We need to reset object to start measuring from 0 the accuracy each epoch</span>
+        <span class="n">train_accuracy</span><span class="o">.</span><span class="n">reset_states</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="n">minibatch_X</span><span class="p">,</span> <span class="n">minibatch_Y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">minibatches</span><span class="p">:</span>
+            
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+                <span class="c1"># 1. predict</span>
+                <span class="n">Z3</span> <span class="o">=</span> <span class="n">forward_propagation</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">minibatch_X</span><span class="p">),</span> <span class="n">parameters</span><span class="p">)</span>
+
+                <span class="c1"># 2. loss</span>
+                <span class="n">minibatch_total_loss</span> <span class="o">=</span> <span class="n">compute_total_loss</span><span class="p">(</span><span class="n">Z3</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">minibatch_Y</span><span class="p">))</span>
+
+            <span class="c1"># We accumulate the accuracy of all the batches</span>
+            <span class="n">train_accuracy</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">minibatch_Y</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Z3</span><span class="p">))</span>
+            
+            <span class="n">trainable_variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">W3</span><span class="p">,</span> <span class="n">b3</span><span class="p">]</span>
+            <span class="n">grads</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">minibatch_total_loss</span><span class="p">,</span> <span class="n">trainable_variables</span><span class="p">)</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">grads</span><span class="p">,</span> <span class="n">trainable_variables</span><span class="p">))</span>
+            <span class="n">epoch_total_loss</span> <span class="o">+=</span> <span class="n">minibatch_total_loss</span>
+        
+        <span class="c1"># We divide the epoch total loss over the number of samples</span>
+        <span class="n">epoch_total_loss</span> <span class="o">/=</span> <span class="n">m</span>
+
+        <span class="c1"># Print the cost every 10 epochs</span>
+        <span class="k">if</span> <span class="n">print_cost</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Cost after epoch </span><span class="si">%i</span><span class="s2">: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">epoch_total_loss</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train accuracy:&quot;</span><span class="p">,</span> <span class="n">train_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+            
+            <span class="c1"># We evaluate the test set every 10 epochs to avoid computational overhead</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">minibatch_X</span><span class="p">,</span> <span class="n">minibatch_Y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">test_minibatches</span><span class="p">:</span>
+                <span class="n">Z3</span> <span class="o">=</span> <span class="n">forward_propagation</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">minibatch_X</span><span class="p">),</span> <span class="n">parameters</span><span class="p">)</span>
+                <span class="n">test_accuracy</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">minibatch_Y</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Z3</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test_accuracy:&quot;</span><span class="p">,</span> <span class="n">test_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+
+            <span class="n">costs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epoch_total_loss</span><span class="p">)</span>
+            <span class="n">train_acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+            <span class="n">test_acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_accuracy</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+            <span class="n">test_accuracy</span><span class="o">.</span><span class="n">reset_states</span><span class="p">()</span>
+
+
+    <span class="k">return</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span><span class="p">,</span> <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">,</span> <span class="n">costs</span><span class="p">,</span> <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">new_train</span><span class="p">,</span> <span class="n">new_y_train</span><span class="p">,</span> <span class="n">new_test</span><span class="p">,</span> <span class="n">new_y_test</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cost</span> <span class="n">after</span> <span class="n">epoch</span> <span class="mi">0</span><span class="p">:</span> <span class="mf">1.830244</span>
+<span class="n">Train</span> <span class="n">accuracy</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">0.17037037</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">Test_accuracy</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">Cost</span> <span class="n">after</span> <span class="n">epoch</span> <span class="mi">10</span><span class="p">:</span> <span class="mf">1.552390</span>
+<span class="n">Train</span> <span class="n">accuracy</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">0.35925925</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">Test_accuracy</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">0.30833334</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Numbers you get can be different, just check that your loss is going down and your accuracy going up!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the cost</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">costs</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;cost&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iterations (per fives)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Learning rate =&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the train accuracy</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">train_acc</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Train Accuracy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iterations (per fives)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Learning rate =&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">))</span>
+<span class="c1"># Plot the test accuracy</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">test_acc</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Test Accuracy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iterations (per fives)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Learning rate =&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Congratulations</strong>! You’ve made it to the end of this assignment, and to the end of this week’s material. Amazing work building a neural network in TensorFlow 2.3!</p>
+<p>Here’s a quick recap of all you just achieved:</p>
+<ul class="simple">
+<li><p>Used <code class="docutils literal notranslate"><span class="pre">tf.Variable</span></code> to modify your variables</p></li>
+<li><p>Trained a Neural Network on a TensorFlow dataset</p></li>
+</ul>
+<p>You are now able to harness the power of TensorFlow to create cool things, faster. Nice!</p>
+<p><a name='4'></a></p>
+</section>
+</section>
+<section id="bibliography">
+<h2>4 - Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading">#</a></h2>
+<p>In this assignment, you were introducted to <code class="docutils literal notranslate"><span class="pre">tf.GradientTape</span></code>, which records operations for differentation. Here are a couple of resources for diving deeper into what it does and why:</p>
+<p>Introduction to Gradients and Automatic Differentiation:
+<a class="reference external" href="https://www.tensorflow.org/guide/autodiff">https://www.tensorflow.org/guide/autodiff</a></p>
+<p>GradientTape documentation:
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/GradientTape">https://www.tensorflow.org/api_docs/python/tf/GradientTape</a></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C2_W3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">1 - Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-tensorflow-version">1.1 - Checking TensorFlow Version</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-optimization-with-gradienttape">2 - Basic Optimization with GradientTape</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-function">2.1 - Linear Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-linear-function">Exercise 1 - linear_function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-sigmoid">2.2 - Computing the Sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-sigmoid">Exercise 2 - sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-one-hot-encodings">2.3 - Using One Hot Encodings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-one-hot-matrix">Exercise 3 - one_hot_matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-the-parameters">2.4 - Initialize the Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-initialize-parameters">Exercise 4 - initialize_parameters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-your-first-neural-network-in-tensorflow">3 - Building Your First Neural Network in TensorFlow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-forward-propagation">3.1 - Implement Forward Propagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-forward-propagation">Exercise 5 - forward_propagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-total-loss">3.2 Compute the Total Loss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-compute-total-loss">Exercise 6 -  compute_total_loss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">3.3 - Train the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">4 - Bibliography</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

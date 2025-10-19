@@ -1,0 +1,92 @@
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Test with a max value of 10
+def clip_test(target, mValue):
+    print(f"\nGradients for mValue={mValue}")
+    np.random.seed(3)
+    dWax = np.random.randn(5, 3) * 10
+    dWaa = np.random.randn(5, 5) * 10
+    dWya = np.random.randn(2, 5) * 10
+    db = np.random.randn(5, 1) * 10
+    dby = np.random.randn(2, 1) * 10
+    gradients = {"dWax": dWax, "dWaa": dWaa, "dWya": dWya, "db": db, "dby": dby}
+
+    gradients2 = target(gradients, mValue)
+    print("gradients[\"dWaa\"][1][2] =", gradients2["dWaa"][1][2])
+    print("gradients[\"dWax\"][3][1] =", gradients2["dWax"][3][1])
+    print("gradients[\"dWya\"][1][2] =", gradients2["dWya"][1][2])
+    print("gradients[\"db\"][4] =", gradients2["db"][4])
+    print("gradients[\"dby\"][1] =", gradients2["dby"][1])
+    
+    for grad in gradients2.keys():
+        valuei = gradients[grad]
+        valuef = gradients2[grad]
+        mink = np.min(valuef)
+        maxk = np.max(valuef)
+        assert mink >= -abs(mValue), f"Problem with {grad}. Set a_min to -mValue in the np.clip call"
+        assert maxk <= abs(mValue), f"Problem with {grad}.Set a_max to mValue in the np.clip call"
+        index_not_clipped = np.logical_and(valuei <= mValue, valuei >= -mValue)
+        assert np.all(valuei[index_not_clipped] == valuef[index_not_clipped]), f" Problem with {grad}. Some values that should not have changed, changed during the clipping process."
+    
+    print("\033[92mAll tests passed!\x1b[0m")
+    
+clip_test(clip, 10)
+clip_test(clip, 5)
+    
+------------------
+
+----- stdout -----
+
+Gradients for mValue=10
+------------------
+
+[31m---------------------------------------------------------------------------[39m
+[31mTypeError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[7][39m[32m, line 31[39m
+[32m     27[39m         [38;5;28;01massert[39;00m np.all(valuei[index_not_clipped] == valuef[index_not_clipped]), [33mf[39m[33m"[39m[33m Problem with [39m[38;5;132;01m{[39;00mgrad[38;5;132;01m}[39;00m[33m. Some values that should not have changed, changed during the clipping process.[39m[33m"[39m
+[32m     29[39m     [38;5;28mprint[39m([33m"[39m[38;5;130;01m\033[39;00m[33m[92mAll tests passed![39m[38;5;130;01m\x1b[39;00m[33m[0m[39m[33m"[39m)
+[32m---> [39m[32m31[39m [43mclip_test[49m[43m([49m[43mclip[49m[43m,[49m[43m [49m[32;43m10[39;49m[43m)[49m
+[32m     32[39m clip_test(clip, [32m5[39m)
+
+[36mCell[39m[36m [39m[32mIn[7][39m[32m, line 12[39m, in [36mclip_test[39m[34m(target, mValue)[39m
+[32m      9[39m dby = np.random.randn([32m2[39m, [32m1[39m) * [32m10[39m
+[32m     10[39m gradients = {[33m"[39m[33mdWax[39m[33m"[39m: dWax, [33m"[39m[33mdWaa[39m[33m"[39m: dWaa, [33m"[39m[33mdWya[39m[33m"[39m: dWya, [33m"[39m[33mdb[39m[33m"[39m: db, [33m"[39m[33mdby[39m[33m"[39m: dby}
+[32m---> [39m[32m12[39m gradients2 = [43mtarget[49m[43m([49m[43mgradients[49m[43m,[49m[43m [49m[43mmValue[49m[43m)[49m
+[32m     13[39m [38;5;28mprint[39m([33m"[39m[33mgradients[[39m[38;5;130;01m\"[39;00m[33mdWaa[39m[38;5;130;01m\"[39;00m[33m][1][2] =[39m[33m"[39m, gradients2[[33m"[39m[33mdWaa[39m[33m"[39m][[32m1[39m][[32m2[39m])
+[32m     14[39m [38;5;28mprint[39m([33m"[39m[33mgradients[[39m[38;5;130;01m\"[39;00m[33mdWax[39m[38;5;130;01m\"[39;00m[33m][3][1] =[39m[33m"[39m, gradients2[[33m"[39m[33mdWax[39m[33m"[39m][[32m3[39m][[32m1[39m])
+
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 21[39m, in [36mclip[39m[34m(gradients, maxValue)[39m
+[32m     17[39m dWaa, dWax, dWya, db, dby = gradients[[33m'[39m[33mdWaa[39m[33m'[39m], gradients[[33m'[39m[33mdWax[39m[33m'[39m], gradients[[33m'[39m[33mdWya[39m[33m'[39m], gradients[[33m'[39m[33mdb[39m[33m'[39m], gradients[[33m'[39m[33mdby[39m[33m'[39m]
+[32m     19[39m [38;5;66;03m### START CODE HERE ###[39;00m
+[32m     20[39m [38;5;66;03m# Clip to mitigate exploding gradients, loop over [dWax, dWaa, dWya, db, dby]. (≈2 lines)[39;00m
+[32m---> [39m[32m21[39m [43m[49m[38;5;28;43;01mfor[39;49;00m[43m [49m[43mgradient[49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m:[49m
+[32m     22[39m [43m    [49m[43mnp[49m[43m.[49m[43mclip[49m[43m([49m[38;5;28;43;01mNone[39;49;00m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m,[49m[43m [49m[43mout[49m[43m [49m[43m=[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m
+[32m     23[39m [38;5;66;03m### END CODE HERE ###[39;00m
+
+[31mTypeError[39m: 'NoneType' object is not iterable
+

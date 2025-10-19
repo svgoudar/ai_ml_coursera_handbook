@@ -1,0 +1,1791 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Improvise a Jazz Solo with an LSTM Network &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Improvise a Jazz Solo with an LSTM Network</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">1 - Problem Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">1.1 - Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-musical-values-optional">What are musical “values”? (optional)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#music-as-a-sequence-of-values">Music as a sequence of values</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-overview">1.2 - Model Overview</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-section-2-and-3">Overview of Section 2 and 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-model">2 - Building the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-generation-uses-a-for-loop">Sequence generation uses a for-loop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shareable-weights">Shareable weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-layers">3 types of layers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-djmodel">Exercise 1 - djmodel</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-given">Inputs (given)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-loop-through-time-steps">Step 2: Loop through time steps</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-select-the-t-time-step-vector-from-x">2A. Select the ‘t’ time-step vector from <code class="docutils literal notranslate"><span class="pre">X</span></code>.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-reshape-x-to-be-1-n-values">2B. Reshape <code class="docutils literal notranslate"><span class="pre">x</span></code> to be (1, n_values).</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-run-x-through-one-step-of-lstm-cell">2C. Run <code class="docutils literal notranslate"><span class="pre">x</span></code> through one step of <code class="docutils literal notranslate"><span class="pre">LSTM_cell</span></code>.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#d-dense-layer">2D. Dense layer</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#e-append-output">2E. Append output</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-after-the-loop-create-the-model">Step 3: After the loop, create the model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-model-object">Create the model object</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-the-model-for-training">Compile the model for training</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-hidden-state-and-cell-state">Initialize hidden state and cell state</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">Train the model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-output">Expected Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-music">3 - Generating Music</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-sampling">3.1 - Predicting &amp; Sampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">Initialization</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-music-inference-model">Exercise 2 - music_inference_model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-inference-model">Step 3: Inference Model:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Expected Output:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-inference-model">Initialize inference model</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-predict-and-sample">Exercise 3 - predict_and_sample</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">Step 1:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">Step 2:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3">Step 3:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-music">3.2 - Generate Music</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4 - References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="improvise-a-jazz-solo-with-an-lstm-network">
+<h1>Improvise a Jazz Solo with an LSTM Network<a class="headerlink" href="#improvise-a-jazz-solo-with-an-lstm-network" title="Link to this heading">#</a></h1>
+<p>Welcome to your final programming assignment of this week! In this notebook, you will implement a model that uses an LSTM to generate music. At the end, you’ll even be able to listen to your own music!</p>
+<img src="images/jazz.jpg" style="width:450;height:300px;">
+<p><strong>By the end of this assignment, you’ll be able to:</strong></p>
+<ul class="simple">
+<li><p>Apply an LSTM to a music generation task</p></li>
+<li><p>Generate your own jazz music with deep learning</p></li>
+<li><p>Use the flexible Functional API to create complex models</p></li>
+</ul>
+<p>This is going to be a fun one. Let’s get started!</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/nlp-sequence-models/supplement/qHIve/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#0"><span class="xref myst">Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Problem Statement</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#1-1"><span class="xref myst">1.1 - Dataset</span></a></p></li>
+<li><p><a class="reference internal" href="#1-2"><span class="xref myst">1.2 - Model Overview</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Building the Model</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - djmodel</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Generating Music</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - Predicting &amp; Sampling</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - music_inference_model</span></a></p></li>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - predict_and_sample</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3-2"><span class="xref myst">3.2 - Generate Music</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - References</span></a></p></li>
+</ul>
+<p><a name='0'></a></p>
+</section>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>Run the following cell to load all the packages you’ll need. This may take a few minutes!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v2.1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">IPython</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">music21</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">grammar</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qa</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">preprocess</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">music_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">data_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">outputs</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">test_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Input</span><span class="p">,</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Reshape</span><span class="p">,</span> <span class="n">Lambda</span><span class="p">,</span> <span class="n">RepeatVector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_categorical</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">music21</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span><span class="w"> </span><span class="nn">grammar</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">qa</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;music21&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='1'></a></p>
+</section>
+<section id="problem-statement">
+<h2>1 - Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h2>
+<p>You would like to create a jazz music piece specially for a friend’s birthday. However, you don’t know how to play any instruments, or how to compose music. Fortunately, you know deep learning and will solve this problem using an LSTM network!</p>
+<p>You will train a network to generate novel jazz solos in a style representative of a body of performed work. 😎🎷</p>
+<p><a name='1-1'></a></p>
+<section id="dataset">
+<h3>1.1 - Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
+<p>To get started, you’ll train your algorithm on a corpus of Jazz music. Run the cell below to listen to a snippet of the audio from the training set:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Audio</span><span class="p">(</span><span class="s1">&#39;./data/30s_seq.wav&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The preprocessing of the musical data has been taken care of already, which for this notebook means it’s been rendered in terms of musical “values.”</p>
+<section id="what-are-musical-values-optional">
+<h4>What are musical “values”? (optional)<a class="headerlink" href="#what-are-musical-values-optional" title="Link to this heading">#</a></h4>
+<p>You can informally think of each “value” as a note, which comprises a pitch and duration. For example, if you press down a specific piano key for 0.5 seconds, then you have just played a note. In music theory, a “value” is actually more complicated than this – specifically, it also captures the information needed to play multiple notes at the same time. For example, when playing a music piece, you might press down two piano keys at the same time (playing multiple notes at the same time generates what’s called a “chord”). But you don’t need to worry about the details of music theory for this assignment.</p>
+</section>
+<section id="music-as-a-sequence-of-values">
+<h4>Music as a sequence of values<a class="headerlink" href="#music-as-a-sequence-of-values" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>For the purposes of this assignment, all you need to know is that you’ll obtain a dataset of values, and will use an RNN model to generate sequences of values.</p></li>
+<li><p>Your music generation system will use 90 unique values.</p></li>
+</ul>
+<p>Run the following code to load the raw music data and preprocess it into values. This might take a few minutes!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n_values</span><span class="p">,</span> <span class="n">indices_values</span><span class="p">,</span> <span class="n">chords</span> <span class="o">=</span> <span class="n">load_music_utils</span><span class="p">(</span><span class="s1">&#39;data/original_metheny.mid&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;number of training examples:&#39;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Tx (length of sequence):&#39;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;total # of unique values:&#39;</span><span class="p">,</span> <span class="n">n_values</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;shape of X:&#39;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of Y:&#39;</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of chords&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">chords</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You have just loaded the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code>: This is an (m, <span class="math notranslate nohighlight">\(T_x\)</span>, 90) dimensional array.</p>
+<ul>
+<li><p>You have m training examples, each of which is a snippet of <span class="math notranslate nohighlight">\(T_x =30\)</span> musical values.</p></li>
+<li><p>At each time step, the input is one of 90 different possible values, represented as a one-hot vector.</p>
+<ul>
+<li><p>For example, X[i,t,:] is a one-hot vector representing the value of the i-th example at time t.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: a <span class="math notranslate nohighlight">\((T_y, m, 90)\)</span> dimensional array</p>
+<ul>
+<li><p>This is essentially the same as <code class="docutils literal notranslate"><span class="pre">X</span></code>, but shifted one step to the left (to the past).</p></li>
+<li><p>Notice that the data in <code class="docutils literal notranslate"><span class="pre">Y</span></code> is <strong>reordered</strong> to be dimension <span class="math notranslate nohighlight">\((T_y, m, 90)\)</span>, where <span class="math notranslate nohighlight">\(T_y = T_x\)</span>. This format makes it more convenient to feed into the LSTM later.</p></li>
+<li><p>Similar to the dinosaur assignment, you’re using the previous values to predict the next value.</p>
+<ul>
+<li><p>So your sequence model will try to predict <span class="math notranslate nohighlight">\(y^{\langle t \rangle}\)</span> given <span class="math notranslate nohighlight">\(x^{\langle 1\rangle}, \ldots, x^{\langle t \rangle}\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_values</span></code>: The number of unique values in this dataset. This should be 90.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">indices_values</span></code>: python dictionary mapping integers 0 through 89 to musical values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chords</span></code>: Chords used in the input midi</p></li>
+</ul>
+<p><a name='1-2'></a></p>
+</section>
+</section>
+<section id="model-overview">
+<h3>1.2 - Model Overview<a class="headerlink" href="#model-overview" title="Link to this heading">#</a></h3>
+<p>Here is the architecture of the model you’ll use. It’s similar to the Dinosaurus model, except that you’ll implement it in Keras.</p>
+<img src="images/music_generation.png" style="width:600;height:400px;">
+<caption><center><font color='purple'><b>Figure 1</b>: Basic LSTM model </center></caption>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X = (x^{\langle 1 \rangle}, x^{\langle 2 \rangle}, \cdots, x^{\langle T_x \rangle})\)</span> is a window of size <span class="math notranslate nohighlight">\(T_x\)</span> scanned over the musical corpus.</p></li>
+<li><p>Each <span class="math notranslate nohighlight">\(x^{\langle t \rangle}\)</span> is an index corresponding to a value.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{y}^{\langle t \rangle}\)</span> is the prediction for the next value.</p></li>
+<li><p>You’ll be training the model on random snippets of 30 values taken from a much longer piece of music.</p>
+<ul>
+<li><p>Thus, you won’t bother to set the first input <span class="math notranslate nohighlight">\(x^{\langle 1 \rangle} = \vec{0}\)</span>, since most of these snippets of audio start somewhere in the middle of a piece of music.</p></li>
+<li><p>You’re setting each of the snippets to have the same length <span class="math notranslate nohighlight">\(T_x = 30\)</span> to make vectorization easier.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="overview-of-section-2-and-3">
+<h2>Overview of Section 2 and 3<a class="headerlink" href="#overview-of-section-2-and-3" title="Link to this heading">#</a></h2>
+<p>In Section 2, you’re going to train a model that predicts the next note in a style similar to the jazz music it’s trained on. The training is contained in the weights and biases of the model.</p>
+<p>Then, in Section 3, you’re going to use those weights and biases in a new model that predicts a series of notes, and using the previous note to predict the next note.</p>
+<ul class="simple">
+<li><p>The weights and biases are transferred to the new model using the global shared layers (<code class="docutils literal notranslate"><span class="pre">LSTM_cell</span></code>, <code class="docutils literal notranslate"><span class="pre">densor</span></code>, <code class="docutils literal notranslate"><span class="pre">reshaper</span></code>) described below</p></li>
+</ul>
+<p><a name='2'></a></p>
+</section>
+<section id="building-the-model">
+<h2>2 - Building the Model<a class="headerlink" href="#building-the-model" title="Link to this heading">#</a></h2>
+<p>Now, you’ll build and train a model that will learn musical patterns.</p>
+<ul class="simple">
+<li><p>The model takes input X of shape <span class="math notranslate nohighlight">\((m, T_x, 90)\)</span> and labels Y of shape <span class="math notranslate nohighlight">\((T_y, m, 90)\)</span>.</p></li>
+<li><p>You’ll use an LSTM with hidden states that have <span class="math notranslate nohighlight">\(n_{a} = 64\)</span> dimensions.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of dimensions for the hidden state of each LSTM cell.</span>
+<span class="n">n_a</span> <span class="o">=</span> <span class="mi">64</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<section id="sequence-generation-uses-a-for-loop">
+<h3>Sequence generation uses a for-loop<a class="headerlink" href="#sequence-generation-uses-a-for-loop" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If you’re building an RNN where, at test time, the entire input sequence <span class="math notranslate nohighlight">\(x^{\langle 1 \rangle}, x^{\langle 2 \rangle}, \ldots, x^{\langle T_x \rangle}\)</span> is given in advance, then Keras has simple built-in functions to build the model.</p></li>
+<li><p>However, for <strong>sequence generation, at test time you won’t know all the values of <span class="math notranslate nohighlight">\(x^{\langle t\rangle}\)</span> in advance</strong>.</p></li>
+<li><p>Instead, you’ll generate them one at a time using <span class="math notranslate nohighlight">\(x^{\langle t\rangle} = y^{\langle t-1 \rangle}\)</span>.</p>
+<ul>
+<li><p>The input at time “t” is the prediction at the previous time step “t-1”.</p></li>
+</ul>
+</li>
+<li><p>So you’ll need to implement your own for-loop to iterate over the time steps.</p></li>
+</ul>
+</section>
+<section id="shareable-weights">
+<h3>Shareable weights<a class="headerlink" href="#shareable-weights" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The function <code class="docutils literal notranslate"><span class="pre">djmodel()</span></code> will call the LSTM layer <span class="math notranslate nohighlight">\(T_x\)</span> times using a for-loop.</p></li>
+<li><p>It is important that all <span class="math notranslate nohighlight">\(T_x\)</span> copies have the same weights.</p>
+<ul>
+<li><p>The <span class="math notranslate nohighlight">\(T_x\)</span> steps should have shared weights that aren’t re-initialized.</p></li>
+</ul>
+</li>
+<li><p>Referencing a globally defined shared layer will utilize the same layer-object instance at each time step.</p></li>
+<li><p>The key steps for implementing layers with shareable weights in Keras are:</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Define the layer objects (you’ll use global variables for this).</p></li>
+<li><p>Call these objects when propagating the input.</p></li>
+</ol>
+</section>
+<section id="types-of-layers">
+<h3>3 types of layers<a class="headerlink" href="#types-of-layers" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The layer objects you need for global variables have been defined.</p>
+<ul>
+<li><p>Just run the next cell to create them!</p></li>
+</ul>
+</li>
+<li><p>Please read the Keras documentation and understand these layers:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Reshape">Reshape()</a>: Reshapes an output to a certain shape.</p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM">LSTM()</a>: Long Short-Term Memory layer</p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense">Dense()</a>: A regular fully-connected neural network layer.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_values</span> <span class="o">=</span> <span class="mi">90</span> <span class="c1"># number of music values</span>
+<span class="n">reshaper</span> <span class="o">=</span> <span class="n">Reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_values</span><span class="p">))</span>                  <span class="c1"># Used in Step 2.B of djmodel(), below</span>
+<span class="n">LSTM_cell</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="n">return_state</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>         <span class="c1"># Used in Step 2.C</span>
+<span class="n">densor</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">n_values</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)</span>     <span class="c1"># Used in Step 2.D</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reshaper</span></code>, <code class="docutils literal notranslate"><span class="pre">LSTM_cell</span></code> and <code class="docutils literal notranslate"><span class="pre">densor</span></code> are globally defined layer objects that you’ll use to implement <code class="docutils literal notranslate"><span class="pre">djmodel()</span></code>.</p></li>
+<li><p>In order to propagate a Keras tensor object X through one of these layers, use <code class="docutils literal notranslate"><span class="pre">layer_object()</span></code>.</p>
+<ul>
+<li><p>For one input, use <code class="docutils literal notranslate"><span class="pre">layer_object(X)</span></code></p></li>
+<li><p>For more than one input, put the inputs in a list: <code class="docutils literal notranslate"><span class="pre">layer_object([X1,X2])</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p><a name='ex-1'></a></p>
+</section>
+<section id="exercise-1-djmodel">
+<h3>Exercise 1 - djmodel<a class="headerlink" href="#exercise-1-djmodel" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">djmodel()</span></code>.</p>
+<section id="inputs-given">
+<h4>Inputs (given)<a class="headerlink" href="#inputs-given" title="Link to this heading">#</a></h4>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Input()</span></code> layer is used for defining the input <code class="docutils literal notranslate"><span class="pre">X</span></code> as well as the initial hidden state ‘a0’ and cell state <code class="docutils literal notranslate"><span class="pre">c0</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">shape</span></code> parameter takes a tuple that does not include the batch dimension (<code class="docutils literal notranslate"><span class="pre">m</span></code>).</p>
+<ul class="simple">
+<li><p>For example,</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">n_values</span><span class="p">))</span> <span class="c1"># X has 3 dimensions and not 2: (m, Tx, n_values)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>Step 1: Outputs</strong></p>
+<ul class="simple">
+<li><p>Create an empty list “outputs” to save the outputs of the LSTM Cell at every time step.</p></li>
+</ul>
+</section>
+<section id="step-2-loop-through-time-steps">
+<h4>Step 2: Loop through time steps<a class="headerlink" href="#step-2-loop-through-time-steps" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Loop for <span class="math notranslate nohighlight">\(t \in 1, \ldots, T_x\)</span>:</p></li>
+</ul>
+</section>
+<section id="a-select-the-t-time-step-vector-from-x">
+<h4>2A. Select the ‘t’ time-step vector from <code class="docutils literal notranslate"><span class="pre">X</span></code>.<a class="headerlink" href="#a-select-the-t-time-step-vector-from-x" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>X has the shape (m, Tx, n_values).</p></li>
+<li><p>The shape of the ‘t’ selection should be (n_values,).</p></li>
+<li><p>Recall that if you were implementing in numpy instead of Keras, you would extract a slice from a 3D numpy array like this:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">var1</span> <span class="o">=</span> <span class="n">array1</span><span class="p">[:,</span><span class="mi">1</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</section>
+<section id="b-reshape-x-to-be-1-n-values">
+<h4>2B. Reshape <code class="docutils literal notranslate"><span class="pre">x</span></code> to be (1, n_values).<a class="headerlink" href="#b-reshape-x-to-be-1-n-values" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">reshaper()</span></code> layer.  This is a function that takes the previous layer as its input argument.</p></li>
+</ul>
+</section>
+<section id="c-run-x-through-one-step-of-lstm-cell">
+<h4>2C. Run <code class="docutils literal notranslate"><span class="pre">x</span></code> through one step of <code class="docutils literal notranslate"><span class="pre">LSTM_cell</span></code>.<a class="headerlink" href="#c-run-x-through-one-step-of-lstm-cell" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Initialize the <code class="docutils literal notranslate"><span class="pre">LSTM_cell</span></code> with the previous step’s hidden state <span class="math notranslate nohighlight">\(a\)</span> and cell state <span class="math notranslate nohighlight">\(c\)</span>.</p></li>
+<li><p>Use the following formatting:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">next_hidden_state</span><span class="p">,</span> <span class="n">next_cell_state</span> <span class="o">=</span> <span class="n">LSTM_cell</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">input_x</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="p">[</span><span class="n">previous_hidden_state</span><span class="p">,</span> <span class="n">previous_cell_state</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* Choose appropriate variables for inputs, hidden state and cell state.
+</pre></div>
+</div>
+</section>
+<section id="d-dense-layer">
+<h4>2D. Dense layer<a class="headerlink" href="#d-dense-layer" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Propagate the LSTM’s hidden state through a dense+softmax layer using <code class="docutils literal notranslate"><span class="pre">densor</span></code>.</p></li>
+</ul>
+</section>
+<section id="e-append-output">
+<h4>2E. Append output<a class="headerlink" href="#e-append-output" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Append the output to the list of “outputs”.</p></li>
+</ul>
+</section>
+<section id="step-3-after-the-loop-create-the-model">
+<h4>Step 3: After the loop, create the model<a class="headerlink" href="#step-3-after-the-loop-create-the-model" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Use the Keras <code class="docutils literal notranslate"><span class="pre">Model</span></code> object to create a model. There are two ways to instantiate the <code class="docutils literal notranslate"><span class="pre">Model</span></code> object. One is by subclassing, which you won’t use here. Instead, you’ll use the highly flexible Functional API, which you may remember from an earlier assignment in this course! With the Functional API, you’ll start from your Input, then specify the model’s forward pass with chained layer calls, and finally create the model from inputs and outputs.</p></li>
+<li><p>Specify the inputs and output like so:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_x</span><span class="p">,</span> <span class="n">initial_hidden_state</span><span class="p">,</span> <span class="n">initial_cell_state</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">the_outputs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* Then, choose the appropriate variables for the input tensor, hidden state, cell state, and output.
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>See the documentation for <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">Model</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: djmodel</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">djmodel</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">LSTM_cell</span><span class="p">,</span> <span class="n">densor</span><span class="p">,</span> <span class="n">reshaper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implement the djmodel composed of Tx LSTM cells where each cell is responsible</span>
+<span class="sd">    for learning the following note based on the previous note and context.</span>
+<span class="sd">    Each cell has the following schema: </span>
+<span class="sd">            [X_{t}, a_{t-1}, c0_{t-1}] -&gt; RESHAPE() -&gt; LSTM() -&gt; DENSE()</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        Tx -- length of the sequences in the corpus</span>
+<span class="sd">        LSTM_cell -- LSTM layer instance</span>
+<span class="sd">        densor -- Dense layer instance</span>
+<span class="sd">        reshaper -- Reshape layer instance</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        model -- a keras instance model with inputs [X, a0, c0]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the shape of input values</span>
+    <span class="n">n_values</span> <span class="o">=</span> <span class="n">densor</span><span class="o">.</span><span class="n">units</span>
+    
+    <span class="c1"># Get the number of the hidden state vector</span>
+    <span class="n">n_a</span> <span class="o">=</span> <span class="n">LSTM_cell</span><span class="o">.</span><span class="n">units</span>
+    
+    <span class="c1"># Define the input layer and specify the shape</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">Tx</span><span class="p">,</span> <span class="n">n_values</span><span class="p">))</span> 
+    
+    <span class="c1"># Define the initial hidden state a0 and initial cell state c0</span>
+    <span class="c1"># using `Input`</span>
+    <span class="n">a0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_a</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a0&#39;</span><span class="p">)</span>
+    <span class="n">c0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_a</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c0&#39;</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">a0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">c0</span>
+    <span class="c1">### START CODE HERE ### </span>
+    <span class="c1"># Step 1: Create empty list to append the outputs while you iterate (≈1 line)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Step 2: Loop over tx</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+        
+        <span class="c1"># Step 2.A: select the &quot;t&quot;th time step vector from X. </span>
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Step 2.B: Use reshaper to reshape x to be (1, n_values) (≈1 line)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Step 2.C: Perform one step of the LSTM_cell</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Step 2.D: Apply densor to the hidden state output of LSTM_Cell</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Step 2.E: append the output to &quot;outputs&quot;</span>
+        <span class="kc">None</span>
+        
+    <span class="c1"># Step 3: Create model instance</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">c0</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+    
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-the-model-object">
+<h4>Create the model object<a class="headerlink" href="#create-the-model-object" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Run the following cell to define your model.</p></li>
+<li><p>You will use <code class="docutils literal notranslate"><span class="pre">Tx=30</span></code>.</p></li>
+<li><p>This cell may take a few seconds to run.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### YOU CANNOT EDIT THIS CELL</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">djmodel</span><span class="p">(</span><span class="n">Tx</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">LSTM_cell</span><span class="o">=</span><span class="n">LSTM_cell</span><span class="p">,</span> <span class="n">densor</span><span class="o">=</span><span class="n">densor</span><span class="p">,</span> <span class="n">reshaper</span><span class="o">=</span><span class="n">reshaper</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### YOU CANNOT EDIT THIS CELL</span>
+
+<span class="c1"># UNIT TEST</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> 
+<span class="n">comparator</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">djmodel_out</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check your model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong><br />
+Scroll to the bottom of the output, and you’ll see the following:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">Total</span> <span class="n">params</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span><span class="mi">530</span>
+<span class="n">Trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span><span class="mi">530</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="compile-the-model-for-training">
+<h4>Compile the model for training<a class="headerlink" href="#compile-the-model-for-training" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>You now need to compile your model to be trained.</p></li>
+<li><p>We will use:</p>
+<ul>
+<li><p>optimizer: Adam optimizer</p></li>
+<li><p>Loss function: categorical cross-entropy (for multi-class classification)</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">beta_1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta_2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="initialize-hidden-state-and-cell-state">
+<h4>Initialize hidden state and cell state<a class="headerlink" href="#initialize-hidden-state-and-cell-state" title="Link to this heading">#</a></h4>
+<p>Finally, let’s initialize <code class="docutils literal notranslate"><span class="pre">a0</span></code> and <code class="docutils literal notranslate"><span class="pre">c0</span></code> for the LSTM’s initial state to be zero.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">a0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n_a</span><span class="p">))</span>
+<span class="n">c0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n_a</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="train-the-model">
+<h4>Train the model<a class="headerlink" href="#train-the-model" title="Link to this heading">#</a></h4>
+<p>You’re now ready to fit the model!</p>
+<ul class="simple">
+<li><p>You’ll turn <code class="docutils literal notranslate"><span class="pre">Y</span></code> into a list, since the cost function expects <code class="docutils literal notranslate"><span class="pre">Y</span></code> to be provided in this format.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">list(Y)</span></code> is a list with 30 items, where each of the list items is of shape (60,90).</p></li>
+<li><p>Train for 100 epochs (This will take a few minutes).</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">c0</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;loss at epoch 1: </span><span class="si">{</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;loss at epoch 100: </span><span class="si">{</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">][</span><span class="mi">99</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="expected-output">
+<h4>Expected Output<a class="headerlink" href="#expected-output" title="Link to this heading">#</a></h4>
+<p>The model loss will start high, (100 or so), and after 100 epochs, it should be in the single digits.  These won’t be the exact number that you’ll see, due to random initialization of weights.<br />
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="n">at</span> <span class="n">epoch</span> <span class="mi">1</span><span class="p">:</span> <span class="mf">129.88641357421875</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Scroll to the bottom to check Epoch 100</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="n">at</span> <span class="n">epoch</span> <span class="mi">100</span><span class="p">:</span> <span class="mf">9.21483039855957</span>
+</pre></div>
+</div>
+<p>Now that you have trained a model, let’s go to the final section to implement an inference algorithm, and generate some music!</p>
+<p><a name='3'></a></p>
+</section>
+</section>
+</section>
+<section id="generating-music">
+<h2>3 - Generating Music<a class="headerlink" href="#generating-music" title="Link to this heading">#</a></h2>
+<p>You now have a trained model which has learned the patterns of a jazz soloist. You can now use this model to synthesize new music!</p>
+<p><a name='3-1'></a></p>
+<section id="predicting-sampling">
+<h3>3.1 - Predicting &amp; Sampling<a class="headerlink" href="#predicting-sampling" title="Link to this heading">#</a></h3>
+<img src="images/music_gen.png" style="width:600;height:400px;">
+<center><caption><b><font color='purple'>Figure 2: Generating new values in an LSTM </b></font><p>At each step of sampling, you will:</p>
+<ul class="simple">
+<li><p>Take as input the activation ‘<code class="docutils literal notranslate"><span class="pre">a</span></code>’ and cell state ‘<code class="docutils literal notranslate"><span class="pre">c</span></code>’ from the previous state of the LSTM.</p></li>
+<li><p>Forward propagate by one step.</p></li>
+<li><p>Get a new output activation, as well as cell state.</p></li>
+<li><p>The new activation ‘<code class="docutils literal notranslate"><span class="pre">a</span></code>’ can then be used to generate the output using the fully connected layer, <code class="docutils literal notranslate"><span class="pre">densor</span></code>.</p></li>
+</ul>
+<section id="initialization">
+<h4>Initialization<a class="headerlink" href="#initialization" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>You’ll initialize the following to be zeros:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">x0</span></code></p></li>
+<li><p>hidden state <code class="docutils literal notranslate"><span class="pre">a0</span></code></p></li>
+<li><p>cell state <code class="docutils literal notranslate"><span class="pre">c0</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p><a name='ex-2'></a></p>
+</section>
+</section>
+<section id="exercise-2-music-inference-model">
+<h3>Exercise 2 - music_inference_model<a class="headerlink" href="#exercise-2-music-inference-model" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">music_inference_model()</span></code> to sample a sequence of musical values.</p>
+<p>Here are some of the key steps you’ll need to implement inside the for-loop that generates the <span class="math notranslate nohighlight">\(T_y\)</span> output characters:</p>
+<p><strong>Step 1</strong>: Create an empty list “outputs” to save the outputs of the LSTM Cell at every time step.</p>
+<p><strong>Step 2.A</strong>: Use <code class="docutils literal notranslate"><span class="pre">LSTM_Cell</span></code>, which takes in the input layer, as well as the previous step’s ‘<code class="docutils literal notranslate"><span class="pre">c</span></code>’ and ‘<code class="docutils literal notranslate"><span class="pre">a</span></code>’ to generate the current step’s ‘<code class="docutils literal notranslate"><span class="pre">c</span></code>’ and ‘<code class="docutils literal notranslate"><span class="pre">a</span></code>’.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">next_hidden_state</span><span class="p">,</span> <span class="n">next_cell_state</span> <span class="o">=</span> <span class="n">LSTM_cell</span><span class="p">(</span><span class="n">input_x</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="p">[</span><span class="n">previous_hidden_state</span><span class="p">,</span> <span class="n">previous_cell_state</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Choose the appropriate variables for <code class="docutils literal notranslate"><span class="pre">input_x</span></code>, <code class="docutils literal notranslate"><span class="pre">hidden_state</span></code>, and <code class="docutils literal notranslate"><span class="pre">cell_state</span></code></p></li>
+</ul>
+<p><strong>2.B</strong>: Compute the output by applying <code class="docutils literal notranslate"><span class="pre">densor</span></code> to compute a softmax on ‘<code class="docutils literal notranslate"><span class="pre">a</span></code>’ to get the output for the current step.</p>
+<p><strong>2.C</strong>: Append the output to the list <code class="docutils literal notranslate"><span class="pre">outputs</span></code>.</p>
+<p><strong>2.D</strong>: Convert the last output into a new input for the next time step. You will do this in 2 substeps:</p>
+<ul class="simple">
+<li><p>Get the index of the maximum value of the predicted output using <code class="docutils literal notranslate"><span class="pre">tf.math.argmax</span></code> along the last axis.</p></li>
+<li><p>Convert the index into its n_values-one-hot encoding using <code class="docutils literal notranslate"><span class="pre">tf.one_hot</span></code>.</p></li>
+</ul>
+<p><strong>2.E</strong>: Use <code class="docutils literal notranslate"><span class="pre">RepeatVector(1)(x)</span></code> to convert the output of the one-hot enconding with shape=(None, 90) into a tensor with shape=(None, 1, 90)</p>
+<section id="step-3-inference-model">
+<h4>Step 3: Inference Model:<a class="headerlink" href="#step-3-inference-model" title="Link to this heading">#</a></h4>
+<p>This is how to use the Keras <code class="docutils literal notranslate"><span class="pre">Model</span></code> object:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_x</span><span class="p">,</span> <span class="n">initial_hidden_state</span><span class="p">,</span> <span class="n">initial_cell_state</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">the_outputs</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Choose the appropriate variables for the input tensor, hidden state, cell state, and output.</p></li>
+</ul>
+<p><strong>Hint</strong>: the inputs to the model are the <strong>initial</strong> inputs and states.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: music_inference_model</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">music_inference_model</span><span class="p">(</span><span class="n">LSTM_cell</span><span class="p">,</span> <span class="n">densor</span><span class="p">,</span> <span class="n">Ty</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Uses the trained &quot;LSTM_cell&quot; and &quot;densor&quot; from model() to generate a sequence of values.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    LSTM_cell -- the trained &quot;LSTM_cell&quot; from model(), Keras layer object</span>
+<span class="sd">    densor -- the trained &quot;densor&quot; from model(), Keras layer object</span>
+<span class="sd">    Ty -- integer, number of time steps to generate</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    inference_model -- Keras model instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Get the shape of input values</span>
+    <span class="n">n_values</span> <span class="o">=</span> <span class="n">densor</span><span class="o">.</span><span class="n">units</span>
+    <span class="c1"># Get the number of the hidden state vector</span>
+    <span class="n">n_a</span> <span class="o">=</span> <span class="n">LSTM_cell</span><span class="o">.</span><span class="n">units</span>
+    
+    <span class="c1"># Define the input of your model with a shape </span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_values</span><span class="p">))</span>
+    
+    
+    <span class="c1"># Define s0, initial hidden state for the decoder LSTM</span>
+    <span class="n">a0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_a</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;a0&#39;</span><span class="p">)</span>
+    <span class="n">c0</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_a</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;c0&#39;</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">a0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">c0</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span>
+
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Step 1: Create an empty list of &quot;outputs&quot; to later store your predicted values (≈1 line)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Step 2: Loop over Ty and generate a value at every time step</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Step 2.A: Perform one step of LSTM_cell. Use &quot;x&quot;, not &quot;x0&quot; (≈1 line)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Step 2.B: Apply Dense layer to the hidden state output of the LSTM_cell (≈1 line)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Step 2.C: Append the prediction &quot;out&quot; to &quot;outputs&quot;. out.shape = (None, 90) (≈1 line)</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+ 
+        <span class="c1"># Step 2.D: </span>
+        <span class="c1"># Select the next value according to &quot;out&quot;,</span>
+        <span class="c1"># Set &quot;x&quot; to be the one-hot representation of the selected value</span>
+        <span class="c1"># See instructions above.</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Step 2.E: </span>
+        <span class="c1"># Use RepeatVector(1) to convert x into a tensor with shape=(None, 1, 90)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        
+    <span class="c1"># Step 3: Create model instance with the correct &quot;inputs&quot; and &quot;outputs&quot; (≈1 line)</span>
+    <span class="n">inference_model</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">inference_model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the cell below to define your inference model. This model is hard coded to generate 50 values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### YOU CANNOT EDIT THIS CELL</span>
+<span class="n">inference_model</span> <span class="o">=</span> <span class="n">music_inference_model</span><span class="p">(</span><span class="n">LSTM_cell</span><span class="p">,</span> <span class="n">densor</span><span class="p">,</span> <span class="n">Ty</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### YOU CANNOT EDIT THIS CELL</span>
+
+<span class="c1"># UNIT TESTS</span>
+<span class="c1"># Convert NumPy arrays to TensorFlow tensors</span>
+<span class="n">x_initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_values</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">a_initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_a</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">c_initializer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_a</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Use @tf.function to wrap the prediction and allow shape relaxation</span>
+<span class="nd">@tf</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">experimental_relax_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inference_model</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+
+<span class="c1"># Get model outputs</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">outputs</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Outputs = &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Single output shape = &#39;</span><span class="p">,</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Assertions for outputs</span>
+<span class="n">expected_num_outputs</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">expected_output_shape</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_num_outputs</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">expected_num_outputs</span><span class="si">}</span><span class="s2"> outputs, but got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">as_list</span><span class="p">()</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">expected_output_shape</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Expected output shape </span><span class="si">{</span><span class="n">expected_output_shape</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Call the wrapped prediction function</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">predict_model</span><span class="p">(</span><span class="n">x_initializer</span><span class="p">,</span> <span class="n">a_initializer</span><span class="p">,</span> <span class="n">c_initializer</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;len(pred) = &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pred[0].shape = &#39;</span><span class="p">,</span> <span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Assertions for predictions</span>
+<span class="n">expected_pred_length</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">expected_pred_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_pred_length</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">expected_pred_length</span><span class="si">}</span><span class="s2"> predictions, but got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">assert</span> <span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">expected_pred_shape</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected prediction shape </span><span class="si">{</span><span class="n">expected_pred_shape</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">inference_summary</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">inference_model</span><span class="p">)</span>
+<span class="n">comparator</span><span class="p">(</span><span class="n">inference_summary</span><span class="p">,</span> <span class="n">music_inference_model_out</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h4>Expected Output:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Outputs =  50
+Single otuput shape =  (None, 90)
+len(pred) =  50
+pred[0].shape =  (1, 90)
+All tests passed!
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the inference model</span>
+<span class="n">inference_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong></p>
+<p>If you scroll to the bottom of the output, you’ll see:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Total</span> <span class="n">params</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span><span class="mi">530</span>
+<span class="n">Trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span><span class="mi">530</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="initialize-inference-model">
+<h4>Initialize inference model<a class="headerlink" href="#initialize-inference-model" title="Link to this heading">#</a></h4>
+<p>The following code creates the zero-valued vectors you will use to initialize <code class="docutils literal notranslate"><span class="pre">x</span></code> and the LSTM state variables <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_initializer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_values</span><span class="p">))</span>
+<span class="n">a_initializer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_a</span><span class="p">))</span>
+<span class="n">c_initializer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_a</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='ex-3'></a></p>
+</section>
+</section>
+<section id="exercise-3-predict-and-sample">
+<h3>Exercise 3 - predict_and_sample<a class="headerlink" href="#exercise-3-predict-and-sample" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">predict_and_sample()</span></code>.</p>
+<p>This function takes many arguments, including the inputs <code class="docutils literal notranslate"><span class="pre">x_initializer</span></code>, <code class="docutils literal notranslate"><span class="pre">a_initializer</span></code>, and <code class="docutils literal notranslate"><span class="pre">c_initializer</span></code>.</p>
+<p>In order to predict the output corresponding to this input, you’ll need to carry out 3 steps:</p>
+<section id="step-1">
+<h4>Step 1:<a class="headerlink" href="#step-1" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Use your inference model to predict an output given your set of inputs. The output <code class="docutils literal notranslate"><span class="pre">pred</span></code> should be a list of length <span class="math notranslate nohighlight">\(T_y\)</span> where each element is a numpy-array of shape (1, n_values).</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">inference_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">input_x_init</span><span class="p">,</span> <span class="n">hidden_state_init</span><span class="p">,</span> <span class="n">cell_state_init</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* Choose the appropriate input arguments to `predict` from the input arguments of this `predict_and_sample` function.
+</pre></div>
+</div>
+</section>
+<section id="step-2">
+<h4>Step 2:<a class="headerlink" href="#step-2" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Convert <code class="docutils literal notranslate"><span class="pre">pred</span></code> into a numpy array of <span class="math notranslate nohighlight">\(T_y\)</span> indices.</p>
+<ul>
+<li><p>Each index is computed by taking the <code class="docutils literal notranslate"><span class="pre">argmax</span></code> of an element of the <code class="docutils literal notranslate"><span class="pre">pred</span></code> list.</p></li>
+<li><p>Use <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.argmax.html">numpy.argmax</a>.</p></li>
+<li><p>Set the <code class="docutils literal notranslate"><span class="pre">axis</span></code> parameter.</p>
+<ul>
+<li><p>Remember that the shape of the prediction is <span class="math notranslate nohighlight">\((m, T_{y}, n_{values})\)</span></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="step-3">
+<h4>Step 3:<a class="headerlink" href="#step-3" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Convert the indices into their one-hot vector representations.</p>
+<ul>
+<li><p>Use <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/utils/to_categorical">to_categorical</a>.</p></li>
+<li><p>Set the <code class="docutils literal notranslate"><span class="pre">num_classes</span></code> parameter. Note that for grading purposes: you’ll need to either:</p>
+<ul>
+<li><p>Use a dimension from the given parameters of <code class="docutils literal notranslate"><span class="pre">predict_and_sample()</span></code> (for example, one of the dimensions of x_initializer has the value for the number of distinct classes).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C3 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: predict_and_sample</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_and_sample</span><span class="p">(</span><span class="n">inference_model</span><span class="p">,</span> <span class="n">x_initializer</span> <span class="o">=</span> <span class="n">x_initializer</span><span class="p">,</span> <span class="n">a_initializer</span> <span class="o">=</span> <span class="n">a_initializer</span><span class="p">,</span> 
+                       <span class="n">c_initializer</span> <span class="o">=</span> <span class="n">c_initializer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Predicts the next value of values using the inference model.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    inference_model -- Keras model instance for inference time</span>
+<span class="sd">    x_initializer -- numpy array of shape (1, 1, 90), one-hot vector initializing the values generation</span>
+<span class="sd">    a_initializer -- numpy array of shape (1, n_a), initializing the hidden state of the LSTM_cell</span>
+<span class="sd">    c_initializer -- numpy array of shape (1, n_a), initializing the cell state of the LSTM_cel</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    results -- numpy-array of shape (Ty, 90), matrix of one-hot vectors representing the values generated</span>
+<span class="sd">    indices -- numpy-array of shape (Ty, 1), matrix of indices representing the values generated</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">n_values</span> <span class="o">=</span> <span class="n">x_initializer</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Step 1: Use your inference model to predict an output sequence given x_initializer, a_initializer and c_initializer.</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">inference_model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+    <span class="c1"># Step 2: Convert &quot;pred&quot; into an np.array() of indices with the maximum probabilities</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Step 3: Convert indices to one-hot vectors, the shape of the results should be (Ty, n_values)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">results</span><span class="p">,</span> <span class="n">indices</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### YOU CANNOT EDIT THIS CELL</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">predict_and_sample</span><span class="p">(</span><span class="n">inference_model</span><span class="p">,</span> <span class="n">x_initializer</span><span class="p">,</span> <span class="n">a_initializer</span><span class="p">,</span> <span class="n">c_initializer</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;np.argmax(results[12]) =&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">12</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;np.argmax(results[17]) =&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">17</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list(indices[12:18]) =&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">18</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected (Approximate) Output</strong>:</p>
+<ul class="simple">
+<li><p>Your results <strong>may likely differ</strong> because Keras’ results are not completely predictable.</p></li>
+<li><p>However, if you have trained your LSTM_cell with model.fit() for exactly 100 epochs as described above:</p>
+<ul>
+<li><p>You should very likely observe a sequence of indices that are not all identical.  Perhaps with the following values:</p></li>
+</ul>
+</li>
+</ul>
+<table>
+    <tr>
+        <td>
+            **np.argmax(results[12])** =
+        </td>
+        <td>
+        26
+        </td>
+    </tr>
+    <tr>
+        <td>
+            **np.argmax(results[17])** =
+        </td>
+        <td>
+        7
+        </td>
+    </tr>
+    <tr>
+        <td>
+            **list(indices[12:18])** =
+        </td>
+        <td>
+            [array([26]), array([18]), array([53]), array([27]), array([40]), array([7])]
+        </td>
+    </tr>
+</table><p><a name='3-2'></a></p>
+</section>
+</section>
+<section id="generate-music">
+<h3>3.2 - Generate Music<a class="headerlink" href="#generate-music" title="Link to this heading">#</a></h3>
+<p>Finally! You’re ready to generate music.</p>
+<p>Your RNN generates a sequence of values. The following code generates music by first calling your <code class="docutils literal notranslate"><span class="pre">predict_and_sample()</span></code> function. These values are then post-processed into musical chords (meaning that multiple values or notes can be played at the same time).</p>
+<p>Most computational music algorithms use some post-processing because it’s difficult to generate music that sounds good without it. The post-processing does things like clean up the generated audio by making sure the same sound is not repeated too many times, or that two successive notes are not too far from each other in pitch, and so on.</p>
+<p>One could argue that a lot of these post-processing steps are hacks; also, a lot of the music generation literature has also focused on hand-crafting post-processors, and a lot of the output quality depends on the quality of the post-processing and not just the quality of the model. But this post-processing does make a huge difference, so you should use it in your implementation as well.</p>
+<p>Let’s make some music!</p>
+<p>Run the following cell to generate music and record it into your <code class="docutils literal notranslate"><span class="pre">out_stream</span></code>. This can take a couple of minutes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">out_stream</span> <span class="o">=</span> <span class="n">generate_music</span><span class="p">(</span><span class="n">inference_model</span><span class="p">,</span> <span class="n">indices_values</span><span class="p">,</span> <span class="n">chords</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using a basic midi to wav parser you can have a rough idea about the audio clip generated by this model. The parser is very limited.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mid2wav</span><span class="p">(</span><span class="s1">&#39;output/my_music.midi&#39;</span><span class="p">)</span>
+<span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Audio</span><span class="p">(</span><span class="s1">&#39;./output/rendered.wav&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To listen to your music, click File-&gt;Open… Then go to “output/” and download “my_music.midi”. Either play it on your computer with an application that can read midi files if you have one, or use one of the free online “MIDI to mp3” conversion tools to convert this to mp3.</p>
+<p>As a reference, here is a 30 second audio clip generated using this algorithm:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Audio</span><span class="p">(</span><span class="s1">&#39;./data/30s_trained_model.wav&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="congratulations">
+<h2>Congratulations!<a class="headerlink" href="#congratulations" title="Link to this heading">#</a></h2>
+<p>You’ve completed this assignment, and generated your own jazz solo! The Coltranes would be proud.</p>
+<p>By now, you’ve:</p>
+<ul class="simple">
+<li><p>Applied an LSTM to a music generation task</p></li>
+<li><p>Generated your own jazz music with deep learning</p></li>
+<li><p>Used the flexible Functional API to create a more complex model</p></li>
+</ul>
+<p>This was a lengthy task. You should be proud of your hard work, and hopefully you have some good music to show for it. Cheers and see you next time!</p>
+<p><font color='blue'><b> What you should remember:</b></p>
+<ul class="simple">
+<li><p>A sequence model can be used to generate musical values, which are then post-processed into midi music.</p></li>
+<li><p>You can use a fairly similar model for tasks ranging from generating dinosaur names to generating original music, with the only major difference being the input fed to the model.</p></li>
+<li><p>In Keras, sequence generation involves defining layers with shared weights, which are then repeated for the different time steps <span class="math notranslate nohighlight">\(1, \ldots, T_x\)</span>.</p></li>
+</ul>
+<p><a name='4'></a></p>
+</section>
+<section id="references">
+<h2>4 - References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>The ideas presented in this notebook came primarily from three computational music papers cited below. The implementation here also took significant inspiration and used many components from Ji-Sung Kim’s GitHub repository.</p>
+<ul class="simple">
+<li><p>Ji-Sung Kim, 2016, <a class="reference external" href="https://github.com/jisungk/deepjazz">deepjazz</a></p></li>
+<li><p>Jon Gillick, Kevin Tang and Robert Keller, 2009. <a class="reference external" href="http://ai.stanford.edu/~kdtang/papers/smc09-jazzgrammar.pdf">Learning Jazz Grammars</a></p></li>
+<li><p>Robert Keller and David Morrison, 2007, <a class="reference external" href="http://smc07.uoa.gr/SMC07%20Proceedings/SMC07%20Paper%2055.pdf">A Grammatical Approach to Automatic Improvisation</a></p></li>
+<li><p>François Pachet, 1999, <a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.5.7473&amp;amp;rep=rep1&amp;amp;type=pdf">Surprising Harmonies</a></p></li>
+</ul>
+<p>Finally, a shoutout to François Germain for valuable feedback.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C5_W1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">1 - Problem Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">1.1 - Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-musical-values-optional">What are musical “values”? (optional)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#music-as-a-sequence-of-values">Music as a sequence of values</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-overview">1.2 - Model Overview</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-section-2-and-3">Overview of Section 2 and 3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-model">2 - Building the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-generation-uses-a-for-loop">Sequence generation uses a for-loop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shareable-weights">Shareable weights</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-layers">3 types of layers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-djmodel">Exercise 1 - djmodel</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-given">Inputs (given)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-loop-through-time-steps">Step 2: Loop through time steps</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-select-the-t-time-step-vector-from-x">2A. Select the ‘t’ time-step vector from <code class="docutils literal notranslate"><span class="pre">X</span></code>.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-reshape-x-to-be-1-n-values">2B. Reshape <code class="docutils literal notranslate"><span class="pre">x</span></code> to be (1, n_values).</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-run-x-through-one-step-of-lstm-cell">2C. Run <code class="docutils literal notranslate"><span class="pre">x</span></code> through one step of <code class="docutils literal notranslate"><span class="pre">LSTM_cell</span></code>.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#d-dense-layer">2D. Dense layer</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#e-append-output">2E. Append output</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-after-the-loop-create-the-model">Step 3: After the loop, create the model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-model-object">Create the model object</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-the-model-for-training">Compile the model for training</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-hidden-state-and-cell-state">Initialize hidden state and cell state</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">Train the model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-output">Expected Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-music">3 - Generating Music</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-sampling">3.1 - Predicting &amp; Sampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization">Initialization</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-music-inference-model">Exercise 2 - music_inference_model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-inference-model">Step 3: Inference Model:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Expected Output:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-inference-model">Initialize inference model</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-predict-and-sample">Exercise 3 - predict_and_sample</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">Step 1:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">Step 2:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3">Step 3:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-music">3.2 - Generate Music</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4 - References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

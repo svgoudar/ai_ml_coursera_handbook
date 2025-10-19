@@ -1,0 +1,59 @@
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+np.random.seed(1)
+xt_tmp = np.random.randn(3, 10)
+a_prev_tmp = np.random.randn(5, 10)
+parameters_tmp = {}
+parameters_tmp['Waa'] = np.random.randn(5, 5)
+parameters_tmp['Wax'] = np.random.randn(5, 3)
+parameters_tmp['Wya'] = np.random.randn(2, 5)
+parameters_tmp['ba'] = np.random.randn(5, 1)
+parameters_tmp['by'] = np.random.randn(2, 1)
+
+a_next_tmp, yt_pred_tmp, cache_tmp = rnn_cell_forward(xt_tmp, a_prev_tmp, parameters_tmp)
+print("a_next[4] = \n", a_next_tmp[4])
+print("a_next.shape = \n", a_next_tmp.shape)
+print("yt_pred[1] =\n", yt_pred_tmp[1])
+print("yt_pred.shape = \n", yt_pred_tmp.shape)
+
+# UNIT TESTS
+rnn_cell_forward_tests(rnn_cell_forward)
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mTypeError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[4][39m[32m, line 12[39m
+[32m      9[39m parameters_tmp[[33m'[39m[33mby[39m[33m'[39m] = np.random.randn([32m2[39m, [32m1[39m)
+[32m     11[39m a_next_tmp, yt_pred_tmp, cache_tmp = rnn_cell_forward(xt_tmp, a_prev_tmp, parameters_tmp)
+[32m---> [39m[32m12[39m [38;5;28mprint[39m([33m"[39m[33ma_next[4] = [39m[38;5;130;01m\n[39;00m[33m"[39m, [43ma_next_tmp[49m[43m[[49m[32;43m4[39;49m[43m][49m)
+[32m     13[39m [38;5;28mprint[39m([33m"[39m[33ma_next.shape = [39m[38;5;130;01m\n[39;00m[33m"[39m, a_next_tmp.shape)
+[32m     14[39m [38;5;28mprint[39m([33m"[39m[33myt_pred[1] =[39m[38;5;130;01m\n[39;00m[33m"[39m, yt_pred_tmp[[32m1[39m])
+
+[31mTypeError[39m: 'NoneType' object is not subscriptable
+

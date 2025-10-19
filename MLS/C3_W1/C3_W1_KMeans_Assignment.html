@@ -1,0 +1,1528 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>K-means Clustering &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C3_W1/C3_W1_KMeans_Assignment';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Course 3 Week 2 : Recommender Systems" href="../C3_W2/ppt.html" />
+    <link rel="prev" title="Practice lab: Collaborative Filtering Recommender Systems" href="C3_W1_Collaborative_RecSys_Assignment.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/MLS/C3_W1/C3_W1_KMeans_Assignment.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FMLS/C3_W1/C3_W1_KMeans_Assignment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/MLS/C3_W1/C3_W1_KMeans_Assignment.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>K-means Clustering</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">K-means Clustering</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-k-means">1 - Implementing K-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-closest-centroids">1.1 Finding closest centroids</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-centroid-means">1.2 Computing centroid means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-on-a-sample-dataset">2 - K-means on a sample dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-initialization">3 - Random initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-compression-with-k-means">4 - Image compression with K-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">4.1 Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-data">Processing data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-on-image-pixels">4.2 K-Means on image pixels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compress-the-image">4.3 Compress the image</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="k-means-clustering">
+<h1>K-means Clustering<a class="headerlink" href="#k-means-clustering" title="Link to this heading">#</a></h1>
+<p>In this exercise, you will implement the K-means algorithm and use it for image compression.</p>
+<ul class="simple">
+<li><p>You will start with a sample dataset that will help you gain an intuition of how the K-means algorithm works.</p></li>
+<li><p>After that, you will use the K-means algorithm for image compression by reducing the number of colors that occur in an image to only those that are most common in that image.</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="outline">
+<h1>Outline<a class="headerlink" href="#outline" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst"> 1 - Implementing K-means</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#1.1"><span class="xref myst"> 1.1 Finding closest centroids</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex01"><span class="xref myst"> Exercise 1</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#1.2"><span class="xref myst"> 1.2 Computing centroid means</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex02"><span class="xref myst"> Exercise 2</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst"> 2 - K-means on a sample dataset </span></a></p></li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst"> 3 - Random initialization</span></a></p></li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst"> 4 - Image compression with K-means</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#4.1"><span class="xref myst"> 4.1 Dataset</span></a></p></li>
+<li><p><a class="reference internal" href="#4.2"><span class="xref myst"> 4.2 K-Means on image pixels</span></a></p></li>
+<li><p><a class="reference internal" href="#4.3"><span class="xref myst"> 4.3 Compress the image</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p><em><strong>NOTE:</strong> To prevent errors from the autograder, you are not allowed to edit or delete non-graded cells in this lab. Please also refrain from adding any new cells.
+<strong>Once you have passed this assignment</strong> and want to experiment with any of the non-graded code, you may follow the instructions at the bottom of this notebook.</em></p>
+<p>First, run the cell below to import the packages needed in this assignment:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://numpy.org/">numpy</a> is the fundamental package for scientific computing with Python.</p></li>
+<li><p><a class="reference external" href="http://matplotlib.org">matplotlib</a> is a popular library to plot graphs in Python.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils.py</span></code> contains helper functions for this assignment. You do not need to modify code in this file.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="1"></a></p>
+<section id="implementing-k-means">
+<h2>1 - Implementing K-means<a class="headerlink" href="#implementing-k-means" title="Link to this heading">#</a></h2>
+<p>The K-means algorithm is a method to automatically cluster similar
+data points together.</p>
+<ul>
+<li><p>Concretely, you are given a training set <span class="math notranslate nohighlight">\(\{x^{(1)}, ..., x^{(m)}\}\)</span>, and you want
+to group the data into a few cohesive “clusters”.</p></li>
+<li><p>K-means is an iterative procedure that</p>
+<ul class="simple">
+<li><p>Starts by guessing the initial centroids, and then</p></li>
+<li><p>Refines this guess by</p>
+<ul>
+<li><p>Repeatedly assigning examples to their closest centroids, and then</p></li>
+<li><p>Recomputing the centroids based on the assignments.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>In pseudocode, the K-means algorithm is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize centroids</span>
+<span class="c1"># K is the number of clusters</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">kMeans_init_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+    <span class="c1"># Cluster assignment step: </span>
+    <span class="c1"># Assign each data point to the closest centroid. </span>
+    <span class="c1"># idx[i] corresponds to the index of the centroid </span>
+    <span class="c1"># assigned to example i</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">find_closest_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span>
+
+    <span class="c1"># Move centroid step: </span>
+    <span class="c1"># Compute means based on centroid assignments</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">compute_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>The inner-loop of the algorithm repeatedly carries out two steps:</p>
+<ol class="arabic simple">
+<li><p>Assigning each training example <span class="math notranslate nohighlight">\(x^{(i)}\)</span> to its closest centroid, and</p></li>
+<li><p>Recomputing the mean of each centroid using the points assigned to it.</p></li>
+</ol>
+</li>
+<li><p>The <span class="math notranslate nohighlight">\(K\)</span>-means algorithm will always converge to some final set of means for the centroids.</p></li>
+<li><p>However, the converged solution may not always be ideal and depends on the initial setting of the centroids.</p>
+<ul class="simple">
+<li><p>Therefore, in practice the K-means algorithm is usually run a few times with different random initializations.</p></li>
+<li><p>One way to choose between these different solutions from different random initializations is to choose the one with the lowest cost function value (distortion).</p></li>
+</ul>
+</li>
+</ul>
+<p>You will implement the two phases of the K-means algorithm separately
+in the next sections.</p>
+<ul class="simple">
+<li><p>You will start by completing <code class="docutils literal notranslate"><span class="pre">find_closest_centroid</span></code> and then proceed to complete <code class="docutils literal notranslate"><span class="pre">compute_centroids</span></code>.</p></li>
+</ul>
+<p><a name="1.1"></a></p>
+<section id="finding-closest-centroids">
+<h3>1.1 Finding closest centroids<a class="headerlink" href="#finding-closest-centroids" title="Link to this heading">#</a></h3>
+<p>In the “cluster assignment” phase of the K-means algorithm, the
+algorithm assigns every training example <span class="math notranslate nohighlight">\(x^{(i)}\)</span> to its closest
+centroid, given the current positions of centroids.</p>
+<p><a name="ex01"></a></p>
+</section>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p>Your task is to complete the code in <code class="docutils literal notranslate"><span class="pre">find_closest_centroids</span></code>.</p>
+<ul class="simple">
+<li><p>This function takes the data matrix <code class="docutils literal notranslate"><span class="pre">X</span></code> and the locations of all
+centroids inside <code class="docutils literal notranslate"><span class="pre">centroids</span></code></p></li>
+<li><p>It should output a one-dimensional array <code class="docutils literal notranslate"><span class="pre">idx</span></code> (which has the same number of elements as <code class="docutils literal notranslate"><span class="pre">X</span></code>) that holds the index  of the closest centroid (a value in <span class="math notranslate nohighlight">\(\{0,...,K-1\}\)</span>, where <span class="math notranslate nohighlight">\(K\)</span> is total number of centroids) to every training example . <em>(Note: The index range 0 to K-1 varies slightly from what is shown in the lectures (i.e. 1 to K) because Python list indices start at 0 instead of 1)</em></p></li>
+<li><p>Specifically, for every example <span class="math notranslate nohighlight">\(x^{(i)}\)</span> we set
+$<span class="math notranslate nohighlight">\(c^{(i)} := j \quad \mathrm{that \; minimizes} \quad ||x^{(i)} - \mu_j||^2,\)</span>$
+where</p></li>
+<li><p><span class="math notranslate nohighlight">\(c^{(i)}\)</span> is the index of the centroid that is closest to <span class="math notranslate nohighlight">\(x^{(i)}\)</span> (corresponds to <code class="docutils literal notranslate"><span class="pre">idx[i]</span></code> in the starter code), and</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu_j\)</span> is the position (value) of the <span class="math notranslate nohighlight">\(j\)</span>’th centroid. (stored in <code class="docutils literal notranslate"><span class="pre">centroids</span></code> in the starter code)</p></li>
+<li><p><span class="math notranslate nohighlight">\(||x^{(i)} - \mu_j||\)</span> is the L2-norm</p></li>
+</ul>
+<p>If you get stuck, you can check out the hints presented after the cell below to help you with the implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1</span>
+<span class="c1"># GRADED FUNCTION: find_closest_centroids</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">find_closest_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">centroids</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the centroid memberships for every example</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        X (ndarray): (m, n) Input values      </span>
+<span class="sd">        centroids (ndarray): (K, n) centroids</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        idx (array_like): (m,) closest centroids</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Set K</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">centroids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># You need to return the following variables correctly</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1">### START CODE HERE ###</span>
+    
+        
+        
+            
+            
+        
+     <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">idx</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<ul class="simple">
+<li><p>Here’s how you can structure the overall implementation for this function</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">find_closest_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">centroids</span><span class="p">):</span>
+
+    <span class="c1"># Set K</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">centroids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># You need to return the following variables correctly</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="c1"># Array to hold distance between X[i] and each centroids[j]</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="p">[]</span> 
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">centroids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">norm_ij</span> <span class="o">=</span> <span class="c1"># Your code to calculate the norm between (X[i] - centroids[j])</span>
+            <span class="n">distance</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">norm_ij</span><span class="p">)</span>
+
+        <span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="c1"># Your code here to calculate index of minimum value in distance</span>
+    <span class="c1">### END CODE HERE ###</span>
+    <span class="k">return</span> <span class="n">idx</span>
+</pre></div>
+</div>
+<ul>
+<li><p>If you’re still stuck, you can check the hints presented below to figure out how to calculate <code class="docutils literal notranslate"><span class="pre">norm_ij</span></code> and <code class="docutils literal notranslate"><span class="pre">idx[i]</span></code>.</p>
+  <details>
+        <summary><font size="2" color="darkblue"><b>Hint to calculate norm_ij</b></font></summary>
+         &emsp; &emsp; You can use <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html">np.linalg.norm</a> to calculate the norm 
+        <details>
+            <summary><font size="2" color="blue"><b>&emsp; &emsp; More hints to calculate norm_ij</b></font></summary>
+             &emsp; &emsp; You can compute norm_ij as <code>norm_ij = np.linalg.norm(X[i] - centroids[j]) </code>
+         </details>
+  </details>
+  <details>
+        <summary><font size="2" color="darkblue"><b>Hint to calculate idx[i]</b></font></summary>
+        &emsp; &emsp; You can use <a href="https://numpy.org/doc/stable/reference/generated/numpy.argmin.html">np.argmin</a> to find the index of the minimum value
+        <details>
+            <summary><font size="2" color="blue"><b>&emsp; &emsp; More hints to calculate idx[i]</b></font></summary>
+            &emsp; &emsp; You can compute idx[i] as <code>idx[i] = np.argmin(distance)</code>
+        </details>
+  </details>
+  </details>
+</li>
+</ul>
+</details>
+<p>Now let’s check your implementation using an example dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load an example dataset that we will be using</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The code below prints the first five elements in the variable <code class="docutils literal notranslate"><span class="pre">X</span></code> and the dimensions of the variable</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First five elements of X are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The shape of X is:&#39;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>First five elements of X are:
+ [[1.84207953 4.6075716 ]
+ [5.65858312 4.79996405]
+ [6.35257892 3.2908545 ]
+ [2.90401653 4.61220411]
+ [3.23197916 4.93989405]]
+The shape of X is: (300, 2)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select an initial set of centroids (3 Centroids)</span>
+<span class="n">initial_centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">]])</span>
+
+<span class="c1"># Find closest centroids using initial_centroids</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">find_closest_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">initial_centroids</span><span class="p">)</span>
+
+<span class="c1"># Print closest centroids for the first three elements</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First three elements in idx are:&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="c1"># UNIT TEST</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">find_closest_centroids_test</span><span class="p">(</span><span class="n">find_closest_centroids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>First three elements in idx are: [0 0 0]
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">13</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="c1"># UNIT TEST</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="n">find_closest_centroids_test</span><span class="p">(</span><span class="n">find_closest_centroids</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;find_closest_centroids_test&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<table>
+  <tr>
+    <td> <b>First three elements in idx are<b></td>
+    <td> [0 2 1] </td> 
+  </tr>
+</table><p><a name="1.2"></a></p>
+</section>
+<section id="computing-centroid-means">
+<h3>1.2 Computing centroid means<a class="headerlink" href="#computing-centroid-means" title="Link to this heading">#</a></h3>
+<p>Given assignments of every point to a centroid, the second phase of the
+algorithm recomputes, for each centroid, the mean of the points that
+were assigned to it.</p>
+<p><a name="ex02"></a></p>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h3>
+<p>Please complete the <code class="docutils literal notranslate"><span class="pre">compute_centroids</span></code> below to recompute the value for each centroid</p>
+<ul class="simple">
+<li><p>Specifically, for every centroid <span class="math notranslate nohighlight">\(\mu_k\)</span> we set
+$<span class="math notranslate nohighlight">\(
+\mu_k = \frac{1}{|C_k|} \sum_{i \in C_k} x^{(i)}
+\)</span>$</p></li>
+</ul>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(C_k\)</span> is the set of examples that are assigned to centroid <span class="math notranslate nohighlight">\(k\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(|C_k|\)</span> is the number of examples in the set <span class="math notranslate nohighlight">\(C_k\)</span></p></li>
+<li><p>Concretely, if two examples say <span class="math notranslate nohighlight">\(x^{(3)}\)</span> and <span class="math notranslate nohighlight">\(x^{(5)}\)</span> are assigned to centroid <span class="math notranslate nohighlight">\(k=2\)</span>,
+then you should update <span class="math notranslate nohighlight">\(\mu_2 = \frac{1}{2}(x^{(3)}+x^{(5)})\)</span>.</p></li>
+</ul>
+<p>If you get stuck, you can check out the hints presented after the cell below to help you with the implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2</span>
+<span class="c1"># GRADED FUNCTION: compute_centroids</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the new centroids by computing the means of the </span>
+<span class="sd">    data points assigned to each centroid.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        X (ndarray):   (m, n) Data points</span>
+<span class="sd">        idx (ndarray): (m,) Array containing index of closest centroid for each </span>
+<span class="sd">                       example in X. Concretely, idx[i] contains the index of </span>
+<span class="sd">                       the centroid closest to example i</span>
+<span class="sd">        K (int):       number of centroids</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        centroids (ndarray): (K, n) New centroids computed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Useful variables</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    
+    <span class="c1"># You need to return the following variables correctly</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">K</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    
+        
+        
+    <span class="c1">### END CODE HERE ## </span>
+    
+    <span class="k">return</span> <span class="n">centroids</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+<ul>
+<li><p>Here’s how you can structure the overall implementation for this function</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+    <span class="c1"># Useful variables</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># You need to return the following variables correctly</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">K</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>   
+        <span class="n">points</span> <span class="o">=</span> <span class="c1"># Your code here to get a list of all data points in X assigned to centroid k  </span>
+        <span class="n">centroids</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="c1"># Your code here to compute the mean of the points assigned</span>
+<span class="c1">### END CODE HERE ## </span>
+
+<span class="k">return</span> <span class="n">centroids</span>
+</pre></div>
+</div>
+<p>If you’re still stuck, you can check the hints presented below to figure out how to calculate <code class="docutils literal notranslate"><span class="pre">points</span></code> and <code class="docutils literal notranslate"><span class="pre">centroids[k]</span></code>.</p>
+  <details>
+        <summary><font size="2" color="darkblue"><b>Hint to calculate points</b></font></summary>
+         &emsp; &emsp; Say we wanted to find all the values in X that were assigned to cluster <code>k=0</code>. That is, the corresponding value in idx for these examples is 0. In Python, we can do it as <code>X[idx == 0]</code>. Similarly, the points assigned to centroid <code>k=1</code> are <code>X[idx == 1]</code>
+        <details>
+            <summary><font size="2" color="blue"><b>&emsp; &emsp; More hints to calculate points</b></font></summary>
+             &emsp; &emsp; You can compute points as <code>points = X[idx == k] </code>
+         </details>
+  </details>
+   <details>
+        <summary><font size="2" color="darkblue"><b>Hint to calculate centroids[k]</b></font></summary>
+        &emsp; &emsp; You can use <a href="https://numpy.org/doc/stable/reference/generated/numpy.mean.html">np.mean</a> to find the mean. Make sure to set the parameter <code>axis=0</code> 
+        <details>
+            <summary><font size="2" color="blue"><b>&emsp; &emsp; More hints to calculate centroids[k]</b></font></summary>
+            &emsp; &emsp; You can compute centroids[k] as <code>centroids[k] = np.mean(points, axis = 0)</code>
+        </details>
+  </details>
+  </details>
+</li>
+</ul>
+</details>
+<p>Now check your implementation by running the cell below</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">compute_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The centroids are:&quot;</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span>
+
+<span class="c1"># UNIT TEST</span>
+<span class="n">compute_centroids_test</span><span class="p">(</span><span class="n">compute_centroids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<p>2.42830111 3.15792418</p>
+<p>5.81350331 2.63365645</p>
+<p>7.11938687 3.6166844</p>
+<p><a name="2"></a></p>
+</section>
+</section>
+<section id="k-means-on-a-sample-dataset">
+<h2>2 - K-means on a sample dataset<a class="headerlink" href="#k-means-on-a-sample-dataset" title="Link to this heading">#</a></h2>
+<p>After you have completed the two functions (<code class="docutils literal notranslate"><span class="pre">find_closest_centroids</span></code>
+and <code class="docutils literal notranslate"><span class="pre">compute_centroids</span></code>) above, the next step is to run the
+K-means algorithm on a toy 2D dataset to help you understand how
+K-means works.</p>
+<ul class="simple">
+<li><p>We encourage you to take a look at the function (<code class="docutils literal notranslate"><span class="pre">run_kMeans</span></code>) below to understand how it works.</p></li>
+<li><p>Notice that the code calls the two functions you implemented in a loop.</p></li>
+</ul>
+<p>When you run the code below, it will produce a
+visualization that steps through the progress of the algorithm at
+each iteration.</p>
+<ul class="simple">
+<li><p>At the end, your figure should look like the one displayed in Figure 1.</p></li>
+<li><p>The final centroids are the black X-marks in the middle of the colored clusters.</p></li>
+<li><p>You can see how these centroids got to their final location by looking at the other X-marks connected to it.</p></li>
+</ul>
+<img src="/C3_W1/images/figure 1.png" width="500" height="500">
+<p><strong>Note</strong>: You do not need to implement anything for this part. Simply run the code provided below</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># You do not need to implement anything for this part</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_kMeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">initial_centroids</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">plot_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs the K-Means algorithm on data matrix X, where each row of X</span>
+<span class="sd">    is a single example</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Initialize values</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">initial_centroids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">initial_centroids</span>
+    <span class="n">previous_centroids</span> <span class="o">=</span> <span class="n">centroids</span>    
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+    <span class="c1"># Run K-Means</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iters</span><span class="p">):</span>
+        
+        <span class="c1">#Output progress</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;K-Means iteration </span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">max_iters</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        
+        <span class="c1"># For each example in X, assign it to the closest centroid</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">find_closest_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span>
+        
+        <span class="c1"># Optionally plot progress</span>
+        <span class="k">if</span> <span class="n">plot_progress</span><span class="p">:</span>
+            <span class="n">plot_progress_kMeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">centroids</span><span class="p">,</span> <span class="n">previous_centroids</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">previous_centroids</span> <span class="o">=</span> <span class="n">centroids</span>
+            
+        <span class="c1"># Given the memberships, compute new centroids</span>
+        <span class="n">centroids</span> <span class="o">=</span> <span class="n">compute_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> 
+    <span class="k">return</span> <span class="n">centroids</span><span class="p">,</span> <span class="n">idx</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load an example dataset</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">()</span>
+
+<span class="c1"># Set initial centroids</span>
+<span class="n">initial_centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">]])</span>
+
+<span class="c1"># Number of iterations</span>
+<span class="n">max_iters</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Run K-Means</span>
+<span class="n">centroids</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">run_kMeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">initial_centroids</span><span class="p">,</span> <span class="n">max_iters</span><span class="p">,</span> <span class="n">plot_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3"></a></p>
+</section>
+<section id="random-initialization">
+<h2>3 - Random initialization<a class="headerlink" href="#random-initialization" title="Link to this heading">#</a></h2>
+<p>The initial assignments of centroids for the example dataset was designed so that you will see the same figure as in Figure 1. In practice, a good strategy for initializing the centroids is to select random examples from the
+training set.</p>
+<p>In this part of the exercise, you should understand how the function <code class="docutils literal notranslate"><span class="pre">kMeans_init_centroids</span></code> is implemented.</p>
+<ul class="simple">
+<li><p>The code first randomly shuffles the indices of the examples (using <code class="docutils literal notranslate"><span class="pre">np.random.permutation()</span></code>).</p></li>
+<li><p>Then, it selects the first <span class="math notranslate nohighlight">\(K\)</span> examples based on the random permutation of the indices.</p></li>
+<li><p>This allows the examples to be selected at random without the risk of selecting the same example twice.</p></li>
+</ul>
+<p><strong>Note</strong>: You do not need to implement anything for this part of the exercise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># You do not need to modify this part</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kMeans_init_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function initializes K centroids that are to be </span>
+<span class="sd">    used in K-Means on the dataset X</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        X (ndarray): Data points </span>
+<span class="sd">        K (int):     number of centroids/clusters</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        centroids (ndarray): Initialized centroids</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Randomly reorder the indices of examples</span>
+    <span class="n">randidx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="c1"># Take the first K examples as centroids</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">randidx</span><span class="p">[:</span><span class="n">K</span><span class="p">]]</span>
+    
+    <span class="k">return</span> <span class="n">centroids</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can run K-Means again but this time with random initial centroids. Run the cell below several times and observe how different clusters are created based on the initial points chosen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run this cell repeatedly to see different outcomes.</span>
+
+<span class="c1"># Set number of centroids and max number of iterations</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">max_iters</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Set initial centroids by picking random examples from the dataset</span>
+<span class="n">initial_centroids</span> <span class="o">=</span> <span class="n">kMeans_init_centroids</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+<span class="c1"># Run K-Means</span>
+<span class="n">centroids</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">run_kMeans</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">initial_centroids</span><span class="p">,</span> <span class="n">max_iters</span><span class="p">,</span> <span class="n">plot_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="4"></a></p>
+</section>
+<section id="image-compression-with-k-means">
+<h2>4 - Image compression with K-means<a class="headerlink" href="#image-compression-with-k-means" title="Link to this heading">#</a></h2>
+<p>In this exercise, you will apply K-means to image compression.</p>
+<ul class="simple">
+<li><p>In a straightforward 24-bit color representation of an image<span class="math notranslate nohighlight">\(^{2}\)</span>, each pixel is represented as three 8-bit unsigned integers (ranging from 0 to 255) that specify the red, green and blue intensity values. This encoding is often refered to as the RGB encoding.</p></li>
+<li><p>Our image contains thousands of colors, and in this part of the exercise, you will reduce the number of
+colors to 16 colors.</p></li>
+<li><p>By making this reduction, it is possible to represent (compress) the photo in an efficient way.</p></li>
+<li><p>Specifically, you only need to store the RGB values of the 16 selected colors, and for each pixel in the image you now need to only store the index of the color at that location (where only 4 bits are necessary to represent 16 possibilities).</p></li>
+</ul>
+<p>In this part, you will use the K-means algorithm to select the 16 colors that will be used to represent the compressed image.</p>
+<ul class="simple">
+<li><p>Concretely, you will treat every pixel in the original image as a data example and use the K-means algorithm to find the 16 colors that best group (cluster) the pixels in the 3- dimensional RGB space.</p></li>
+<li><p>Once you have computed the cluster centroids on the image, you will then use the 16 colors to replace the pixels in the original image.</p></li>
+</ul>
+<img src="/C3_W1/images/figure 2.png" width="500" height="500">
+<p><span class="math notranslate nohighlight">\(^{2}\)</span><sub>The provided photo used in this exercise belongs to Frank Wouters and is used with his permission.</sub></p>
+<p><a name="4.1"></a></p>
+<section id="dataset">
+<h3>4.1 Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
+<p><strong>Load image</strong></p>
+<p>First, you will use <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> to read in the original image, as shown below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load an image of a bird</span>
+<span class="n">original_img</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;bird_small.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Visualize image</strong></p>
+<p>You can visualize the image that was just loaded using the code below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizing the image</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original_img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Check the dimension of the variable</strong></p>
+<p>As always, you will print out the shape of your variable to get more familiar with the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape of original_img is:&quot;</span><span class="p">,</span> <span class="n">original_img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, this creates a three-dimensional matrix <code class="docutils literal notranslate"><span class="pre">original_img</span></code> where</p>
+<ul class="simple">
+<li><p>the first two indices identify a pixel position, and</p></li>
+<li><p>the third index represents red, green, or blue.</p></li>
+</ul>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">original_img[50,</span> <span class="pre">33,</span> <span class="pre">2]</span></code> gives the blue intensity of the pixel at row 50 and column 33.</p>
+<section id="processing-data">
+<h4>Processing data<a class="headerlink" href="#processing-data" title="Link to this heading">#</a></h4>
+<p>To call the <code class="docutils literal notranslate"><span class="pre">run_kMeans</span></code>, you need to first transform the matrix <code class="docutils literal notranslate"><span class="pre">original_img</span></code> into a two-dimensional matrix.</p>
+<ul class="simple">
+<li><p>The code below reshapes the matrix <code class="docutils literal notranslate"><span class="pre">original_img</span></code> to create an <span class="math notranslate nohighlight">\(m \times 3\)</span> matrix of pixel colors (where
+<span class="math notranslate nohighlight">\(m=16384 = 128\times128\)</span>)</p></li>
+</ul>
+<p><em>Note: If you’ll try this exercise later on a JPG file, you first need to divide the pixel values by 255 so it will be in the range 0 to 1. This is not necessary for PNG files (e.g. <code class="docutils literal notranslate"><span class="pre">bird_small.png</span></code>) because it is already loaded in the required range (as mentioned in the <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imread.html">plt.imread() documentation</a>). We commented a line below for this so you can just uncomment it later in case you want to try a different file.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Divide by 255 so that all values are in the range 0 - 1 (not needed for PNG files)</span>
+<span class="c1"># original_img = original_img / 255</span>
+
+<span class="c1"># Reshape the image into an m x 3 matrix where m = number of pixels</span>
+<span class="c1"># (in this case m = 128 x 128 = 16384)</span>
+<span class="c1"># Each row will contain the Red, Green and Blue pixel values</span>
+<span class="c1"># This gives us our dataset matrix X_img that we will use K-Means on.</span>
+
+<span class="n">X_img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">original_img</span><span class="p">,</span> <span class="p">(</span><span class="n">original_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">original_img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="4.2"></a></p>
+</section>
+</section>
+<section id="k-means-on-image-pixels">
+<h3>4.2 K-Means on image pixels<a class="headerlink" href="#k-means-on-image-pixels" title="Link to this heading">#</a></h3>
+<p>Now, run the cell below to run K-Means on the pre-processed image.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run your K-Means algorithm on this data</span>
+<span class="c1"># You should try different values of K and max_iters here</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">max_iters</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Using the function you have implemented above. </span>
+<span class="n">initial_centroids</span> <span class="o">=</span> <span class="n">kMeans_init_centroids</span><span class="p">(</span><span class="n">X_img</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+<span class="c1"># Run K-Means - this can take a couple of minutes depending on K and max_iters</span>
+<span class="n">centroids</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">run_kMeans</span><span class="p">(</span><span class="n">X_img</span><span class="p">,</span> <span class="n">initial_centroids</span><span class="p">,</span> <span class="n">max_iters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape of idx:&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Closest centroid for the first five elements:&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The code below will plot all the colors found in the original image. As mentioned earlier, the color of each pixel is represented by RGB values so the plot should have 3 axes – R, G, and B. You’ll notice a lot of dots below representing thousands of colors in the original image. The red markers represent the centroids after running K-means. These will be the 16 colors that you will use to compress the image.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the colors of the image and mark the centroids</span>
+<span class="n">plot_kMeans_RGB</span><span class="p">(</span><span class="n">X_img</span><span class="p">,</span> <span class="n">centroids</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can visualize the colors at each of the red markers (i.e. the centroids) above with the function below. You will only see these colors when you generate the new image in the next section. The number below each color is its index and these are the numbers you see in the <code class="docutils literal notranslate"><span class="pre">idx</span></code> array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize the 16 colors selected</span>
+<span class="n">show_centroid_colors</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="4.3"></a></p>
+</section>
+<section id="compress-the-image">
+<h3>4.3 Compress the image<a class="headerlink" href="#compress-the-image" title="Link to this heading">#</a></h3>
+<p>After finding the top <span class="math notranslate nohighlight">\(K=16\)</span> colors to represent the image, you can now
+assign each pixel position to its closest centroid using the
+<code class="docutils literal notranslate"><span class="pre">find_closest_centroids</span></code> function.</p>
+<ul class="simple">
+<li><p>This allows you to represent the original image using the centroid assignments of each pixel.</p></li>
+<li><p>Notice that you have significantly reduced the number of bits that are required to describe the image.</p>
+<ul>
+<li><p>The original image required 24 bits (i.e. 8 bits x 3 channels in RGB encoding) for each one of the <span class="math notranslate nohighlight">\(128\times128\)</span> pixel locations, resulting in total size of <span class="math notranslate nohighlight">\(128 \times 128 \times 24 = 393,216\)</span> bits.</p></li>
+<li><p>The new representation requires some overhead storage in form of a dictionary of 16 colors, each of which require 24 bits, but the image itself then only requires 4 bits per pixel location.</p></li>
+<li><p>The final number of bits used is therefore <span class="math notranslate nohighlight">\(16 \times 24 + 128 \times 128 \times 4 = 65,920\)</span> bits, which corresponds to compressing the original image by about a factor of 6.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the closest centroid of each pixel</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">find_closest_centroids</span><span class="p">(</span><span class="n">X_img</span><span class="p">,</span> <span class="n">centroids</span><span class="p">)</span>
+
+<span class="c1"># Replace each pixel with the color of the closest centroid</span>
+<span class="n">X_recovered</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span> 
+
+<span class="c1"># Reshape image into proper dimensions</span>
+<span class="n">X_recovered</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_recovered</span><span class="p">,</span> <span class="n">original_img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, you can view the effects of the compression by reconstructing
+the image based only on the centroid assignments.</p>
+<ul class="simple">
+<li><p>Specifically, you replaced each pixel with the value of the centroid assigned to
+it.</p></li>
+<li><p>Figure 3 shows a sample reconstruction. Even though the resulting image retains most of the characteristics of the original, you will also see some compression artifacts because of the fewer colors used.</p></li>
+</ul>
+<img src="/C3_W1/images/figure 3.png" width="700" height="700">
+<ul class="simple">
+<li><p>Run the code below to see how the image is reconstructed using the 16 colors selected earlier.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display original image</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">original_img</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+
+<span class="c1"># Display compressed image</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X_recovered</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Compressed with </span><span class="si">%d</span><span class="s1"> colours&#39;</span><span class="o">%</span><span class="k">K</span>)
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Congratulations on completing this lab on K-means clustering! In the next lesson, you will learn about another use case of unsupervised learning: anomaly detection. See you there!</strong></p>
+<details>
+  <summary><font size="2" color="darkgreen"><b>Please click here if you want to experiment with any of the non-graded code.</b></font></summary>
+    <p><i><b>Important Note: Please only do this when you've already passed the assignment to avoid problems with the autograder.</b></i>
+    <ol>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “Edit Metadata”</li>
+        <li> Hit the “Edit Metadata” button next to the code cell which you want to lock/unlock</li>
+        <li> Set the attribute value for “editable” to:
+            <ul>
+                <li> “true” if you want to unlock it </li>
+                <li> “false” if you want to lock it </li>
+            </ul>
+        </li>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “None” </li>
+    </ol>
+    <p> Here's a short demo of how to do the steps above: 
+        <br>
+        <img src="https://lh3.google.com/u/0/d/14Xy_Mb17CZVgzVAgq7NCjMVBvSae3xO1" align="center" alt="unlock_cells.gif">
+</details></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./MLS\C3_W1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C3_W1_Collaborative_RecSys_Assignment.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Practice lab: Collaborative Filtering Recommender Systems</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../C3_W2/ppt.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Course 3 Week 2 : Recommender Systems</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">K-means Clustering</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-k-means">1 - Implementing K-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-closest-centroids">1.1 Finding closest centroids</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-centroid-means">1.2 Computing centroid means</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-on-a-sample-dataset">2 - K-means on a sample dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-initialization">3 - Random initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-compression-with-k-means">4 - Image compression with K-means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">4.1 Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-data">Processing data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-on-image-pixels">4.2 K-Means on image pixels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compress-the-image">4.3 Compress the image</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

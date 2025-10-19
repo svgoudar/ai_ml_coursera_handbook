@@ -1,0 +1,1935 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Character level language model - Dinosaurus Island &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css?v=b4b7a797" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js?v=c95ade4f"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script>
+    <script src="../../_static/js/micromodal.min.js?v=04d6302d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DLS/C5_W1/Dinosaurus_Island_Character_level_language_model';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Deep Learning Specialization Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1: Structuring Machine Learning Projects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C4_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W3/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FDLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Character level language model - Dinosaurus Island</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">1 - Problem Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-preprocessing">1.1 - Dataset and Preprocessing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-model">1.2 - Overview of the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-blocks-of-the-model">2 - Building Blocks of the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clipping-the-gradients-in-the-optimization-loop">2.1 - Clipping the Gradients in the Optimization Loop</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exploding-gradients">Exploding gradients</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-clipping">Gradient clipping</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-clip">Exercise 1 - clip</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling">2.2 - Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-sample">Exercise 2 - sample</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints">Additional Hints</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Additional Hints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-language-model">3 - Building the Language Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">3.1 - Gradient Descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-optimize">Exercise 3 - optimize</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">3.2 - Training the Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-model">Exercise 4 - model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-index-idx-into-the-list-of-examples">Set the index <code class="docutils literal notranslate"><span class="pre">idx</span></code> into the list of examples</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-a-single-example-from-the-list-of-examples">Extract a single example from the list of examples</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-a-string-into-a-list-of-characters-single-example-chars">Convert a string into a list of characters: <code class="docutils literal notranslate"><span class="pre">single_example_chars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-list-of-characters-to-a-list-of-integers-single-example-ix">Convert list of characters to a list of integers: <code class="docutils literal notranslate"><span class="pre">single_example_ix</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-list-of-input-characters-x">Create the list of input characters: <code class="docutils literal notranslate"><span class="pre">X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-integer-representation-of-the-newline-character-ix-newline">Get the integer representation of the newline character <code class="docutils literal notranslate"><span class="pre">ix_newline</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-list-of-labels-integer-representation-of-the-characters-y">Set the list of labels (integer representation of the characters): <code class="docutils literal notranslate"><span class="pre">Y</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-like-shakespeare-optional-ungraded">4 - Writing like Shakespeare (OPTIONAL/UNGRADED)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-on-finishing-this-notebook">Congratulations on finishing this notebook!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5 - References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="character-level-language-model-dinosaurus-island">
+<h1>Character level language model - Dinosaurus Island<a class="headerlink" href="#character-level-language-model-dinosaurus-island" title="Link to this heading">#</a></h1>
+<p>Welcome to Dinosaurus Island! 65 million years ago, dinosaurs existed, and in this assignment, they have returned.</p>
+<p>You are in charge of a special task: Leading biology researchers are creating new breeds of dinosaurs and bringing them to life on earth, and your job is to give names to these dinosaurs. If a dinosaur does not like its name, it might go berserk, so choose wisely!</p>
+<table>
+<td>
+<img src="/C5_W1/images/dino.jpg" style="width:250;height:300px;">
+</td>
+</table>
+<p>Luckily you’re equipped with some deep learning now, and you will use it to save the day! Your assistant has collected a list of all the dinosaur names they could find, and compiled them into this <a class="reference download internal" download="" href="../../_downloads/0e56ff213446f6160d7969c88ea707d3/dinos.txt"><span class="xref download myst">dataset</span></a>. (Feel free to take a look by clicking the previous link.) To create new dinosaur names, you will build a character-level language model to generate new names. Your algorithm will learn the different name patterns, and randomly generate new names. Hopefully this algorithm will keep you and your team safe from the dinosaurs’ wrath!</p>
+<p>By the time you complete this assignment, you’ll be able to:</p>
+<ul class="simple">
+<li><p>Store text data for processing using an RNN</p></li>
+<li><p>Build a character-level text generation model using an RNN</p></li>
+<li><p>Sample novel sequences in an RNN</p></li>
+<li><p>Explain the vanishing/exploding gradient problem in RNNs</p></li>
+<li><p>Apply gradient clipping as a solution for exploding gradients</p></li>
+</ul>
+<p>Begin by loading in some functions that are provided for you in <code class="docutils literal notranslate"><span class="pre">rnn_utils</span></code>. Specifically, you have access to functions such as <code class="docutils literal notranslate"><span class="pre">rnn_forward</span></code> and <code class="docutils literal notranslate"><span class="pre">rnn_backward</span></code> which are equivalent to those you’ve implemented in the previous assignment.</p>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/nlp-sequence-models/supplement/qHIve/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#0"><span class="xref myst">Packages</span></a></p></li>
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Problem Statement</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#1-1"><span class="xref myst">1.1 - Dataset and Preprocessing</span></a></p></li>
+<li><p><a class="reference internal" href="#1-2"><span class="xref myst">1.2 - Overview of the Model</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Building Blocks of the Model</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2-1"><span class="xref myst">2.1 - Clipping the Gradients in the Optimization Loop</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - clip</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-2"><span class="xref myst">2.2 - Sampling</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - sample</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Building the Language Model</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - Gradient Descent</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - optimize</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3-2"><span class="xref myst">3.2 - Training the Model</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-4"><span class="xref myst">Exercise 4 - model</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Writing like Shakespeare (OPTIONAL/UNGRADED)</span></a></p></li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - References</span></a></p></li>
+</ul>
+<p><a name='0'></a></p>
+</section>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v2.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='1'></a></p>
+</section>
+<section id="problem-statement">
+<h2>1 - Problem Statement<a class="headerlink" href="#problem-statement" title="Link to this heading">#</a></h2>
+<p><a name='1-1'></a></p>
+<section id="dataset-and-preprocessing">
+<h3>1.1 - Dataset and Preprocessing<a class="headerlink" href="#dataset-and-preprocessing" title="Link to this heading">#</a></h3>
+<p>Run the following cell to read the dataset of dinosaur names, create a list of unique characters (such as a-z), and compute the dataset and vocabulary size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;dinos.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">data</span><span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="n">data_size</span><span class="p">,</span> <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are </span><span class="si">%d</span><span class="s1"> total characters and </span><span class="si">%d</span><span class="s1"> unique characters in your data.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 19909 total characters and 27 unique characters in your data.
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>The characters are a-z (26 characters) plus the “\n” (or newline character).</p></li>
+<li><p>In this assignment, the newline character “\n” plays a role similar to the <code class="docutils literal notranslate"><span class="pre">&lt;EOS&gt;</span></code> (or “End of sentence”) token discussed in lecture.</p>
+<ul>
+<li><p>Here, “\n” indicates the end of the dinosaur name rather than the end of a sentence.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">char_to_ix</span></code>: In the cell below, you’ll create a Python dictionary (i.e., a hash table) to map each character to an index from 0-26.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ix_to_char</span></code>: Then, you’ll create a second Python dictionary that maps each index back to the corresponding character.</p>
+<ul>
+<li><p>This will help you figure out which index corresponds to which character in the probability distribution output of the softmax layer.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chars</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;\n&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;, &#39;k&#39;, &#39;l&#39;, &#39;m&#39;, &#39;n&#39;, &#39;o&#39;, &#39;p&#39;, &#39;q&#39;, &#39;r&#39;, &#39;s&#39;, &#39;t&#39;, &#39;u&#39;, &#39;v&#39;, &#39;w&#39;, &#39;x&#39;, &#39;y&#39;, &#39;z&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">char_to_ix</span> <span class="o">=</span> <span class="p">{</span> <span class="n">ch</span><span class="p">:</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">ix_to_char</span> <span class="o">=</span> <span class="p">{</span> <span class="n">i</span><span class="p">:</span><span class="n">ch</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">ix_to_char</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{   0: &#39;\n&#39;,
+    1: &#39;a&#39;,
+    2: &#39;b&#39;,
+    3: &#39;c&#39;,
+    4: &#39;d&#39;,
+    5: &#39;e&#39;,
+    6: &#39;f&#39;,
+    7: &#39;g&#39;,
+    8: &#39;h&#39;,
+    9: &#39;i&#39;,
+    10: &#39;j&#39;,
+    11: &#39;k&#39;,
+    12: &#39;l&#39;,
+    13: &#39;m&#39;,
+    14: &#39;n&#39;,
+    15: &#39;o&#39;,
+    16: &#39;p&#39;,
+    17: &#39;q&#39;,
+    18: &#39;r&#39;,
+    19: &#39;s&#39;,
+    20: &#39;t&#39;,
+    21: &#39;u&#39;,
+    22: &#39;v&#39;,
+    23: &#39;w&#39;,
+    24: &#39;x&#39;,
+    25: &#39;y&#39;,
+    26: &#39;z&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='1-2'></a></p>
+</section>
+<section id="overview-of-the-model">
+<h3>1.2 - Overview of the Model<a class="headerlink" href="#overview-of-the-model" title="Link to this heading">#</a></h3>
+<p>Your model will have the following structure:</p>
+<ul class="simple">
+<li><p>Initialize parameters</p></li>
+<li><p>Run the optimization loop</p>
+<ul>
+<li><p>Forward propagation to compute the loss function</p></li>
+<li><p>Backward propagation to compute the gradients with respect to the loss function</p></li>
+<li><p>Clip the gradients to avoid exploding gradients</p></li>
+<li><p>Using the gradients, update your parameters with the gradient descent update rule.</p></li>
+</ul>
+</li>
+<li><p>Return the learned parameters</p></li>
+</ul>
+<img src="/C5_W1/images/rnn.png" style="width:450;height:300px;">
+<caption><center><font color='purple'><b>Figure 1</b>: Recurrent Neural Network, similar to what you built in the previous notebook "Building a Recurrent Neural Network - Step by Step."  </center></caption>
+<ul class="simple">
+<li><p>At each time-step, the RNN tries to predict what the next character is, given the previous characters.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{X} = (x^{\langle 1 \rangle}, x^{\langle 2 \rangle}, ..., x^{\langle T_x \rangle})\)</span> is a list of characters from the training set.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{Y} = (y^{\langle 1 \rangle}, y^{\langle 2 \rangle}, ..., y^{\langle T_x \rangle})\)</span> is the same list of characters but shifted one character forward.</p></li>
+<li><p>At every time-step <span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(y^{\langle t \rangle} = x^{\langle t+1 \rangle}\)</span>.  The prediction at time <span class="math notranslate nohighlight">\(t\)</span> is the same as the input at time <span class="math notranslate nohighlight">\(t + 1\)</span>.</p></li>
+</ul>
+<p><a name='2'></a></p>
+</section>
+</section>
+<section id="building-blocks-of-the-model">
+<h2>2 - Building Blocks of the Model<a class="headerlink" href="#building-blocks-of-the-model" title="Link to this heading">#</a></h2>
+<p>In this part, you will build two important blocks of the overall model:</p>
+<ol class="arabic simple">
+<li><p>Gradient clipping: to avoid exploding gradients</p></li>
+<li><p>Sampling: a technique used to generate characters</p></li>
+</ol>
+<p>You will then apply these two functions to build the model.</p>
+<p><a name='2-1'></a></p>
+<section id="clipping-the-gradients-in-the-optimization-loop">
+<h3>2.1 - Clipping the Gradients in the Optimization Loop<a class="headerlink" href="#clipping-the-gradients-in-the-optimization-loop" title="Link to this heading">#</a></h3>
+<p>In this section you will implement the <code class="docutils literal notranslate"><span class="pre">clip</span></code> function that you will call inside of your optimization loop.</p>
+<section id="exploding-gradients">
+<h4>Exploding gradients<a class="headerlink" href="#exploding-gradients" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>When gradients are very large, they’re called “exploding gradients.”</p></li>
+<li><p>Exploding gradients make the training process more difficult, because the updates may be so large that they “overshoot” the optimal values during back propagation.</p></li>
+</ul>
+<p>Recall that your overall loop structure usually consists of:</p>
+<ul class="simple">
+<li><p>forward pass,</p></li>
+<li><p>cost computation,</p></li>
+<li><p>backward pass,</p></li>
+<li><p>parameter update.</p></li>
+</ul>
+<p>Before updating the parameters, you will perform gradient clipping to make sure that your gradients are not “exploding.”</p>
+</section>
+<section id="gradient-clipping">
+<h4>Gradient clipping<a class="headerlink" href="#gradient-clipping" title="Link to this heading">#</a></h4>
+<p>In the exercise below, you will implement a function <code class="docutils literal notranslate"><span class="pre">clip</span></code> that takes in a dictionary of gradients and returns a clipped version of gradients, if needed.</p>
+<ul class="simple">
+<li><p>There are different ways to clip gradients.</p></li>
+<li><p>You will use a simple element-wise clipping procedure, in which every element of the gradient vector is clipped to fall between some range [-N, N].</p></li>
+<li><p>For example, if the N=10</p>
+<ul>
+<li><p>The range is [-10, 10]</p></li>
+<li><p>If any component of the gradient vector is greater than 10, it is set to 10.</p></li>
+<li><p>If any component of the gradient vector is less than -10, it is set to -10.</p></li>
+<li><p>If any components are between -10 and 10, they keep their original values.</p></li>
+</ul>
+</li>
+</ul>
+<img src="/C5_W1/images/clip.png" style="width:400;height:150px;">
+<caption><center><font color='purple'><b>Figure 2</b>: Visualization of gradient descent with and without gradient clipping, in a case where the network is running into "exploding gradient" problems. </center></caption>
+<p><a name='ex-1'></a></p>
+</section>
+</section>
+<section id="exercise-1-clip">
+<h3>Exercise 1 - clip<a class="headerlink" href="#exercise-1-clip" title="Link to this heading">#</a></h3>
+<p>Return the clipped gradients of your dictionary <code class="docutils literal notranslate"><span class="pre">gradients</span></code>.</p>
+<ul class="simple">
+<li><p>Your function takes in a maximum threshold and returns the clipped versions of the gradients.</p></li>
+<li><p>You can check out <a class="reference external" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.clip.html">numpy.clip</a> for more info.</p>
+<ul>
+<li><p>You will need to use the argument “<code class="docutils literal notranslate"><span class="pre">out</span> <span class="pre">=</span> <span class="pre">...</span></code>”.</p></li>
+<li><p>Using the “<code class="docutils literal notranslate"><span class="pre">out</span></code>” parameter allows you to update a variable “in-place”.</p></li>
+<li><p>If you don’t use “<code class="docutils literal notranslate"><span class="pre">out</span></code>” argument, the clipped variable is stored in the variable “gradient” but does not update the gradient variables <code class="docutils literal notranslate"><span class="pre">dWax</span></code>, <code class="docutils literal notranslate"><span class="pre">dWaa</span></code>, <code class="docutils literal notranslate"><span class="pre">dWya</span></code>, <code class="docutils literal notranslate"><span class="pre">db</span></code>, <code class="docutils literal notranslate"><span class="pre">dby</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1">### GRADED FUNCTION: clip</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">clip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">maxValue</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Clips the gradients&#39; values between minimum and maximum.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    gradients -- a dictionary containing the gradients &quot;dWaa&quot;, &quot;dWax&quot;, &quot;dWya&quot;, &quot;db&quot;, &quot;dby&quot;</span>
+<span class="sd">    maxValue -- everything above this number is set to this number, and everything less than -maxValue is set to -maxValue</span>
+<span class="sd">    </span>
+<span class="sd">    Returns: </span>
+<span class="sd">    gradients -- a dictionary with the clipped gradients.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">gradients</span><span class="p">)</span>
+    
+    <span class="n">dWaa</span><span class="p">,</span> <span class="n">dWax</span><span class="p">,</span> <span class="n">dWya</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">dby</span> <span class="o">=</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWaa&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWax&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWya&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;db&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dby&#39;</span><span class="p">]</span>
+   
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Clip to mitigate exploding gradients, loop over [dWax, dWaa, dWya, db, dby]. (≈2 lines)</span>
+    <span class="k">for</span> <span class="n">gradient</span> <span class="ow">in</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="n">gradients</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dWaa&quot;</span><span class="p">:</span> <span class="n">dWaa</span><span class="p">,</span> <span class="s2">&quot;dWax&quot;</span><span class="p">:</span> <span class="n">dWax</span><span class="p">,</span> <span class="s2">&quot;dWya&quot;</span><span class="p">:</span> <span class="n">dWya</span><span class="p">,</span> <span class="s2">&quot;db&quot;</span><span class="p">:</span> <span class="n">db</span><span class="p">,</span> <span class="s2">&quot;dby&quot;</span><span class="p">:</span> <span class="n">dby</span><span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">gradients</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test with a max value of 10</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">clip_test</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">mValue</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Gradients for mValue=</span><span class="si">{</span><span class="n">mValue</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">dWax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">dWaa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">dWya</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">dby</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dWax&quot;</span><span class="p">:</span> <span class="n">dWax</span><span class="p">,</span> <span class="s2">&quot;dWaa&quot;</span><span class="p">:</span> <span class="n">dWaa</span><span class="p">,</span> <span class="s2">&quot;dWya&quot;</span><span class="p">:</span> <span class="n">dWya</span><span class="p">,</span> <span class="s2">&quot;db&quot;</span><span class="p">:</span> <span class="n">db</span><span class="p">,</span> <span class="s2">&quot;dby&quot;</span><span class="p">:</span> <span class="n">dby</span><span class="p">}</span>
+
+    <span class="n">gradients2</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">mValue</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dWaa</span><span class="se">\&quot;</span><span class="s2">][1][2] =&quot;</span><span class="p">,</span> <span class="n">gradients2</span><span class="p">[</span><span class="s2">&quot;dWaa&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dWax</span><span class="se">\&quot;</span><span class="s2">][3][1] =&quot;</span><span class="p">,</span> <span class="n">gradients2</span><span class="p">[</span><span class="s2">&quot;dWax&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dWya</span><span class="se">\&quot;</span><span class="s2">][1][2] =&quot;</span><span class="p">,</span> <span class="n">gradients2</span><span class="p">[</span><span class="s2">&quot;dWya&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">db</span><span class="se">\&quot;</span><span class="s2">][4] =&quot;</span><span class="p">,</span> <span class="n">gradients2</span><span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dby</span><span class="se">\&quot;</span><span class="s2">][1] =&quot;</span><span class="p">,</span> <span class="n">gradients2</span><span class="p">[</span><span class="s2">&quot;dby&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="k">for</span> <span class="n">grad</span> <span class="ow">in</span> <span class="n">gradients2</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">valuei</span> <span class="o">=</span> <span class="n">gradients</span><span class="p">[</span><span class="n">grad</span><span class="p">]</span>
+        <span class="n">valuef</span> <span class="o">=</span> <span class="n">gradients2</span><span class="p">[</span><span class="n">grad</span><span class="p">]</span>
+        <span class="n">mink</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">valuef</span><span class="p">)</span>
+        <span class="n">maxk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">valuef</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">mink</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">mValue</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Problem with </span><span class="si">{</span><span class="n">grad</span><span class="si">}</span><span class="s2">. Set a_min to -mValue in the np.clip call&quot;</span>
+        <span class="k">assert</span> <span class="n">maxk</span> <span class="o">&lt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mValue</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Problem with </span><span class="si">{</span><span class="n">grad</span><span class="si">}</span><span class="s2">.Set a_max to mValue in the np.clip call&quot;</span>
+        <span class="n">index_not_clipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">valuei</span> <span class="o">&lt;=</span> <span class="n">mValue</span><span class="p">,</span> <span class="n">valuei</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="n">mValue</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">valuei</span><span class="p">[</span><span class="n">index_not_clipped</span><span class="p">]</span> <span class="o">==</span> <span class="n">valuef</span><span class="p">[</span><span class="n">index_not_clipped</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot; Problem with </span><span class="si">{</span><span class="n">grad</span><span class="si">}</span><span class="s2">. Some values that should not have changed, changed during the clipping process.&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed!</span><span class="se">\x1b</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+    
+<span class="n">clip_test</span><span class="p">(</span><span class="n">clip</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">clip_test</span><span class="p">(</span><span class="n">clip</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gradients for mValue=10
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">31</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span>         <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">valuei</span><span class="p">[</span><span class="n">index_not_clipped</span><span class="p">]</span> <span class="o">==</span> <span class="n">valuef</span><span class="p">[</span><span class="n">index_not_clipped</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot; Problem with </span><span class="si">{</span><span class="n">grad</span><span class="si">}</span><span class="s2">. Some values that should not have changed, changed during the clipping process.&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed!</span><span class="se">\x1b</span><span class="s2">[0m&quot;</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">31</span> <span class="n">clip_test</span><span class="p">(</span><span class="n">clip</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="n">clip_test</span><span class="p">(</span><span class="n">clip</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="nn">Cell In[7], line 12,</span> in <span class="ni">clip_test</span><span class="nt">(target, mValue)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">dby</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">gradients</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dWax&quot;</span><span class="p">:</span> <span class="n">dWax</span><span class="p">,</span> <span class="s2">&quot;dWaa&quot;</span><span class="p">:</span> <span class="n">dWaa</span><span class="p">,</span> <span class="s2">&quot;dWya&quot;</span><span class="p">:</span> <span class="n">dWya</span><span class="p">,</span> <span class="s2">&quot;db&quot;</span><span class="p">:</span> <span class="n">db</span><span class="p">,</span> <span class="s2">&quot;dby&quot;</span><span class="p">:</span> <span class="n">dby</span><span class="p">}</span>
+<span class="ne">---&gt; </span><span class="mi">12</span> <span class="n">gradients2</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">mValue</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dWaa</span><span class="se">\&quot;</span><span class="s2">][1][2] =&quot;</span><span class="p">,</span> <span class="n">gradients2</span><span class="p">[</span><span class="s2">&quot;dWaa&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dWax</span><span class="se">\&quot;</span><span class="s2">][3][1] =&quot;</span><span class="p">,</span> <span class="n">gradients2</span><span class="p">[</span><span class="s2">&quot;dWax&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="nn">Cell In[6], line 21,</span> in <span class="ni">clip</span><span class="nt">(gradients, maxValue)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">dWaa</span><span class="p">,</span> <span class="n">dWax</span><span class="p">,</span> <span class="n">dWya</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">dby</span> <span class="o">=</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWaa&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWax&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWya&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;db&#39;</span><span class="p">],</span> <span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dby&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1">### START CODE HERE ###</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="c1"># Clip to mitigate exploding gradients, loop over [dWax, dWaa, dWya, db, dby]. (≈2 lines)</span>
+<span class="ne">---&gt; </span><span class="mi">21</span> <span class="k">for</span> <span class="n">gradient</span> <span class="ow">in</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="c1">### END CODE HERE ###</span>
+
+<span class="ne">TypeError</span>: &#39;NoneType&#39; object is not iterable
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected values</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Gradients</span> <span class="k">for</span> <span class="n">mValue</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWaa&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWax&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">10.0</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWya&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2971381536101662</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.</span><span class="p">]</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dby&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">8.45833407</span><span class="p">]</span>
+
+<span class="n">Gradients</span> <span class="k">for</span> <span class="n">mValue</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWaa&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWax&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">5.0</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWya&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2971381536101662</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5.</span><span class="p">]</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dby&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5.</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><a name='2-2'></a></p>
+</section>
+<section id="sampling">
+<h3>2.2 - Sampling<a class="headerlink" href="#sampling" title="Link to this heading">#</a></h3>
+<p>Now, assume that your model is trained, and you would like to generate new text (characters). The process of generation is explained in the picture below:</p>
+<img src="/C5_W1/images/dinos3.png" style="width:500;height:300px;">
+<caption><center><font color='purple'><b>Figure 3</b>: In this picture, you can assume the model is already trained. You pass in $x^{\langle 1\rangle} = \vec{0}$ at the first time-step, and have the network sample one character at a time. </center></caption><p><a name='ex-2'></a></p>
+</section>
+<section id="exercise-2-sample">
+<h3>Exercise 2 - sample<a class="headerlink" href="#exercise-2-sample" title="Link to this heading">#</a></h3>
+<p>Implement the <code class="docutils literal notranslate"><span class="pre">sample</span></code> function below to sample characters.</p>
+<p>You need to carry out 4 steps:</p>
+<ul class="simple">
+<li><p><strong>Step 1</strong>: Input the “dummy” vector of zeros <span class="math notranslate nohighlight">\(x^{\langle 1 \rangle} = \vec{0}\)</span>.</p>
+<ul>
+<li><p>This is the default input before you’ve generated any characters.
+You also set <span class="math notranslate nohighlight">\(a^{\langle 0 \rangle} = \vec{0}\)</span></p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p><strong>Step 2</strong>: Run one step of forward propagation to get <span class="math notranslate nohighlight">\(a^{\langle 1 \rangle}\)</span> and <span class="math notranslate nohighlight">\(\hat{y}^{\langle 1 \rangle}\)</span>. Here are the equations:</p></li>
+</ul>
+<p><em>hidden state:</em><br />
+$<span class="math notranslate nohighlight">\( a^{\langle t+1 \rangle} = \tanh(W_{ax}  x^{\langle t+1 \rangle } + W_{aa} a^{\langle t \rangle } + b)\tag{1}\)</span>$</p>
+<p><em>activation:</em>
+$<span class="math notranslate nohighlight">\( z^{\langle t + 1 \rangle } = W_{ya}  a^{\langle t + 1 \rangle } + b_y \tag{2}\)</span>$</p>
+<p><em>prediction:</em>
+$<span class="math notranslate nohighlight">\( \hat{y}^{\langle t+1 \rangle } = softmax(z^{\langle t + 1 \rangle })\tag{3}\)</span>$</p>
+<ul class="simple">
+<li><p>Details about <span class="math notranslate nohighlight">\(\hat{y}^{\langle t+1 \rangle }\)</span>:</p>
+<ul>
+<li><p>Note that <span class="math notranslate nohighlight">\(\hat{y}^{\langle t+1 \rangle }\)</span> is a (softmax) probability vector (its entries are between 0 and 1 and sum to 1).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{y}^{\langle t+1 \rangle}_i\)</span> represents the probability that the character indexed by “i” is the next character.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">softmax()</span></code> function is provided for you to use.</p></li>
+</ul>
+</li>
+</ul>
+<details>
+    <summary><h4 style="color: green;">Additional Hints: Matrix multiplication with numpy<h4></summary>
+<body>
+    <li>$x^{\langle 1 \rangle}$ is `x` in the code. When creating the one-hot vector, make a numpy array of zeros, with the number of rows equal to the number of unique characters, and the number of columns equal to one.  It's a 2D and not a 1D array.
+    </li>
+    <li>$a^{\langle 0 \rangle}$ is `a_prev` in the code.  It is a numpy array of zeros, where the number of rows is $n_{a}$, and number of columns is 1.  It is a 2D array as well.  $n_{a}$ is retrieved by getting the number of columns in $W_{aa}$ (the numbers need to match in order for the matrix multiplication $W_{aa}a^{\langle t \rangle}$ to work.
+    </li>
+    <li>Official documentation for <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.dot.html">numpy.dot</a> and <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.tanh.html">numpy.tanh</a>.
+    </li>
+    <li>Below is some revision code for matrix multiplication
+    </li>
+</body>    
+<p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">matrix1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span> <span class="c1"># (3,2)</span>
+<span class="n">matrix2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># (3,1) </span>
+<span class="n">vector1D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># (2,) </span>
+<span class="n">vector2D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span> <span class="c1"># (2,1)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;matrix1 </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">matrix1</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;matrix2 </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">matrix2</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vector1D </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">vector1D</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vector2D </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">vector2D</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Multiply 2D and 1D arrays: result is a 1D array</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> 
+      <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix1</span><span class="p">,</span><span class="n">vector1D</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Multiply 2D and 2D arrays: result is a 2D array</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> 
+      <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix1</span><span class="p">,</span><span class="n">vector2D</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Adding (3 x 1) vector to a (3 x 1) vector is a (3 x 1) vector</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;This is what we want here!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> 
+      <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix1</span><span class="p">,</span><span class="n">vector2D</span><span class="p">)</span> <span class="o">+</span> <span class="n">matrix2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Adding a (3,) vector to a (3 x 1) vector</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;broadcasts the 1D array across the second dimension</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Not what we want here!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrix1</span><span class="p">,</span><span class="n">vector1D</span><span class="p">)</span> <span class="o">+</span> <span class="n">matrix2</span>
+     <span class="p">)</span>
+</pre></div>
+</div>
+</p>
+</details><ul>
+<li><p><strong>Step 3</strong>: Sampling:</p>
+<ul class="simple">
+<li><p>Now that you have <span class="math notranslate nohighlight">\(y^{\langle t+1 \rangle}\)</span>, you want to select the next letter in the dinosaur name. If you select the most probable, the model will always generate the same result given a starting letter. To make the results more interesting, use <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> to select a next letter that is <em>likely</em>, but not always the same.</p></li>
+<li><p>Pick the next character’s <strong>index</strong> according to the probability distribution specified by <span class="math notranslate nohighlight">\(\hat{y}^{\langle t+1 \rangle }\)</span>.</p></li>
+<li><p>This means that if <span class="math notranslate nohighlight">\(\hat{y}^{\langle t+1 \rangle }_i = 0.16\)</span>, you will pick the index “i” with 16% probability.</p></li>
+<li><p>Use <a class="reference external" href="https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.random.choice.html">np.random.choice</a>.</p></li>
+</ul>
+<p>Example of how to use <code class="docutils literal notranslate"><span class="pre">np.random.choice()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">)),</span> <span class="n">p</span> <span class="o">=</span> <span class="n">probs</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This means that you will pick the index (<code class="docutils literal notranslate"><span class="pre">idx</span></code>) according to the distribution:</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(P(index = 0) = 0.1, P(index = 1) = 0.0, P(index = 2) = 0.7, P(index = 3) = 0.2\)</span>.</p>
+<ul class="simple">
+<li><p>Note that the value that’s set to <code class="docutils literal notranslate"><span class="pre">p</span></code> should be set to a 1D vector.</p></li>
+<li><p>Also notice that <span class="math notranslate nohighlight">\(\hat{y}^{\langle t+1 \rangle}\)</span>, which is <code class="docutils literal notranslate"><span class="pre">y</span></code> in the code, is a 2D array.</p></li>
+<li><p>Also notice, while in your implementation, the first argument to <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> is just an ordered list [0,1,.., vocab_len-1], it is <em>not</em> appropriate to use <code class="docutils literal notranslate"><span class="pre">char_to_ix.values()</span></code>. The <em>order</em> of values returned by a Python dictionary <code class="docutils literal notranslate"><span class="pre">.values()</span></code> call will be the same order as they are added to the dictionary. The grader may have a different order when it runs your routine than when you run it in your notebook.</p></li>
+</ul>
+</li>
+</ul>
+<section id="additional-hints">
+<h4>Additional Hints<a class="headerlink" href="#additional-hints" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Documentation for the built-in Python function <a class="reference external" href="https://docs.python.org/3/library/functions.html#func-range">range</a></p></li>
+<li><p>Docs for <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ravel.html">numpy.ravel</a>, which takes a multi-dimensional array and returns its contents inside of a 1D vector.</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;arr&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;arr.ravel()&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">arr</span>
+<span class="p">[[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span> <span class="mi">4</span><span class="p">]]</span>
+<span class="n">arr</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="p">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Note that <code class="docutils literal notranslate"><span class="pre">append</span></code> is an “in-place” operation, which means the changes made by the method will remain after the call completes.  In other words, don’t do this:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fun_hobbies</span> <span class="o">=</span> <span class="n">fun_hobbies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;learning&#39;</span><span class="p">)</span>  <span class="c1">## Doesn&#39;t give you what you want!</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Step 4</strong>: Update to <span class="math notranslate nohighlight">\(x^{\langle t \rangle }\)</span></p>
+<ul>
+<li><p>The last step to implement in <code class="docutils literal notranslate"><span class="pre">sample()</span></code> is to update the variable <code class="docutils literal notranslate"><span class="pre">x</span></code>, which currently stores <span class="math notranslate nohighlight">\(x^{\langle t \rangle }\)</span>, with the value of <span class="math notranslate nohighlight">\(x^{\langle t + 1 \rangle }\)</span>.</p></li>
+<li><p>You will represent <span class="math notranslate nohighlight">\(x^{\langle t + 1 \rangle }\)</span> by creating a one-hot vector corresponding to the character that you have chosen as your prediction.</p></li>
+<li><p>You will then forward propagate <span class="math notranslate nohighlight">\(x^{\langle t + 1 \rangle }\)</span> in Step 1 and keep repeating the process until you get a <code class="docutils literal notranslate"><span class="pre">&quot;\n&quot;</span></code> character, indicating that you have reached the end of the dinosaur name.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id1">
+<h4>Additional Hints<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>In order to reset <code class="docutils literal notranslate"><span class="pre">x</span></code> before setting it to the new one-hot vector, you’ll want to set all the values to zero.</p>
+<ul>
+<li><p>You can either create a new numpy array: <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html">numpy.zeros</a></p></li>
+<li><p>Or fill all values with a single number: <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.fill.html">numpy.ndarray.fill</a></p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: sample</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">char_to_ix</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample a sequence of characters according to a sequence of probability distributions output of the RNN</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">    parameters -- Python dictionary containing the parameters Waa, Wax, Wya, by, and b. </span>
+<span class="sd">    char_to_ix -- Python dictionary mapping each character to an index.</span>
+<span class="sd">    seed -- Used for grading purposes. Do not worry about it.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    indices -- A list of length n containing the indices of the sampled characters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Retrieve parameters and relevant shapes from &quot;parameters&quot; dictionary</span>
+    <span class="n">Waa</span><span class="p">,</span> <span class="n">Wax</span><span class="p">,</span> <span class="n">Wya</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Waa&#39;</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Wax&#39;</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Wya&#39;</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;by&#39;</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+    <span class="n">vocab_size</span> <span class="o">=</span> <span class="n">by</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_a</span> <span class="o">=</span> <span class="n">Waa</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># Step 1: Create the a zero vector x that can be used as the one-hot vector </span>
+    <span class="c1"># Representing the first character (initializing the sequence generation). (≈1 line)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Step 1&#39;: Initialize a_prev as zeros (≈1 line)</span>
+    <span class="n">a_prev</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Create an empty list of indices. This is the list which will contain the list of indices of the characters to generate (≈1 line)</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># idx is the index of the one-hot vector x that is set to 1</span>
+    <span class="c1"># All other positions in x are zero.</span>
+    <span class="c1"># Initialize idx to -1</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="kc">None</span> 
+    
+    <span class="c1"># Loop over time-steps t. At each time-step:</span>
+    <span class="c1"># Sample a character from a probability distribution </span>
+    <span class="c1"># And append its index (`idx`) to the list &quot;indices&quot;. </span>
+    <span class="c1"># You&#39;ll stop if you reach 50 characters </span>
+    <span class="c1"># (which should be very unlikely with a well-trained model).</span>
+    <span class="c1"># Setting the maximum number of characters helps with debugging and prevents infinite loops. </span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">newline_character</span> <span class="o">=</span> <span class="n">char_to_ix</span><span class="p">[</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">idx</span> <span class="o">!=</span> <span class="n">newline_character</span> <span class="ow">and</span> <span class="n">counter</span> <span class="o">!=</span> <span class="mi">50</span><span class="p">):</span>
+        
+        <span class="c1"># Step 2: Forward propagate x using the equations (1), (2) and (3)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># For grading purposes</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">counter</span> <span class="o">+</span> <span class="n">seed</span><span class="p">)</span> 
+        
+        <span class="c1"># Step 3: Sample the index of a character within the vocabulary from the probability distribution y</span>
+        <span class="c1"># (see additional hints above)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Append the index to &quot;indices&quot;</span>
+        <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        
+        <span class="c1"># Step 4: Overwrite the input x with one that corresponds to the sampled index `idx`.</span>
+        <span class="c1"># (see additional hints above)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Update &quot;a_prev&quot; to be &quot;a&quot;</span>
+        <span class="n">a_prev</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># for grading purposes</span>
+        <span class="n">seed</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">counter</span> <span class="o">+=</span><span class="mi">1</span>
+        
+    <span class="c1">### END CODE HERE ###</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">50</span><span class="p">):</span>
+        <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char_to_ix</span><span class="p">[</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">indices</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sample_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">n_a</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span>
+    <span class="n">Wax</span><span class="p">,</span> <span class="n">Waa</span><span class="p">,</span> <span class="n">Wya</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="n">n_a</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">n_a</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Wax&quot;</span><span class="p">:</span> <span class="n">Wax</span><span class="p">,</span> <span class="s2">&quot;Waa&quot;</span><span class="p">:</span> <span class="n">Waa</span><span class="p">,</span> <span class="s2">&quot;Wya&quot;</span><span class="p">:</span> <span class="n">Wya</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s2">&quot;by&quot;</span><span class="p">:</span> <span class="n">by</span><span class="p">}</span>
+
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">char_to_ix</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sampling:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list of sampled indices:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list of sampled characters:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ix_to_char</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">])</span>
+    
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">52</span><span class="p">,</span> <span class="s2">&quot;Indices length must be smaller than 52&quot;</span>
+    <span class="k">assert</span> <span class="n">indices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">char_to_ix</span><span class="p">[</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="s2">&quot;All samples must end with </span><span class="se">\\</span><span class="s2">n&quot;</span>
+    <span class="k">assert</span> <span class="nb">min</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">char_to_ix</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Sampled indexes must be between 0 and len(char_to_ix)=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">char_to_ix</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="p">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;Wrong values&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed!&quot;</span><span class="p">)</span>
+
+<span class="n">sample_test</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sampling</span><span class="p">:</span>
+<span class="nb">list</span> <span class="n">of</span> <span class="n">sampled</span> <span class="n">indices</span><span class="p">:</span>
+ <span class="p">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">list</span> <span class="n">of</span> <span class="n">sampled</span> <span class="n">characters</span><span class="p">:</span>
+ <span class="p">[</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><font color='blue'><b>What you should remember</b>:</p>
+<ul class="simple">
+<li><p>Very large, or “exploding” gradients updates can be so large that they “overshoot” the optimal values during back prop – making training difficult</p>
+<ul>
+<li><p>Clip gradients before updating the parameters to avoid exploding gradients</p></li>
+</ul>
+</li>
+<li><p>Sampling is a technique you can use to pick the index of the next character according to a probability distribution.</p>
+<ul>
+<li><p>To begin character-level sampling:</p>
+<ul>
+<li><p>Input a “dummy” vector of zeros as a default input</p></li>
+<li><p>Run one step of forward propagation to get 𝑎⟨1⟩ (your first character) and 𝑦̂ ⟨1⟩ (probability distribution for the following character)</p></li>
+<li><p>When sampling, avoid generating the same result each time given the starting letter (and make your names more interesting!) by using <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a name='3'></a></p>
+</section>
+</section>
+</section>
+<section id="building-the-language-model">
+<h2>3 - Building the Language Model<a class="headerlink" href="#building-the-language-model" title="Link to this heading">#</a></h2>
+<p>It’s time to build the character-level language model for text generation!</p>
+<p><a name='3-1'></a></p>
+<section id="gradient-descent">
+<h3>3.1 - Gradient Descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h3>
+<p>In this section you will implement a function performing one step of stochastic gradient descent (with clipped gradients). You’ll go through the training examples one at a time, so the optimization algorithm will be stochastic gradient descent.</p>
+<p>As a reminder, here are the steps of a common optimization loop for an RNN:</p>
+<ul class="simple">
+<li><p>Forward propagate through the RNN to compute the loss</p></li>
+<li><p>Backward propagate through time to compute the gradients of the loss with respect to the parameters</p></li>
+<li><p>Clip the gradients</p></li>
+<li><p>Update the parameters using gradient descent</p></li>
+</ul>
+<p><a name='ex-3'></a></p>
+</section>
+<section id="exercise-3-optimize">
+<h3>Exercise 3 - optimize<a class="headerlink" href="#exercise-3-optimize" title="Link to this heading">#</a></h3>
+<p>Implement the optimization process (one step of stochastic gradient descent).</p>
+<p>The following functions are provided:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">rnn_forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">a_prev</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Performs the forward propagation through the RNN and computes the cross-entropy loss.</span>
+<span class="sd">    It returns the loss&#39; value as well as a &quot;cache&quot; storing values to be used in backpropagation.&quot;&quot;&quot;</span>
+    <span class="o">....</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">cache</span>
+    
+<span class="k">def</span><span class="w"> </span><span class="nf">rnn_backward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Performs the backward propagation through time to compute the gradients of the loss with respect</span>
+<span class="sd">    to the parameters. It returns also all the hidden states.&quot;&quot;&quot;</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">a</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">update_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Updates parameters using the Gradient Descent Update Rule.&quot;&quot;&quot;</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">parameters</span>
+</pre></div>
+</div>
+<p>Recall that you previously implemented the <code class="docutils literal notranslate"><span class="pre">clip</span></code> function:</p>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Note that the weights and biases inside the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> dictionary are being updated by the optimization, even though <code class="docutils literal notranslate"><span class="pre">parameters</span></code> is not one of the returned values of the <code class="docutils literal notranslate"><span class="pre">optimize</span></code> function. The <code class="docutils literal notranslate"><span class="pre">parameters</span></code> dictionary is passed by reference into the function, so changes to this dictionary are making changes to the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> dictionary even when accessed outside of the function.</p></li>
+<li><p>Python dictionaries and lists are “pass by reference”, which means that if you pass a dictionary into a function and modify the dictionary within the function, this changes that same dictionary (it’s not a copy of the dictionary).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C3 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: optimize</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">a_prev</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Execute one step of the optimization to train the model.</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    X -- list of integers, where each integer is a number that maps to a character in the vocabulary.</span>
+<span class="sd">    Y -- list of integers, exactly the same as X but shifted one index to the left.</span>
+<span class="sd">    a_prev -- previous hidden state.</span>
+<span class="sd">    parameters -- python dictionary containing:</span>
+<span class="sd">                        Wax -- Weight matrix multiplying the input, numpy array of shape (n_a, n_x)</span>
+<span class="sd">                        Waa -- Weight matrix multiplying the hidden state, numpy array of shape (n_a, n_a)</span>
+<span class="sd">                        Wya -- Weight matrix relating the hidden-state to the output, numpy array of shape (n_y, n_a)</span>
+<span class="sd">                        b --  Bias, numpy array of shape (n_a, 1)</span>
+<span class="sd">                        by -- Bias relating the hidden-state to the output, numpy array of shape (n_y, 1)</span>
+<span class="sd">    learning_rate -- learning rate for the model.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    loss -- value of the loss function (cross-entropy)</span>
+<span class="sd">    gradients -- python dictionary containing:</span>
+<span class="sd">                        dWax -- Gradients of input-to-hidden weights, of shape (n_a, n_x)</span>
+<span class="sd">                        dWaa -- Gradients of hidden-to-hidden weights, of shape (n_a, n_a)</span>
+<span class="sd">                        dWya -- Gradients of hidden-to-output weights, of shape (n_y, n_a)</span>
+<span class="sd">                        db -- Gradients of bias vector, of shape (n_a, 1)</span>
+<span class="sd">                        dby -- Gradients of output bias vector, of shape (n_y, 1)</span>
+<span class="sd">    a[len(X)-1] -- the last hidden state, of shape (n_a, 1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># Forward propagate through time (≈1 line)</span>
+    <span class="n">loss</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Backpropagate through time (≈1 line)</span>
+    <span class="n">gradients</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Clip your gradients between -5 (min) and 5 (max) (≈1 line)</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># Update parameters (≈1 line)</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">optimize_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">vocab_size</span><span class="p">,</span> <span class="n">n_a</span> <span class="o">=</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">100</span>
+    <span class="n">a_prev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">Wax</span><span class="p">,</span> <span class="n">Waa</span><span class="p">,</span> <span class="n">Wya</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="n">n_a</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">n_a</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Wax&quot;</span><span class="p">:</span> <span class="n">Wax</span><span class="p">,</span> <span class="s2">&quot;Waa&quot;</span><span class="p">:</span> <span class="n">Waa</span><span class="p">,</span> <span class="s2">&quot;Wya&quot;</span><span class="p">:</span> <span class="n">Wya</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s2">&quot;by&quot;</span><span class="p">:</span> <span class="n">by</span><span class="p">}</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">]</span>
+    <span class="n">old_parameters</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="n">loss</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">a_last</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">a_prev</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loss =&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dWaa</span><span class="se">\&quot;</span><span class="s2">][1][2] =&quot;</span><span class="p">,</span> <span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWaa&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;np.argmax(gradients[</span><span class="se">\&quot;</span><span class="s2">dWax</span><span class="se">\&quot;</span><span class="s2">]) =&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWax&quot;</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dWya</span><span class="se">\&quot;</span><span class="s2">][1][2] =&quot;</span><span class="p">,</span> <span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWya&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">db</span><span class="se">\&quot;</span><span class="s2">][4] =&quot;</span><span class="p">,</span> <span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gradients[</span><span class="se">\&quot;</span><span class="s2">dby</span><span class="se">\&quot;</span><span class="s2">][1] =&quot;</span><span class="p">,</span> <span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dby&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a_last[4] =&quot;</span><span class="p">,</span> <span class="n">a_last</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="mf">126.5039757</span><span class="p">),</span> <span class="s2">&quot;Problems with the call of the rnn_forward function&quot;</span>
+    <span class="k">for</span> <span class="n">grad</span> <span class="ow">in</span> <span class="n">gradients</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Problems in the clip function call&quot;</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Problems in the clip function call&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWaa&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mf">0.1947093</span><span class="p">),</span> <span class="s2">&quot;Unexpected gradients. Check the rnn_backward call&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;dWya&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.007773876</span><span class="p">),</span> <span class="s2">&quot;Unexpected gradients. Check the rnn_backward call&quot;</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Wya&#39;</span><span class="p">],</span> <span class="n">old_parameters</span><span class="p">[</span><span class="s1">&#39;Wya&#39;</span><span class="p">]),</span> <span class="s2">&quot;parameters were not updated&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed!&quot;</span><span class="p">)</span>
+
+<span class="n">optimize_test</span><span class="p">(</span><span class="n">optimize</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Loss</span> <span class="o">=</span> <span class="mf">126.50397572165389</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWaa&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.19470931534713587</span>
+<span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWax&quot;</span><span class="p">])</span> <span class="o">=</span> <span class="mi">93</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dWya&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.007773876032002162</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.06809825</span><span class="p">]</span>
+<span class="n">gradients</span><span class="p">[</span><span class="s2">&quot;dby&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01538192</span><span class="p">]</span>
+<span class="n">a_last</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><a name='3-2'></a></p>
+</section>
+</section>
+<section id="training-the-model">
+<h3>3.2 - Training the Model<a class="headerlink" href="#training-the-model" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Given the dataset of dinosaur names, you’ll use each line of the dataset (one name) as one training example.</p></li>
+<li><p>Every 2000 steps of stochastic gradient descent, you will sample several randomly chosen names to see how the algorithm is doing.</p></li>
+</ul>
+<p><a name='ex-4'></a></p>
+</section>
+<section id="exercise-4-model">
+<h3>Exercise 4 - model<a class="headerlink" href="#exercise-4-model" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">model()</span></code>.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">examples[index]</span></code> contains one dinosaur name (string), to create an example (X, Y), you can use this:</p>
+<section id="set-the-index-idx-into-the-list-of-examples">
+<h4>Set the index <code class="docutils literal notranslate"><span class="pre">idx</span></code> into the list of examples<a class="headerlink" href="#set-the-index-idx-into-the-list-of-examples" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Using the for-loop, walk through the shuffled list of dinosaur names in the list “examples.”</p></li>
+<li><p>For example, if there are n_e examples, and the for-loop increments the index to n_e onwards, think of how you would make the index cycle back to 0, so that you can continue feeding the examples into the model when j is n_e, n_e + 1, etc.</p></li>
+<li><p>Hint: (n_e + 1) % n_e equals 1, which is otherwise the ‘remainder’ you get when you divide (n_e + 1) by n_e.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%</span></code> is the <a class="reference external" href="https://www.freecodecamp.org/news/the-python-modulo-operator-what-does-the-symbol-mean-in-python-solved/">modulo operator in python</a>.</p></li>
+</ul>
+</section>
+<section id="extract-a-single-example-from-the-list-of-examples">
+<h4>Extract a single example from the list of examples<a class="headerlink" href="#extract-a-single-example-from-the-list-of-examples" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">single_example</span></code>: use the <code class="docutils literal notranslate"><span class="pre">idx</span></code> index that you set previously to get one word from the list of examples.</p></li>
+</ul>
+</section>
+<section id="convert-a-string-into-a-list-of-characters-single-example-chars">
+<h4>Convert a string into a list of characters: <code class="docutils literal notranslate"><span class="pre">single_example_chars</span></code><a class="headerlink" href="#convert-a-string-into-a-list-of-characters-single-example-chars" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">single_example_chars</span></code>: A string is a list of characters.</p></li>
+<li><p>You can use a list comprehension (recommended over for-loops) to generate a list of characters.</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;I love learning&#39;</span>
+<span class="n">list_of_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">list_of_chars</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>For more on <a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions">list comprehensions</a>:</p></li>
+</ul>
+</section>
+<section id="convert-list-of-characters-to-a-list-of-integers-single-example-ix">
+<h4>Convert list of characters to a list of integers: <code class="docutils literal notranslate"><span class="pre">single_example_ix</span></code><a class="headerlink" href="#convert-list-of-characters-to-a-list-of-integers-single-example-ix" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Create a list that contains the index numbers associated with each character.</p></li>
+<li><p>Use the dictionary <code class="docutils literal notranslate"><span class="pre">char_to_ix</span></code></p></li>
+<li><p>You can combine this with the list comprehension that is used to get a list of characters from a string.</p></li>
+</ul>
+</section>
+<section id="create-the-list-of-input-characters-x">
+<h4>Create the list of input characters: <code class="docutils literal notranslate"><span class="pre">X</span></code><a class="headerlink" href="#create-the-list-of-input-characters-x" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rnn_forward</span></code> uses the <strong><code class="docutils literal notranslate"><span class="pre">None</span></code></strong> value as a flag to set the input vector as a zero-vector.</p></li>
+<li><p>Prepend the list [<strong><code class="docutils literal notranslate"><span class="pre">None</span></code></strong>] in front of the list of input character <em>indices</em>.</p></li>
+<li><p>There is more than one way to prepend a value to a list.  One way is to add two lists together: <code class="docutils literal notranslate"><span class="pre">['a']</span> <span class="pre">+</span> <span class="pre">['b']</span></code></p></li>
+</ul>
+</section>
+<section id="get-the-integer-representation-of-the-newline-character-ix-newline">
+<h4>Get the integer representation of the newline character <code class="docutils literal notranslate"><span class="pre">ix_newline</span></code><a class="headerlink" href="#get-the-integer-representation-of-the-newline-character-ix-newline" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ix_newline</span></code>: The newline character signals the end of the dinosaur name.</p>
+<ul>
+<li><p>Get the integer representation of the newline character <code class="docutils literal notranslate"><span class="pre">'\n'</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">char_to_ix</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="set-the-list-of-labels-integer-representation-of-the-characters-y">
+<h4>Set the list of labels (integer representation of the characters): <code class="docutils literal notranslate"><span class="pre">Y</span></code><a class="headerlink" href="#set-the-list-of-labels-integer-representation-of-the-characters-y" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>The goal is to train the RNN to predict the next letter in the name, so the labels are the list of characters that are one time-step ahead of the characters in the input <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<ul>
+<li><p>For example, <code class="docutils literal notranslate"><span class="pre">Y[0]</span></code> contains the same value as <code class="docutils literal notranslate"><span class="pre">X[1]</span></code></p></li>
+</ul>
+</li>
+<li><p>The RNN should predict a newline at the last letter, so add <code class="docutils literal notranslate"><span class="pre">ix_newline</span></code> to the end of the labels.</p>
+<ul>
+<li><p>Append the integer representation of the newline character to the end of <code class="docutils literal notranslate"><span class="pre">Y</span></code>.</p></li>
+<li><p>Note that <code class="docutils literal notranslate"><span class="pre">append</span></code> is an in-place operation.</p></li>
+<li><p>It might be easier for you to add two lists together.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C4 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)</span>
+<span class="c1"># GRADED FUNCTION: model</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">data_x</span><span class="p">,</span> <span class="n">ix_to_char</span><span class="p">,</span> <span class="n">char_to_ix</span><span class="p">,</span> <span class="n">num_iterations</span> <span class="o">=</span> <span class="mi">35000</span><span class="p">,</span> <span class="n">n_a</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">dino_names</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">vocab_size</span> <span class="o">=</span> <span class="mi">27</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Trains the model and generates dinosaur names. </span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    data_x -- text corpus, divided in words</span>
+<span class="sd">    ix_to_char -- dictionary that maps the index to a character</span>
+<span class="sd">    char_to_ix -- dictionary that maps a character to an index</span>
+<span class="sd">    num_iterations -- number of iterations to train the model for</span>
+<span class="sd">    n_a -- number of units of the RNN cell</span>
+<span class="sd">    dino_names -- number of dinosaur names you want to sample at each iteration. </span>
+<span class="sd">    vocab_size -- number of unique characters found in the text (size of the vocabulary)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    parameters -- learned parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Retrieve n_x and n_y from vocab_size</span>
+    <span class="n">n_x</span><span class="p">,</span> <span class="n">n_y</span> <span class="o">=</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">vocab_size</span>
+    
+    <span class="c1"># Initialize parameters</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">initialize_parameters</span><span class="p">(</span><span class="n">n_a</span><span class="p">,</span> <span class="n">n_x</span><span class="p">,</span> <span class="n">n_y</span><span class="p">)</span>
+    
+    <span class="c1"># Initialize loss (this is required because we want to smooth our loss)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">get_initial_loss</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">dino_names</span><span class="p">)</span>
+    
+    <span class="c1"># Build list of all dinosaur names (training examples).</span>
+    <span class="n">examples</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data_x</span><span class="p">]</span>
+    
+    <span class="c1"># Shuffle list of all dinosaur names</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
+    
+    <span class="c1"># Initialize the hidden state of your LSTM</span>
+    <span class="n">a_prev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_a</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="c1"># for grading purposes</span>
+    <span class="n">last_dino_name</span> <span class="o">=</span> <span class="s2">&quot;abc&quot;</span>
+    
+    <span class="c1"># Optimization loop</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_iterations</span><span class="p">):</span>
+        
+        <span class="c1">### START CODE HERE ###</span>
+        
+        <span class="c1"># Set the index `idx` (see instructions above)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Set the input X (see instructions above)</span>
+        <span class="n">single_example</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">single_example_chars</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">single_example_ix</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># Set the labels Y (see instructions above)</span>
+        <span class="n">ix_newline</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Perform one optimization step: Forward-prop -&gt; Backward-prop -&gt; Clip -&gt; Update parameters</span>
+        <span class="c1"># Choose a learning rate of 0.01</span>
+        <span class="n">curr_loss</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">a_prev</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1">### END CODE HERE ###</span>
+        
+        <span class="c1"># debug statements to aid in correctly forming X, Y</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">examples</span><span class="p">)]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;j = &quot;</span> <span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s2">&quot;idx = &quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,)</span> 
+        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="n">j</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;single_example =&quot;</span><span class="p">,</span> <span class="n">single_example</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;single_example_chars&quot;</span><span class="p">,</span> <span class="n">single_example_chars</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;single_example_ix&quot;</span><span class="p">,</span> <span class="n">single_example_ix</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; X = &quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;Y =       &quot;</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># to keep the loss smooth.</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">smooth</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">curr_loss</span><span class="p">)</span>
+
+        <span class="c1"># Every 2000 Iteration, generate &quot;n&quot; characters thanks to sample() to check if the model is learning properly</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Iteration: </span><span class="si">%d</span><span class="s1">, Loss: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            
+            <span class="c1"># The number of dinosaur names to print</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dino_names</span><span class="p">):</span>
+                
+                <span class="c1"># Sample indices and print them</span>
+                <span class="n">sampled_indices</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">char_to_ix</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+                <span class="n">last_dino_name</span> <span class="o">=</span> <span class="n">get_sample</span><span class="p">(</span><span class="n">sampled_indices</span><span class="p">,</span> <span class="n">ix_to_char</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">last_dino_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+                
+                <span class="n">seed</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># To get the same result (for grading purposes), increment the seed by one. </span>
+      
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">last_dino_name</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When you run the following cell, you should observe your model outputting random-looking characters at the first iteration. After a few thousand iterations, your model should learn to generate reasonable-looking names.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">,</span> <span class="n">last_name</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">ix_to_char</span><span class="p">,</span> <span class="n">char_to_ix</span><span class="p">,</span> <span class="mi">22001</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">last_name</span> <span class="o">==</span> <span class="s1">&#39;Trodonosaurus</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s2">&quot;Wrong expected output&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92mAll tests passed!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">Iteration</span><span class="p">:</span> <span class="mi">22000</span><span class="p">,</span> <span class="n">Loss</span><span class="p">:</span> <span class="mf">22.728886</span>
+
+<span class="n">Onustreofkelus</span>
+<span class="n">Llecagosaurus</span>
+<span class="n">Mystolojmiaterltasaurus</span>
+<span class="n">Ola</span>
+<span class="n">Yuskeolongus</span>
+<span class="n">Eiacosaurus</span>
+<span class="n">Trodonosaurus</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="conclusion">
+<h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h3>
+<p>You can see that your algorithm has started to generate plausible dinosaur names towards the end of training. At first, it was generating random characters, but towards the end you could begin to see dinosaur names with cool endings. Feel free to run the algorithm even longer and play with hyperparameters to see if you can get even better results! Our implementation generated some really cool names like <code class="docutils literal notranslate"><span class="pre">maconucon</span></code>, <code class="docutils literal notranslate"><span class="pre">marloralus</span></code> and <code class="docutils literal notranslate"><span class="pre">macingsersaurus</span></code>. Your model hopefully also learned that dinosaur names tend to end in <code class="docutils literal notranslate"><span class="pre">saurus</span></code>, <code class="docutils literal notranslate"><span class="pre">don</span></code>, <code class="docutils literal notranslate"><span class="pre">aura</span></code>, <code class="docutils literal notranslate"><span class="pre">tor</span></code>, etc.</p>
+<p>If your model generates some non-cool names, don’t blame the model entirely – not all actual dinosaur names sound cool. (For example, <code class="docutils literal notranslate"><span class="pre">dromaeosauroides</span></code> is an actual dinosaur name and is in the training set.) But this model should give you a set of candidates from which you can pick the coolest!</p>
+<p>This assignment used a relatively small dataset, so that you’re able to train an RNN quickly on a CPU. Training a model of the English language requires a much bigger dataset, and usually much more computation, and could run for many hours on GPUs. We ran our dinosaur name for quite some time, and so far our favorite name is the great, the fierce, the undefeated: <strong>Mangosaurus</strong>!</p>
+<img src="/C5_W1/images/mangosaurus.jpeg" style="width:250;height:300px;"></section>
+<section id="congratulations">
+<h3>Congratulations!<a class="headerlink" href="#congratulations" title="Link to this heading">#</a></h3>
+<p>You’ve finished the graded portion of this notebook and created a working language model! Awesome job.</p>
+<p>By now, you’ve:</p>
+<ul class="simple">
+<li><p>Stored text data for processing using an RNN</p></li>
+<li><p>Built a character-level text generation model</p></li>
+<li><p>Explored the vanishing/exploding gradient problem in RNNs</p></li>
+<li><p>Applied gradient clipping to avoid exploding gradients</p></li>
+</ul>
+<p>You’ve also hopefully generated some dinosaur names that are cool enough to please you and also avoid the wrath of the dinosaurs. If you had fun with the assignment, be sure not to miss the ungraded portion, where you’ll be able to generate poetry like the Bard Himself. Good luck and have fun!</p>
+<p><a name='4'></a></p>
+</section>
+</section>
+<section id="writing-like-shakespeare-optional-ungraded">
+<h2>4 - Writing like Shakespeare (OPTIONAL/UNGRADED)<a class="headerlink" href="#writing-like-shakespeare-optional-ungraded" title="Link to this heading">#</a></h2>
+<p>The rest of this notebook is optional and is not graded, but it’s quite fun and informative, so you’re highly encouraged to try it out!</p>
+<p>A similar task to character-level text generation (but more complicated) is generating Shakespearean poems. Instead of learning from a dataset of dinosaur names, you can use a collection of Shakespearean poems. Using LSTM cells, you can learn longer-term dependencies that span many characters in the text–e.g., where a character appearing somewhere a sequence can influence what should be a different character, much later in the sequence. These long-term dependencies were less important with dinosaur names, since the names were quite short.</p>
+<img src="images/shakespeare.jpg" style="width:500;height:400px;">
+<caption><center><font color='purple'><b>Let's become poets!</b></center></caption>
+<p>Below, you can implement a Shakespeare poem generator with Keras. Run the following cell to load the required packages and models. This may take a few minutes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">LambdaCallback</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">load_model</span><span class="p">,</span> <span class="n">Sequential</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Masking</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">LSTM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.preprocessing.sequence</span><span class="w"> </span><span class="kn">import</span> <span class="n">pad_sequences</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shakespeare_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To save you some time, a model has already been trained for ~1000 epochs on a collection of Shakespearean poems called “<i><a class="reference download internal" download="" href="../../_downloads/c2c65cd170d3d6cca1d4a9676ad6c999/shakespeare.txt"><span class="xref download myst">The Sonnets</span></a></i>.”</p>
+<p>Let’s train the model for one more epoch. When it finishes training for an epoch (this will also take a few minutes), you can run <code class="docutils literal notranslate"><span class="pre">generate_output</span></code>, which will prompt you for an input (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code>40 characters). The poem will start with your sentence, and your RNN Shakespeare will complete the rest of the poem for you! For example, try, “Forsooth this maketh no sense” (without the quotation marks!). Depending on whether you include the space at the end, your results might also differ, so try it both ways, and try other inputs as well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_callback</span> <span class="o">=</span> <span class="n">LambdaCallback</span><span class="p">(</span><span class="n">on_epoch_end</span><span class="o">=</span><span class="n">on_epoch_end</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">print_callback</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run this cell to try with different inputs without having to re-train the model </span>
+<span class="n">generate_output</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="congratulations-on-finishing-this-notebook">
+<h3>Congratulations on finishing this notebook!<a class="headerlink" href="#congratulations-on-finishing-this-notebook" title="Link to this heading">#</a></h3>
+<p>The RNN Shakespeare model is very similar to the one you built for dinosaur names. The only major differences are:</p>
+<ul class="simple">
+<li><p>LSTMs instead of the basic RNN to capture longer-range dependencies</p></li>
+<li><p>The model is a deeper, stacked LSTM model (2 layer)</p></li>
+<li><p>Using Keras instead of Python to simplify the code</p></li>
+</ul>
+<p><a name='5'></a></p>
+</section>
+</section>
+<section id="references">
+<h2>5 - References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>This exercise took inspiration from Andrej Karpathy’s implementation: <a class="reference external" href="https://gist.github.com/karpathy/d4dee566867f8291f086">https://gist.github.com/karpathy/d4dee566867f8291f086</a>. To learn more about text generation, also check out Karpathy’s <a class="reference external" href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">blog post</a>.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./DLS\C5_W1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-statement">1 - Problem Statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-preprocessing">1.1 - Dataset and Preprocessing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-model">1.2 - Overview of the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-blocks-of-the-model">2 - Building Blocks of the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clipping-the-gradients-in-the-optimization-loop">2.1 - Clipping the Gradients in the Optimization Loop</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exploding-gradients">Exploding gradients</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-clipping">Gradient clipping</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-clip">Exercise 1 - clip</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling">2.2 - Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-sample">Exercise 2 - sample</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-hints">Additional Hints</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Additional Hints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-language-model">3 - Building the Language Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">3.1 - Gradient Descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-optimize">Exercise 3 - optimize</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">3.2 - Training the Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-model">Exercise 4 - model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-index-idx-into-the-list-of-examples">Set the index <code class="docutils literal notranslate"><span class="pre">idx</span></code> into the list of examples</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-a-single-example-from-the-list-of-examples">Extract a single example from the list of examples</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-a-string-into-a-list-of-characters-single-example-chars">Convert a string into a list of characters: <code class="docutils literal notranslate"><span class="pre">single_example_chars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-list-of-characters-to-a-list-of-integers-single-example-ix">Convert list of characters to a list of integers: <code class="docutils literal notranslate"><span class="pre">single_example_ix</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-list-of-input-characters-x">Create the list of input characters: <code class="docutils literal notranslate"><span class="pre">X</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#get-the-integer-representation-of-the-newline-character-ix-newline">Get the integer representation of the newline character <code class="docutils literal notranslate"><span class="pre">ix_newline</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-list-of-labels-integer-representation-of-the-characters-y">Set the list of labels (integer representation of the characters): <code class="docutils literal notranslate"><span class="pre">Y</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">Congratulations!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-like-shakespeare-optional-ungraded">4 - Writing like Shakespeare (OPTIONAL/UNGRADED)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations-on-finishing-this-notebook">Congratulations on finishing this notebook!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">5 - References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
