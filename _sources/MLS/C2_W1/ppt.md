@@ -6,4 +6,4 @@ tags: []
 
 ## Course 2 Week 1 : Advanced Learning Algorithms
 
-<iframe src="/C2_W1/C2_W1.pdf" width="100%" height="1000px"></iframe>
+<iframe src="../../assets/C2_W1/C2_W1.pdf" width="100%" height="1000px"></iframe>
