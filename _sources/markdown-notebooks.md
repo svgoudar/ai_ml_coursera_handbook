@@ -1,18 +1,15 @@
 ---
-noteId: "ee58cf50acae11f08268a14250d9727a"
-tags: []
 jupytext:
-  formats: "md:myst"
+  formats: md:myst
   text_representation:
-    extension: ".md"
-    format_name: "myst"
+    extension: .md
+    format_name: myst
     format_version: 0.13
-    jupytext_version: "1.11.5"
+    jupytext_version: 1.11.5
 kernelspec:
-  display_name: "Python 3"
-  language: "python"
-  name: "python3"
-
+  display_name: Python 3
+  language: python
+  name: python3
 ---
 
 # Notebooks with MyST Markdown

@@ -1,9 +1,3 @@
----
-noteId: "ee919290acae11f08268a14250d9727a"
-tags: []
-
----
-
 
 ## Course 1 Week 2: Regression with multiple input variables
 
