@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="K-means Clustering" href="C3_W1_KMeans_Assignment.html" />
@@ -673,10 +674,10 @@ document.write(`
 The goal of a collaborative filtering recommender system is to generate two vectors: For each user, a ‘parameter vector’ that embodies the movie tastes of a user. For each movie, a feature vector of the same size which embodies some description of the movie. The dot product of the two vectors plus the bias term should produce an estimate of the rating the user might give to that movie.</p>
 <p>The diagram below details how these vectors are learned.</p>
 <figure>
-   <img src="/C3_W1/images/ColabFilterLearn.PNG"  style="width:740px;height:250px;" >
+   <img src="../../assets/C3_W1/images/ColabFilterLearn.PNG"  style="width:740px;height:250px;" >
 </figure><p>Existing ratings are provided in matrix form as shown. <span class="math notranslate nohighlight">\(Y\)</span> contains ratings; 0.5 to 5 inclusive in 0.5 steps. 0 if the movie has not been rated. <span class="math notranslate nohighlight">\(R\)</span> has a 1 where movies have been rated. Movies are in rows, users in columns. Each user has a parameter vector <span class="math notranslate nohighlight">\(w^{user}\)</span> and bias. Each movie has a feature vector <span class="math notranslate nohighlight">\(x^{movie}\)</span>. These vectors are simultaneously learned by using the existing user/movie ratings as training data. One training example is shown above: <span class="math notranslate nohighlight">\(\mathbf{w}^{(1)} \cdot \mathbf{x}^{(1)} + b^{(1)} = 4\)</span>. It is worth noting that the feature vector <span class="math notranslate nohighlight">\(x^{movie}\)</span> must satisfy all the users while the user vector <span class="math notranslate nohighlight">\(w^{user}\)</span> must satisfy all the movies. This is the source of the name of this approach - all the users collaborate to generate the rating set.</p>
 <figure>
-   <img src="/C3_W1/images/ColabFilterUse.PNG"  style="width:640px;height:250px;" >
+   <img src="../../assets/C3_W1/images/ColabFilterUse.PNG"  style="width:640px;height:250px;" >
 </figure><p>Once the feature vectors and parameters are learned, they can be used to predict how a user might rate an unrated movie. This is shown in the diagram above. The equation is an example of predicting a rating for user one on movie zero.</p>
 <p>In this exercise, you will implement the function <code class="docutils literal notranslate"><span class="pre">cofiCostFunc</span></code> that computes the collaborative filtering
 objective function. After implementing the objective function, you will use a TensorFlow custom training loop to learn the parameters for collaborative filtering. The first step is to detail the data set and data structures that will be used in the lab.</p>

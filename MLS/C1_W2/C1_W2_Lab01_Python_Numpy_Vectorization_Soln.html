@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Optional Lab: Multiple Variable Linear Regression" href="C1_W2_Lab02_Multiple_Variable_Soln.html" />
@@ -694,7 +695,7 @@ document.write(`
 <p><a name="toc_40015_3.1"></a></p>
 <section id="abstract">
 <h2>3.1 Abstract<a class="headerlink" href="#abstract" title="Link to this heading">#</a></h2>
-<p><img align="right" src="/C1_W2/images/C1_W2_Lab04_Vectors.PNG" style="width:340px;" >Vectors, as you will use them in this course, are ordered arrays of numbers. In notation, vectors are denoted with lower case bold letters such as <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.  The elements of a vector are all the same type. A vector does not, for example, contain both characters and numbers. The number of elements in the array is often referred to as the <em>dimension</em> though mathematicians may prefer <em>rank</em>. The vector shown has a dimension of <span class="math notranslate nohighlight">\(n\)</span>. The elements of a vector can be referenced with an index. In math settings, indexes typically run from 1 to n. In computer science and these labs, indexing will typically run from 0 to n-1.  In notation, elements of a vector, when referenced individually will indicate the index in a subscript, for example, the <span class="math notranslate nohighlight">\(0^{th}\)</span> element, of the vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is <span class="math notranslate nohighlight">\(x_0\)</span>. Note, the x is not bold in this case.</p>
+<p><img align="right" src="../../assets/C1_W2/images/C1_W2_Lab04_Vectors.PNG" style="width:340px;" >Vectors, as you will use them in this course, are ordered arrays of numbers. In notation, vectors are denoted with lower case bold letters such as <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.  The elements of a vector are all the same type. A vector does not, for example, contain both characters and numbers. The number of elements in the array is often referred to as the <em>dimension</em> though mathematicians may prefer <em>rank</em>. The vector shown has a dimension of <span class="math notranslate nohighlight">\(n\)</span>. The elements of a vector can be referenced with an index. In math settings, indexes typically run from 1 to n. In computer science and these labs, indexing will typically run from 0 to n-1.  In notation, elements of a vector, when referenced individually will indicate the index in a subscript, for example, the <span class="math notranslate nohighlight">\(0^{th}\)</span> element, of the vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is <span class="math notranslate nohighlight">\(x_0\)</span>. Note, the x is not bold in this case.</p>
 <p><a name="toc_40015_3.2"></a></p>
 </section>
 <section id="numpy-arrays">
@@ -720,7 +721,7 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.zeros(4) :   a = [0. 0. 0. 0.], a shape = (4,), a data type = float64
 np.zeros(4,) :  a = [0. 0. 0. 0.], a shape = (4,), a data type = float64
-np.random.random_sample(4): a = [0.11564214 0.06483712 0.3003605  0.96781816], a shape = (4,), a data type = float64
+np.random.random_sample(4): a = [0.10367119 0.75691929 0.40170704 0.39511744], a shape = (4,), a data type = float64
 </pre></div>
 </div>
 </div>
@@ -736,7 +737,7 @@ np.random.random_sample(4): a = [0.11564214 0.06483712 0.3003605  0.96781816], a
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.arange(4.):     a = [0. 1. 2. 3.], a shape = (4,), a data type = float64
-np.random.rand(4): a = [0.97596613 0.25911171 0.16075005 0.40776739], a shape = (4,), a data type = float64
+np.random.rand(4): a = [0.11588055 0.98909769 0.66934629 0.86250029], a shape = (4,), a data type = float64
 </pre></div>
 </div>
 </div>
@@ -1036,11 +1037,11 @@ NumPy 1-D np.dot(b, a) = 24, np.dot(a, b).shape = ()
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.dot(a, b) =  2501072.5817
-Vectorized version duration: 12.2693 ms 
+Vectorized version duration: 8.9989 ms 
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>my_dot(a, b) =  2501072.5817
-loop version duration: 1996.1648 ms 
+loop version duration: 2365.7188 ms 
 </pre></div>
 </div>
 </div>
@@ -1090,7 +1091,7 @@ c has shape ()
 <h2>4.1 Abstract<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>Matrices, are two dimensional arrays. The elements of a matrix are all of the same type. In notation, matrices are denoted with capitol, bold letter such as <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>. In this and other labs, <code class="docutils literal notranslate"><span class="pre">m</span></code> is often the number of rows and <code class="docutils literal notranslate"><span class="pre">n</span></code> the number of columns. The elements of a matrix can be referenced with a two dimensional index. In math settings, numbers in the index typically run from 1 to n. In computer science and these labs, indexing will run from 0 to n-1.</p>
 <figure>
-    <center> <img src="/C1_W2/images/C1_W2_Lab04_Matrices.PNG"  alt='missing'  width=900><center/>
+    <center> <img src="../../assets/C1_W2/images/C1_W2_Lab04_Matrices.PNG"  alt='missing'  width=900><center/>
     <figcaption> Generic Matrix Notation, 1st index is row, 2nd is column </figcaption>
 <figure/><p><a name="toc_40015_4.2"></a></p>
 </section>

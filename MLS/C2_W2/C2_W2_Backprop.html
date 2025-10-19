@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C2_W2/C2_W2_Backprop';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C2_W2/C2_W2_Backprop.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Optional Lab - Derivatives" href="C2_W2_Derivatives.html" />
@@ -753,7 +754,7 @@ If you have the correct values, the values will show as green or blue. If the va
 </section>
 <section id="backprop">
 <h3>Backprop<a class="headerlink" href="#backprop" title="Link to this heading">#</a></h3>
-<p><img align="left" src="/C2_W2/images/C2_W2_BP_network0_j.PNG"     style=" width:100px; padding: 10px 20px; " > Backprop is the algorithm we use to calculate derivatives. As described in the lectures, backprop starts at the right and moves to the left. The first node to consider is <span class="math notranslate nohighlight">\(J = a^2 \)</span> and the first step is to find <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span></p>
+<p><img align="left" src="../../assets/C2_W2/images/C2_W2_BP_network0_j.PNG"     style=" width:100px; padding: 10px 20px; " > Backprop is the algorithm we use to calculate derivatives. As described in the lectures, backprop starts at the right and moves to the left. The first node to consider is <span class="math notranslate nohighlight">\(J = a^2 \)</span> and the first step is to find <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span></p>
 </section>
 <section id="frac-partial-j-partial-a">
 <h3><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span><a class="headerlink" href="#frac-partial-j-partial-a" title="Link to this heading">#</a></h3>
@@ -805,7 +806,7 @@ If you have not already done so, you can go back to the diagram above and fill i
 </section>
 <section id="frac-partial-j-partial-w">
 <h3><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w}\)</span><a class="headerlink" href="#frac-partial-j-partial-w" title="Link to this heading">#</a></h3>
-<p><img align="left" src="/C2_W2/images/C2_W2_BP_network0_a.PNG"     style=" width:100px; padding: 10px 20px; " >  Moving from right to left, the next value we would like to compute is <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w}\)</span>. To do this, we first need to calculate <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial w}\)</span> which describes how the output of this node, <span class="math notranslate nohighlight">\(a\)</span>, changes when the input <span class="math notranslate nohighlight">\(w\)</span> changes a little bit.</p>
+<p><img align="left" src="../../assets/C2_W2/images/C2_W2_BP_network0_a.PNG"     style=" width:100px; padding: 10px 20px; " >  Moving from right to left, the next value we would like to compute is <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w}\)</span>. To do this, we first need to calculate <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial w}\)</span> which describes how the output of this node, <span class="math notranslate nohighlight">\(a\)</span>, changes when the input <span class="math notranslate nohighlight">\(w\)</span> changes a little bit.</p>
 <section id="id1">
 <h4>Arithmetically<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
 <p>Find <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial w}\)</span> by finding how <span class="math notranslate nohighlight">\(a\)</span> changes as a result of a little change in <span class="math notranslate nohighlight">\(w\)</span>.</p>
@@ -872,7 +873,7 @@ $<span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w} = \f
 <p>OK! You can now fill the values for  <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial w}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w}\)</span> in  the diagram if you have not already done so.</p>
 <p><strong>Another view</strong><br />
 One could visualize these cascading changes this way:<br />
-<img align="center" src="/C2_W2/images/C2_W2_BP_network0_diff.PNG"  style=" width:500px; padding: 10px 20px; " ><br />
+<img align="center" src="../../assets/C2_W2/images/C2_W2_BP_network0_diff.PNG"  style=" width:500px; padding: 10px 20px; " ><br />
 A small change in <span class="math notranslate nohighlight">\(w\)</span> is multiplied by <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial w}\)</span> resulting in a change that is 3 times as large. This larger change is then multiplied by <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span> resulting in a change that is now <span class="math notranslate nohighlight">\(3 \times 22 = 66\)</span> times larger.</p>
 </section>
 </section>
@@ -883,7 +884,7 @@ A small change in <span class="math notranslate nohighlight">\(w\)</span> is mul
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-<span class="n">plt_network</span><span class="p">(</span><span class="n">config_nw1</span><span class="p">,</span> <span class="s2">&quot;./images/C2_W2_BP_network1.PNG&quot;</span><span class="p">)</span>
+<span class="n">plt_network</span><span class="p">(</span><span class="n">config_nw1</span><span class="p">,</span> <span class="s2">&quot;../../assets/C2_W2/images/C2_W2_BP_network1.PNG&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -912,7 +913,7 @@ A small change in <span class="math notranslate nohighlight">\(w\)</span> is mul
 </section>
 <section id="backward-propagation-backprop">
 <h3>Backward propagation (Backprop)<a class="headerlink" href="#backward-propagation-backprop" title="Link to this heading">#</a></h3>
-<p><img align="left" src="/C2_W2/images/C2_W2_BP_network1_jdsq.PNG"     style=" width:100px; padding: 10px 20px; " > As described in the lectures, backprop starts at the right and moves to the left. The first node to consider is <span class="math notranslate nohighlight">\(J = \frac{1}{2}d^2 \)</span> and the first step is to find <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial d}\)</span></p>
+<p><img align="left" src="../../assets/C2_W2/images/C2_W2_BP_network1_jdsq.PNG"     style=" width:100px; padding: 10px 20px; " > As described in the lectures, backprop starts at the right and moves to the left. The first node to consider is <span class="math notranslate nohighlight">\(J = \frac{1}{2}d^2 \)</span> and the first step is to find <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial d}\)</span></p>
 </section>
 <section id="frac-partial-j-partial-d">
 <h3><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial d}\)</span><a class="headerlink" href="#frac-partial-j-partial-d" title="Link to this heading">#</a></h3>
@@ -965,7 +966,7 @@ If you have not already done so, you can go back to the diagram above and fill i
 </section>
 <section id="id5">
 <h3><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span><a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
-<p><img align="left" src="/C2_W2/images/C2_W2_BP_network1_d.PNG"     style=" width:100px; padding: 10px 20px; " >  Moving from right to left, the next value we would like to compute is <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span>. To do this, we first need to calculate <span class="math notranslate nohighlight">\(\frac{\partial d}{\partial a}\)</span> which describes how the output of this node changes when the input <span class="math notranslate nohighlight">\(a\)</span> changes a little bit. (Note, we are not interested in how the output changes when <span class="math notranslate nohighlight">\(y\)</span> changes since <span class="math notranslate nohighlight">\(y\)</span> is not a parameter.)</p>
+<p><img align="left" src="../../assets/C2_W2/images/C2_W2_BP_network1_d.PNG"     style=" width:100px; padding: 10px 20px; " >  Moving from right to left, the next value we would like to compute is <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span>. To do this, we first need to calculate <span class="math notranslate nohighlight">\(\frac{\partial d}{\partial a}\)</span> which describes how the output of this node changes when the input <span class="math notranslate nohighlight">\(a\)</span> changes a little bit. (Note, we are not interested in how the output changes when <span class="math notranslate nohighlight">\(y\)</span> changes since <span class="math notranslate nohighlight">\(y\)</span> is not a parameter.)</p>
 <section id="id6">
 <h4>Arithmetically<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
 <p>Find <span class="math notranslate nohighlight">\(\frac{\partial d}{\partial a}\)</span> by finding how <span class="math notranslate nohighlight">\(d\)</span> changes as a result of a little change in <span class="math notranslate nohighlight">\(a\)</span>.</p>
@@ -1048,7 +1049,7 @@ working right to left, for each node:</p>
 </section>
 <section id="frac-partial-j-partial-c-frac-partial-j-partial-b">
 <h3><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial c}\)</span>,  <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial b}\)</span><a class="headerlink" href="#frac-partial-j-partial-c-frac-partial-j-partial-b" title="Link to this heading">#</a></h3>
-<p><img align="left" src="/C2_W2/images/C2_W2_BP_network1_a.PNG"     style=" width:100px; padding: 10px 20px; " >The next node has two derivatives of interest. We need to calculate  <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial c}\)</span> so we can propagate to the left. We also want to calculate   <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial b}\)</span>. Finding the derivative of the cost with respect to the parameters <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span> is the object of backprop. We will find the local derivatives,  <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial c}\)</span> and  <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial b}\)</span> first and then combine those with the derivative coming from the right, <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span>.</p>
+<p><img align="left" src="../../assets/C2_W2/images/C2_W2_BP_network1_a.PNG"     style=" width:100px; padding: 10px 20px; " >The next node has two derivatives of interest. We need to calculate  <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial c}\)</span> so we can propagate to the left. We also want to calculate   <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial b}\)</span>. Finding the derivative of the cost with respect to the parameters <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(b\)</span> is the object of backprop. We will find the local derivatives,  <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial c}\)</span> and  <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial b}\)</span> first and then combine those with the derivative coming from the right, <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate the local derivatives da_dc, da_db</span>
@@ -1080,7 +1081,7 @@ working right to left, for each node:</p>
 </section>
 <section id="id8">
 <h3><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w}\)</span><a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
-<p><img align="left" src="/C2_W2/images/C2_W2_BP_network1_c.PNG"     style=" width:100px; padding: 10px 20px; " > The last node in this example calculates <code class="docutils literal notranslate"><span class="pre">c</span></code>. Here, we are interested in how J changes with respect to the parameter w. We will not back propagate to the input <span class="math notranslate nohighlight">\(x\)</span>, so we are not interested in <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial x}\)</span>. Let’s start by calculating <span class="math notranslate nohighlight">\(\frac{\partial c}{\partial w}\)</span>.</p>
+<p><img align="left" src="../../assets/C2_W2/images/C2_W2_BP_network1_c.PNG"     style=" width:100px; padding: 10px 20px; " > The last node in this example calculates <code class="docutils literal notranslate"><span class="pre">c</span></code>. Here, we are interested in how J changes with respect to the parameter w. We will not back propagate to the input <span class="math notranslate nohighlight">\(x\)</span>, so we are not interested in <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial x}\)</span>. Let’s start by calculating <span class="math notranslate nohighlight">\(\frac{\partial c}{\partial w}\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate the local derivative</span>

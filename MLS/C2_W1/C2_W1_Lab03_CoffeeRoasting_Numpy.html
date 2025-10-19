@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Course 2 Week 2 : Neural Network Training" href="../C2_W2/ppt.html" />
@@ -686,7 +687,7 @@ Duration    Max, Min post normalization: 1.79, -1.70
 <h2>Numpy Model (Forward Prop in NumPy)<a class="headerlink" href="#numpy-model-forward-prop-in-numpy" title="Link to this heading">#</a></h2>
 <center> <img  src="/C2_W1/images/C2_W1_RoastingNetwork.PNG" width="200" />   <center/>  
 Let's build the "Coffee Roasting Network" described in lecture. There are two layers with sigmoid activations.<p>As described in lecture, it is possible to build your own dense layer using NumPy. This can then be utilized to build a multi-layer neural network.</p>
-<img src="/C2_W1/images/C2_W1_dense3.png" width="600" height="450">
+<img src="../../assets/C2_W1/images/C2_W1_dense3.png" width="600" height="450">
 <p>In the first optional lab, you constructed a neuron in NumPy and in Tensorflow and noted their similarity. A layer simply contains multiple neurons/units. As described in lecture, one can utilize a for loop to visit each unit (<code class="docutils literal notranslate"><span class="pre">j</span></code>) in the layer and perform the dot product of the weights for that unit (<code class="docutils literal notranslate"><span class="pre">W[:,j]</span></code>) and sum the bias for the unit (<code class="docutils literal notranslate"><span class="pre">b[j]</span></code>) to form <code class="docutils literal notranslate"><span class="pre">z</span></code>. An activation function <code class="docutils literal notranslate"><span class="pre">g(z)</span></code> can then be applied to that result. Let’s try that below to build a “dense layer” subroutine.</p>
 <p>First, you will define the activation function <code class="docutils literal notranslate"><span class="pre">g()</span></code>. You will use the <code class="docutils literal notranslate"><span class="pre">sigmoid()</span></code> function which is already implemented for you in the <code class="docutils literal notranslate"><span class="pre">lab_utils_common.py</span></code> file outside this notebook.</p>
 <div class="cell docutils container">
@@ -746,7 +747,7 @@ Let's build the "Coffee Roasting Network" described in lecture. There are two la
 </div>
 <section id="predictions">
 <h3>Predictions<a class="headerlink" href="#predictions" title="Link to this heading">#</a></h3>
-<img align="left" src="/C2_W1/images/C2_W1_RoastingDecision.PNG"     style=" width:380px; padding: 10px 20px; " >
+<img align="left" src="../../assets/C2_W1/images/C2_W1_RoastingDecision.PNG"     style=" width:380px; padding: 10px 20px; " >
 <p>Once you have a trained model, you can then use it to make predictions. Recall that the output of our model is a probability. In this case, the probability of a good roast. To make a decision, one must apply the probability to a threshold. In this case, we will use 0.5</p>
 <p>Let’s start by writing a routine similar to Tensorflow’s <code class="docutils literal notranslate"><span class="pre">model.predict()</span></code>. This will take a matrix <span class="math notranslate nohighlight">\(X\)</span> with all <span class="math notranslate nohighlight">\(m\)</span> examples in the rows and make a prediction by running the model.</p>
 <div class="cell docutils container">
@@ -773,7 +774,7 @@ Let's build the "Coffee Roasting Network" described in lecture. There are two la
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\sangouda\AppData\Local\Temp\ipykernel_27120\3168763570.py:5: DeprecationWarning: Conversion of an array with ndim &gt; 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\sangouda\AppData\Local\Temp\ipykernel_9832\3168763570.py:5: DeprecationWarning: Conversion of an array with ndim &gt; 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
   p[i,0] = my_sequential(X[i], W1, b1, W2, b2)
 </pre></div>
 </div>
@@ -831,7 +832,7 @@ The right graph is the output of the network after a decision threshold. The X�
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\sangouda\AppData\Local\Temp\ipykernel_27120\3168763570.py:5: DeprecationWarning: Conversion of an array with ndim &gt; 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\sangouda\AppData\Local\Temp\ipykernel_9832\3168763570.py:5: DeprecationWarning: Conversion of an array with ndim &gt; 0 to a scalar is deprecated, and will error in future. Ensure you extract a single element from your array before performing this operation. (Deprecated NumPy 1.25.)
   p[i,0] = my_sequential(X[i], W1, b1, W2, b2)
 </pre></div>
 </div>

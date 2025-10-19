@@ -1,9 +1,3 @@
----
-noteId: "33364640acad11f09e4cf9d4f2965b4e"
-tags: []
-
----
-
 # Deep Learning Specialization Overview
 
 ## Introduction

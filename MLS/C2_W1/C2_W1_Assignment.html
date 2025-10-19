@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C2_W1/C2_W1_Assignment';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C2_W1/C2_W1_Assignment.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Optional Lab - Neurons and Layers" href="C2_W1_Lab01_Neurons_and_Layers.html" />
@@ -932,7 +933,7 @@ The shape of y is: (1000, 1)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f0df97787632e6fbf85d9f437e4c830fe1fa80b78eae279a686284e65d57740c.png" src="../../_images/f0df97787632e6fbf85d9f437e4c830fe1fa80b78eae279a686284e65d57740c.png" />
+<img alt="../../_images/a9b637e28bd7ed00869add85f7fc045afa664de831242ae14cccb7189d1bbb27.png" src="../../_images/a9b637e28bd7ed00869add85f7fc045afa664de831242ae14cccb7189d1bbb27.png" />
 </div>
 </div>
 <p><a name="2.3"></a></p>
@@ -949,7 +950,7 @@ The shape of y is: (1000, 1)
 </ul>
 </li>
 </ul>
-<img src="/C2_W1/images/C2_W1_Assign1.PNG" width="500" height="400"><ul class="simple">
+<img src="../../assets/C2_W1/images/C2_W1_Assign1.PNG" width="500" height="400"><ul class="simple">
 <li><p>The parameters have dimensions that are sized for a neural network with <span class="math notranslate nohighlight">\(25\)</span> units in layer 1, <span class="math notranslate nohighlight">\(15\)</span> units in layer 2 and <span class="math notranslate nohighlight">\(1\)</span> output unit in layer 3.</p>
 <ul>
 <li><p>Recall that the dimensions of these parameters are determined as follows:</p>
@@ -1224,7 +1225,7 @@ As in the case of logistic regression, the probability is compared to a threshol
 <section id="numpy-model-implementation-forward-prop-in-numpy">
 <h3>2.5 NumPy Model Implementation (Forward Prop in NumPy)<a class="headerlink" href="#numpy-model-implementation-forward-prop-in-numpy" title="Link to this heading">#</a></h3>
 <p>As described in lecture, it is possible to build your own dense layer using NumPy. This can then be utilized to build a multi-layer neural network.</p>
-<img src="/C2_W1/images/C2_W1_dense2.PNG" width="600" height="450">
+<img src="../../assets/C2_W1/images/C2_W1_dense2.PNG" width="600" height="450">
 <p><a name="ex02"></a></p>
 </section>
 <section id="exercise-2">
@@ -1416,7 +1417,7 @@ As described in the lecture:
 <h3>2.6 Vectorized NumPy Model Implementation (Optional)<a class="headerlink" href="#vectorized-numpy-model-implementation-optional" title="Link to this heading">#</a></h3>
 <p>The optional lectures described vector and matrix operations that can be used to speed the calculations.
 Below describes a layer operation that computes the output for all units in a layer on a given input example:</p>
-<img src="/C2_W1/images/C2_W1_VectorMatrix.PNG" width="600" height="450">
+<img src="../../assets/C2_W1/images/C2_W1_VectorMatrix.PNG" width="600" height="450">
 <p>We can demonstrate this using the examples <code class="docutils literal notranslate"><span class="pre">X</span></code> and the <code class="docutils literal notranslate"><span class="pre">W1</span></code>,<code class="docutils literal notranslate"><span class="pre">b1</span></code> parameters above. We use <code class="docutils literal notranslate"><span class="pre">np.matmul</span></code> to perform the matrix multiply. Note, the dimensions of x and W must be compatible as shown in the diagram above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1429,7 +1430,7 @@ Below describes a layer operation that computes the output for all units in a la
 </div>
 </div>
 <p>You can take this a step further and compute all the units for all examples in one Matrix-Matrix operation.</p>
-<img src="/C2_W1/images/C2_W1_MatrixMatrix.PNG" width="600" height="450">
+<img src="../../assets/C2_W1/images/C2_W1_MatrixMatrix.PNG" width="600" height="450">
 The full operation is $\mathbf{Z}=\mathbf{XW}+\mathbf{b}$. This will utilize NumPy broadcasting to expand $\mathbf{b}$ to $m$ rows. If this is unfamiliar, a short tutorial is provided at the end of the notebook.<p><a name="ex03"></a></p>
 </section>
 <section id="exercise-3">
@@ -1622,11 +1623,11 @@ When operating on two arrays, NumPy compares their shapes element-wise. It start
 <p>If these conditions are not met, a ValueError: operands could not be broadcast together exception is thrown, indicating that the arrays have incompatible shapes. The size of the resulting array is the size that is not 1 along each axis of the inputs.</p>
 <p>Here are some examples:</p>
 <figure>
-    <center> <img src="/C2_W1/images/C2_W1_Assign1_BroadcastIndexes.PNG"  alt='missing' width="400"  ><center/>
+    <center> <img src="../../assets/C2_W1/images/C2_W1_Assign1_BroadcastIndexes.PNG"  alt='missing' width="400"  ><center/>
     <figcaption>Calculating Broadcast Result shape</figcaption>
 <figure/><p>The graphic below describes expanding dimensions. Note the red text below:</p>
 <figure>
-    <center> <img src="/C2_W1/images/C2_W1_Assign1_Broadcasting.gif"  alt='missing' width="600"  ><center/>
+    <center> <img src="../../assets/C2_W1/images/C2_W1_Assign1_Broadcasting.gif"  alt='missing' width="600"  ><center/>
     <figcaption>Broadcast notionally expands arguments to match for element wise operations</figcaption>
 <figure/><p>The graphic above shows NumPy expanding the arguments to match before the final operation. Note that this is a notional description. The actual mechanics of NumPy operation choose the most efficient implementation.</p>
 <p>For each of the following examples, try to guess the size of the result before running the example.</p>
@@ -1650,7 +1651,7 @@ When operating on two arrays, NumPy compares their shapes element-wise. It start
 </div>
 </div>
 <figure>
-    <img src="/C2_W1/images/C2_W1_Assign1_VectorAdd.PNG"  alt='missing' width="740" >
+    <img src="../../assets/C2_W1/images/C2_W1_Assign1_VectorAdd.PNG"  alt='missing' width="740" >
     <center><figcaption><b>Row-Column Element-Wise Operations</b></figcaption></center>
 <figure/><div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1665,7 +1666,7 @@ When operating on two arrays, NumPy compares their shapes element-wise. It start
 </div>
 <p>This is the scenario in the dense layer you built above. Adding a 1-D vector <span class="math notranslate nohighlight">\(b\)</span> to a (m,j) matrix.</p>
 <figure>
-    <img src="/C2_W1/images/C2_W1_Assign1_BroadcastMatrix.PNG"  alt='missing' width="740" >
+    <img src="../../assets/C2_W1/images/C2_W1_Assign1_BroadcastMatrix.PNG"  alt='missing' width="740" >
     <center><figcaption><b>Matrix + 1-D Vector</b></figcaption></center>
 <figure/><details>
   <summary><font size="2" color="darkgreen"><b>Please click here if you want to experiment with any of the non-graded code.</b></font></summary>

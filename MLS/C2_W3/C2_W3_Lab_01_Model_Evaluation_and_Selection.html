@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Optional Lab: Diagnosing Bias and Variance" href="C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html" />
@@ -950,7 +951,7 @@ document.write(`
 </div>
 </div>
 <p>You’ll notice that the MSEs are significantly better for both the training and cross validation set when you added the 2nd order polynomial. You may want to introduce more polynomial terms and see which one gives the best performance. As shown in class, you can have 10 different models like this:</p>
-<img src='/C2_W3/images/C2_W3_poly.png' width=50%>
+<img src='../../assets/C2_W3/images/C2_W3_poly.png' width=50%>
 <p>You can create a loop that contains all the steps in the previous code cells. Here is one implementation that adds polynomial features up to degree=10. We’ll plot it at the end to make it easier to compare the results for each model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1039,7 +1040,7 @@ document.write(`
 <section id="neural-networks">
 <h2>Neural Networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h2>
 <p>The same model selection process can also be used when choosing between different neural network architectures. In this section, you will create the models shown below and apply it to the same regression task above.</p>
-<img src='/C2_W3/images/C2_W3_NN_Arch.png' width=40%><section id="prepare-the-data">
+<img src='../../assets/C2_W3/images/C2_W3_NN_Arch.png' width=40%><section id="prepare-the-data">
 <h3>Prepare the Data<a class="headerlink" href="#prepare-the-data" title="Link to this heading">#</a></h3>
 <p>You will use the same training, cross validation, and test sets you generated in the previous section. From earlier lectures in this course, you may have known that neural networks can learn non-linear relationships so you can opt to skip adding polynomial features. The code is still included below in case you want to try later and see what effect it will have on your results. The default <code class="docutils literal notranslate"><span class="pre">degree</span></code> is set to <code class="docutils literal notranslate"><span class="pre">1</span></code> to indicate that it will just use <code class="docutils literal notranslate"><span class="pre">x_train</span></code>, <code class="docutils literal notranslate"><span class="pre">x_cv</span></code>, and <code class="docutils literal notranslate"><span class="pre">x_test</span></code> as is (i.e. without any additional polynomial features).</p>
 <div class="cell docutils container">

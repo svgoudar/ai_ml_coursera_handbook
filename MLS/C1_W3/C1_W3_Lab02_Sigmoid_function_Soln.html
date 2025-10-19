@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Optional Lab: Logistic Regression, Decision Boundary" href="C1_W3_Lab03_Decision_Boundary_Soln.html" />
@@ -692,7 +693,7 @@ document.write(`
 </div>
 <section id="sigmoid-or-logistic-function">
 <h2>Sigmoid or Logistic Function<a class="headerlink" href="#sigmoid-or-logistic-function" title="Link to this heading">#</a></h2>
-<p><img align="left" src="/C1_W3/images/C1_W3_LogisticRegression_left.png"     style=" width:300px; padding: 10px; " >As discussed in the lecture videos, for a classification task, we can start by using our linear regression model, <span class="math notranslate nohighlight">\(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot  \mathbf{x}^{(i)} + b\)</span>, to predict <span class="math notranslate nohighlight">\(y\)</span> given <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p><img align="left" src="../../assets/C1_W3/images/C1_W3_LogisticRegression_left.png"     style=" width:300px; padding: 10px; " >As discussed in the lecture videos, for a classification task, we can start by using our linear regression model, <span class="math notranslate nohighlight">\(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot  \mathbf{x}^{(i)} + b\)</span>, to predict <span class="math notranslate nohighlight">\(y\)</span> given <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <ul class="simple">
 <li><p>However, we would like the predictions of our classification model to be between 0 and 1 since our output variable <span class="math notranslate nohighlight">\(y\)</span> is either 0 or 1.</p></li>
 <li><p>This can be accomplished by using a “sigmoid function” which maps all input values to values between 0 and 1.</p></li>
@@ -790,11 +791,11 @@ Let’s implement this in Python.</p></li>
 </section>
 <section id="logistic-regression">
 <h2>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h2>
-<p><img align="left" src="/C1_W3/images/C1_W3_LogisticRegression_right.png"     style=" width:300px; padding: 10px; " > A logistic regression model applies the sigmoid to the familiar linear regression model as shown below:</p>
+<p><img align="left" src="../../assets/C1_W3/images/C1_W3_LogisticRegression_right.png"     style=" width:300px; padding: 10px; " > A logistic regression model applies the sigmoid to the familiar linear regression model as shown below:</p>
 <div class="math notranslate nohighlight">
-\[ f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = g(\mathbf{w} \cdot \mathbf{x}^{(i)} + b ) \tag{2} \]</div>
-<p>where</p>
-<p><span class="math notranslate nohighlight">\(g(z) = \frac{1}{1+e^{-z}}\tag{3}\)</span></p>
+\[ \begin{align}\begin{aligned} 
+f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = g(\mathbf{w} \cdot \mathbf{x}^{(i)} + b ) \tag{2} \\\text {   where  } \\g(z) = \frac{1}{1+e^{-z}}
+\end{aligned}\end{align} \]</div>
 <p>Let’s apply logistic regression to the categorical data example of tumor classification.<br />
 First, load the examples and initial values for the parameters.</p>
 <div class="cell docutils container">

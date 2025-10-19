@@ -78,6 +78,7 @@
     <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Optional Lab: Feature Engineering and Polynomial Regression" href="C1_W2_Lab04_FeatEng_PolyReg_Soln.html" />
@@ -768,7 +769,7 @@ document.write(`
 <section id="learning-rate">
 <h2>Learning Rate<a class="headerlink" href="#learning-rate" title="Link to this heading">#</a></h2>
 <figure>
-    <img src="/C1_W2/images/C1_W2_Lab06_learningrate.PNG" style="width:1200px;" >
+    <img src="../../assets/C1_W2/images/C1_W2_Lab06_learningrate.PNG" style="width:1200px;" >
 </figure>
 The lectures discussed some of the issues related to setting the learning rate $\alpha$. The learning rate controls the size of the update to the parameters. See equation (1) above. It is shared by all the parameters.  
 <p>Let’s run gradient descent and try a few settings of <span class="math notranslate nohighlight">\(\alpha\)</span> on our data set</p>
@@ -899,7 +900,7 @@ w,b found by gradient descent: w: [2.31e-01 4.18e-04 2.12e-04 4.81e-03], b: 0.00
 <section id="feature-scaling">
 <h2>Feature Scaling<a class="headerlink" href="#feature-scaling" title="Link to this heading">#</a></h2>
 <figure>
-    <img src="/C1_W2/images/C1_W2_Lab06_featurescalingheader.PNG" style="width:1200px;" >
+    <img src="../../assets/C1_W2/images/C1_W2_Lab06_featurescalingheader.PNG" style="width:1200px;" >
 </figure>
 The lectures described the importance of rescaling the dataset so the features have a similar range.
 If you are interested in the details of why this is the case, click on the 'details' header below. If not, the section below will walk through an implementation of how to do feature scaling.<details>
@@ -1151,7 +1152,7 @@ The point of generating our model is to use it to predict housing prices that ar
 </div>
 </div>
 <p><strong>Cost Contours</strong><br />
-<img align="left" src="/C1_W2/images/C1_W2_Lab06_contours.PNG"   style="width:240px;" >Another way to view feature scaling is in terms of the cost contours. When feature scales do not match, the plot of cost versus parameters in a contour plot is asymmetric.</p>
+<img align="left" src="../../assets/C1_W2/images/C1_W2_Lab06_contours.PNG"   style="width:240px;" >Another way to view feature scaling is in terms of the cost contours. When feature scales do not match, the plot of cost versus parameters in a contour plot is asymmetric.</p>
 <p>In the plot below, the scale of the parameters is matched. The left plot is the cost contour plot of w[0], the square feet versus w[1], the number of bedrooms before normalizing the features. The plot is so asymmetric, the curves completing the contours are not visible. In contrast, when the features are normalized, the cost contour is much more symmetric. The result is that updates to parameters during gradient descent can make equal progress for each parameter.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

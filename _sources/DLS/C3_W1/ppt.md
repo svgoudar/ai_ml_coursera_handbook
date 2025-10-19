@@ -1,9 +1,3 @@
----
-noteId: "22376220acad11f09e4cf9d4f2965b4e"
-tags: []
-
----
-
 
 ## Course 3 Week 1: Structuring Machine Learning Projects
 
