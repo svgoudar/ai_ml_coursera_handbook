@@ -4,10 +4,10 @@ tags: []
 
 ---
 
-## Course 3 Week 2: ML Strategy (2)
+## Course 5 Week 1: Recurrent Neural Networks
 
 ### Main Course PDF
 
-<iframe src="/C5_W1/C5_W1.pdf" width="100%" height="800px" frameborder="0">
+<iframe src="../../assets/C5_W1/C5_W1.pdf" width="100%" height="800px" frameborder="0">
   
 </iframe>

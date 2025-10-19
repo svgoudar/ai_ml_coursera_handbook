@@ -8,6 +8,6 @@ tags: []
 
 ### Main Course PDF
 
-<iframe src="/C5_W3/C5_W3.pdf" width="100%" height="800px" frameborder="0">
+<iframe src="../../assets/C5_W3/C5_W3.pdf" width="100%" height="800px" frameborder="0">
   
 </iframe>

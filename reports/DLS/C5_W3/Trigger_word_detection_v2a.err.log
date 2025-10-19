@@ -25,26 +25,35 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy as np
-from pydub import AudioSegment
-import random
-import sys
-import io
-import os
-import glob
-import IPython
-from td_utils import *
-%matplotlib inline
+### THIS CELL IS NOT EDITABLE
+
+# UNIT TEST
+def is_overlapping_test(target):
+    assert target((670, 1430), []) == False, "Overlap with an empty list must be False"
+    assert target((500, 1000), [(100, 499), (1001, 1100)]) == False, "Almost overlap, but still False"
+    assert target((750, 900), [(100, 750), (1001, 1100)]) == True, "Must overlap with the end of first segment"
+    assert target((750, 1250), [(300, 600), (1250, 1500)]) == True, "Must overlap with the beginning of second segment"
+    assert target((750, 1250), [(300, 600), (600, 1500), (1600, 1800)]) == True, "Is contained in second segment"
+    assert target((800, 1100), [(300, 600), (900, 1000), (1600, 1800)]) == True, "New segment contains the second segment"
+
+    print("\033[92m All tests passed!")
+    
+is_overlapping_test(is_overlapping)
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mpydub[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m AudioSegment
-[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mrandom[39;00m
-[32m      4[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01msys[39;00m
+[31mAssertionError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[15][39m[32m, line 14[39m
+[32m     10[39m     [38;5;28;01massert[39;00m target(([32m800[39m, [32m1100[39m), [([32m300[39m, [32m600[39m), ([32m900[39m, [32m1000[39m), ([32m1600[39m, [32m1800[39m)]) == [38;5;28;01mTrue[39;00m, [33m"[39m[33mNew segment contains the second segment[39m[33m"[39m
+[32m     12[39m     [38;5;28mprint[39m([33m"[39m[38;5;130;01m\033[39;00m[33m[92m All tests passed![39m[33m"[39m)
+[32m---> [39m[32m14[39m [43mis_overlapping_test[49m[43m([49m[43mis_overlapping[49m[43m)[49m
 
-[31mModuleNotFoundError[39m: No module named 'pydub'
+[36mCell[39m[36m [39m[32mIn[15][39m[32m, line 5[39m, in [36mis_overlapping_test[39m[34m(target)[39m
+[32m      4[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mis_overlapping_test[39m(target):
+[32m----> [39m[32m5[39m     [38;5;28;01massert[39;00m target(([32m670[39m, [32m1430[39m), []) == [38;5;28;01mFalse[39;00m, [33m"[39m[33mOverlap with an empty list must be False[39m[33m"[39m
+[32m      6[39m     [38;5;28;01massert[39;00m target(([32m500[39m, [32m1000[39m), [([32m100[39m, [32m499[39m), ([32m1001[39m, [32m1100[39m)]) == [38;5;28;01mFalse[39;00m, [33m"[39m[33mAlmost overlap, but still False[39m[33m"[39m
+[32m      7[39m     [38;5;28;01massert[39;00m target(([32m750[39m, [32m900[39m), [([32m100[39m, [32m750[39m), ([32m1001[39m, [32m1100[39m)]) == [38;5;28;01mTrue[39;00m, [33m"[39m[33mMust overlap with the end of first segment[39m[33m"[39m
+
+[31mAssertionError[39m: Overlap with an empty list must be False
 

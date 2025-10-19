@@ -4,6 +4,6 @@ tags: []
 
 ---
 
-## Course 1 Week 1: Introduction to Machine Learning
+## Course 1 Week 4: Deep Neural Networks
 
-<iframe src="/C1_W4/C1_W4.pdf" width="100%" height="1000px"></iframe>
+<iframe src="../../assets/C1_W4/C1_W4.pdf" width="100%" height="1000px"></iframe>

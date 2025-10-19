@@ -4,10 +4,10 @@ tags: []
 
 ---
 
-## Course 3 Week 2: ML Strategy (2)
+## Course 4 Week 4: Special Applications
 
 ### Main Course PDF
 
-<iframe src="/C4_W4/C4_W4.pdf" width="100%" height="800px" frameborder="0">
+<iframe src="../../assets/C4_W4.pdf" width="100%" height="800px" frameborder="0">
   
 </iframe>

@@ -4,6 +4,6 @@ tags: []
 
 ---
 
-## Course 1 Week 1: Introduction to Machine Learning
+## Course 2 Week 3: Hyperparameter Tuning and Regularization
 
-<iframe src="/C2_W3/C2_W3_DL.pdf" width="100%" height="1000px"></iframe>
+<iframe src="../../assets/C2_W3/C2_W3_DL.pdf" width="100%" height="1000px"></iframe>

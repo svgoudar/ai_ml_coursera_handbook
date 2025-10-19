@@ -4,10 +4,10 @@ tags: []
 
 ---
 
-## Course 3 Week 2: ML Strategy (2)
+## Course 4 Week 2: Deep Convolutional Models
 
 ### Main Course PDF
 
-<iframe src="/C4_W2/C4_W2.pdf" width="100%" height="800px" frameborder="0">
+<iframe src="../../assets/C4_W2/C4_W2.pdf" width="100%" height="800px" frameborder="0">
   
 </iframe>
