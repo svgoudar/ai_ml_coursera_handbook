@@ -1,0 +1,1981 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Assignment 1: Sentiment with Deep Neural Networks &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLP/C3_W1/C3W1_Practice_Assignment';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/NLP/C3_W1/C3W1_Practice_Assignment.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Vanilla RNNs and GRUs" href="C3W1_RNNs.html" />
+    <link rel="prev" title="Hidden State Activation : Ungraded Lecture Notebook" href="C3W1_Hidden_State_Activation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">NLP Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Assignment.html">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_1_strings_tags.html">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Assignment.html">Assignment 2 - Named Entity Recognition (NER)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/NLP/C3_W1/C3W1_Practice_Assignment.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FNLP/C3_W1/C3W1_Practice_Assignment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/NLP/C3_W1/C3W1_Practice_Assignment.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Assignment 1:  Sentiment with Deep Neural Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-successful-grading-of-your-assignment">TIPS FOR SUCCESSFUL GRADING OF YOUR ASSIGNMENT:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-libraries">1 - Import the Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-data">2 - Import the Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-split-the-data">2.1 - Load and split the Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-vocabulary">2.2 - Build the Vocabulary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-build-vocabulary">Exercise 1 - build_vocabulary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-a-tweet-to-a-tensor">2.3 - Convert a Tweet to a Tensor</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-max-len">Exercise 2 - max_len</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-padded-sequence">Exercise 3 - padded_sequence</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-structure-of-the-neural-network-layers">3 - Define the structure of the neural network layers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relu">3.1 - ReLU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-relu">Exercise 4 - relu</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">3.2 - Sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-sigmoid">Exercise 5 - sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-class">3.3 - Dense Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-dense">Exercise 6 - Dense</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">3.4 - Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-create-model">Exercise 7 - create_model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluate-the-model">4 - Evaluate the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-on-data">4.1 - Predict on Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-with-your-own-input">5 - Test With Your Own Input</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-prediction-function">5.1 - Create the Prediction Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-graded-very-positive-tweet">Exercise 8 - graded_very_positive_tweet</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings">6 - Word Embeddings</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="assignment-1-sentiment-with-deep-neural-networks">
+<h1>Assignment 1:  Sentiment with Deep Neural Networks<a class="headerlink" href="#assignment-1-sentiment-with-deep-neural-networks" title="Link to this heading">#</a></h1>
+<p>Welcome to the first assignment of course 3. <strong>This is a practice assignment</strong>, which means that the grade you receive won’t count towards your final grade of the course. <strong>However you can still submit your solutions and receive a grade along with feedback from the grader.</strong> Before getting started take some time to read the following tips:</p>
+<section id="tips-for-successful-grading-of-your-assignment">
+<h2>TIPS FOR SUCCESSFUL GRADING OF YOUR ASSIGNMENT:<a class="headerlink" href="#tips-for-successful-grading-of-your-assignment" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>All cells are frozen except for the ones where you need to submit your solutions.</p></li>
+<li><p>You can add new cells to experiment but these will be omitted by the grader, so don’t rely on newly created cells to host your solution code, use the provided places for this.</p></li>
+<li><p>You can add the comment # grade-up-to-here in any graded cell to signal the grader that it must only evaluate up to that point. This is helpful if you want to check if you are on the right track even if you are not done with the whole assignment. Be sure to remember to delete the comment afterwards!</p></li>
+<li><p>To submit your notebook, save it and then click on the blue submit button at the beginning of the page.</p></li>
+</ul>
+<p>In this assignment, you will explore sentiment analysis using deep neural networks.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Import the Libraries</span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Importing the Data</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2-1"><span class="xref myst">2.1 - Load and split the Data</span></a></p></li>
+<li><p><a class="reference internal" href="#2-2"><span class="xref myst">2.2 - Build the Vocabulary</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - build_vocabulary</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2-3"><span class="xref myst">2.3 - Convert a Tweet to a Tensor</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - max_len</span></a></p></li>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - padded_sequences</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Define the structure of the neural network layers</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3-1"><span class="xref myst">3.1 - ReLU</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-4"><span class="xref myst">Exercise 4 - relu</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3.2"><span class="xref myst">3.2 - Sigmoid</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-5"><span class="xref myst">Exercise 5 - sigmoid</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3-3"><span class="xref myst">3.3 - Dense class</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-6"><span class="xref myst">Exercise 6 - Dense</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3-4"><span class="xref myst">3.3 - Model</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-7"><span class="xref myst">Exercise 7 - create_model</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Evaluate the model</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#4-1"><span class="xref myst">4.1 Predict on Data</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - Test With Your Own Input</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#5-1"><span class="xref myst">5.1 Create the Prediction Function</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-8"><span class="xref myst">Exercise 8 - graded_very_positive_tweet</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst">6 - Word Embeddings</span></a></p></li>
+</ul>
+<p>In course 1, you implemented Logistic regression and Naive Bayes for sentiment analysis. Even though the two models performed very well on the dataset of tweets, they fail to catch any meaning beyond the meaning of words. For this you can use neural networks. In this assignment, you will write a program that uses a simple deep neural network to identify sentiment in text. By completing this assignment, you will:</p>
+<ul class="simple">
+<li><p>Understand how you can design a neural network using tensorflow</p></li>
+<li><p>Build and train a model</p></li>
+<li><p>Use a binary cross-entropy loss function</p></li>
+<li><p>Compute the accuracy of your model</p></li>
+<li><p>Predict using your own input</p></li>
+</ul>
+<p>As you can tell, this model follows a similar structure to the one you previously implemented in the second course of this specialization.</p>
+<ul class="simple">
+<li><p>Indeed most of the deep nets you will be implementing will have a similar structure. The only thing that changes is the model architecture, the inputs, and the outputs. In this assignment, you will first create the neural network layers from scratch using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> to better understand what is going on. After this you will use the library <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> for building and training the model.</p></li>
+</ul>
+<p><a name="1"></a></p>
+</section>
+<section id="import-the-libraries">
+<h2>1 - Import the Libraries<a class="headerlink" href="#import-the-libraries" title="Link to this heading">#</a></h2>
+<p>Run the next cell to import the Python packages you’ll need for this assignment.</p>
+<p>Note the <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">utils</span> <span class="pre">import</span> <span class="pre">...</span></code> line. This line imports the functions that were specifically written for this assignment. If you want to look at what these functions are, go to <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Open...</span></code> and open the <code class="docutils literal notranslate"><span class="pre">utils.py</span></code> file to have a look.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_tweets</span><span class="p">,</span> <span class="n">process_tweet</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">-------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                     </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_tweets</span><span class="p">,</span> <span class="n">process_tweet</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;inline&#39;</span><span class="p">)</span>
+
+<span class="n">File</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Github</span>\<span class="n">Coursera_Materials</span>\<span class="n">coursera_notes</span>\<span class="n">NLP</span>\<span class="n">C3_W1</span>\<span class="n">utils</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1">#nltk.download(&#39;twitter_samples&#39;)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1">#nltk.download(&#39;stopwords&#39;)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1">#nltk.download(&#39;averaged_perceptron_tagger&#39;)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1">#nltk.download(&#39;wordnet&#39;)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">nltk.tokenize</span><span class="w"> </span><span class="kn">import</span> <span class="n">TweetTokenizer</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;nltk&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">w1_unittest</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2"></a></p>
+</section>
+<section id="import-the-data">
+<h2>2 - Import the Data<a class="headerlink" href="#import-the-data" title="Link to this heading">#</a></h2>
+<p><a name="2-1"></a></p>
+<section id="load-and-split-the-data">
+<h3>2.1 - Load and split the Data<a class="headerlink" href="#load-and-split-the-data" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Import the positive and negative tweets</p></li>
+<li><p>Have a look at some examples of the tweets</p></li>
+<li><p>Split the data into the training and validation sets</p></li>
+<li><p>Create labels for the data</p></li>
+</ul>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load positive and negative tweets</span>
+<span class="n">all_positive_tweets</span><span class="p">,</span> <span class="n">all_negative_tweets</span> <span class="o">=</span> <span class="n">load_tweets</span><span class="p">()</span>
+
+<span class="c1"># View the total number of positive and negative tweets.</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The number of positive tweets: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_positive_tweets</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The number of negative tweets: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_negative_tweets</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you can have a look at some examples of tweets.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change the tweet number to any number between 0 and 4999 to see a different pair of tweets.</span>
+<span class="n">tweet_number</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Positive tweet example:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">all_positive_tweets</span><span class="p">[</span><span class="n">tweet_number</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Negative tweet example:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">all_negative_tweets</span><span class="p">[</span><span class="n">tweet_number</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here you will process the tweets. This part of the code has been implemented for you.  The processing includes:</p>
+<ul class="simple">
+<li><p>tokenizing the sentence (splitting to words)</p></li>
+<li><p>removing stock market tickers like $GE</p></li>
+<li><p>removing old style retweet text “RT”</p></li>
+<li><p>removing hyperlinks</p></li>
+<li><p>removing hashtags</p></li>
+<li><p>lowercasing</p></li>
+<li><p>removing stopwords and punctuation</p></li>
+<li><p>stemming</p></li>
+</ul>
+<p>Some of these things are general steps you would do when processing any text, some others are very “tweet-specific”. The details of the process_tweet function are available in <a class="reference external" href="http://utils.py">utils.py</a> file</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Process all the tweets: tokenize the string, remove tickers, handles, punctuation and stopwords, stem the words</span>
+<span class="n">all_positive_tweets_processed</span> <span class="o">=</span> <span class="p">[</span><span class="n">process_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">all_positive_tweets</span><span class="p">]</span>
+<span class="n">all_negative_tweets_processed</span> <span class="o">=</span> <span class="p">[</span><span class="n">process_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">all_negative_tweets</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you can have a look at some examples of how the tweets look like after being processed.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change the tweet number to any number between 0 and 4999 to see a different pair of tweets.</span>
+<span class="n">tweet_number</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Positive processed tweet example:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">all_positive_tweets_processed</span><span class="p">[</span><span class="n">tweet_number</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Negative processed tweet example:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">all_negative_tweets_processed</span><span class="p">[</span><span class="n">tweet_number</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, you split the tweets into the training and validation datasets. For this example you can use 80 % of the data for training and 20 % of the data for validation.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Split positive set into validation and training</span>
+<span class="n">val_pos</span> <span class="o">=</span> <span class="n">all_positive_tweets_processed</span><span class="p">[</span><span class="mi">4000</span><span class="p">:]</span>
+<span class="n">train_pos</span> <span class="o">=</span> <span class="n">all_positive_tweets_processed</span><span class="p">[:</span><span class="mi">4000</span><span class="p">]</span>
+<span class="c1"># Split negative set into validation and training</span>
+<span class="n">val_neg</span> <span class="o">=</span> <span class="n">all_negative_tweets_processed</span><span class="p">[</span><span class="mi">4000</span><span class="p">:]</span>
+<span class="n">train_neg</span> <span class="o">=</span> <span class="n">all_negative_tweets_processed</span><span class="p">[:</span><span class="mi">4000</span><span class="p">]</span>
+
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">train_pos</span> <span class="o">+</span> <span class="n">train_neg</span> 
+<span class="n">val_x</span>  <span class="o">=</span> <span class="n">val_pos</span> <span class="o">+</span> <span class="n">val_neg</span>
+
+<span class="c1"># Set the labels for the training and validation set (1 for positive, 0 for negative)</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">train_pos</span><span class="p">]</span> <span class="o">+</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">train_neg</span><span class="p">]</span>
+<span class="n">val_y</span>  <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">val_pos</span><span class="p">]</span> <span class="o">+</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">val_neg</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train_x</span><span class="p">)</span><span class="si">}</span><span class="s2"> sentences for training.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train_y</span><span class="p">)</span><span class="si">}</span><span class="s2"> labels for training.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val_x</span><span class="p">)</span><span class="si">}</span><span class="s2"> sentences for validation.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val_y</span><span class="p">)</span><span class="si">}</span><span class="s2"> labels for validation.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2-2"></a></p>
+</section>
+<section id="build-the-vocabulary">
+<h3>2.2 - Build the Vocabulary<a class="headerlink" href="#build-the-vocabulary" title="Link to this heading">#</a></h3>
+<p>Now build the vocabulary.</p>
+<ul class="simple">
+<li><p>Map each word in each tweet to an integer (an “index”).</p></li>
+<li><p>Note that you will build the vocabulary based on the training data.</p></li>
+<li><p>To do so, you will assign an index to every word by iterating over your training set.</p></li>
+</ul>
+<p>The vocabulary will also include some special tokens</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">''</span></code>: padding</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'[UNK]'</span></code>: a token representing any word that is not in the vocabulary.</p></li>
+</ul>
+<p><a name="ex-1"></a></p>
+</section>
+<section id="exercise-1-build-vocabulary">
+<h3>Exercise 1 - build_vocabulary<a class="headerlink" href="#exercise-1-build-vocabulary" title="Link to this heading">#</a></h3>
+<p>Build the vocabulary from all of the tweets in the training set.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: build_vocabulary</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_vocabulary</span><span class="p">(</span><span class="n">corpus</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Function that builds a vocabulary from the given corpus</span>
+<span class="sd">    Input: </span>
+<span class="sd">        - corpus (list): the corpus</span>
+<span class="sd">    Output:</span>
+<span class="sd">        - vocab (dict): Dictionary of all the words in the corpus.</span>
+<span class="sd">                The keys are the words and the values are integers.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># The vocabulary includes special tokens like padding token and token for unknown words</span>
+    <span class="c1"># Keys are words and values are distinct integers (increasing by one from 0)</span>
+    <span class="n">vocab</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;[UNK]&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span> 
+
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># For each tweet in the training set</span>
+    <span class="k">for</span> <span class="kc">None</span> <span class="ow">in</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># For each word in the tweet</span>
+        <span class="k">for</span> <span class="kc">None</span> <span class="ow">in</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># If the word is not in vocabulary yet, add it to vocabulary</span>
+            <span class="k">if</span> <span class="kc">None</span> <span class="ow">not</span> <span class="ow">in</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">vocab</span>
+
+
+<span class="n">vocab</span> <span class="o">=</span> <span class="n">build_vocabulary</span><span class="p">(</span><span class="n">train_x</span><span class="p">)</span>
+<span class="n">num_words</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vocabulary contains </span><span class="si">{</span><span class="n">num_words</span><span class="si">}</span><span class="s2"> words</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The dictionary <code class="docutils literal notranslate"><span class="pre">Vocab</span></code> will look like this:</p>
+<div class="highlight-CPP notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="err">&#39;&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;</span><span class="p">[</span><span class="n">UNK</span><span class="p">]</span><span class="err">&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;</span><span class="n">followfriday</span><span class="err">&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;</span><span class="n">top</span><span class="err">&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w"> </span><span class="err">&#39;</span><span class="n">engage</span><span class="err">&#39;</span><span class="o">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w"> </span><span class="p">...</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Each unique word has a unique integer associated with it.</p></li>
+<li><p>The total number of words in Vocab: 9535</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test the build_vocabulary function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_build_vocabulary</span><span class="p">(</span><span class="n">build_vocabulary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2-3"></a></p>
+</section>
+<section id="convert-a-tweet-to-a-tensor">
+<h3>2.3 - Convert a Tweet to a Tensor<a class="headerlink" href="#convert-a-tweet-to-a-tensor" title="Link to this heading">#</a></h3>
+<p>Next, you will write a function that will convert each tweet to a tensor (a list of integer IDs representing the processed tweet).</p>
+<ul class="simple">
+<li><p>You already transformed each tweet to a list of tokens with the <code class="docutils literal notranslate"><span class="pre">process_tweet</span></code> function in order to make a vocabulary.</p></li>
+<li><p>Now you will transform the tokens to integers and pad the tensors so they all have equal length.</p></li>
+<li><p>Note, the returned data type will be a <strong>regular Python <code class="docutils literal notranslate"><span class="pre">list()</span></code></strong></p>
+<ul>
+<li><p>You won’t use TensorFlow in this function</p></li>
+<li><p>You also won’t use a numpy array</p></li>
+</ul>
+</li>
+<li><p>For words in the tweet that are not in the vocabulary, set them to the unique ID for the token <code class="docutils literal notranslate"><span class="pre">[UNK]</span></code>.</p></li>
+</ul>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h4>
+<p>You had the original tweet:</p>
+<div class="highlight-CPP notranslate"><div class="highlight"><pre><span></span><span class="err">&#39;@</span><span class="n">happypuppy</span><span class="p">,</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">Maria</span><span class="w"> </span><span class="n">happy</span><span class="o">?</span><span class="err">&#39;</span>
+</pre></div>
+</div>
+<p>The tweet is already converted into a list of tokens (including only relevant words).</p>
+<div class="highlight-CPP notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="err">&#39;</span><span class="n">maria</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="n">happy</span><span class="err">&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now you will convert each word into its unique integer.</p>
+<div class="highlight-CPP notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Notice that the word “maria” is not in the vocabulary, so it is assigned the unique integer associated with the <code class="docutils literal notranslate"><span class="pre">[UNK]</span></code> token, because it is considered “unknown.”</p></li>
+</ul>
+<p>After that, you will pad the tweet with zeros so that all the tweets have the same length.</p>
+<div class="highlight-CPP notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>First, let’s have a look at the length of the processed tweets. You have to look at all tweets in the training and validation set and find the longest one to pad all of them to the maximum length.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tweet lengths</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">train_x</span> <span class="o">+</span> <span class="n">val_x</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now find the length of the longest tweet. Remember to look at the training and the validation set.</p>
+<p><a name="ex-2"></a></p>
+</section>
+</section>
+<section id="exercise-2-max-len">
+<h3>Exercise 2 - max_len<a class="headerlink" href="#exercise-2-max-len" title="Link to this heading">#</a></h3>
+<p>Calculate the length of the longest tweet.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: max_length</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_length</span><span class="p">(</span><span class="n">training_x</span><span class="p">,</span> <span class="n">validation_x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the length of the longest tweet in the training and validation sets.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        training_x (list): The tweets in the training set.</span>
+<span class="sd">        validation_x (list): The tweets in the validation set.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Length of the longest tweet.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">### START CODE HERE ###</span>
+
+    <span class="n">max_len</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ###</span>
+    <span class="k">return</span> <span class="n">max_len</span>
+
+<span class="n">max_len</span> <span class="o">=</span> <span class="n">max_length</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">val_x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The length of the longest tweet is </span><span class="si">{</span><span class="n">max_len</span><span class="si">}</span><span class="s1"> tokens.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<p>The length of the longest tweet is 51 tokens.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your max_len function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_max_length</span><span class="p">(</span><span class="n">max_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="ex-3"></a></p>
+</section>
+<section id="exercise-3-padded-sequence">
+<h3>Exercise 3 - padded_sequence<a class="headerlink" href="#exercise-3-padded-sequence" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">padded_sequence</span></code> function to transform sequences of words into padded sequences of numbers. A couple of things to notice:</p>
+<ul class="simple">
+<li><p>The term <code class="docutils literal notranslate"><span class="pre">tensor</span></code> is used to refer to the encoded tweet but the function should return a regular python list, not a <code class="docutils literal notranslate"><span class="pre">tf.tensor</span></code></p></li>
+<li><p>There is no need to truncate the tweet if it exceeds <code class="docutils literal notranslate"><span class="pre">max_len</span></code> as you already know the maximum length of the tweets beforehand</p></li>
+</ul>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: padded_sequence</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">padded_sequence</span><span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">vocab_dict</span><span class="p">,</span> <span class="n">max_len</span><span class="p">,</span> <span class="n">unk_token</span><span class="o">=</span><span class="s1">&#39;[UNK]&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;transform sequences of words into padded sequences of numbers</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tweet (list): A single tweet encoded as a list of strings.</span>
+<span class="sd">        vocab_dict (dict): Vocabulary.</span>
+<span class="sd">        max_len (int): Length of the longest tweet.</span>
+<span class="sd">        unk_token (str, optional): Unknown token. Defaults to &#39;[UNK]&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Padded tweet encoded as a list of int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># Find the ID of the UNK token, to use it when you encounter a new word</span>
+    <span class="n">unk_ID</span> <span class="o">=</span> <span class="n">vocab_dict</span><span class="p">[</span><span class="n">unk_token</span><span class="p">]</span> 
+    
+    <span class="c1"># First convert the words to integers by looking up the vocab_dict</span>
+    <span class="kc">None</span>
+
+    <span class="c1"># Then pad the tensor with zeroes up to the length max_len</span>
+    <span class="n">padded_tensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">### END CODE HERE ###</span>
+
+    <span class="k">return</span> <span class="n">padded_tensor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Test the function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your padded_sequence function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_padded_sequence</span><span class="p">(</span><span class="n">padded_sequence</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pad the train and validation dataset</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_x_padded</span> <span class="o">=</span> <span class="p">[</span><span class="n">padded_sequence</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">train_x</span><span class="p">]</span>
+<span class="n">val_x_padded</span> <span class="o">=</span> <span class="p">[</span><span class="n">padded_sequence</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">val_x</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3"></a></p>
+</section>
+</section>
+<section id="define-the-structure-of-the-neural-network-layers">
+<h2>3 - Define the structure of the neural network layers<a class="headerlink" href="#define-the-structure-of-the-neural-network-layers" title="Link to this heading">#</a></h2>
+<p>In this part, you will write your own functions and layers for the neural network to test your understanding of the implementation. It will be similar to the one used in Keras and PyTorch. Writing your own small framework will help you understand how they all work and use them effectively in the future.</p>
+<p>You will implement the ReLU and sigmoid functions, which you will use as activation functions for the neural network, as well as a fully connected (dense) layer.</p>
+<p><a name="3-1"></a></p>
+<section id="relu">
+<h3>3.1 - ReLU<a class="headerlink" href="#relu" title="Link to this heading">#</a></h3>
+<p>You will now implement the ReLU activation in a function below. The ReLU function looks as follows:
+<img src = "../../assets/C3_W1/images/relu.jpg" style="width:300px;height:150px;"/></p>
+<div class="math notranslate nohighlight">
+\[ \mathrm{ReLU}(x) = \mathrm{max}(0,x) \]</div>
+<p><a name="ex-4"></a></p>
+</section>
+<section id="exercise-4-relu">
+<h3>Exercise 4 - relu<a class="headerlink" href="#exercise-4-relu" title="Link to this heading">#</a></h3>
+<p><strong>Instructions:</strong> Implement the ReLU activation function below. Your function should take in a matrix or vector and it should transform all the negative numbers into 0 while keeping all the positive numbers intact.</p>
+<p>Notice you can get the maximum of two numbers by using <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.maximum.html">np.maximum</a>.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: relu</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">relu</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Relu activation function implementation</span>
+<span class="sd">    Input: </span>
+<span class="sd">        - x (numpy array)</span>
+<span class="sd">    Output:</span>
+<span class="sd">        - activation (numpy array): input with negative values set to zero</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">### START CODE HERE ###</span>
+
+    <span class="n">activation</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">### END CODE HERE ###</span>
+
+    <span class="k">return</span> <span class="n">activation</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the output of your function</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test data is:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output of relu is:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">data</span> <span class="ow">is</span><span class="p">:</span>
+<span class="p">[[</span><span class="o">-</span><span class="mf">2.</span> <span class="o">-</span><span class="mf">1.</span>  <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">1.</span>  <span class="mf">2.</span><span class="p">]]</span>
+ 
+<span class="n">Output</span> <span class="n">of</span> <span class="n">relu</span> <span class="ow">is</span><span class="p">:</span>
+<span class="p">[[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">2.</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your relu function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_relu</span><span class="p">(</span><span class="n">relu</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3-2"></a></p>
+</section>
+<section id="sigmoid">
+<h3>3.2 - Sigmoid<a class="headerlink" href="#sigmoid" title="Link to this heading">#</a></h3>
+<p>You will now implement the sigmoid activation in a function below. The sigmoid function looks as follows:
+<img src = "../../assets/C3_W1/images/sigmoid.jpg" style="width:300px;height:150px;"/></p>
+<div class="math notranslate nohighlight">
+\[ \mathrm{sigmoid}(x) = \frac{1}{1 + e^{-x}} \]</div>
+<p><a name="ex-5"></a></p>
+</section>
+<section id="exercise-5-sigmoid">
+<h3>Exercise 5 - sigmoid<a class="headerlink" href="#exercise-5-sigmoid" title="Link to this heading">#</a></h3>
+<p><strong>Instructions:</strong> Implement the sigmoid activation function below. Your function should take in a matrix or vector and it should transform all the numbers according to the formula above.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: sigmoid</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Sigmoid activation function implementation</span>
+<span class="sd">    Input: </span>
+<span class="sd">        - x (numpy array)</span>
+<span class="sd">    Output:</span>
+<span class="sd">        - activation (numpy array)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">### START CODE HERE ###</span>
+
+    <span class="n">activation</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">### END CODE HERE ###</span>
+
+    <span class="k">return</span> <span class="n">activation</span>    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the output of your function</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">1000.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test data is:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Output of sigmoid is:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">data</span> <span class="ow">is</span><span class="p">:</span>
+<span class="p">[[</span><span class="o">-</span><span class="mf">1000.</span>    <span class="o">-</span><span class="mf">1.</span>     <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span>    <span class="mf">0.</span>     <span class="mf">1.</span>  <span class="mf">1000.</span><span class="p">]]</span>
+
+<span class="n">Output</span> <span class="n">of</span> <span class="n">sigmoid</span> <span class="ow">is</span><span class="p">:</span>
+<span class="p">[[</span><span class="mf">0.</span>         <span class="mf">0.26894142</span> <span class="mf">0.5</span>       <span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.5</span>        <span class="mf">0.73105858</span> <span class="mf">1.</span>        <span class="p">]]</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your sigmoid function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_sigmoid</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3.3"></a></p>
+</section>
+<section id="dense-class">
+<h3>3.3 - Dense Class<a class="headerlink" href="#dense-class" title="Link to this heading">#</a></h3>
+<p>Implement the weight initialization in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method.</p>
+<ul class="simple">
+<li><p>Weights are initialized with a random key.</p></li>
+<li><p>The shape of the weights (num_rows, num_cols) should equal the number of columns in the input data (this is in the last column) and the number of units respectively.</p>
+<ul>
+<li><p>The number of rows in the weight matrix should equal the number of columns in the input data <code class="docutils literal notranslate"><span class="pre">x</span></code>.  Since <code class="docutils literal notranslate"><span class="pre">x</span></code> may have 2 dimensions if it represents a single training example (row, col), or three dimensions (batch_size, row, col), get the last dimension from the tuple that holds the dimensions of x.</p></li>
+<li><p>The number of columns in the weight matrix is the number of units chosen for that dense layer.</p></li>
+</ul>
+</li>
+<li><p>The values generated should have a mean of 0 and standard deviation of <code class="docutils literal notranslate"><span class="pre">stdev</span></code>.</p>
+<ul>
+<li><p>To initialize random weights, a random generator is created using <code class="docutils literal notranslate"><span class="pre">random_generator</span> <span class="pre">=</span> <span class="pre">np.random.default_rng(seed=random_seed)</span></code>. This part is implemented for you. You will use <code class="docutils literal notranslate"><span class="pre">random_generator.normal(...)</span></code> to create your random weights. Check <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html">here</a> how the random generator works.</p></li>
+<li><p>Please don’t change the <code class="docutils literal notranslate"><span class="pre">random_seed</span></code>, so that the results are reproducible for testing (and you can be fairly graded).</p></li>
+</ul>
+</li>
+</ul>
+<p>Implement the <code class="docutils literal notranslate"><span class="pre">forward</span></code> function of the Dense class.</p>
+<ul class="simple">
+<li><p>The forward function multiplies the input to the layer (<code class="docutils literal notranslate"><span class="pre">x</span></code>) by the weight matrix (<code class="docutils literal notranslate"><span class="pre">W</span></code>)</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\mathrm{forward}(\mathbf{x},\mathbf{W}) = \mathbf{xW} \]</div>
+<ul class="simple">
+<li><p>You can use <code class="docutils literal notranslate"><span class="pre">numpy.dot</span></code> to perform the matrix multiplication.</p></li>
+</ul>
+<p><a name="ex-6"></a></p>
+</section>
+<section id="exercise-6-dense">
+<h3>Exercise 6 - Dense<a class="headerlink" href="#exercise-6-dense" title="Link to this heading">#</a></h3>
+<p>Implement the <code class="docutils literal notranslate"><span class="pre">Dense</span></code> class. You might want to check how normal random numbers can be generated with numpy by checking the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.normal.html#numpy.random.Generator.normal">docs</a>.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED CLASS: Dense</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Dense</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A dense (fully-connected) layer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Please implement &#39;__init__&#39;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_units</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span> <span class="n">stdev</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+        
+        <span class="c1"># Set the number of units in this layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_units</span> <span class="o">=</span> <span class="n">n_units</span>
+        <span class="c1"># Set the random key for initializing weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_generator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">activation</span>
+        
+        <span class="c1">### START CODE HERE ###</span>
+
+        <span class="c1"># Generate the weight matrix from a normal distribution and standard deviation of &#39;stdev&#39;</span>
+        <span class="c1"># Set the size of the matrix w</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+        
+        <span class="c1">### END CODE HERE ##</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">w</span>
+        
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    
+    <span class="c1"># Please implement &#39;forward()&#39;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        
+        <span class="c1">### START CODE HERE ###</span>
+
+        <span class="c1"># Matrix multiply x and the weight matrix</span>
+        <span class="n">dense</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Apply the activation function</span>
+        <span class="n">dense</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1">### END CODE HERE ###</span>
+        <span class="k">return</span> <span class="n">dense</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># random_key = np.random.get_prng()  # sets random seed</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">]])</span> <span class="c1"># input array</span>
+
+<span class="c1"># Testing your Dense layer </span>
+<span class="n">dense_layer</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">n_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">relu</span><span class="p">)</span>  <span class="c1">#sets  number of units in dense layer</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Weights are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">dense_layer</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span> <span class="c1">#Returns randomly generated weights</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Foward function output is:&quot;</span><span class="p">,</span> <span class="n">dense_layer</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="c1"># Returns multiplied values of units and weights</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Weights</span> <span class="n">are</span><span class="p">:</span>
+ <span class="p">[[</span> <span class="mf">0.03047171</span> <span class="o">-</span><span class="mf">0.10399841</span>  <span class="mf">0.07504512</span>  <span class="mf">0.09405647</span> <span class="o">-</span><span class="mf">0.19510352</span> <span class="o">-</span><span class="mf">0.13021795</span>
+   <span class="mf">0.01278404</span> <span class="o">-</span><span class="mf">0.03162426</span> <span class="o">-</span><span class="mf">0.00168012</span> <span class="o">-</span><span class="mf">0.08530439</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.0879398</span>   <span class="mf">0.07777919</span>  <span class="mf">0.00660307</span>  <span class="mf">0.11272412</span>  <span class="mf">0.04675093</span> <span class="o">-</span><span class="mf">0.08592925</span>
+   <span class="mf">0.03687508</span> <span class="o">-</span><span class="mf">0.09588826</span>  <span class="mf">0.08784503</span> <span class="o">-</span><span class="mf">0.00499259</span><span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">0.01848624</span> <span class="o">-</span><span class="mf">0.06809295</span>  <span class="mf">0.12225413</span> <span class="o">-</span><span class="mf">0.01545295</span> <span class="o">-</span><span class="mf">0.04283278</span> <span class="o">-</span><span class="mf">0.03521336</span>
+   <span class="mf">0.05323092</span>  <span class="mf">0.03654441</span>  <span class="mf">0.04127326</span>  <span class="mf">0.0430821</span> <span class="p">]]</span>
+
+<span class="n">Foward</span> <span class="n">function</span> <span class="n">output</span> <span class="ow">is</span><span class="p">:</span> <span class="p">[[</span><span class="mf">0.21436609</span> <span class="mf">0.</span>         <span class="mf">3.25266507</span> <span class="mf">0.59085808</span> <span class="mf">0.</span>         <span class="mf">0.</span>
+  <span class="mf">1.61446659</span> <span class="mf">0.17914382</span> <span class="mf">1.64338651</span> <span class="mf">0.87149558</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Test the Dense class</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your Dense class</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_Dense</span><span class="p">(</span><span class="n">Dense</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3-4"></a></p>
+</section>
+<section id="model">
+<h3>3.4 - Model<a class="headerlink" href="#model" title="Link to this heading">#</a></h3>
+<p>Now you will implement a classifier using neural networks. Here is the model architecture you will be implementing.</p>
+<img src = "../../assets/C3_W1/images/nn.jpg"/>
+<p>For the model implementation, you will use <code class="docutils literal notranslate"><span class="pre">TensorFlow</span></code> module, imported as <code class="docutils literal notranslate"><span class="pre">tf</span></code>. Your model will consist of layers and activation functions that you implemented above, but you will take them directly from the tensorflow library.</p>
+<p>You will use the <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Sequential">tf.keras.Sequential</a> module, which allows you to stack the layers in a sequence as you want them in the model. You will use the following layers:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding">tf.keras.layers.Embedding</a></p>
+<ul>
+<li><p>Turns positive integers (word indices) into vectors of fixed size. You can imagine it as creating one-hot vectors out of indices and then running them through a fully-connected (dense) layer.</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/GlobalAveragePooling1D">tf.keras.layers.GlobalAveragePooling1D</a></p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense">tf.keras.layers.Dense</a></p>
+<ul>
+<li><p>Regular fully connected layer</p></li>
+</ul>
+</li>
+</ul>
+<p>Please use the <code class="docutils literal notranslate"><span class="pre">help</span></code> function to view documentation for each layer.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># View documentation on how to implement the layers in tf.</span>
+<span class="c1"># help(tf.keras.Sequential)</span>
+<span class="c1"># help(tf.keras.layers.Embedding)</span>
+<span class="c1"># help(tf.keras.layers.GlobalAveragePooling1D)</span>
+<span class="c1"># help(tf.keras.layers.Dense)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="ex-7"></a></p>
+</section>
+<section id="exercise-7-create-model">
+<h3>Exercise 7 - create_model<a class="headerlink" href="#exercise-7-create-model" title="Link to this heading">#</a></h3>
+<p>Implement the create_model function.</p>
+<p>First you need to create the model. The <code class="docutils literal notranslate"><span class="pre">tf.keras.Sequential</span></code> has been implemented for you. Within it you should put the following layers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.keras.layers.Embedding</span></code> with the size <code class="docutils literal notranslate"><span class="pre">num_words</span></code> times <code class="docutils literal notranslate"><span class="pre">embeding_dim</span></code> and the <code class="docutils literal notranslate"><span class="pre">input_length</span></code> set to the length of the input sequences (which is the length of the longest tweet).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.keras.layers.GlobalAveragePooling1D</span></code> with no extra parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tf.keras.layers.Dense</span></code> with the size of one (this is your classification output) and <code class="docutils literal notranslate"><span class="pre">'sigmoid'</span></code> activation passed to the  <code class="docutils literal notranslate"><span class="pre">activation</span></code> keyword parameter.
+Make sure to separate the layers with a comma.</p></li>
+</ul>
+<p>Then you need to compile the model. Here you can look at all the parameters you can set when compiling the model:  <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">tf.keras.Model</a>. In this notebook, you just need to set the loss to <code class="docutils literal notranslate"><span class="pre">'binary_crossentropy'</span></code> (because you are doing binary classification with a sigmoid function at the output), the optimizer to <code class="docutils literal notranslate"><span class="pre">'adam'</span></code> and the metrics to <code class="docutils literal notranslate"><span class="pre">'accuracy'</span></code> (so that you can track the accuracy on the training and validation sets.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: create_model</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_model</span><span class="p">(</span><span class="n">num_words</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="p">,</span> <span class="n">max_len</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a text classifier model</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        num_words (int): size of the vocabulary for the Embedding layer input</span>
+<span class="sd">        embedding_dim (int): dimensionality of the Embedding layer output</span>
+<span class="sd">        max_len (int): length of the input sequences</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        model (tf.keras Model): the text classifier model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+    
+    <span class="c1">### START CODE HERE</span>
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span> 
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">input_length</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="kc">None</span>
+    <span class="p">])</span> 
+    
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">optimizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;None&#39;</span><span class="p">])</span>
+
+    <span class="c1">### END CODE HERE</span>
+
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">num_words</span><span class="o">=</span><span class="n">num_words</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="n">max_len</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The model is created!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your create_model function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_model</span><span class="p">(</span><span class="n">create_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you need to prepare the data to put into the model. You already created lists of x and y values and all you need to do now is convert them to <code class="docutils literal notranslate"><span class="pre">NumPy</span></code> arrays, as this is the format that the model is expecting.</p>
+<p>Then you can create a model with the function you defined above and train it. The trained model should give you about 99.6 % accuracy on the validation set.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare the data</span>
+<span class="n">train_x_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_x_padded</span><span class="p">)</span>
+<span class="n">val_x_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val_x_padded</span><span class="p">)</span>
+
+<span class="n">train_y_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_y</span><span class="p">)</span>
+<span class="n">val_y_prepared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val_y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The data is prepared for training!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fit the model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training:&#39;</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_x_prepared</span><span class="p">,</span> <span class="n">train_y_prepared</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_x_prepared</span><span class="p">,</span> <span class="n">val_y_prepared</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="4"></a></p>
+</section>
+</section>
+<section id="evaluate-the-model">
+<h2>4 - Evaluate the model<a class="headerlink" href="#evaluate-the-model" title="Link to this heading">#</a></h2>
+<p>Now that you trained the model, it is time to look at its performance. While training, you already saw a printout of the accuracy and loss on training and validation sets. To have a better feeling on how the model improved with training, you can plot them below.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_metrics</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">metric</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="n">metric</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;val_</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">metric</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="n">metric</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;val_</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+<span class="n">plot_metrics</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="n">plot_metrics</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that already after just a few epochs the model reached very high accuracy on both sets. But if you zoom in, you can see that the performance was still slightly improving on the training set through all 20 epochs, while it stagnated a bit earlier on the validation set. The loss on the other hand kept decreasing through all 20 epochs, which means that the model also got more confident in its predictions.</p>
+<p><a name="4-1"></a></p>
+<section id="predict-on-data">
+<h3>4.1 - Predict on Data<a class="headerlink" href="#predict-on-data" title="Link to this heading">#</a></h3>
+<p>Now you can use the model for predictions on unseen tweets as <code class="docutils literal notranslate"><span class="pre">model.predict()</span></code>. This is as simple as passing an array of sequences you want to predict to the mentioned method.
+In the cell below you prepare an extract of positive and negative samples from the validation set (remember, the positive examples are at the beginning and the negative are at the end) for the demonstration and predict their values with the model. Note that in the ideal case you should have another test set from which you would draw this data to inspect the model performance. But for the demonstration here the validation set will do just as well.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare an example with 10 positive and 10 negative tweets.</span>
+<span class="n">example_for_prediction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_x_prepared</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="n">val_x_prepared</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Make a prediction on the tweets.</span>
+<span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example_for_prediction</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that the first 10 numbers are very close to 1, which means the model correctly predicted positive sentiment and the last 10 numbers are all close to zero, which means the model correctly predicted negative sentiment.</p>
+<p><a name="5"></a></p>
+</section>
+</section>
+<section id="test-with-your-own-input">
+<h2>5 - Test With Your Own Input<a class="headerlink" href="#test-with-your-own-input" title="Link to this heading">#</a></h2>
+<p>Finally you will test with your own input. You will see that deepnets are more powerful than the older methods you have used before. Although you go close to 100 % accuracy on the first two assignments, you can see even more improvement here.</p>
+<p><a name="5-1"></a></p>
+<section id="create-the-prediction-function">
+<h3>5.1 - Create the Prediction Function<a class="headerlink" href="#create-the-prediction-function" title="Link to this heading">#</a></h3>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_prediction_from_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">max_len</span><span class="p">):</span>
+    <span class="n">tweet</span> <span class="o">=</span> <span class="n">process_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+    <span class="n">tweet</span> <span class="o">=</span> <span class="n">padded_sequence</span><span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span>
+    <span class="n">tweet</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">tweet</span><span class="p">])</span>
+
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">prediction</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you can write your own tweet and see how the model predicts it. Try playing around with the words - for example change <code class="docutils literal notranslate"><span class="pre">gr8</span></code> for <code class="docutils literal notranslate"><span class="pre">great</span></code> in the sample tweet and see if the score gets higher or lower.</p>
+<p>Also Try writing your own tweet and see if you can find what affects the output most.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unseen_tweet</span> <span class="o">=</span> <span class="s1">&#39;@DLAI @NLP_team_dlai OMG!!! what a daaay, wow, wow. This AsSiGnMeNt was gr8.&#39;</span>
+
+<span class="n">prediction_unseen</span> <span class="o">=</span> <span class="n">get_prediction_from_tweet</span><span class="p">(</span><span class="n">unseen_tweet</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model prediction on unseen tweet: </span><span class="si">{</span><span class="n">prediction_unseen</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="ex-8"></a></p>
+</section>
+<section id="exercise-8-graded-very-positive-tweet">
+<h3>Exercise 8 - graded_very_positive_tweet<a class="headerlink" href="#exercise-8-graded-very-positive-tweet" title="Link to this heading">#</a></h3>
+<p><strong>Instructions:</strong> For your last exercise in this assignment, you need to write a very positive tweet. To pass this exercise, the tweet needs to score at least 0.99 with the model (which means the model thinks it is very positive).</p>
+<p>Hint: try some positive words and/or happy smiley faces :)</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED VARIABLE: graded_very_positive_tweet</span>
+
+<span class="c1">### START CODE HERE ###</span>
+
+<span class="c1"># Please replace this sad tweet with a happier tweet</span>
+<span class="n">graded_very_positive_tweet</span> <span class="o">=</span> <span class="s1">&#39;sad&#39;</span>
+
+<span class="c1">### END CODE HERE ###</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Test your positive tweet below</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your graded_very_positive_tweet tweet</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">get_prediction_from_tweet</span><span class="p">(</span><span class="n">graded_very_positive_tweet</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">prediction</span> <span class="o">&gt;</span> <span class="mf">0.99</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[92m All tests passed&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The model thinks your tweet is not positive enough.</span><span class="se">\n</span><span class="s2">Try figuring out what makes some of the tweets in the validation set so positive.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="6"></a></p>
+</section>
+</section>
+<section id="word-embeddings">
+<h2>6 - Word Embeddings<a class="headerlink" href="#word-embeddings" title="Link to this heading">#</a></h2>
+<p>In this last section, you will visualize the word embeddings that your model has learned for this sentiment analysis task.
+By using <code class="docutils literal notranslate"><span class="pre">model.layers</span></code>, you get a list of the layers in the model. The embeddings are saved in the first layer of the model (position 0).
+You can retrieve the weights of the layer by calling <code class="docutils literal notranslate"><span class="pre">layer.get_weights()</span></code> function, which gives you a list of matrices with weights. The embedding layer has only one matrix in it, which contains your embeddings. Let’s extract the embeddings.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the embedding layer</span>
+<span class="n">embeddings_layer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Get the weights of the embedding layer</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">embeddings_layer</span><span class="o">.</span><span class="n">get_weights</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weights of embedding layer have shape: </span><span class="si">{</span><span class="n">embeddings</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since your embeddings are 16-dimensional (or different if you chose some other dimension), it is hard to visualize them without some kind of transformation. Here, you’ll use scikit-learn to perform dimensionality reduction of the word embeddings using PCA, with which you can reduce the number of dimensions to two, while keeping as much information as possible. Then you can visualize the data to see how the vectors for different words look like.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PCA with two dimensions</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Dimensionality reduction of the word embeddings</span>
+<span class="n">embeddings_2D</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, everything is ready to plot a selection of words in 2d. Dont mind the axes on the plot - they point in the directions calculated by the PCA algorithm. Pay attention to which words group together.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Selection of negative and positive words</span>
+<span class="n">neg_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bad&#39;</span><span class="p">,</span> <span class="s1">&#39;hurt&#39;</span><span class="p">,</span> <span class="s1">&#39;sad&#39;</span><span class="p">,</span> <span class="s1">&#39;hate&#39;</span><span class="p">,</span> <span class="s1">&#39;worst&#39;</span><span class="p">]</span>
+<span class="n">pos_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="s1">&#39;nice&#39;</span><span class="p">,</span> <span class="s1">&#39;love&#39;</span><span class="p">,</span> <span class="s1">&#39;better&#39;</span><span class="p">,</span> <span class="s1">&#39;:)&#39;</span><span class="p">]</span>
+
+<span class="c1">#Index of each selected word</span>
+<span class="n">neg_n</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">neg_words</span><span class="p">]</span>
+<span class="n">pos_n</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">pos_words</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="c1">#Scatter plot for negative words</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">embeddings_2D</span><span class="p">[</span><span class="n">neg_n</span><span class="p">][:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">embeddings_2D</span><span class="p">[</span><span class="n">neg_n</span><span class="p">][:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">neg_words</span><span class="p">):</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="p">(</span><span class="n">embeddings_2D</span><span class="p">[</span><span class="n">neg_n</span><span class="p">][</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">embeddings_2D</span><span class="p">[</span><span class="n">neg_n</span><span class="p">][</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="c1">#Scatter plot for positive words</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">embeddings_2D</span><span class="p">[</span><span class="n">pos_n</span><span class="p">][:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">embeddings_2D</span><span class="p">[</span><span class="n">pos_n</span><span class="p">][:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pos_words</span><span class="p">):</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">txt</span><span class="p">,(</span><span class="n">embeddings_2D</span><span class="p">[</span><span class="n">pos_n</span><span class="p">][</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">embeddings_2D</span><span class="p">[</span><span class="n">pos_n</span><span class="p">][</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Word embeddings in 2d&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, the word embeddings for this task seem to distinguish negative and positive meanings. However, similar words don’t necessarily cluster together, since you only trained the model to analyze the overall sentiment. Notice how the smiley face is much further away from the negative words than any of the positive words are. It turns out that smiley faces are actually the most important predictors of sentiment in this dataset. Try removing them from the tweets (and consequently from the vocabulary) and see how well the model performs then. You should see quite a significant drop in performance.</p>
+<p><strong>Congratulations on finishing this assignment!</strong></p>
+<p>During this assignment you tested your theoretical and practical skills by creating a vocabulary of words in the tweets and coding a neural network that created word embeddings and classified the tweets into positive or negative. Next week you will start coding some sequence models!</p>
+<p><strong>Keep up the good work!</strong></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLP\C3_W1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C3W1_Hidden_State_Activation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hidden State Activation : Ungraded Lecture Notebook</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C3W1_RNNs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Vanilla RNNs and GRUs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-successful-grading-of-your-assignment">TIPS FOR SUCCESSFUL GRADING OF YOUR ASSIGNMENT:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-libraries">1 - Import the Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-data">2 - Import the Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-and-split-the-data">2.1 - Load and split the Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-vocabulary">2.2 - Build the Vocabulary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-build-vocabulary">Exercise 1 - build_vocabulary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-a-tweet-to-a-tensor">2.3 - Convert a Tweet to a Tensor</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-max-len">Exercise 2 - max_len</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-padded-sequence">Exercise 3 - padded_sequence</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-structure-of-the-neural-network-layers">3 - Define the structure of the neural network layers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relu">3.1 - ReLU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-relu">Exercise 4 - relu</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">3.2 - Sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-sigmoid">Exercise 5 - sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-class">3.3 - Dense Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-dense">Exercise 6 - Dense</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">3.4 - Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-create-model">Exercise 7 - create_model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluate-the-model">4 - Evaluate the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-on-data">4.1 - Predict on Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-with-your-own-input">5 - Test With Your Own Input</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-prediction-function">5.1 - Create the Prediction Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-graded-very-positive-tweet">Exercise 8 - graded_very_positive_tweet</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings">6 - Word Embeddings</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

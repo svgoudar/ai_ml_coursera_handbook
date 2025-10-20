@@ -1,0 +1,1455 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Vanilla RNNs and GRUs &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLP/C3_W1/C3W1_RNNs';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/NLP/C3_W1/C3W1_RNNs.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Lab 1: TensorFlow Tutorial and Some Useful Functions" href="C3W1_TensorFlow_Tutorial.html" />
+    <link rel="prev" title="Assignment 1: Sentiment with Deep Neural Networks" href="C3W1_Practice_Assignment.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">NLP Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Assignment.html">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_1_strings_tags.html">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Assignment.html">Assignment 2 - Named Entity Recognition (NER)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/NLP/C3_W1/C3W1_RNNs.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FNLP/C3_W1/C3W1_RNNs.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/NLP/C3_W1/C3W1_RNNs.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Vanilla RNNs and GRUs</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Vanilla RNNs and GRUs</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-forward-method-for-vanilla-rnns-and-grus-using-numpy">Part 1: Forward method for vanilla RNNs and GRUs using <code class="docutils literal notranslate"><span class="pre">numpy</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-method-for-vanilla-rnns">1.1 Forward method for vanilla RNNs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-method-for-grus">1.2 Forward method for GRUs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-of-the-scan-function">1.3 Implementation of the <code class="docutils literal notranslate"><span class="pre">scan</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-between-vanilla-rnns-and-grus">1.4 Comparison between vanilla RNNs and GRUs</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-create-a-gru-model-in-tensorflow">Part 2: Create a GRU model in tensorflow</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="vanilla-rnns-and-grus">
+<h1>Vanilla RNNs and GRUs<a class="headerlink" href="#vanilla-rnns-and-grus" title="Link to this heading">#</a></h1>
+<p>In this notebook, you will learn how to define the forward method for vanilla RNNs and GRUs from scratch in <code class="docutils literal notranslate"><span class="pre">NumPy</span></code>. After this, you will create a full neural network with GRU layers using tensorflow.</p>
+<p>By completing this notebook, you will:</p>
+<ul class="simple">
+<li><p>Be able to define the forward method for vanilla RNNs and GRUs</p></li>
+<li><p>Be able to build a sequential model using recurrent layers in tensorflow</p></li>
+<li><p>Be able to use the <code class="docutils literal notranslate"><span class="pre">return_sequences</span></code> parameter in recurrent layers</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>An implementation of the <code class="docutils literal notranslate"><span class="pre">sigmoid</span></code> function is provided below so you can use it in this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="c1"># Sigmoid function</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-1-forward-method-for-vanilla-rnns-and-grus-using-numpy">
+<h1>Part 1: Forward method for vanilla RNNs and GRUs using <code class="docutils literal notranslate"><span class="pre">numpy</span></code><a class="headerlink" href="#part-1-forward-method-for-vanilla-rnns-and-grus-using-numpy" title="Link to this heading">#</a></h1>
+<p>In this part of the notebook, you’ll see the implementation of the forward method for a vanilla RNN and you’ll implement that same method for a GRU. For this exercise you’ll use a set of random weights and variables with the following dimensions:</p>
+<ul class="simple">
+<li><p>Embedding size (<code class="docutils literal notranslate"><span class="pre">emb</span></code>) : 128</p></li>
+<li><p>Hidden state size (<code class="docutils literal notranslate"><span class="pre">h_dim</span></code>) : 16</p></li>
+</ul>
+<p>The weights <code class="docutils literal notranslate"><span class="pre">w_</span></code> and biases <code class="docutils literal notranslate"><span class="pre">b_</span></code> are initialized with dimensions (<code class="docutils literal notranslate"><span class="pre">h_dim</span></code>, <code class="docutils literal notranslate"><span class="pre">emb</span> <span class="pre">+</span> <span class="pre">h_dim</span></code>) and (<code class="docutils literal notranslate"><span class="pre">h_dim</span></code>, 1). We expect the hidden state <code class="docutils literal notranslate"><span class="pre">h_t</span></code> to be a column vector with size (<code class="docutils literal notranslate"><span class="pre">h_dim</span></code>,1) and the initial hidden state <code class="docutils literal notranslate"><span class="pre">h_0</span></code> is a vector of zeros.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                 <span class="c1"># Random seed, so your results match ours</span>
+<span class="n">emb</span> <span class="o">=</span> <span class="mi">128</span>                       <span class="c1"># Embedding size</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">256</span>                         <span class="c1"># Length of sequence</span>
+<span class="n">h_dim</span> <span class="o">=</span> <span class="mi">16</span>                      <span class="c1"># Hidden state dimension</span>
+<span class="n">h_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>      <span class="c1"># Initial hidden state</span>
+
+<span class="c1"># Random initialization of weights (w1, w2, w3) and biases (b1, b2, b3)</span>
+<span class="n">w1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">h_dim</span><span class="p">,</span> <span class="n">emb</span> <span class="o">+</span> <span class="n">h_dim</span><span class="p">))</span>
+<span class="n">w2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">h_dim</span><span class="p">,</span> <span class="n">emb</span> <span class="o">+</span> <span class="n">h_dim</span><span class="p">))</span>
+<span class="n">w3</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">h_dim</span><span class="p">,</span> <span class="n">emb</span> <span class="o">+</span> <span class="n">h_dim</span><span class="p">))</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">h_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">h_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">b3</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">h_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1"># Random initialization of input X</span>
+<span class="c1"># Note that you add the third dimension (1) to achieve the batch representation.</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">T</span><span class="p">,</span> <span class="n">emb</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># Define the lists of weights as you will need them for the two different layers</span>
+<span class="n">weights_vanilla</span> <span class="o">=</span> <span class="p">[</span><span class="n">w1</span><span class="p">,</span> <span class="n">b1</span><span class="p">]</span>
+<span class="n">weights_GRU</span> <span class="o">=</span> <span class="p">[</span><span class="n">w1</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">w2</span><span class="p">,</span> <span class="n">w3</span><span class="p">,</span> <span class="n">b1</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that you are creating two lists where you are storing all the weights. You can see that the vanilla recurrent neural network uses a much smaller subset of weights than GRU. Since you will not be updating any weights in this lab, it is ok to define them in a list like above.</p>
+<section id="forward-method-for-vanilla-rnns">
+<h2>1.1 Forward method for vanilla RNNs<a class="headerlink" href="#forward-method-for-vanilla-rnns" title="Link to this heading">#</a></h2>
+<p>The vanilla RNN cell is quite straight forward. Its most general structure is presented in the next figure:</p>
+<img src="../../assets/C3_W1/images/RNN.PNG" width="400"/>
+<p>As you saw in the lecture videos and in the other lab, the computations made in a vanilla RNN cell are equivalent to the following equations:</p>
+<div class="math notranslate nohighlight">
+\[
+h^{&lt;t&gt;} = g\left(W_h[h^{&lt;t-1&gt;}, x^{&lt;t&gt;}] + b_h\right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}^{&lt;t&gt;} = g\left(W_{yh}h^{&lt;t&gt;} + b_y\right)
+\]</div>
+<p>fix this</p>
+<p>where <span class="math notranslate nohighlight">\([h^{&lt;t-1&gt;},x^{&lt;t&gt;}]\)</span> means that <span class="math notranslate nohighlight">\(h^{&lt;t-1&gt;}\)</span> and <span class="math notranslate nohighlight">\(x^{&lt;t&gt;}\)</span> are concatenated together. In the next cell you have the implementation of the forward method for a vanilla RNN.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">forward_V_RNN</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span> <span class="c1"># Forward propagation for a a single vanilla RNN cell</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">h_t</span> <span class="o">=</span> <span class="n">inputs</span>
+
+    <span class="c1"># weights.</span>
+    <span class="n">wh</span><span class="p">,</span> <span class="n">bh</span> <span class="o">=</span> <span class="n">weights</span>
+
+    <span class="c1"># new hidden state</span>
+    <span class="n">h_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">wh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">h_t</span><span class="p">,</span> <span class="n">x</span><span class="p">]))</span> <span class="o">+</span> <span class="n">bh</span>
+    <span class="n">h_t</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">h_t</span><span class="p">)</span>
+    
+    <span class="c1"># We avoid implementation of y for clarity</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">h_t</span>
+    
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">h_t</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, we omitted the computation of <span class="math notranslate nohighlight">\(\hat{y}^{&lt;t&gt;}\)</span>. This was done for the sake of simplicity, so you can focus on the way that hidden states are updated here and in the GRU cell.</p>
+</section>
+<section id="forward-method-for-grus">
+<h2>1.2 Forward method for GRUs<a class="headerlink" href="#forward-method-for-grus" title="Link to this heading">#</a></h2>
+<p>A GRU cell has many more computations than vanilla RNN cells. You can see this visually in the following diagram:</p>
+<img src="../../assets/C3_W1/images/GRU.PNG" width="400"/>
+<p>As you saw in the lecture videos, GRUs have relevance <span class="math notranslate nohighlight">\(\Gamma_r\)</span> and update <span class="math notranslate nohighlight">\(\Gamma_u\)</span> gates that control how the hidden state <span class="math notranslate nohighlight">\(h^{&lt;t&gt;}\)</span> is updated on every time step. With these gates, GRUs are capable of keeping relevant information in the hidden state even for long sequences. The equations needed for the forward method in GRUs are provided below:</p>
+<p>\begin{equation}
+\Gamma_r=\sigma{(W_r[h^{<t-1>}, x^{<t>}]+b_r)}
+\end{equation}</p>
+<p>\begin{equation}
+\Gamma_u=\sigma{(W_u[h^{<t-1>}, x^{<t>}]+b_u)}
+\end{equation}</p>
+<p>\begin{equation}
+c^{<t>}=\tanh{(W_h[\Gamma_r*h^{<t-1>},x^{<t>}]+b_h)}
+\end{equation}</p>
+<p>\begin{equation}
+h^{<t>}=\Gamma_u*c^{<t>}+(1-\Gamma_u)*h^{<t-1>}
+\end{equation}</p>
+<p>In the next cell, you will see the implementation of the forward method for a GRU cell by computing the update <code class="docutils literal notranslate"><span class="pre">u</span></code> and relevance <code class="docutils literal notranslate"><span class="pre">r</span></code> gates, and the candidate hidden state <code class="docutils literal notranslate"><span class="pre">c</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">forward_GRU</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span> <span class="c1"># Forward propagation for a single GRU cell</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">h_t</span> <span class="o">=</span> <span class="n">inputs</span>
+
+    <span class="c1"># weights.</span>
+    <span class="n">wu</span><span class="p">,</span> <span class="n">wr</span><span class="p">,</span> <span class="n">wc</span><span class="p">,</span> <span class="n">bu</span><span class="p">,</span> <span class="n">br</span><span class="p">,</span> <span class="n">bc</span> <span class="o">=</span> <span class="n">weights</span>
+
+    <span class="c1"># Update gate</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">wu</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">h_t</span><span class="p">,</span> <span class="n">x</span><span class="p">]))</span> <span class="o">+</span> <span class="n">bu</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    
+    <span class="c1"># Relevance gate</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">wr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">h_t</span><span class="p">,</span> <span class="n">x</span><span class="p">]))</span> <span class="o">+</span> <span class="n">br</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    
+    <span class="c1"># Candidate hidden state </span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">wc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">r</span> <span class="o">*</span> <span class="n">h_t</span><span class="p">,</span> <span class="n">x</span><span class="p">]))</span> <span class="o">+</span> <span class="n">bc</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    
+    <span class="c1"># New Hidden state h_t</span>
+    <span class="n">h_t</span> <span class="o">=</span> <span class="n">u</span> <span class="o">*</span> <span class="n">c</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">h_t</span>
+    
+    <span class="c1"># We avoid implementation of y for clarity</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">h_t</span>
+    
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">h_t</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the following cell to check your implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">forward_GRU</span><span class="p">([</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">h_0</span><span class="p">],</span> <span class="n">weights_GRU</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 9.77779014e-01],
+       [-9.97986240e-01],
+       [-5.19958083e-01],
+       [-9.99999886e-01],
+       [-9.99707004e-01],
+       [-3.02197037e-04],
+       [-9.58733503e-01],
+       [ 2.10804828e-02],
+       [ 9.77365398e-05],
+       [ 9.99833090e-01],
+       [ 1.63200940e-08],
+       [ 8.51874303e-01],
+       [ 5.21399924e-02],
+       [ 2.15495959e-02],
+       [ 9.99878828e-01],
+       [ 9.77165472e-01]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<pre>
+array([[ 9.77779014e-01],
+       [-9.97986240e-01],
+       [-5.19958083e-01],
+       [-9.99999886e-01],
+       [-9.99707004e-01],
+       [-3.02197037e-04],
+       [-9.58733503e-01],
+       [ 2.10804828e-02],
+       [ 9.77365398e-05],
+       [ 9.99833090e-01],
+       [ 1.63200940e-08],
+       [ 8.51874303e-01],
+       [ 5.21399924e-02],
+       [ 2.15495959e-02],
+       [ 9.99878828e-01],
+       [ 9.77165472e-01]])
+</pre></section>
+<section id="implementation-of-the-scan-function">
+<h2>1.3 Implementation of the <code class="docutils literal notranslate"><span class="pre">scan</span></code> function<a class="headerlink" href="#implementation-of-the-scan-function" title="Link to this heading">#</a></h2>
+<p>In the lectures you saw how the <code class="docutils literal notranslate"><span class="pre">scan</span></code> function is used for forward propagation in RNNs. It takes as inputs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fn</span></code> : the function to be called recurrently (i.e. <code class="docutils literal notranslate"><span class="pre">forward_GRU</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">elems</span></code> : the list of inputs for each time step (<code class="docutils literal notranslate"><span class="pre">X</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> : the parameters needed to compute <code class="docutils literal notranslate"><span class="pre">fn</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">h_0</span></code> : the initial hidden state</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">scan</span></code> goes through all the elements <code class="docutils literal notranslate"><span class="pre">x</span></code> in <code class="docutils literal notranslate"><span class="pre">elems</span></code>, calls the function <code class="docutils literal notranslate"><span class="pre">fn</span></code> with arguments ([<code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">h_t</span></code>],<code class="docutils literal notranslate"><span class="pre">weights</span></code>), stores the computed hidden state <code class="docutils literal notranslate"><span class="pre">h_t</span></code> and appends the result to a list <code class="docutils literal notranslate"><span class="pre">ys</span></code>. Complete the following cell by calling <code class="docutils literal notranslate"><span class="pre">fn</span></code> with arguments ([<code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">h_t</span></code>],<code class="docutils literal notranslate"><span class="pre">weights</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">scan</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">elems</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">h_0</span><span class="p">):</span> <span class="c1"># Forward propagation for RNNs</span>
+    <span class="n">h_t</span> <span class="o">=</span> <span class="n">h_0</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">:</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">h_t</span> <span class="o">=</span> <span class="n">fn</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">h_t</span><span class="p">],</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">ys</span><span class="p">,</span> <span class="n">h_t</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In practice, when using libraries like <code class="docutils literal notranslate"><span class="pre">TensorFlow</span></code> you don’t need to use functions like <code class="docutils literal notranslate"><span class="pre">scan</span></code>, because this is already implemented under the hood for you. But it is still useful to understand it as you may need to code it from scratch at some point.</p>
+<p>In the cell below, you can try the <code class="docutils literal notranslate"><span class="pre">scan</span></code> function on the data you created above with the function <code class="docutils literal notranslate"><span class="pre">forward_V_RNN</span></code> and see what it outputs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ys</span><span class="p">,</span> <span class="n">h_T</span> <span class="o">=</span> <span class="n">scan</span><span class="p">(</span><span class="n">forward_V_RNN</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">weights_vanilla</span><span class="p">,</span> <span class="n">h_0</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Length of ys: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape of each y within ys: </span><span class="si">{</span><span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape of h_T: </span><span class="si">{</span><span class="n">h_T</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Length of ys: 256
+Shape of each y within ys: (16, 1)
+Shape of h_T: (16, 1)
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see that it outputs a sequence of length 256, where each element in a sequence is the same shape as the hidden state (because that is how you defined your <code class="docutils literal notranslate"><span class="pre">forward_V_RNN</span></code> function).</p>
+</section>
+<section id="comparison-between-vanilla-rnns-and-grus">
+<h2>1.4 Comparison between vanilla RNNs and GRUs<a class="headerlink" href="#comparison-between-vanilla-rnns-and-grus" title="Link to this heading">#</a></h2>
+<p>You have already seen how forward propagation is computed for vanilla RNNs and GRUs. As a quick recap, you need to have a forward method for the recurrent cell and a function like <code class="docutils literal notranslate"><span class="pre">scan</span></code> to go through all the elements from a sequence using a forward method. You saw that GRUs performed more computations than vanilla RNNs, and you can check that they have 3 times more parameters. In the next two cells, we compute forward propagation for a sequence with 256 time steps (<code class="docutils literal notranslate"><span class="pre">T</span></code>) for an RNN and a GRU with the same hidden state <code class="docutils literal notranslate"><span class="pre">h_t</span></code> size (<code class="docutils literal notranslate"><span class="pre">h_dim</span></code>=16).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># vanilla RNNs</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">ys</span><span class="p">,</span> <span class="n">h_T</span> <span class="o">=</span> <span class="n">scan</span><span class="p">(</span><span class="n">forward_V_RNN</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">weights_vanilla</span><span class="p">,</span> <span class="n">h_0</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">RNN_time</span><span class="o">=</span><span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;It took </span><span class="si">{</span><span class="n">RNN_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">ms to run the forward method for the vanilla RNN.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>It took 2.99ms to run the forward method for the vanilla RNN.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRUs</span>
+<span class="n">tic</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">ys</span><span class="p">,</span> <span class="n">h_T</span> <span class="o">=</span> <span class="n">scan</span><span class="p">(</span><span class="n">forward_GRU</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">weights_GRU</span><span class="p">,</span> <span class="n">h_0</span><span class="p">)</span>
+<span class="n">toc</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">GRU_time</span><span class="o">=</span><span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;It took </span><span class="si">{</span><span class="n">GRU_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">ms to run the forward method for the GRU.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>It took 9.31ms to run the forward method for the GRU.
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you saw in the lectures, GRUs take more time to compute. This means that training and prediction would take more time for a GRU than for a vanilla RNN. However, GRUs allow you to propagate relevant information even for long sequences, so when selecting an architecture for NLP you should assess the tradeoff between computational time and performance.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-2-create-a-gru-model-in-tensorflow">
+<h1>Part 2: Create a GRU model in tensorflow<a class="headerlink" href="#part-2-create-a-gru-model-in-tensorflow" title="Link to this heading">#</a></h1>
+<p>You will use the <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> model using some <code class="docutils literal notranslate"><span class="pre">GRU</span></code> layers. You should already be familiar with the sequential model and with the Dense layers. In addition, you will use GRU layers in this notebook. Below you can find some links to the documentation and a short description.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/guide/keras/sequential_model"><code class="docutils literal notranslate"><span class="pre">Sequential</span></code></a> A Sequential model is appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor.</p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense"><code class="docutils literal notranslate"><span class="pre">Dense</span></code></a> A regular fully connected layer</p></li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/GRU"><code class="docutils literal notranslate"><span class="pre">GRU</span></code></a> The GRU (gated recurrent unit) layer. The hidden state dimension should be specified (the syntax is the same as for <code class="docutils literal notranslate"><span class="pre">Dense</span></code>). By default it does not return a sequence, but only the output of the last unit. If you want to stack two consecutive GRU layers, you need the first one to output a sequence, which you can achieve by setting the parameter <code class="docutils literal notranslate"><span class="pre">return_sequences</span></code> to True. If you are further interested in similar layers, you can also check out the <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/RNN"><code class="docutils literal notranslate"><span class="pre">RNN</span></code></a>, <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM"><code class="docutils literal notranslate"><span class="pre">LSTM</span></code></a> and <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Bidirectional"><code class="docutils literal notranslate"><span class="pre">Bidirectional</span></code></a>. If you want to use a RNN or LSTM instead of GRU in the code below, simply change the layer name, no other change in the syntax is needed.</p></li>
+</ul>
+<p>Putting everything together the GRU model will look like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_GRU</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GRU_1_returns_seq&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GRU_2_returns_seq&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GRU_3_returns_last_only&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To see how your model looks like, you can print out its summary. But beware, you cannot look at model’s summary before the model knows what kind of data it should expect.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This line should fail</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">model_GRU</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "sequential"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)                 </span>┃<span style="font-weight: bold"> Output Shape         </span>┃<span style="font-weight: bold">     Param # </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ GRU_1_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ ?                    │ <span style="color: #00af00; text-decoration-color: #00af00">0</span> (unbuilt) │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_2_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ ?                    │ <span style="color: #00af00; text-decoration-color: #00af00">0</span> (unbuilt) │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_3_returns_last_only      │ ?                    │ <span style="color: #00af00; text-decoration-color: #00af00">0</span> (unbuilt) │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)                        │                      │             │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ dense (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                │ ?                    │ <span style="color: #00af00; text-decoration-color: #00af00">0</span> (unbuilt) │
+└──────────────────────────────┴──────────────────────┴─────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div></div>
+</div>
+<p>You see that the exception says that the model has not yet been built, so it does not allow you to see its summary. You will see two options on how to build a model that are described in the exception above.</p>
+<p>First, you will define some input data (a random tensor) of the desired shape and pass this data through the model. Now the model knows the shape of the data and can also calculate the number of parameters it needs for each layer, so the <code class="docutils literal notranslate"><span class="pre">.summary()</span></code> method should work.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remember these three numbers and follow them further through the notebook</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">sequence_length</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">word_vector_length</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="n">input_data</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">word_vector_length</span><span class="p">])</span>
+
+<span class="c1"># Pass the data through the network</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">model_GRU</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+
+<span class="c1"># Show the summary of the model</span>
+<span class="n">model_GRU</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "sequential"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)                 </span>┃<span style="font-weight: bold"> Output Shape         </span>┃<span style="font-weight: bold">     Param # </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ GRU_1_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">50</span>, <span style="color: #00af00; text-decoration-color: #00af00">256</span>)        │     <span style="color: #00af00; text-decoration-color: #00af00">228,864</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_2_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">50</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)        │     <span style="color: #00af00; text-decoration-color: #00af00">148,224</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_3_returns_last_only      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">64</span>)             │      <span style="color: #00af00; text-decoration-color: #00af00">37,248</span> │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)                        │                      │             │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ dense (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">10</span>)             │         <span style="color: #00af00; text-decoration-color: #00af00">650</span> │
+└──────────────────────────────┴──────────────────────┴─────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div></div>
+</div>
+<p>Now you can inspect the numbers in the <code class="docutils literal notranslate"><span class="pre">Output</span> <span class="pre">Shape</span></code> column. Note that all the numbers for parameters are distinct (each number is different), so you can more easily inspect what is going on (typically the batch size would be a power of 2, but here we choose it to be 60, just to be distinct from other numbers).</p>
+<ol class="arabic simple">
+<li><p>You can see that the <code class="docutils literal notranslate"><span class="pre">word_vector_length</span></code> (originally set to 40) which represents the word embedding dimension is already being changed to 256 in the first row. In other words, the model’s first GRU layer takes the original 40-dimensional word vectors and transforms them into its own 256-dimensional representations.</p></li>
+<li><p>Next you can look at the <code class="docutils literal notranslate"><span class="pre">sequence_length</span></code> (originally set to 50). The sequence length propagates through the model in the first two layers and then disappears. Note that these are the two GRU layers that return sequences, while the last GRU layer does not return a sequence, but only the output from the last cell, thus one dimension disappears from the model.</p></li>
+<li><p>Lastly have a look at the <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> (originally set to 60), which propagates through the whole model (which makes sense, right?).</p></li>
+</ol>
+<p>Now if you try to pass data of different shape through the network, it might be allowed in some cases, but not in others, let’s see this in action.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define some data with a different length of word vectors</span>
+<span class="n">new_word_vector_length</span> <span class="o">=</span> <span class="mi">44</span>  <span class="c1"># Before it was 40</span>
+<span class="c1"># Keep the batch_size = 60 and sequence_length = 50 as originally</span>
+<span class="n">input_data_1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">new_word_vector_length</span><span class="p">])</span>
+
+<span class="c1"># Pass the data through the network. This should Fail (if you ran all the cells above)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">model_GRU</span><span class="p">(</span><span class="n">input_data_1</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exception encountered when calling GRUCell.call().
+
+<span class=" -Color -Color-Bold">{{function_node __wrapped____MklMatMul_device_/job:localhost/replica:0/task:0/device:CPU:0}} Matrix size-incompatible: In[0]: [60,44], In[1]: [40,768] [Op:MatMul] name: </span>
+
+Arguments received by GRUCell.call():
+  • inputs=tf.Tensor(shape=(60, 44), dtype=float32)
+  • states=(&#39;tf.Tensor(shape=(60, 256), dtype=float32)&#39;,)
+  • training=False
+</pre></div>
+</div>
+</div>
+</div>
+<p>Why did this fail? Remember how the layers are constructed: they know what length of vectors to expect and they have their weight matrices defined to accommodate for it. However if you change the length of the word vector, it cannot be multiplied by an incompatible matrix .</p>
+<p>How about the <code class="docutils literal notranslate"><span class="pre">sequence_length</span></code> (number of words)?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define some data with a different length of the sequence</span>
+<span class="n">new_sequence_length</span> <span class="o">=</span> <span class="mi">55</span>  <span class="c1"># Before it was 50</span>
+<span class="c1"># Keep the batch_size = 60 and word_vector_length = 40 as originally</span>
+<span class="n">input_data_2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">new_sequence_length</span><span class="p">,</span> <span class="n">word_vector_length</span><span class="p">])</span>
+
+<span class="c1"># Pass the data through the network. This should Fail (if you ran all the cells above)</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">model_GRU</span><span class="p">(</span><span class="n">input_data_2</span><span class="p">)</span>
+
+<span class="n">model_GRU</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "sequential"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)                 </span>┃<span style="font-weight: bold"> Output Shape         </span>┃<span style="font-weight: bold">     Param # </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ GRU_1_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">50</span>, <span style="color: #00af00; text-decoration-color: #00af00">256</span>)        │     <span style="color: #00af00; text-decoration-color: #00af00">228,864</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_2_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">50</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)        │     <span style="color: #00af00; text-decoration-color: #00af00">148,224</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_3_returns_last_only      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">64</span>)             │      <span style="color: #00af00; text-decoration-color: #00af00">37,248</span> │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)                        │                      │             │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ dense (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">10</span>)             │         <span style="color: #00af00; text-decoration-color: #00af00">650</span> │
+└──────────────────────────────┴──────────────────────┴─────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div></div>
+</div>
+<p>Well, this worked! Why? because the neural network does not have any specific parameters (weights) associated with the length of the sequence, so it is flexible in this dimension. Look at the summary at what happened in the second dimension of the output of the first two layers. Where there was “50” before, it turned to “None”. This tells you that the network now expects any sequence length.</p>
+<p>How about <code class="docutils literal notranslate"><span class="pre">batch_size</span></code>? If you guessed it must also be flexible, you are right. You can any time change the batch size and the model should be fine with it. Let’s test it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define some data with a different batch size</span>
+<span class="n">new_batch_size</span> <span class="o">=</span> <span class="mi">66</span>  <span class="c1"># Before it was 60</span>
+<span class="c1"># Keep the sequence_length = 50 and word_vector_length = 40 as originally</span>
+<span class="n">input_data_3</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="n">new_batch_size</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">word_vector_length</span><span class="p">])</span>
+
+<span class="c1"># Pass the data through the network. This should Fail (if you ran all the cells above)</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">model_GRU</span><span class="p">(</span><span class="n">input_data_3</span><span class="p">)</span>
+
+<span class="n">model_GRU</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "sequential"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)                 </span>┃<span style="font-weight: bold"> Output Shape         </span>┃<span style="font-weight: bold">     Param # </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ GRU_1_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">50</span>, <span style="color: #00af00; text-decoration-color: #00af00">256</span>)        │     <span style="color: #00af00; text-decoration-color: #00af00">228,864</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_2_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">50</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)        │     <span style="color: #00af00; text-decoration-color: #00af00">148,224</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_3_returns_last_only      │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">64</span>)             │      <span style="color: #00af00; text-decoration-color: #00af00">37,248</span> │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)                        │                      │             │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ dense (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                │ (<span style="color: #00af00; text-decoration-color: #00af00">60</span>, <span style="color: #00af00; text-decoration-color: #00af00">10</span>)             │         <span style="color: #00af00; text-decoration-color: #00af00">650</span> │
+└──────────────────────────────┴──────────────────────┴─────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div></div>
+</div>
+<p>Now the output shape has “None” everywhere except for the last dimension of each layer. This means it accepts batches and sequences of any size, but the length of the word vector and the hidden states stay the same.</p>
+<p><b>Alternative:</b> use <code class="docutils literal notranslate"><span class="pre">model.build()</span></code>.</p>
+<p>Rather than passing data through the model, you can also specify the size of the data in an array and pass it to <code class="docutils literal notranslate"><span class="pre">model.build()</span></code>. This will build the model, taking into account the data shape. You can also pass <code class="docutils literal notranslate"><span class="pre">None</span></code>, where the data dimension may change.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_GRU_2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GRU_1_returns_seq&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GRU_2_returns_seq&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GRU_3_returns_last_only&#39;</span><span class="p">),</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">model_GRU_2</span><span class="o">.</span><span class="n">build</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">word_vector_length</span><span class="p">])</span>
+
+<span class="n">model_GRU_2</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "sequential_1"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)                 </span>┃<span style="font-weight: bold"> Output Shape         </span>┃<span style="font-weight: bold">     Param # </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ GRU_1_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">256</span>)    │     <span style="color: #00af00; text-decoration-color: #00af00">228,864</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_2_returns_seq (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)      │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)    │     <span style="color: #00af00; text-decoration-color: #00af00">148,224</span> │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ GRU_3_returns_last_only      │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">64</span>)           │      <span style="color: #00af00; text-decoration-color: #00af00">37,248</span> │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">GRU</span>)                        │                      │             │
+├──────────────────────────────┼──────────────────────┼─────────────┤
+│ dense_1 (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)              │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">10</span>)           │         <span style="color: #00af00; text-decoration-color: #00af00">650</span> │
+└──────────────────────────────┴──────────────────────┴─────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">414,986</span> (1.58 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div></div>
+</div>
+<p><b>Congratulations!</b> Now you know how the forward method is implemented for vanilla RNNs and GRUs, and you can implement them in tensorflow.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLP\C3_W1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C3W1_Practice_Assignment.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Assignment 1:  Sentiment with Deep Neural Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C3W1_TensorFlow_Tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Lab 1: TensorFlow Tutorial and Some Useful Functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Vanilla RNNs and GRUs</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-forward-method-for-vanilla-rnns-and-grus-using-numpy">Part 1: Forward method for vanilla RNNs and GRUs using <code class="docutils literal notranslate"><span class="pre">numpy</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-method-for-vanilla-rnns">1.1 Forward method for vanilla RNNs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-method-for-grus">1.2 Forward method for GRUs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-of-the-scan-function">1.3 Implementation of the <code class="docutils literal notranslate"><span class="pre">scan</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-between-vanilla-rnns-and-grus">1.4 Comparison between vanilla RNNs and GRUs</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-create-a-gru-model-in-tensorflow">Part 2: Create a GRU model in tensorflow</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

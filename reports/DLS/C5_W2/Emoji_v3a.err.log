@@ -25,30 +25,23 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy as np
-from emo_utils import *
-import emoji
-import matplotlib.pyplot as plt
-from test_utils import *
-
-%matplotlib inline
+for idx in range(10):
+    print(X_train[idx], label_to_emoji(Y_train[idx]))
 ------------------
 
 
-[31m---------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01memo_utils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m *
-[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01memoji[39;00m
-[32m      4[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m
+[31m-------------------------------------------------------------------------[39m
+[31mTypeError[39m                               Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 2[39m
+[32m      1[39m [38;5;28;01mfor[39;00m idx [38;5;129;01min[39;00m [38;5;28mrange[39m([32m10[39m):
+[32m----> [39m[32m2[39m     [38;5;28mprint[39m(X_train[idx], [43mlabel_to_emoji[49m[43m([49m[43mY_train[49m[43m[[49m[43midx[49m[43m][49m[43m)[49m)
 
-[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\DLS\C5_W2\emo_utils.py:3[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mcsv[39;00m
-[32m      2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m
-[32m----> [39m[32m3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01memoji[39;00m
-[32m      4[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
-[32m      5[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m
+[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\DLS\C5_W2\emo_utils.py:64[39m, in [36mlabel_to_emoji[39m[34m(label)[39m
+[32m     60[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mlabel_to_emoji[39m(label):
+[32m     61[39m [38;5;250m    [39m[33;03m"""[39;00m
+[32m     62[39m [33;03m    Converts a label (int or string) into the corresponding emoji code (string) ready to be printed[39;00m
+[32m     63[39m [33;03m    """[39;00m
+[32m---> [39m[32m64[39m     [38;5;28;01mreturn[39;00m [43memoji[49m[43m.[49m[43memojize[49m[43m([49m[43memoji_dictionary[49m[43m[[49m[38;5;28;43mstr[39;49m[43m([49m[43mlabel[49m[43m)[49m[43m][49m[43m,[49m[43m [49m[43muse_aliases[49m[43m=[49m[38;5;28;43;01mTrue[39;49;00m[43m)[49m
 
-[31mModuleNotFoundError[39m: No module named 'emoji'
+[31mTypeError[39m: emojize() got an unexpected keyword argument 'use_aliases'
 

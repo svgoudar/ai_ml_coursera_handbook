@@ -1,0 +1,1628 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Manipulating word embeddings &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLP/C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/NLP/C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Another explanation about PCA" href="C1_W3_lecture_nb_03_pca.html" />
+    <link rel="prev" title="Linear algebra in Python with NumPy" href="C1_W3_lecture_nb_01_linear_algebra.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">NLP Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Assignment.html">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_1_strings_tags.html">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Assignment.html">Assignment 2 - Named Entity Recognition (NER)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/NLP/C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FNLP/C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/NLP/C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Manipulating word embeddings</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operating-on-word-embeddings">Operating on word embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-distance">Word distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-algebra-on-word-embeddings">Linear algebra on word embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-capitals">Predicting capitals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-other-countries">Predicting other Countries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#represent-a-sentence-as-a-vector">Represent a sentence as a vector</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="manipulating-word-embeddings">
+<h1>Manipulating word embeddings<a class="headerlink" href="#manipulating-word-embeddings" title="Link to this heading">#</a></h1>
+<p>In this week’s assignment, you are going to use a pre-trained word embedding for finding word analogies and equivalence. This exercise can be used as an Intrinsic Evaluation for the word embedding performance. In this notebook, you will apply linear algebra operations using NumPy to find analogies between words manually. This will help you to prepare for this week’s assignment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span> <span class="c1"># Library for Dataframes </span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span> <span class="c1"># Library for math functions</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span> <span class="c1"># Python object serialization library. Not secure</span>
+
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span> <span class="nb">open</span><span class="p">(</span> <span class="s2">&quot;./data/word_embeddings_subset.p&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span> <span class="p">)</span> <span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">word_embeddings</span><span class="p">)</span> <span class="c1"># there should be 243 words that will be used in this assignment</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>243
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that the model is loaded, we can take a look at the word representations. First, note that <strong>word_embeddings</strong> is a dictionary. Each word is the key to the entry, and the value is its corresponding vector presentation. Remember that square brackets allow access to any entry if the key exists.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">countryVector</span> <span class="o">=</span> <span class="n">word_embeddings</span><span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">]</span> <span class="c1"># Get the vector representation for the word &#39;country&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">countryVector</span><span class="p">))</span> <span class="c1"># Print the type of the vector. Note it is a numpy array</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">countryVector</span><span class="p">)</span> <span class="c1"># Print the values of the vector.  </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;numpy.ndarray&#39;&gt;
+[-0.08007812  0.13378906  0.14355469  0.09472656 -0.04736328 -0.02355957
+ -0.00854492 -0.18652344  0.04589844 -0.08154297 -0.03442383 -0.11621094
+  0.21777344 -0.10351562 -0.06689453  0.15332031 -0.19335938  0.26367188
+ -0.13671875 -0.05566406  0.07470703 -0.00070953  0.09375    -0.14453125
+  0.04296875 -0.01916504 -0.22558594 -0.12695312 -0.0168457   0.05224609
+  0.0625     -0.1484375  -0.01965332  0.17578125  0.10644531 -0.04760742
+ -0.10253906 -0.28515625  0.10351562  0.20800781 -0.07617188 -0.04345703
+  0.08642578  0.08740234  0.11767578  0.20996094 -0.07275391  0.1640625
+ -0.01135254  0.0025177   0.05810547 -0.03222656  0.06884766  0.046875
+  0.10107422  0.02148438 -0.16210938  0.07128906 -0.16210938  0.05981445
+  0.05102539 -0.05566406  0.06787109 -0.03759766  0.04345703 -0.03173828
+ -0.03417969 -0.01116943  0.06201172 -0.08007812 -0.14941406  0.11914062
+  0.02575684  0.00302124  0.04711914 -0.17773438  0.04101562  0.05541992
+  0.00598145  0.03027344 -0.07666016 -0.109375    0.02832031 -0.10498047
+  0.0100708  -0.03149414 -0.22363281 -0.03125    -0.01147461  0.17285156
+  0.08056641 -0.10888672 -0.09570312 -0.21777344 -0.07910156 -0.10009766
+  0.06396484 -0.11962891  0.18652344 -0.02062988 -0.02172852  0.29296875
+ -0.00793457  0.0324707  -0.15136719  0.00227356 -0.03540039 -0.13378906
+  0.0546875  -0.03271484 -0.01855469 -0.10302734 -0.13378906  0.11425781
+  0.16699219  0.01361084 -0.02722168 -0.2109375   0.07177734  0.08691406
+ -0.09960938  0.01422119 -0.18261719  0.00741577  0.01965332  0.00738525
+ -0.03271484 -0.15234375 -0.26367188 -0.14746094  0.03320312 -0.03344727
+ -0.01000977  0.01855469  0.00183868 -0.10498047  0.09667969  0.07910156
+  0.11181641  0.13085938 -0.08740234 -0.1328125   0.05004883  0.19824219
+  0.0612793   0.16210938  0.06933594  0.01281738  0.01550293  0.01531982
+  0.11474609  0.02758789  0.13769531 -0.08349609  0.01123047 -0.20507812
+ -0.12988281 -0.16699219  0.20410156 -0.03588867 -0.10888672  0.0534668
+  0.15820312 -0.20410156  0.14648438 -0.11572266  0.01855469 -0.13574219
+  0.24121094  0.12304688 -0.14550781  0.17578125  0.11816406 -0.30859375
+  0.10888672 -0.22363281  0.19335938 -0.15722656 -0.07666016 -0.09082031
+ -0.19628906 -0.23144531 -0.09130859 -0.14160156  0.06347656  0.03344727
+ -0.03369141  0.06591797  0.06201172  0.3046875   0.16796875 -0.11035156
+ -0.03833008 -0.02563477 -0.09765625  0.04467773 -0.0534668   0.11621094
+ -0.15039062 -0.16308594 -0.15527344  0.04638672  0.11572266 -0.06640625
+ -0.04516602  0.02331543 -0.08105469 -0.0255127  -0.07714844  0.0016861
+  0.15820312  0.00994873 -0.06445312  0.15722656 -0.03112793  0.10644531
+ -0.140625    0.23535156 -0.11279297  0.16015625  0.00061798 -0.1484375
+  0.02307129 -0.109375    0.05444336 -0.14160156  0.11621094  0.03710938
+  0.14746094 -0.04199219 -0.01391602 -0.03881836  0.02783203  0.10205078
+  0.07470703  0.20898438 -0.04223633 -0.04150391 -0.00588989 -0.14941406
+ -0.04296875 -0.10107422 -0.06176758  0.09472656  0.22265625 -0.02307129
+  0.04858398 -0.15527344 -0.02282715 -0.04174805  0.16699219 -0.09423828
+  0.14453125  0.11132812  0.04223633 -0.16699219  0.10253906  0.16796875
+  0.12597656 -0.11865234 -0.0213623  -0.08056641  0.24316406  0.15527344
+  0.16503906  0.00854492 -0.12255859  0.08691406 -0.11914062 -0.02941895
+  0.08349609 -0.03100586  0.13964844 -0.05151367  0.00765991 -0.04443359
+ -0.04980469 -0.03222656 -0.00952148 -0.10888672 -0.10302734 -0.15722656
+  0.19335938  0.04858398  0.015625   -0.08105469 -0.11621094 -0.01989746
+  0.05737305  0.06103516 -0.14550781  0.06738281 -0.24414062 -0.07714844
+  0.04760742 -0.07519531 -0.14941406 -0.04418945  0.09716797  0.06738281]
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is important to note that we store each vector as a NumPy array. It allows us to use the linear algebra operations on it.</p>
+<p>The vectors have a size of 300, while the vocabulary size of Google News is around 3 million words!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Get the vector for a given word:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vec</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">word_embeddings</span><span class="p">[</span><span class="n">w</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="operating-on-word-embeddings">
+<h2>Operating on word embeddings<a class="headerlink" href="#operating-on-word-embeddings" title="Link to this heading">#</a></h2>
+<p>Remember that understanding the data is one of the most critical steps in Data Science. Word embeddings are the result of machine learning processes and will be part of the input for further processes. These word embedding needs to be validated or at least understood because the performance of the derived model will strongly depend on its quality.</p>
+<p>Word embeddings are multidimensional arrays, usually with hundreds of attributes that pose a challenge for its interpretation.</p>
+<p>In this notebook, we will visually inspect the word embedding of some words using a pair of attributes. Raw attributes are not the best option for the creation of such charts but will allow us to illustrate the mechanical part in Python.</p>
+<p>In the next cell, we make a beautiful plot for the word embeddings of some words. Even if plotting the dots gives an idea of the words, the arrow representations help to visualize the vector’s alignment as well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span> <span class="c1"># Import matplotlib</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;oil&#39;</span><span class="p">,</span> <span class="s1">&#39;gas&#39;</span><span class="p">,</span> <span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="s1">&#39;sad&#39;</span><span class="p">,</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;town&#39;</span><span class="p">,</span> <span class="s1">&#39;village&#39;</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;continent&#39;</span><span class="p">,</span> <span class="s1">&#39;petroleum&#39;</span><span class="p">,</span> <span class="s1">&#39;joyful&#39;</span><span class="p">]</span>
+
+<span class="n">bag2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vec</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span> <span class="c1"># Convert each word to its vector representation</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="c1"># Create custom size image</span>
+
+<span class="n">col1</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># Select the column for the x axis</span>
+<span class="n">col2</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Select the column for the y axis</span>
+
+<span class="c1"># Print an arrow for each word</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">bag2d</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">word</span><span class="p">[</span><span class="n">col1</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="n">col2</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">)</span>
+
+    
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">bag2d</span><span class="p">[:,</span> <span class="n">col1</span><span class="p">],</span> <span class="n">bag2d</span><span class="p">[:,</span> <span class="n">col2</span><span class="p">]);</span> <span class="c1"># Plot a dot for each word</span>
+
+<span class="c1"># Add the word label over each dot in the scatter plot</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">bag2d</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col1</span><span class="p">],</span> <span class="n">bag2d</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col2</span><span class="p">]))</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c29ca4412432c2afd35f31b7548db82ca6fa8cdf22d97d78d265645368ad82ab.png" src="../../_images/c29ca4412432c2afd35f31b7548db82ca6fa8cdf22d97d78d265645368ad82ab.png" />
+</div>
+</div>
+<p>Note that similar words like ‘village’ and ‘town’ or ‘petroleum’, ‘oil’, and ‘gas’ tend to point in the same direction. Also, note that ‘sad’ and ‘happy’ looks close to each other; however, the vectors point in opposite directions.</p>
+<p>In this chart, one can figure out the angles and distances between the words. Some words are close in both kinds of distance metrics.</p>
+</section>
+<section id="word-distance">
+<h2>Word distance<a class="headerlink" href="#word-distance" title="Link to this heading">#</a></h2>
+<p>Now plot the words ‘sad’, ‘happy’, ‘town’, and ‘village’. In this same chart, display the vector from ‘village’ to ‘town’ and the vector from ‘sad’ to ‘happy’. Let us use NumPy for these linear algebra operations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sad&#39;</span><span class="p">,</span> <span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="s1">&#39;town&#39;</span><span class="p">,</span> <span class="s1">&#39;village&#39;</span><span class="p">]</span>
+
+<span class="n">bag2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vec</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span> <span class="c1"># Convert each word to its vector representation</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="c1"># Create custom size image</span>
+
+<span class="n">col1</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># Select the column for the x axe</span>
+<span class="n">col2</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Select the column for the y axe</span>
+
+<span class="c1"># Print an arrow for each word</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">bag2d</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">word</span><span class="p">[</span><span class="n">col1</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="n">col2</span><span class="p">],</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">)</span>
+    
+<span class="c1"># print the vector difference between village and town</span>
+<span class="n">village</span> <span class="o">=</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;village&#39;</span><span class="p">)</span>
+<span class="n">town</span> <span class="o">=</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;town&#39;</span><span class="p">)</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="n">town</span> <span class="o">-</span> <span class="n">village</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">village</span><span class="p">[</span><span class="n">col1</span><span class="p">],</span> <span class="n">village</span><span class="p">[</span><span class="n">col2</span><span class="p">],</span> <span class="n">diff</span><span class="p">[</span><span class="n">col1</span><span class="p">],</span> <span class="n">diff</span><span class="p">[</span><span class="n">col2</span><span class="p">],</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">)</span>
+
+<span class="c1"># print the vector difference between village and town</span>
+<span class="n">sad</span> <span class="o">=</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;sad&#39;</span><span class="p">)</span>
+<span class="n">happy</span> <span class="o">=</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;happy&#39;</span><span class="p">)</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="n">happy</span> <span class="o">-</span> <span class="n">sad</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">sad</span><span class="p">[</span><span class="n">col1</span><span class="p">],</span> <span class="n">sad</span><span class="p">[</span><span class="n">col2</span><span class="p">],</span> <span class="n">diff</span><span class="p">[</span><span class="n">col1</span><span class="p">],</span> <span class="n">diff</span><span class="p">[</span><span class="n">col2</span><span class="p">],</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">)</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">bag2d</span><span class="p">[:,</span> <span class="n">col1</span><span class="p">],</span> <span class="n">bag2d</span><span class="p">[:,</span> <span class="n">col2</span><span class="p">]);</span> <span class="c1"># Plot a dot for each word</span>
+
+<span class="c1"># Add the word label over each dot in the scatter plot</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">bag2d</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col1</span><span class="p">],</span> <span class="n">bag2d</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">col2</span><span class="p">]))</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/17f256bb7143113a4da098a58213ff3644a3e081574f26229331e9de2d257be9.png" src="../../_images/17f256bb7143113a4da098a58213ff3644a3e081574f26229331e9de2d257be9.png" />
+</div>
+</div>
+</section>
+<section id="linear-algebra-on-word-embeddings">
+<h2>Linear algebra on word embeddings<a class="headerlink" href="#linear-algebra-on-word-embeddings" title="Link to this heading">#</a></h2>
+<p>In the lectures, we saw the analogies between words using algebra on word embeddings. Let us see how to do it in Python with Numpy.</p>
+<p>To start, get the <strong>norm</strong> of a word in the word embedding.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">(</span><span class="s1">&#39;town&#39;</span><span class="p">)))</span> <span class="c1"># Print the norm of the word town</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vec</span><span class="p">(</span><span class="s1">&#39;sad&#39;</span><span class="p">)))</span> <span class="c1"># Print the norm of the word sad</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.3858097
+2.9004838
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="predicting-capitals">
+<h2>Predicting capitals<a class="headerlink" href="#predicting-capitals" title="Link to this heading">#</a></h2>
+<p>Now, applying vector difference and addition, one can create a vector representation for a new word. For example, we can say that the vector difference between ‘France’ and ‘Paris’ represents the concept of Capital.</p>
+<p>One can move from the city of Madrid in the direction of the concept of Capital, and obtain something close to the corresponding country to which Madrid is the Capital.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">capital</span> <span class="o">=</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;France&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">)</span>
+<span class="n">country</span> <span class="o">=</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Madrid&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">capital</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">country</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span> <span class="c1"># Print the first 5 values of the vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.02905273 -0.2475586   0.53952026  0.20581055 -0.14862823]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can observe that the vector ‘country’ that we expected to be the same as the vector for Spain is not exactly it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="n">country</span> <span class="o">-</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Spain&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.06054688 -0.06494141  0.37643433  0.08129883 -0.13007355 -0.00952148
+ -0.03417969 -0.00708008  0.09790039 -0.01867676]
+</pre></div>
+</div>
+</div>
+</div>
+<p>So, we have to look for the closest words in the embedding that matches the candidate country. If the word embedding works as expected, the most similar word must be ‘Spain’. Let us define a function that helps us to do it. We will store our word embedding as a DataFrame, which facilitate the lookup operations based on the numerical vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a dataframe out of the dictionary embedding. This facilitate the algebraic operations</span>
+<span class="n">keys</span> <span class="o">=</span> <span class="n">word_embeddings</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word_embeddings</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+<span class="n">embedding</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
+<span class="c1"># Define a function to find the closest word to a vector:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_closest_word</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># Calculate the vector difference from each word to the input vector</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">v</span> 
+    <span class="c1"># Get the squared L2 norm of each difference vector.</span>
+    <span class="c1"># It means the squared euclidean distance from each word to the input vector</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diff</span> <span class="o">*</span> <span class="n">diff</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># Find the index of the minimun distance in the array</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+    <span class="c1"># Return the row name for this item</span>
+    <span class="k">return</span> <span class="n">embedding</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print some rows of the embedding as a Dataframe</span>
+<span class="n">embedding</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>290</th>
+      <th>291</th>
+      <th>292</th>
+      <th>293</th>
+      <th>294</th>
+      <th>295</th>
+      <th>296</th>
+      <th>297</th>
+      <th>298</th>
+      <th>299</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>country</th>
+      <td>-0.080078</td>
+      <td>0.133789</td>
+      <td>0.143555</td>
+      <td>0.094727</td>
+      <td>-0.047363</td>
+      <td>-0.023560</td>
+      <td>-0.008545</td>
+      <td>-0.186523</td>
+      <td>0.045898</td>
+      <td>-0.081543</td>
+      <td>...</td>
+      <td>-0.145508</td>
+      <td>0.067383</td>
+      <td>-0.244141</td>
+      <td>-0.077148</td>
+      <td>0.047607</td>
+      <td>-0.075195</td>
+      <td>-0.149414</td>
+      <td>-0.044189</td>
+      <td>0.097168</td>
+      <td>0.067383</td>
+    </tr>
+    <tr>
+      <th>city</th>
+      <td>-0.010071</td>
+      <td>0.057373</td>
+      <td>0.183594</td>
+      <td>-0.040039</td>
+      <td>-0.029785</td>
+      <td>-0.079102</td>
+      <td>0.071777</td>
+      <td>0.013306</td>
+      <td>-0.143555</td>
+      <td>0.011292</td>
+      <td>...</td>
+      <td>0.024292</td>
+      <td>-0.168945</td>
+      <td>-0.062988</td>
+      <td>0.117188</td>
+      <td>-0.020508</td>
+      <td>0.030273</td>
+      <td>-0.247070</td>
+      <td>-0.122559</td>
+      <td>0.076172</td>
+      <td>-0.234375</td>
+    </tr>
+    <tr>
+      <th>China</th>
+      <td>-0.073242</td>
+      <td>0.135742</td>
+      <td>0.108887</td>
+      <td>0.083008</td>
+      <td>-0.127930</td>
+      <td>-0.227539</td>
+      <td>0.151367</td>
+      <td>-0.045654</td>
+      <td>-0.065430</td>
+      <td>0.034424</td>
+      <td>...</td>
+      <td>0.140625</td>
+      <td>0.087402</td>
+      <td>0.152344</td>
+      <td>0.079590</td>
+      <td>0.006348</td>
+      <td>-0.037842</td>
+      <td>-0.183594</td>
+      <td>0.137695</td>
+      <td>0.093750</td>
+      <td>-0.079590</td>
+    </tr>
+    <tr>
+      <th>Iraq</th>
+      <td>0.191406</td>
+      <td>0.125000</td>
+      <td>-0.065430</td>
+      <td>0.060059</td>
+      <td>-0.285156</td>
+      <td>-0.102539</td>
+      <td>0.117188</td>
+      <td>-0.351562</td>
+      <td>-0.095215</td>
+      <td>0.200195</td>
+      <td>...</td>
+      <td>-0.100586</td>
+      <td>-0.077148</td>
+      <td>-0.123047</td>
+      <td>0.193359</td>
+      <td>-0.153320</td>
+      <td>0.089355</td>
+      <td>-0.173828</td>
+      <td>-0.054688</td>
+      <td>0.302734</td>
+      <td>0.105957</td>
+    </tr>
+    <tr>
+      <th>oil</th>
+      <td>-0.139648</td>
+      <td>0.062256</td>
+      <td>-0.279297</td>
+      <td>0.063965</td>
+      <td>0.044434</td>
+      <td>-0.154297</td>
+      <td>-0.184570</td>
+      <td>-0.498047</td>
+      <td>0.047363</td>
+      <td>0.110840</td>
+      <td>...</td>
+      <td>-0.195312</td>
+      <td>-0.345703</td>
+      <td>0.217773</td>
+      <td>-0.091797</td>
+      <td>0.051025</td>
+      <td>0.061279</td>
+      <td>0.194336</td>
+      <td>0.204102</td>
+      <td>0.235352</td>
+      <td>-0.051025</td>
+    </tr>
+    <tr>
+      <th>town</th>
+      <td>0.123535</td>
+      <td>0.159180</td>
+      <td>0.030029</td>
+      <td>-0.161133</td>
+      <td>0.015625</td>
+      <td>0.111816</td>
+      <td>0.039795</td>
+      <td>-0.196289</td>
+      <td>-0.039307</td>
+      <td>0.067871</td>
+      <td>...</td>
+      <td>-0.007935</td>
+      <td>-0.091797</td>
+      <td>-0.265625</td>
+      <td>0.029297</td>
+      <td>0.089844</td>
+      <td>-0.049805</td>
+      <td>-0.202148</td>
+      <td>-0.079590</td>
+      <td>0.068848</td>
+      <td>-0.164062</td>
+    </tr>
+    <tr>
+      <th>Canada</th>
+      <td>-0.136719</td>
+      <td>-0.154297</td>
+      <td>0.269531</td>
+      <td>0.273438</td>
+      <td>0.086914</td>
+      <td>-0.076172</td>
+      <td>-0.018677</td>
+      <td>0.006256</td>
+      <td>0.077637</td>
+      <td>-0.211914</td>
+      <td>...</td>
+      <td>0.105469</td>
+      <td>0.030762</td>
+      <td>-0.039307</td>
+      <td>0.183594</td>
+      <td>-0.117676</td>
+      <td>0.191406</td>
+      <td>0.074219</td>
+      <td>0.020996</td>
+      <td>0.285156</td>
+      <td>-0.257812</td>
+    </tr>
+    <tr>
+      <th>London</th>
+      <td>-0.267578</td>
+      <td>0.092773</td>
+      <td>-0.238281</td>
+      <td>0.115234</td>
+      <td>-0.006836</td>
+      <td>0.221680</td>
+      <td>-0.251953</td>
+      <td>-0.055420</td>
+      <td>0.020020</td>
+      <td>0.149414</td>
+      <td>...</td>
+      <td>-0.008667</td>
+      <td>-0.008484</td>
+      <td>-0.053223</td>
+      <td>0.197266</td>
+      <td>-0.296875</td>
+      <td>0.064453</td>
+      <td>0.091797</td>
+      <td>0.058350</td>
+      <td>0.022583</td>
+      <td>-0.101074</td>
+    </tr>
+    <tr>
+      <th>England</th>
+      <td>-0.198242</td>
+      <td>0.115234</td>
+      <td>0.062500</td>
+      <td>-0.058350</td>
+      <td>0.226562</td>
+      <td>0.045898</td>
+      <td>-0.062256</td>
+      <td>-0.202148</td>
+      <td>0.080566</td>
+      <td>0.021606</td>
+      <td>...</td>
+      <td>0.135742</td>
+      <td>0.109375</td>
+      <td>-0.121582</td>
+      <td>0.008545</td>
+      <td>-0.171875</td>
+      <td>0.086914</td>
+      <td>0.070312</td>
+      <td>0.003281</td>
+      <td>0.069336</td>
+      <td>0.056152</td>
+    </tr>
+    <tr>
+      <th>Australia</th>
+      <td>0.048828</td>
+      <td>-0.194336</td>
+      <td>-0.041504</td>
+      <td>0.084473</td>
+      <td>-0.114258</td>
+      <td>-0.208008</td>
+      <td>-0.164062</td>
+      <td>-0.269531</td>
+      <td>0.079102</td>
+      <td>0.275391</td>
+      <td>...</td>
+      <td>0.021118</td>
+      <td>0.171875</td>
+      <td>0.042236</td>
+      <td>0.221680</td>
+      <td>-0.239258</td>
+      <td>-0.106934</td>
+      <td>0.030884</td>
+      <td>0.006622</td>
+      <td>0.051270</td>
+      <td>-0.135742</td>
+    </tr>
+  </tbody>
+</table>
+<p>10 rows × 300 columns</p>
+</div></div></div>
+</div>
+<p>Now let us find the name that corresponds to our numerical country:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">find_closest_word</span><span class="p">(</span><span class="n">country</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Spain&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="predicting-other-countries">
+<h2>Predicting other Countries<a class="headerlink" href="#predicting-other-countries" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">find_closest_word</span><span class="p">(</span><span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Italy&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Rome&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Madrid&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Spain&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">find_closest_word</span><span class="p">(</span><span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Berlin&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">capital</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">find_closest_word</span><span class="p">(</span><span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Beijing&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">capital</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Germany
+China
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, it does not always work.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">find_closest_word</span><span class="p">(</span><span class="n">vec</span><span class="p">(</span><span class="s1">&#39;Lisbon&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">capital</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lisbon
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="represent-a-sentence-as-a-vector">
+<h2>Represent a sentence as a vector<a class="headerlink" href="#represent-a-sentence-as-a-vector" title="Link to this heading">#</a></h2>
+<p>A whole sentence can be represented as a vector by summing all the word vectors that conform to the sentence. Let us see.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="s2">&quot;Spain petroleum city king&quot;</span>
+<span class="n">vdoc</span> <span class="o">=</span> <span class="p">[</span><span class="n">vec</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)]</span>
+<span class="n">doc2vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vdoc</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">doc2vec</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 2.87475586e-02,  1.03759766e-01,  1.32629395e-01,  3.33007812e-01,
+       -2.61230469e-02, -5.95703125e-01, -1.25976562e-01, -1.01306152e+00,
+       -2.18544006e-01,  6.60705566e-01, -2.58300781e-01, -2.09960938e-02,
+       -7.71484375e-02, -3.07128906e-01, -5.94726562e-01,  2.00561523e-01,
+       -1.04980469e-02, -1.10748291e-01,  4.82177734e-02,  6.38977051e-01,
+        2.36083984e-01, -2.69775391e-01,  3.90625000e-02,  4.16503906e-01,
+        2.83416748e-01, -7.25097656e-02, -3.12988281e-01,  1.05712891e-01,
+        3.22265625e-02,  2.38403320e-01,  3.88183594e-01, -7.51953125e-02,
+       -1.26281738e-01,  6.60644531e-01, -7.89794922e-01, -7.04345703e-02,
+       -1.14379883e-01, -4.78515625e-02,  4.76318359e-01,  5.31127930e-01,
+        8.10546875e-02, -1.17553711e-01,  1.02050781e+00,  5.59814453e-01,
+       -1.17187500e-01,  1.21826172e-01, -5.51574707e-01,  1.44531250e-01,
+       -7.66113281e-01,  5.36102295e-01, -2.80029297e-01,  3.85986328e-01,
+       -2.39135742e-01, -2.86865234e-02, -5.10498047e-01,  2.59658813e-01,
+       -7.52929688e-01,  4.32128906e-02, -7.17773438e-02, -1.26708984e-01,
+        4.40673828e-02,  5.12939453e-01, -5.15808105e-01,  1.20117188e-01,
+       -5.52978516e-02, -3.92089844e-01, -3.15917969e-01,  1.57226562e-01,
+       -3.19702148e-01,  1.75170898e-01, -3.81835938e-01, -2.07031250e-01,
+       -4.72717285e-02, -2.79296875e-01, -3.29040527e-01, -1.69067383e-01,
+        1.61132812e-02,  1.71569824e-01,  5.73730469e-02, -2.44140625e-03,
+        8.34960938e-02, -1.58203125e-01, -3.10119629e-01,  5.28564453e-02,
+        8.60595703e-02,  5.12695312e-02, -7.22900391e-01,  4.97924805e-01,
+       -5.85937500e-03,  4.49951172e-01,  3.82446289e-01, -2.80029297e-01,
+       -3.28125000e-01, -6.27441406e-02, -4.81933594e-01,  1.93176270e-02,
+       -1.69326782e-01, -4.28649902e-01,  5.39062500e-01, -1.28417969e-01,
+       -8.83789062e-02,  5.13916016e-01,  9.13085938e-02, -1.60156250e-01,
+        6.86035156e-02, -9.74121094e-02, -3.70712280e-01, -3.27270508e-01,
+        1.77978516e-01, -4.65332031e-01,  1.70410156e-01,  9.08203125e-02,
+        2.76857376e-01, -1.69677734e-01,  3.27728271e-01, -3.12500000e-02,
+       -2.20809937e-01, -3.46679688e-01,  4.67407227e-01,  5.31860352e-01,
+       -1.30615234e-01, -2.36816406e-02, -6.56250000e-01, -5.79589844e-01,
+       -2.05810547e-01, -3.03222656e-01,  1.94259644e-01, -7.28515625e-01,
+       -4.92522240e-01, -5.37109375e-01, -3.47656250e-01,  1.08642578e-01,
+       -1.41601562e-01, -2.07031250e-01,  2.52441406e-01, -7.78808594e-02,
+       -5.02441406e-01,  1.53808594e-02,  8.64257812e-02,  2.59765625e-01,
+        6.64062500e-02, -7.12890625e-01, -1.45751953e-01,  7.56835938e-03,
+        4.87792969e-01,  1.39160156e-01,  1.15722656e-01,  1.28662109e-01,
+       -4.75585938e-01,  2.21191406e-01,  3.25317383e-01,  1.06323242e-01,
+       -6.11083984e-01, -3.59619141e-01,  6.54296875e-02, -2.41699219e-01,
+       -6.29882812e-02, -1.62109375e-01,  4.26269531e-01, -4.38354492e-01,
+        1.93725586e-01,  4.89562988e-01,  5.31494141e-01, -7.29370117e-02,
+        1.77246094e-01,  9.39941406e-02,  2.92236328e-01, -2.74047852e-01,
+        2.63366699e-02,  4.36035156e-01, -3.76953125e-01,  3.10546875e-01,
+        4.87304688e-01, -2.43041992e-01,  1.21612549e-02, -3.80371094e-01,
+        3.80493164e-01, -6.22436523e-01, -3.98071289e-01,  1.24206543e-01,
+       -8.20312500e-01, -2.72583008e-01, -6.21582031e-01, -4.87060547e-01,
+        3.06671143e-01, -2.61230469e-01,  5.12451172e-01,  5.55694580e-01,
+        5.66894531e-01,  7.33886719e-01, -1.75781250e-01,  4.13574219e-01,
+       -2.54272461e-01,  1.32507324e-01, -4.78515625e-01,  4.63256836e-01,
+       -6.21948242e-02, -1.80664062e-01, -5.46386719e-01, -6.31103516e-01,
+       -1.47949219e-01, -3.15185547e-01, -7.12890625e-02, -7.67578125e-01,
+        3.92272949e-01, -1.97753906e-01,  2.23144531e-01, -5.07324219e-01,
+        8.39843750e-02, -4.98657227e-02,  1.01074219e-01,  2.07885742e-01,
+       -2.77343750e-01,  1.03027344e-01, -1.38671875e-01,  2.87353516e-01,
+       -4.81895447e-01, -1.66748047e-01, -1.47277832e-01,  3.61633301e-01,
+        6.38504028e-02, -6.69189453e-01,  1.95312500e-03, -7.34375000e-01,
+       -1.28158569e-01,  9.76562500e-04, -7.08007812e-02,  3.72558594e-01,
+        8.31176758e-01,  5.94482422e-01,  5.37109375e-02, -3.00140381e-01,
+       -4.53857422e-01,  1.11511230e-01, -1.32812500e-01,  1.25732422e-01,
+        3.39843750e-01, -2.48352051e-01, -1.62353516e-02, -2.84667969e-01,
+        4.70703125e-01, -4.48242188e-01,  8.50753784e-02,  2.69042969e-01,
+        3.98254395e-03, -3.53759766e-01, -3.90625000e-02, -3.22753906e-01,
+       -6.90917969e-02, -4.13818359e-02,  1.35314941e-01, -8.50396156e-02,
+        1.28417969e-01,  6.15966797e-01,  3.55957031e-01, -6.05468750e-02,
+       -2.25463867e-01, -2.62207031e-01, -2.72949219e-01, -5.16113281e-01,
+        1.59179688e-01,  2.74902344e-01, -7.61718750e-02, -3.41796875e-03,
+        4.37500000e-01,  2.98583984e-01, -4.40795898e-01, -3.43261719e-01,
+        1.73583984e-01,  3.32092285e-01, -2.12646484e-01,  5.76171875e-01,
+        2.06787109e-01, -7.91015625e-02,  5.79695702e-02, -1.01806641e-01,
+       -7.06787109e-01, -3.40576172e-02, -4.11865234e-01,  9.82666016e-02,
+       -1.70410156e-01, -4.18212891e-01,  8.39233398e-01, -1.15722656e-01,
+        1.28173828e-01, -2.07763672e-01, -4.08203125e-01, -1.77612305e-01,
+        1.01196289e-01,  4.24072266e-01, -5.26428223e-02, -5.58593750e-01,
+        1.12304688e-02, -1.12060547e-01, -9.42382812e-02,  2.35595703e-02,
+       -3.92578125e-01, -7.12890625e-02,  5.69824219e-01,  9.81445312e-02],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">find_closest_word</span><span class="p">(</span><span class="n">doc2vec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;petroleum&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Congratulations! You have finished the introduction to word embeddings manipulation!</strong></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLP\C1_W3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C1_W3_lecture_nb_01_linear_algebra.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Linear algebra in Python with NumPy</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C1_W3_lecture_nb_03_pca.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Another explanation about PCA</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operating-on-word-embeddings">Operating on word embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-distance">Word distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-algebra-on-word-embeddings">Linear algebra on word embeddings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-capitals">Predicting capitals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-other-countries">Predicting other Countries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#represent-a-sentence-as-a-vector">Represent a sentence as a vector</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

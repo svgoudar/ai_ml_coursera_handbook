@@ -1,0 +1,2053 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Assignment 2 - Named Entity Recognition (NER) &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLP/C3_W2/C3W2_Assignment';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/NLP/C3_W2/C3W2_Assignment.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook" href="C3W2_Vanishing_Gradients.html" />
+    <link rel="prev" title="Course 1 Week 1: Introduction to Machine Learning" href="ppt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">NLP Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Assignment.html">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_1_strings_tags.html">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Assignment 2 - Named Entity Recognition (NER)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/NLP/C3_W2/C3W2_Assignment.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FNLP/C3_W2/C3W2_Assignment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/NLP/C3_W2/C3W2_Assignment.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Assignment 2 - Named Entity Recognition (NER)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Assignment 2 - Named Entity Recognition (NER)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-successful-grading-of-your-assignment">TIPS FOR SUCCESSFUL GRADING OF YOUR ASSIGNMENT:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1 - Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-data">2 - Exploring the Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-the-data">2.1 - Importing the Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding">3 -  Encoding</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-the-sentences">3.1 Encoding the sentences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-the-labels">3.2 Encoding the labels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#padding-the-labels">3.3 Padding the labels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-label-vectorizer">3.4 Building the label vectorizer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-dataset">4 Building the Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#considerations-about-rnns-and-lstms-inputs">3.5 - Considerations about RNNs and LSTMs inputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-model">4 - Building the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-structure">4.1 Model structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#masked-loss-and-metrics">4.2 Masked loss and metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4">Exercise 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5">Exercise 5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-on-padding">4.3 A note on padding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">4.4 - Training the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-accuracy">5 - Compute Accuracy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-with-your-own-sentence">6 - Testing with your Own Sentence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6">Exercise 6</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="assignment-2-named-entity-recognition-ner">
+<h1>Assignment 2 - Named Entity Recognition (NER)<a class="headerlink" href="#assignment-2-named-entity-recognition-ner" title="Link to this heading">#</a></h1>
+<p>Welcome to the second programming assignment of Course 3. In this assignment, you will learn to build more complicated models with Tensorflow. By completing this assignment, you will be able to:</p>
+<ul class="simple">
+<li><p>Design the architecture of a neural network, train it, and test it.</p></li>
+<li><p>Process features and represents them</p></li>
+<li><p>Understand word padding</p></li>
+<li><p>Implement LSTMs</p></li>
+<li><p>Test with your own sentence</p></li>
+</ul>
+<p>Before getting started take some time to read the following tips:</p>
+<section id="tips-for-successful-grading-of-your-assignment">
+<h2>TIPS FOR SUCCESSFUL GRADING OF YOUR ASSIGNMENT:<a class="headerlink" href="#tips-for-successful-grading-of-your-assignment" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>All cells are frozen except for the ones where you need to submit your solutions.</p></li>
+<li><p>You can add new cells to experiment but these will be omitted by the grader, so don’t rely on newly created cells to host your solution code, use the provided places for this.</p></li>
+<li><p>You can add the comment # grade-up-to-here in any graded cell to signal the grader that it must only evaluate up to that point. This is helpful if you want to check if you are on the right track even if you are not done with the whole assignment. Be sure to remember to delete the comment afterwards!</p></li>
+<li><p>To submit your notebook, save it and then click on the blue submit button at the beginning of the page.</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="outline">
+<h1>Outline<a class="headerlink" href="#outline" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1"><span class="xref myst"> 1 - Introduction</span></a></p></li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst"> 2 - Exploring the Data</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#2.1"><span class="xref myst"> 2.1 - Importing the Data</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst"> 3 -  Encoding</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#3.1"><span class="xref myst"> 3.1 Enconding the sentences</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex01"><span class="xref myst"> Exercise 1</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3.2"><span class="xref myst"> 3.2 Encoding the labels</span></a></p></li>
+<li><p><a class="reference internal" href="#3.3"><span class="xref myst"> 3.3 Padding the labels</span></a></p></li>
+<li><p><a class="reference internal" href="#3.4"><span class="xref myst"> 3.4 Building the label vectorizer</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex02"><span class="xref myst"> Exercise 2</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3.5"><span class="xref myst"> 3.5 - Considerations about RNNs and LSTMs inputs</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst"> 4 - Building the Model</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#4.1"><span class="xref myst"> 4.1 Model structure</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex03"><span class="xref myst"> Exercise 3</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4.2"><span class="xref myst"> 4.2 Masked loss and metrics</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex04"><span class="xref myst"> Exercise 4</span></a></p></li>
+<li><p><a class="reference internal" href="#ex05"><span class="xref myst"> Exercise 5</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#4.3"><span class="xref myst"> 4.3 A note on padding</span></a></p></li>
+<li><p><a class="reference internal" href="#4.4"><span class="xref myst"> 4.4 - Training the Model</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst"> 5 - Compute Accuracy</span></a></p></li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst"> 6 - Testing with your Own Sentence</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex06"><span class="xref myst"> Exercise 6</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p><a name="1"></a></p>
+<section id="introduction">
+<h2>1 - Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Let’s begin by defining what a named entity recognition (NER) is. NER is a subtask of information extraction that locates and classifies named entities in a text. The named entities could be organizations, persons, locations, times, etc.</p>
+<p>For example:</p>
+<img src = '../../assets/C3_W2/images/ner.png' width="width" height="height" style="width:600px;height:150px;"/>
+<p>Is labeled as follows:</p>
+<ul class="simple">
+<li><p>French: geopolitical entity</p></li>
+<li><p>Morocco: geographic entity</p></li>
+<li><p>Christmas: time indicator</p></li>
+</ul>
+<p>Everything else that is labeled with an <code class="docutils literal notranslate"><span class="pre">O</span></code> is not considered to be a named entity. In this assignment, you will train a named entity recognition system that could be trained in a few seconds (on a GPU) and will get around 75% accuracy. You will then evaluate your model and see you get 97% accuracy! Finally, you will be able to test your named entity recognition system with your own sentence.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+
+<span class="c1"># set random seeds to make this notebook easier to replicate</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">set_random_seed</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">w2_unittest</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">-------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                     </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">w2_unittest</span>
+
+<span class="n">File</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Github</span>\<span class="n">Coursera_Materials</span>\<span class="n">coursera_notes</span>\<span class="n">NLP</span>\<span class="n">C3_W2</span>\<span class="n">w2_unittest</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">12</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">keras</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="ne">---&gt; </span><span class="mi">12</span> <span class="kn">import</span><span class="w"> </span><span class="nn">regex</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">re</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="c1"># UNIT TEST</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="c1"># test data_generator</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">TAG_MAP_SET</span> <span class="o">=</span> <span class="nb">set</span><span class="p">({</span><span class="s1">&#39;B-art&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>  <span class="s1">&#39;B-eve&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>  <span class="s1">&#39;B-geo&#39;</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">32</span>  <span class="s1">&#39;I-tim&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span>  <span class="s1">&#39;O&#39;</span><span class="p">})</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;regex&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2"></a></p>
+</section>
+<section id="exploring-the-data">
+<h2>2 - Exploring the Data<a class="headerlink" href="#exploring-the-data" title="Link to this heading">#</a></h2>
+<p>You will be using a dataset from Kaggle, which it will be preprocessed for you. The original data consists of four columns: the sentence number, the word, the part of speech of the word (it won’t be used in this assignment), and the tags.  A few tags you might expect to see are:</p>
+<ul class="simple">
+<li><p>geo: geographical entity</p></li>
+<li><p>org: organization</p></li>
+<li><p>per: person</p></li>
+<li><p>gpe: geopolitical entity</p></li>
+<li><p>tim: time indicator</p></li>
+<li><p>art: artifact</p></li>
+<li><p>eve: event</p></li>
+<li><p>nat: natural phenomenon</p></li>
+<li><p>O: filler word</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># display original kaggle data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/ner_dataset.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s2">&quot;ISO-8859-1&quot;</span><span class="p">)</span> 
+<span class="n">train_sents</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/small/train/sentences.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="n">train_labels</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/small/train/labels.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SENTENCE:&#39;</span><span class="p">,</span> <span class="n">train_sents</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SENTENCE LABEL:&#39;</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ORIGINAL DATA:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="k">del</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">train_sents</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SENTENCE: Thousands of demonstrators have marched through London to protest the war in Iraq and demand the withdrawal of British troops from that country .
+
+SENTENCE LABEL: O O O O O O B-geo O O O O O B-geo O O O O O B-gpe O O O O O
+
+ORIGINAL DATA:
+     Sentence #           Word  POS Tag
+0  Sentence: 1      Thousands  NNS   O
+1          NaN             of   IN   O
+2          NaN  demonstrators  NNS   O
+3          NaN           have  VBP   O
+4          NaN        marched  VBN   O
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="2.1"></a></p>
+<section id="importing-the-data">
+<h3>2.1 - Importing the Data<a class="headerlink" href="#importing-the-data" title="Link to this heading">#</a></h3>
+<p>In this part, you will import the preprocessed data and explore it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="n">data</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_sentences</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;data/large/train/sentences.txt&#39;</span><span class="p">)</span>
+<span class="n">train_labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;data/large/train/labels.txt&#39;</span><span class="p">)</span>
+
+<span class="n">val_sentences</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;data/large/val/sentences.txt&#39;</span><span class="p">)</span>
+<span class="n">val_labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;data/large/val/labels.txt&#39;</span><span class="p">)</span>
+
+<span class="n">test_sentences</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;data/large/test/sentences.txt&#39;</span><span class="p">)</span>
+<span class="n">test_labels</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;data/large/test/labels.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3"></a></p>
+</section>
+</section>
+<section id="encoding">
+<h2>3 -  Encoding<a class="headerlink" href="#encoding" title="Link to this heading">#</a></h2>
+<p><a name="3.1"></a></p>
+<section id="encoding-the-sentences">
+<h3>3.1 Encoding the sentences<a class="headerlink" href="#encoding-the-sentences" title="Link to this heading">#</a></h3>
+<p>In this section, you will use <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/TextVectorization"><code class="docutils literal notranslate"><span class="pre">tf.keras.layers.TextVectorization</span></code></a> to transform the sentences into integers, so they can be fed into the model you will build later on.</p>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">help(tf.keras.layers.TextVectorization)</span></code> to further investigate the object and its parameters.</p>
+<p>The parameter you will need to pass explicitly is <code class="docutils literal notranslate"><span class="pre">standardize</span></code>. This will tell how the parser splits the sentences. By default, <code class="docutils literal notranslate"><span class="pre">standardize</span> <span class="pre">=</span> <span class="pre">'lower_and_strip_punctuation'</span></code>, this means the parser will remove all punctuation and make everything lowercase. Note that this may influence the NER task, since an upper case in the middle of a sentence may indicate an entity. Furthermore, the sentences in the dataset are already split into tokens, and all tokens, including punctuation, are separated by a whitespace. The punctuations are also labeled. That said, you will use <code class="docutils literal notranslate"><span class="pre">standardize</span> <span class="pre">=</span> <span class="pre">None</span></code> so everything will just be split into single tokens and then mapped to a positive integer.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">tf.keras.layers.TextVectorization</span></code> will also pad the sentences. In this case, it will always pad using the largest sentence in the set you call it with. You will be calling it for the entire training/validation/test set, but padding won’t impact at all the model’s output, as you will see later on.</p>
+<p>After instantiating the object, you will need to adapt it to the <strong>sentences training set</strong>, so it will map every token in the training set to an integer. Also, it will by default create two tokens: one for unknown tokens and another for the padding token. Tensorflow maps in the following way:</p>
+<ol class="arabic simple">
+<li><p>padding token: “”, integer mapped: 0</p></li>
+<li><p>unknown token “[UNK]”, integer mapped: 1</p></li>
+</ol>
+<p><a name="ex01"></a></p>
+</section>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p><strong>Instructions</strong>: Use the object tf.keras.layers.TextVectorization and the appropriate parameters to build a function that inputs an array of sentences and outputs an adapted sentence vectorizer and its vocabulary list.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: get_sentence_vectorizer</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_sentence_vectorizer</span><span class="p">(</span><span class="n">sentences</span><span class="p">):</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">set_random_seed</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span> <span class="c1">## Do not change this line. </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a TextVectorization layer for sentence tokenization and adapt it to the provided sentences.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    sentences (list of str): Sentences for vocabulary adaptation.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    sentence_vectorizer (tf.keras.layers.TextVectorization): TextVectorization layer for sentence tokenization.</span>
+<span class="sd">    vocab (list of str): Extracted vocabulary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">### START CODE HERE ###</span>
+
+    <span class="c1"># Define TextVectorization object with the appropriate standardize parameter</span>
+    <span class="n">sentence_vectorizer</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Adapt the sentence vectorization object to the given sentences</span>
+    <span class="kc">None</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Get the vocabulary</span>
+    <span class="n">vocab</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">### END CODE HERE ### </span>
+    
+    <span class="k">return</span> <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">vocab</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_vectorizer</span><span class="p">,</span> <span class="n">test_vocab</span> <span class="o">=</span> <span class="n">get_sentence_vectorizer</span><span class="p">(</span><span class="n">train_sentences</span><span class="p">[:</span><span class="mi">1000</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test vocab size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">test_vocab</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">sentence</span> <span class="o">=</span> <span class="s2">&quot;I like learning new NLP models !&quot;</span>
+<span class="n">sentence_vectorized</span> <span class="o">=</span> <span class="n">test_vectorizer</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sentence: </span><span class="si">{</span><span class="n">sentence</span><span class="si">}</span><span class="se">\n</span><span class="s2">Sentence vectorized: </span><span class="si">{</span><span class="n">sentence_vectorized</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test vocab size: 4650
+Sentence: I like learning new NLP models !
+Sentence vectorized: [ 296  314    1   59    1    1 4649]
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="color:green">Expected output:</span></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Test vocab size: 4650
+Sentence: I like learning new NLP models !
+Sentence vectorized: [ 296  314    1   59    1    1 4649]
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2_unittest</span><span class="o">.</span><span class="n">test_get_sentence_vectorizer</span><span class="p">(</span><span class="n">get_sentence_vectorizer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">vocab</span> <span class="o">=</span> <span class="n">get_sentence_vectorizer</span><span class="p">(</span><span class="n">train_sentences</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:tensorflow:5 out of the last 36 calls to &lt;function PreprocessingLayer.make_adapt_function.&lt;locals&gt;.adapt_step at 0x7fdeaab8e700&gt; triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has reduce_retracing=True option that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3.2"></a></p>
+</section>
+<section id="encoding-the-labels">
+<h3>3.2 Encoding the labels<a class="headerlink" href="#encoding-the-labels" title="Link to this heading">#</a></h3>
+<p>In this section you will encode the labels. The process is a bit simpler than encoding the sentences, because there are only a few tags, compared with words in the vocabulary. Note, also, that there will be one extra tag to represent the padded token that some sentences may have included. Padding will not interfere at all in this task, as you will see further on. Run the next cell to print one example of a tag related to one sentence.</p>
+<p>Because there is no meaning in having an UNK token for labels and the padding token will be another number different from 0 (you will see why soon), TextVectorization is not a good choice.</p>
+<p>You will need also to pad the labels, because the number of labels must match the number of words.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sentence: </span><span class="si">{</span><span class="n">train_sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Labels: </span><span class="si">{</span><span class="n">train_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentence: Thousands of demonstrators have marched through London to protest the war in Iraq and demand the withdrawal of British troops from that country .
+Labels: O O O O O O B-geo O O O O O B-geo O O O O O B-gpe O O O O O
+</pre></div>
+</div>
+</div>
+</div>
+<p>You will build the next function to extract all the different tags in a given set of labels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_tags</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="n">tag_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1"># Define an empty set</span>
+    <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">):</span>
+            <span class="n">tag_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+    <span class="n">tag_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tag_set</span><span class="p">)</span> 
+    <span class="n">tag_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">tag_list</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tags</span> <span class="o">=</span> <span class="n">get_tags</span><span class="p">(</span><span class="n">train_labels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;B-art&#39;, &#39;B-eve&#39;, &#39;B-geo&#39;, &#39;B-gpe&#39;, &#39;B-nat&#39;, &#39;B-org&#39;, &#39;B-per&#39;, &#39;B-tim&#39;, &#39;I-art&#39;, &#39;I-eve&#39;, &#39;I-geo&#39;, &#39;I-gpe&#39;, &#39;I-nat&#39;, &#39;I-org&#39;, &#39;I-per&#39;, &#39;I-tim&#39;, &#39;O&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you will need to generate a <strong>tag map</strong>, i.e., a mapping between the tags and <strong>positive</strong> integers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_tag_map</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
+    <span class="n">tag_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">tag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
+        <span class="n">tag_map</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> 
+    <span class="k">return</span> <span class="n">tag_map</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">tag_map</span></code> is a dictionary that maps the tags that you could have to numbers. Run the cell below to see the possible classes you will be predicting. The prepositions in the tags mean:</p>
+<ul class="simple">
+<li><p>I: Token is inside an entity.</p></li>
+<li><p>B: Token begins an entity.</p></li>
+</ul>
+<p>If you had the sentence</p>
+<p><strong>“Sharon flew to Miami on Friday”</strong></p>
+<p>The tags would look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sharon</span> <span class="n">B</span><span class="o">-</span><span class="n">per</span>
+<span class="n">flew</span>   <span class="n">O</span>
+<span class="n">to</span>     <span class="n">O</span>
+<span class="n">Miami</span>  <span class="n">B</span><span class="o">-</span><span class="n">geo</span>
+<span class="n">on</span>     <span class="n">O</span>
+<span class="n">Friday</span> <span class="n">B</span><span class="o">-</span><span class="n">tim</span>
+</pre></div>
+</div>
+<p>where you would have three tokens beginning with B-, since there are no multi-token entities in the sequence. But if you added Sharon’s last name to the sentence:</p>
+<p><strong>“Sharon Floyd flew to Miami on Friday”</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sharon</span> <span class="n">B</span><span class="o">-</span><span class="n">per</span>
+<span class="n">Floyd</span>  <span class="n">I</span><span class="o">-</span><span class="n">per</span>
+<span class="n">flew</span>   <span class="n">O</span>
+<span class="n">to</span>     <span class="n">O</span>
+<span class="n">Miami</span>  <span class="n">B</span><span class="o">-</span><span class="n">geo</span>
+<span class="n">on</span>     <span class="n">O</span>
+<span class="n">Friday</span> <span class="n">B</span><span class="o">-</span><span class="n">tim</span>
+</pre></div>
+</div>
+<p>Your tags would change to show first “Sharon” as B-per, and “Floyd” as I-per, where I- indicates an inner token in a multi-token sequence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tag_map</span> <span class="o">=</span> <span class="n">make_tag_map</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tag_map</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;B-art&#39;: 0, &#39;B-eve&#39;: 1, &#39;B-geo&#39;: 2, &#39;B-gpe&#39;: 3, &#39;B-nat&#39;: 4, &#39;B-org&#39;: 5, &#39;B-per&#39;: 6, &#39;B-tim&#39;: 7, &#39;I-art&#39;: 8, &#39;I-eve&#39;: 9, &#39;I-geo&#39;: 10, &#39;I-gpe&#39;: 11, &#39;I-nat&#39;: 12, &#39;I-org&#39;: 13, &#39;I-per&#39;: 14, &#39;I-tim&#39;: 15, &#39;O&#39;: 16}
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3.3"></a></p>
+</section>
+<section id="padding-the-labels">
+<h3>3.3 Padding the labels<a class="headerlink" href="#padding-the-labels" title="Link to this heading">#</a></h3>
+<p>In this section, you will pad the labels. TextVectorization already padded the sentences, so you must ensure that the labels are properly padded as well. This is not a hard task for two main reasons:</p>
+<ol class="arabic simple">
+<li><p>Tensorflow has built-in functions for padding</p></li>
+<li><p>Padding will be performed uniformly per dataset (train, validation and test) using the maximum sentence length in each dataset and the size of each sentence is exactly the same as the size of their respective labels.</p></li>
+</ol>
+<p>You will pad the vectorized labels with the value -1. You will not use 0 to simplify loss masking and evaluation in further steps. This is because to properly classify one token, a log softmax transformation will be performed and the index with greater value will be the index label. Since index starts at 0, it is better to keep the label 0 as a valid index, even though it is possible to also use 0 as a mask value for labels, but it would require some tweaks in the model architecture or in the loss computation.</p>
+<p>Tensorflow provides the function <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/utils/pad_sequences"><code class="docutils literal notranslate"><span class="pre">tf.keras.utils.pad_sequences</span></code></a>. The arguments you will need are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sequences</span></code>: An array with the labels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">padding</span></code>: The position where padding will take place, the standard is <code class="docutils literal notranslate"><span class="pre">pre</span></code>, meaning the sequences will be padded at the beginning. You need to pass the argument <code class="docutils literal notranslate"><span class="pre">post</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code>: Padding value. The default value is  0.</p></li>
+</ul>
+<p><a name="3.4"></a></p>
+</section>
+<section id="building-the-label-vectorizer">
+<h3>3.4 Building the label vectorizer<a class="headerlink" href="#building-the-label-vectorizer" title="Link to this heading">#</a></h3>
+<p>Now you’re ready to code the label vectorizer.</p>
+<p><a name="ex02"></a></p>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h3>
+<p><strong>Instructions</strong>: You will build the label vectorizer, a function that inputs a list of labels and a tag mapping and outputs their respective label ids via a tag map lookup. The tensorflow function <code class="docutils literal notranslate"><span class="pre">pad_sequences</span></code> can be called by <code class="docutils literal notranslate"><span class="pre">tf.keras.utils.pad_sequences</span></code>. You may also type <code class="docutils literal notranslate"><span class="pre">help(tf.keras.utils.pad_sequences)</span></code> to see its documentation.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: label_vectorizer</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">label_vectorizer</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert list of label strings to padded label IDs using a tag mapping.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    labels (list of str): List of label strings.</span>
+<span class="sd">    tag_map (dict): Dictionary mapping tags to IDs.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">    label_ids (numpy.ndarray): Padded array of label IDs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">label_ids</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># It can&#39;t be a numpy array yet, since each sentence has a different size</span>
+
+    <span class="c1">### START CODE HERE ### </span>
+
+    <span class="c1"># Each element in labels is a string of tags so for each of them:</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Split it into single tokens. You may use .split function for strings. Be aware to split it by a blank space!</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Use the dictionaty tag_map passed as an argument to the label_vectorizer function</span>
+        <span class="c1"># to make the correspondence between tags and numbers. </span>
+        <span class="n">element_ids</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+            <span class="n">element_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Append the found ids to corresponding to the current element to label_ids list</span>
+        <span class="n">label_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        
+    <span class="c1"># Pad the elements</span>
+    <span class="n">label_ids</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ### </span>
+
+    <span class="k">return</span> <span class="n">label_ids</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sentence: </span><span class="si">{</span><span class="n">train_sentences</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Labels: </span><span class="si">{</span><span class="n">train_labels</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vectorized labels: </span><span class="si">{</span><span class="n">label_vectorizer</span><span class="p">([</span><span class="n">train_labels</span><span class="p">[</span><span class="mi">5</span><span class="p">]],</span><span class="w"> </span><span class="n">tag_map</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sentence: The party is divided over Britain &#39;s participation in the Iraq conflict and the continued deployment of 8,500 British troops in that country .
+Labels: O O O O O B-gpe O O O O B-geo O O O O O O O B-gpe O O O O O
+Vectorized labels: [[16 16 16 16 16  3 16 16 16 16  2 16 16 16 16 16 16 16  3 16 16 16 16 16]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="color:green">Expected output:</span></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sentence</span><span class="p">:</span> <span class="n">The</span> <span class="n">party</span> <span class="ow">is</span> <span class="n">divided</span> <span class="n">over</span> <span class="n">Britain</span> <span class="s1">&#39;s participation in the Iraq conflict and the continued deployment of 8,500 British troops in that country .</span>
+<span class="n">Labels</span><span class="p">:</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">B</span><span class="o">-</span><span class="n">gpe</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">B</span><span class="o">-</span><span class="n">geo</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">B</span><span class="o">-</span><span class="n">gpe</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span> <span class="n">O</span>
+<span class="n">Vectorized</span> <span class="n">labels</span><span class="p">:</span> <span class="p">[[</span><span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span>  <span class="mi">3</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span>  <span class="mi">2</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span>  <span class="mi">3</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">16</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2_unittest</span><span class="o">.</span><span class="n">test_label_vectorizer</span><span class="p">(</span><span class="n">label_vectorizer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="building-the-dataset">
+<h2>4 Building the Dataset<a class="headerlink" href="#building-the-dataset" title="Link to this heading">#</a></h2>
+<p>In this section, you will build the dataset for training, validation and testing. You will be using <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset"><code class="docutils literal notranslate"><span class="pre">tf.data.Dataset</span></code></a> class, which provides an optimized way to handle data to feed into a tensorflow model. It may be not as straightforward as a pandas dataset, but it avoids keeping all the data in memory, thus it makes the training faster.</p>
+<p>You will be using the <code class="docutils literal notranslate"><span class="pre">tf.data.Dataset.from_tensor_slices</span></code> function that converts any iterable into a Tensorflow dataset. You can pass a tuple of <code class="docutils literal notranslate"><span class="pre">(sentences,labels)</span></code> and Tensorflow will understand that each sentence is mapped to its respective label, therefore it is expected that if a tuple of arrays is passed, both arrays have the same length.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">generate_dataset</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
+    <span class="n">sentences_ids</span> <span class="o">=</span> <span class="n">sentence_vectorizer</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span>
+    <span class="n">labels_ids</span> <span class="o">=</span> <span class="n">label_vectorizer</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">tag_map</span> <span class="o">=</span> <span class="n">tag_map</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">sentences_ids</span><span class="p">,</span> <span class="n">labels_ids</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The next cell will use the function defined above to generate a Tensorflow Dataset for each of the train, validation and test datasets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">generate_dataset</span><span class="p">(</span><span class="n">train_sentences</span><span class="p">,</span><span class="n">train_labels</span><span class="p">,</span> <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
+<span class="n">val_dataset</span> <span class="o">=</span> <span class="n">generate_dataset</span><span class="p">(</span><span class="n">val_sentences</span><span class="p">,</span><span class="n">val_labels</span><span class="p">,</span>  <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">generate_dataset</span><span class="p">(</span><span class="n">test_sentences</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">,</span>  <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exploring information about the training data</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The number of outputs is </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># The number of vocabulary tokens (including &lt;PAD&gt;)</span>
+<span class="n">g_vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Num of vocabulary words in the training set: </span><span class="si">{</span><span class="n">g_vocab_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The training size is&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The validation size is&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;An example of the first sentence is</span><span class="se">\n\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;An example of its corresponding label is</span><span class="se">\n\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of outputs is 17
+Num of vocabulary words in the training set: 29847
+The training size is 33570
+The validation size is 7194
+An example of the first sentence is
+	 [1046    6 1121   18 1832  232  543    7  528    2  158    5   60    9
+  648    2  922    6  192   87   22   16   54    3    0    0    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0    0    0    0    0]
+An example of its corresponding label is
+	 [16 16 16 16 16 16  2 16 16 16 16 16  2 16 16 16 16 16  3 16 16 16 16 16
+ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+ -1 -1 -1 -1 -1 -1 -1 -1]
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="3.5"></a></p>
+<section id="considerations-about-rnns-and-lstms-inputs">
+<h3>3.5 - Considerations about RNNs and LSTMs inputs<a class="headerlink" href="#considerations-about-rnns-and-lstms-inputs" title="Link to this heading">#</a></h3>
+<p>Tensorflow implementation of RNNs (in particular LSTMs) allow you to pass a variable size of input sentences, however this cannot be done <strong>in the same batch</strong>. You must assure that, for each batch, the shapes for our input tensors are the same.</p>
+<p>A second point here is that, for this purpose, the size of the padding should not influence the final result. Therefore, it does not matter if you perform the padding for each batch or in the entire dataset.</p>
+<p><a name="4"></a></p>
+</section>
+</section>
+<section id="building-the-model">
+<h2>4 - Building the Model<a class="headerlink" href="#building-the-model" title="Link to this heading">#</a></h2>
+<p><a name="4.1"></a></p>
+<section id="model-structure">
+<h3>4.1 Model structure<a class="headerlink" href="#model-structure" title="Link to this heading">#</a></h3>
+<p>You will now implement the model that will be able to determine the tags of sentences like the following:</p>
+<table>
+    <tr>
+        <td>
+<img src = '../../assets/C3_W2/images/ner1.png' width="width" height="height" style="width:500px;height:150px;"/>
+        </td>
+    </tr>
+</table>
+<p>The model architecture will be as follows:</p>
+<img src = '../../assets/C3_W2/images/ner2.png' width="width" height="height" style="width:600px;height:250px;"/>
+<p>Concretely, your inputs will be sentences represented as tensors that are fed to a model with:</p>
+<ul class="simple">
+<li><p>An Embedding layer,</p></li>
+<li><p>A LSTM layer</p></li>
+<li><p>A Dense layer</p></li>
+<li><p>A log softmax layer.</p></li>
+</ul>
+<p>You may choose between outputting only the very last LSTM output for each sentence, but you may also request the LSTM to output every value for a sentence - this is what you want. You will need every output, because the idea is to label every token in the sentence and not to predict the next token or even make an overall classification task for that sentence.</p>
+<p>This implies that when you input a single sentence, such as <code class="docutils literal notranslate"><span class="pre">[452,</span> <span class="pre">3400,</span> <span class="pre">123,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>, the expected output should be an array for each word ID, with a length equal to the number of tags. This output is obtained by applying the LogSoftfmax function for each of the <code class="docutils literal notranslate"><span class="pre">len(tags)</span></code> values. So, in the case of the example array with a shape of <code class="docutils literal notranslate"><span class="pre">(6,)</span></code>, the output should be an array with a shape of <code class="docutils literal notranslate"><span class="pre">(6,</span> <span class="pre">len(tags))</span></code>.</p>
+<p>In your case, you’ve seen that each sentence in the training set is 104 values long, so in a batch of, say, 64 tensors, the model shoud input a tensor of shape <code class="docutils literal notranslate"><span class="pre">(64,104)</span></code> and output another tensor with shape <code class="docutils literal notranslate"><span class="pre">(64,104,17)</span></code>.</p>
+<p>Good news! We won’t make you implement the LSTM cell drawn above. You will be in charge of the overall architecture of the model.</p>
+<p><a name="ex03"></a></p>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading">#</a></h3>
+<p><strong>Instructions:</strong> Implement the NER model, with the architecture discussed in the lectures. All the necessary layers are objects from the <code class="docutils literal notranslate"><span class="pre">tensorflow.keras.layers</span></code> library, but they are already loaded in memory, so you do not have to worry about function calls.</p>
+<p>Please utilize help function e.g. <code class="docutils literal notranslate"><span class="pre">help(tf.keras.layers.Dense)</span></code> for more information on a layer</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Sequential">tf.keras.Sequential</a>: Combinator that applies layers serially (by function composition) - <strong>this is not properly a layer (it is under <code class="docutils literal notranslate"><span class="pre">tensorflow.keras</span></code> only and not under <code class="docutils literal notranslate"><span class="pre">tensorflow.keras.layers</span></code>)</strong>. It is in fact a Tensorflow <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">model</a> object.</p>
+<ul>
+<li><p>You can add the layers to a <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> layer by calling the method <code class="docutils literal notranslate"><span class="pre">.add(layer)</span></code>.</p></li>
+<li><p>You may skip the input shape and pass it in the first layer you instantiate, if necessary (RNNs usually don’t need to fix an input length).</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding">tf.keras.layers.Embedding</a>: Initializes the embedding layer. An embedding layer in tensorflow will input only <strong>positive integers</strong>.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Embedding(input_dim,</span> <span class="pre">output_dim,</span> <span class="pre">mask_zero</span> <span class="pre">=</span> <span class="pre">False)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input_dim</span></code> is the expected range of integers for each tensor in the batch. Note that the input_dim is not related to array size, but to the possible range of integers expected in the input. Usually this is the vocabulary size, but it may differ by 1, depending on further parameters.  See below.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_dim</span></code> is the number of elements in the word embedding (some choices for a word embedding size range from 150 to 300, for example). Each word processed will be assigned an array of size <code class="docutils literal notranslate"><span class="pre">output_dim</span></code>. So if one array of shape (3,) is passed (example of such an array <code class="docutils literal notranslate"><span class="pre">[100,203,204]</span></code>), then the Embedding layer should have output shape (3,output_dim).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mask_zero</span></code> is a boolean telling whether 0 is a mask value or not. If <code class="docutils literal notranslate"><span class="pre">mask_zero</span> <span class="pre">=</span> <span class="pre">True</span></code>, then some considerations must be done:
+1. The value 0 should be reserved as the mask value, as it will be ignored in training.
+2. You need to add 1 in <code class="docutils literal notranslate"><span class="pre">input_dim</span></code>, since now Tensorflow will consider that one extra 0 value may show up in each sentence.</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM">tf.keras.layers.LSTM</a>: An LSTM layer.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">LSTM(units,</span> <span class="pre">return_sequences)</span></code> Builds an LSTM layer with hidden state and cell sizes equal to <code class="docutils literal notranslate"><span class="pre">units</span></code>. The arguments you will need:
+1. <code class="docutils literal notranslate"><span class="pre">units</span></code>: It is the number of <code class="docutils literal notranslate"><span class="pre">LSTM</span></code> cells you will create to pass every input to. In this case, set the <code class="docutils literal notranslate"><span class="pre">units</span></code> as the Embedding <code class="docutils literal notranslate"><span class="pre">output_dim</span></code>. This is just a choice, in fact there is no static rule preventing one from choosing any amount of LSTM units.
+2. <code class="docutils literal notranslate"><span class="pre">return_sequences</span></code>: A boolean, telling whether you want to return every output value from the LSTM cells. If <code class="docutils literal notranslate"><span class="pre">return_sequences</span> <span class="pre">=</span> <span class="pre">False</span></code>, then the LSTM output shape will be <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">units)</span></code>. Otherwise, it is <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">sentence_length,</span> <span class="pre">units)</span></code>, since there will be an output for each word in the sentence.</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense">tf.keras.layers.Dense</a>: A dense layer.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Dense(units,</span> <span class="pre">activation)</span></code>: The parameters for this layer are:
+1. <code class="docutils literal notranslate"><span class="pre">units</span></code>: It is the number of units chosen for this dense layer, i.e., it is the dimensionality of the output space. In this case, each value passed through the Dense layer must be mapped into a vector with length <code class="docutils literal notranslate"><span class="pre">num_of_classes</span></code> (in this case, <code class="docutils literal notranslate"><span class="pre">len(tags)</span></code>).
+2. <code class="docutils literal notranslate"><span class="pre">activation</span></code>: This is the activation that will be performed after computing the values in the Dense layer. Since the Dense layer comes before the LogSoftmax step, you can pass the LogSoftmax function as activation function here. **You can find the implementation for LogSoftmax under <code class="docutils literal notranslate"><span class="pre">tf.nn</span></code>. So you may call it as <code class="docutils literal notranslate"><span class="pre">tf.nn.log_softmax</span></code>. See its documentation <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/nn/log_softmax">here</a>.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Instructions</strong>: You will build a function that inputs the number of tags, the vocabulary size and an optional parameter to control the embedding dimension and outputs a tensorflow model as discussed in the lectures.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: NER</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">NER</span><span class="p">(</span><span class="n">len_tags</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_dim</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a Named Entity Recognition (NER) model.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    len_tags (int): Number of NER tags (output classes).</span>
+<span class="sd">    vocab_size (int): Vocabulary size.</span>
+<span class="sd">    embedding_dim (int, optional): Dimension of embedding and LSTM layers (default is 50).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    model (Sequential): NER model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">### START CODE HERE ### </span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sequential&#39;</span><span class="p">)</span> 
+    <span class="c1"># Add the tf.keras.layers.Embedding layer. Do not forget to mask out the zeros!</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Add the LSTM layer. Make sure you are passing the right dimension (defined in the docstring above) </span>
+    <span class="c1"># and returning every output for the tf.keras.layers.LSTM layer and not the very last one.</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Add the final tf.keras.layers.Dense with the appropriate activation function. Remember you must pass the activation function itself ant not its call!</span>
+    <span class="c1"># You must use tf.nn.log_softmax instead of tf.nn.log_softmax().</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="c1">### END CODE HERE ### </span>
+
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2_unittest</span><span class="o">.</span><span class="n">test_NER</span><span class="p">(</span><span class="n">NER</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="4.2"></a></p>
+</section>
+<section id="masked-loss-and-metrics">
+<h3>4.2 Masked loss and metrics<a class="headerlink" href="#masked-loss-and-metrics" title="Link to this heading">#</a></h3>
+<p>Before training the model, you need to create your own function to compute the accuracy. Tensorflow has built-in accuracy metrics but you cannot pass values to be ignored. This will impact the calculations, since you must remove the padded values. Before diving into the exercise, let’s just make some points clear.</p>
+<p>Usually, the metric that inputs true labels and predicted labels and outputs how many times the predicted and true labels match is called <code class="docutils literal notranslate"><span class="pre">accuracy</span></code>. In some cases, however, there is one more step before getting the predicted labels. This may happen if, instead of passing the predicted labels, a vector of probabilities is passed. In such case, there is a need to perform an <code class="docutils literal notranslate"><span class="pre">argmax</span></code> for each prediction to find the appropriate predicted label. Such situations happen very often, therefore Tensorflow has a set of functions, with prefix <code class="docutils literal notranslate"><span class="pre">Sparse</span></code>, that performs this operation in the backend. Unfortunately, it does not provide values to ignore in the accuracy case. This is what you will work on now.</p>
+<p>Note that the model’s prediction has 3 axes:</p>
+<ul class="simple">
+<li><p>the number of examples (batch size)</p></li>
+<li><p>the number of words in each example (padded to be as long as the longest sentence in the batch)</p></li>
+<li><p>the number of possible targets (the 17 named entity tags).</p></li>
+</ul>
+<p>Another important function is the loss function. In this case, you will use the Cross Entropy loss, but you need a multiclass implementation of it, also you may look for its <code class="docutils literal notranslate"><span class="pre">Sparse</span></code> version. Tensorflow has a SparseCategoricalCrossentropy loss function, which it is already imported by the name SparseCategoricalCrossEntropy.</p>
+<p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/losses/SparseCategoricalCrossentropy">SparseCategoricalCrossentropy</a>: The Sparse Categorical Crossentropy Loss Function.</p>
+<p>The arguments you will need:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">from_logits</span></code>: This indicates if the values are raw values or normalized values (probabilities). Since the last layer of the model finishes with a LogSoftMax call, the results are <strong>not</strong> normalized - they do not lie between 0 and 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ignore_class</span></code>: This indicates which class should be ignored when computing the crossentropy. Remember that the class related to padding value is set to be 0.</p></li>
+</ol>
+<p><strong>Note</strong>: You do not need to worry if the outputs are normalized or not in the accuracy case. Can you guess why? :)</p>
+<p><a name="ex04"></a></p>
+</section>
+<section id="exercise-4">
+<h3>Exercise 4<a class="headerlink" href="#exercise-4" title="Link to this heading">#</a></h3>
+<p><strong>Instructions</strong>: You will use a <code class="docutils literal notranslate"><span class="pre">tf.keras.losses.SparseCategoricalCrossentropy</span></code> object to create a loss function that ignores the padded value related to the label. <strong>Remember that for padding you are using the value</strong> <span class="math notranslate nohighlight">\(-1\)</span> <strong>and not <span class="math notranslate nohighlight">\(0\)</span>, as opposed to the text padding!</strong></p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: masked_loss</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">masked_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the masked sparse categorical cross-entropy loss.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    y_true (tensor): True labels.</span>
+<span class="sd">    y_pred (tensor): Predicted logits.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    loss (tensor): Calculated loss.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE ### </span>
+    
+    <span class="c1"># Calculate the loss for each item in the batch. Remember to pass the right arguments, as discussed above!</span>
+    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Use the previous defined function to compute the loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="c1">### END CODE HERE ### </span>
+
+    <span class="k">return</span>  <span class="n">loss</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">predicted_logits</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mf">2.3</span><span class="p">,</span><span class="o">-</span><span class="mf">0.51</span><span class="p">,</span><span class="o">-</span><span class="mf">1.20</span><span class="p">]</span> <span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.61</span><span class="p">,</span><span class="o">-</span><span class="mf">0.36</span><span class="p">,</span><span class="o">-</span><span class="mf">2.30</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.69</span><span class="p">,</span><span class="o">-</span><span class="mf">0.92</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.92</span><span class="p">,</span><span class="o">-</span><span class="mf">0.92</span><span class="p">,</span><span class="o">-</span><span class="mf">1.61</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">masked_loss</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">predicted_logits</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tf.Tensor(1.1242604, shape=(), dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="color:green">Expected output:</span></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">1.1242604</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2_unittest</span><span class="o">.</span><span class="n">test_masked_loss</span><span class="p">(</span><span class="n">masked_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="ex05"></a></p>
+</section>
+<section id="exercise-5">
+<h3>Exercise 5<a class="headerlink" href="#exercise-5" title="Link to this heading">#</a></h3>
+<p><strong>Instructions</strong>: You will maked a masked version of the accuracy function. You will need to perform an argmax to get the predicted label for each element in the batch. Remember to provide the appropriate axis in the argmax function. Furthermore, remember to use only tensorflow operations. Even though numpy has every function you will need, to pass it as a loss function and/or metric function, you must use tensorflow operations, due to internal optimizations that Tensorflow performs for reliable fitting. The following tensorflow functions are already loaded in memory, so you can directly call them.</p>
+<ol class="arabic simple">
+<li><p>tf.equal, equivalent to np.equal</p></li>
+<li><p>tf.cast, equivalent to np.astype</p></li>
+<li><p>tf.reduce_sum, equiavalent to np.sum</p></li>
+<li><p>tf.math.argmax, equivalent to np.argmax</p></li>
+<li><p>You may need tf.float32 while casting</p></li>
+</ol>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: masked_accuracy</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">masked_accuracy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate masked accuracy for predicted labels.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    y_true (tensor): True labels.</span>
+<span class="sd">    y_pred (tensor): Predicted logits.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    accuracy (tensor): Masked accuracy.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE ### </span>
+    
+    <span class="c1"># Calculate the loss for each item in the batch.</span>
+    <span class="c1"># You must always cast the tensors to the same type in order to use them in training. Since you will make divisions, it is safe to use tf.float32 data type.</span>
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> 
+    <span class="c1"># Create the mask, i.e., the values that will be ignored</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> 
+    <span class="c1"># Perform argmax to get the predicted values</span>
+    <span class="n">y_pred_class</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">y_pred_class</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_pred_class</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> 
+    <span class="c1"># Compare the true values with the predicted ones</span>
+    <span class="n">matches_true_pred</span>  <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">matches_true_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">matches_true_pred</span> <span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> 
+    <span class="c1"># Multiply the acc tensor with the masks</span>
+    <span class="n">matches_true_pred</span> <span class="o">*=</span> <span class="kc">None</span>
+    <span class="c1"># Compute masked accuracy (quotient between the total matches and the total valid values, i.e., the amount of non-masked values)</span>
+    <span class="n">masked_acc</span> <span class="o">=</span> <span class="kc">None</span><span class="o">/</span><span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ### </span>
+
+    <span class="k">return</span> <span class="n">masked_acc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">predicted_logits</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.3</span><span class="p">]</span> <span class="p">,</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span><span class="mf">0.4</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.2</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">masked_accuracy</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">predicted_logits</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="color:green">Expected output:</span></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2_unittest</span><span class="o">.</span><span class="n">test_masked_accuracy</span><span class="p">(</span><span class="n">masked_accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you will create the model and get a summary of its parameters and layers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">NER</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tag_map</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="color:green">Expected output:</span></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span><span class="p">:</span> <span class="s2">&quot;sequential&quot;</span>
+<span class="n">_________________________________________________________________</span>
+ <span class="n">Layer</span> <span class="p">(</span><span class="nb">type</span><span class="p">)</span>                <span class="n">Output</span> <span class="n">Shape</span>              <span class="n">Param</span> <span class="c1">#   </span>
+<span class="o">=================================================================</span>
+ <span class="n">embedding</span> <span class="p">(</span><span class="n">Embedding</span><span class="p">)</span>       <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>          <span class="mi">1492400</span>   
+                                                                 
+ <span class="n">lstm</span> <span class="p">(</span><span class="n">LSTM</span><span class="p">)</span>                 <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>          <span class="mi">20200</span>     
+                                                                 
+ <span class="n">dense</span> <span class="p">(</span><span class="n">Dense</span><span class="p">)</span>               <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>          <span class="mi">867</span>       
+                                                                 
+<span class="o">=================================================================</span>
+<span class="n">Total</span> <span class="n">params</span><span class="p">:</span> <span class="mi">1513467</span> <span class="p">(</span><span class="mf">5.77</span> <span class="n">MB</span><span class="p">)</span>
+<span class="n">Trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">1513467</span> <span class="p">(</span><span class="mf">5.77</span> <span class="n">MB</span><span class="p">)</span>
+<span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">0</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">Byte</span><span class="p">)</span>
+<span class="n">_________________________________________________________________</span>
+</pre></div>
+</div>
+<p><a name="4.3"></a></p>
+</section>
+<section id="a-note-on-padding">
+<h3>4.3 A note on padding<a class="headerlink" href="#a-note-on-padding" title="Link to this heading">#</a></h3>
+<p>You will check now how padding does not affect the model’s output. Of course the output dimension will change. If ten zeros are added at the end of the tensor, then the resulting output dimension will have 10 more elements (more specifically, 10 more arrays of length 17 each). However, those are removed from any calculation further on, so it won’t impact at all the model’s performance and training. You will be using the function tf.expand_dims.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">545</span><span class="p">,</span> <span class="mi">467</span><span class="p">,</span> <span class="mi">896</span><span class="p">]),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Expanding dims is needed to pass it to the model, </span>
+                                                        <span class="c1"># since it expects batches and not single prediction arrays</span>
+    
+<span class="n">x_padded</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">545</span><span class="p">,</span> <span class="mi">467</span><span class="p">,</span> <span class="mi">896</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Can you guess the final output prediction shape for each array defined above?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_x</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">pred_x_padded</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_padded</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x shape: </span><span class="si">{</span><span class="n">pred_x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="se">\n</span><span class="s1">x_padded shape: </span><span class="si">{</span><span class="n">pred_x_padded</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the last three elements of <code class="docutils literal notranslate"><span class="pre">pred_x_padded</span></code> are removed, both <code class="docutils literal notranslate"><span class="pre">pred_x</span></code> and <code class="docutils literal notranslate"><span class="pre">pred_x_padded[:3]</span></code> must have the same elements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">pred_x</span><span class="p">,</span> <span class="n">pred_x</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Great! Now one last check: let’s see that both <code class="docutils literal notranslate"><span class="pre">pred_x</span></code> and <code class="docutils literal notranslate"><span class="pre">pred_x_padded</span></code> return the same loss and accuracy values. For that, you will need a <code class="docutils literal notranslate"><span class="pre">y_true</span></code> and <code class="docutils literal notranslate"><span class="pre">y_true_padded</span></code> arrays.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_true</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">([</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">y_true_padded</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">([</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Remember you mapped the padded values to -1 in the labels</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;masked_loss is the same: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">masked_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span><span class="n">pred_x</span><span class="p">),</span><span class="w"> </span><span class="n">masked_loss</span><span class="p">(</span><span class="n">y_true_padded</span><span class="p">,</span><span class="n">pred_x_padded</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;masked_accuracy is the same: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">masked_accuracy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span><span class="n">pred_x</span><span class="p">),</span><span class="w"> </span><span class="n">masked_accuracy</span><span class="p">(</span><span class="n">y_true_padded</span><span class="p">,</span><span class="n">pred_x_padded</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After this quick sanity check, you will now compile the model.</p>
+<p>You will compile the model as follows:</p>
+<ol class="arabic simple">
+<li><p>Use the Adam optimizer to compute the stochastic gradient descent, with learning rate 0.01</p></li>
+<li><p>Use the loss function <code class="docutils literal notranslate"><span class="pre">masked_loss</span></code> as loss function,</p></li>
+<li><p>As evaluation metrics, you will use both masked_loss and masked_accuracy</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="mf">0.01</span><span class="p">),</span> 
+              <span class="n">loss</span> <span class="o">=</span> <span class="n">masked_loss</span><span class="p">,</span>
+               <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">masked_accuracy</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="4.4"></a></p>
+</section>
+<section id="training-the-model">
+<h3>4.4 - Training the Model<a class="headerlink" href="#training-the-model" title="Link to this heading">#</a></h3>
+<p>You will now train the model.</p>
+<p><strong>Instructions:</strong></p>
+<ul class="simple">
+<li><p>You will train it with <code class="docutils literal notranslate"><span class="pre">shuffle</span> <span class="pre">=</span> <span class="pre">True</span></code>, over 2 epochs and passing the validation dataset as <code class="docutils literal notranslate"><span class="pre">validation_data</span></code>.</p></li>
+<li><p>You will run into an error if you just pass the datasets as they are right now, because they are not prepared in batches. You must use the method <code class="docutils literal notranslate"><span class="pre">.batch</span></code> that returns a dataset already divided in batches</p></li>
+</ul>
+<p><strong>NOTE</strong>: The fitting takes about 1 minute to run. Only the first epoch is slow, the following ones are much faster.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">set_random_seed</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span> <span class="c1">## Setting again a random seed to ensure reproducibility</span>
+
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">),</span>
+          <span class="n">validation_data</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="o">.</span><span class="n">batch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">),</span>
+          <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">epochs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="5"></a></p>
+</section>
+</section>
+<section id="compute-accuracy">
+<h2>5 - Compute Accuracy<a class="headerlink" href="#compute-accuracy" title="Link to this heading">#</a></h2>
+<p>You will now evaluate on the test set. Previously, you have seen the accuracy on the training set and the validation (noted as eval) set. You will now evaluate on your test set. You already have a function to compute the accuracy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the sentences into ids</span>
+<span class="n">test_sentences_id</span> <span class="o">=</span> <span class="n">sentence_vectorizer</span><span class="p">(</span><span class="n">test_sentences</span><span class="p">)</span>
+<span class="c1"># Convert the labels into token ids</span>
+<span class="n">test_labels_id</span> <span class="o">=</span> <span class="n">label_vectorizer</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span><span class="n">tag_map</span><span class="p">)</span>
+<span class="c1"># Rename to prettify next function call</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">test_labels_id</span> 
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_sentences_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The next cell computes the accuracy for the test set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The model&#39;s accuracy in test set is: </span><span class="si">{</span><span class="n">masked_accuracy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span><span class="n">y_pred</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="6"></a></p>
+</section>
+<section id="testing-with-your-own-sentence">
+<h2>6 - Testing with your Own Sentence<a class="headerlink" href="#testing-with-your-own-sentence" title="Link to this heading">#</a></h2>
+<p>In this section you will make a predictor function to predict the NER labels for any sentence.</p>
+<p><a name="ex06"></a></p>
+<section id="exercise-6">
+<h3>Exercise 6<a class="headerlink" href="#exercise-6" title="Link to this heading">#</a></h3>
+<p><strong>Instructions</strong>: You will make a function <code class="docutils literal notranslate"><span class="pre">predict</span></code> that inputs one arbitrary sentence, a trained NER model, the sentence_vectorizer and the tag mapping and return a list of predicted NER labels. Remember that the sentences in pre-processing were already separated by token, so you do not need to worry about separating tokens such as commas or dots. You will just pass one sentence in the desired format, e.g., sentence = “I like apples , oranges and grapes .”</p>
+<p>To get a single prediction from a tensorflow model, you will need to make some changes in the input array, since tensorflow expects a batch of sentences. You can use the function <code class="docutils literal notranslate"><span class="pre">tf.expand_dims</span></code> to do this.</p>
+<div class="cell tag_graded docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: predict</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Predict NER labels for a given sentence using a trained model.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    sentence (str): Input sentence.</span>
+<span class="sd">    model (tf.keras.Model): Trained NER model.</span>
+<span class="sd">    sentence_vectorizer (tf.keras.layers.TextVectorization): Sentence vectorization layer.</span>
+<span class="sd">    tag_map (dict): Dictionary mapping tag IDs to labels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    predictions (list): Predicted NER labels for the sentence.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">### START CODE HERE ### </span>
+
+    <span class="c1"># Convert the sentence into ids</span>
+    <span class="n">sentence_vectorized</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Expand its dimension to make it appropriate to pass to the model</span>
+    <span class="n">sentence_vectorized</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Get the model output</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Get the predicted labels for each token, using argmax function and specifying the correct axis to perform the argmax</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Next line is just to adjust outputs dimension. Since this function expects only one input to get a prediction, outputs will be something like [[1,2,3]]</span>
+    <span class="c1"># so to avoid heavy notation below, let&#39;s transform it into [1,2,3]</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+    <span class="c1"># Get a list of all keys, remember that the tag_map was built in a way that each label id matches its index in a list</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tag_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> 
+    <span class="n">pred</span> <span class="o">=</span> <span class="p">[]</span> 
+    <span class="c1"># Iterating over every predicted token in outputs list</span>
+    <span class="k">for</span> <span class="n">tag_idx</span> <span class="ow">in</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pred_label</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    
+    <span class="c1">### END CODE HERE ### </span>
+    
+    <span class="k">return</span> <span class="n">pred</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w2_unittest</span><span class="o">.</span><span class="n">test_predict</span><span class="p">(</span><span class="n">predict</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Try the output for the introduction example</span>
+<span class="c1">#sentence = &quot;Many French citizens are goin to visit Morocco for summer&quot;</span>
+<span class="c1">#sentence = &quot;Sharon Floyd flew to Miami last Friday&quot;</span>
+
+<span class="c1"># New york times news:</span>
+<span class="n">sentence</span> <span class="o">=</span> <span class="s2">&quot;Peter Parker , the White House director of trade and manufacturing policy of U.S , said in an interview on Sunday morning that the White House was working to prepare for the possibility of a second wave of the coronavirus in the fall , though he said it wouldn ’t necessarily come&quot;</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">sentence_vectorizer</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sentence</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">),</span> <span class="n">predictions</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span style="color:green">Expected output:</span></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Peter</span> <span class="n">B</span><span class="o">-</span><span class="n">per</span>
+<span class="n">Parker</span> <span class="n">I</span><span class="o">-</span><span class="n">per</span>
+<span class="n">White</span> <span class="n">B</span><span class="o">-</span><span class="n">org</span>
+<span class="n">House</span> <span class="n">I</span><span class="o">-</span><span class="n">org</span>
+<span class="n">Sunday</span> <span class="n">B</span><span class="o">-</span><span class="n">tim</span>
+<span class="n">morning</span> <span class="n">I</span><span class="o">-</span><span class="n">tim</span>
+<span class="n">White</span> <span class="n">B</span><span class="o">-</span><span class="n">org</span>
+<span class="n">House</span> <span class="n">I</span><span class="o">-</span><span class="n">org</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLP\C3_W2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ppt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Course 1 Week 1: Introduction to Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C3W2_Vanishing_Gradients.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Assignment 2 - Named Entity Recognition (NER)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips-for-successful-grading-of-your-assignment">TIPS FOR SUCCESSFUL GRADING OF YOUR ASSIGNMENT:</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1 - Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-the-data">2 - Exploring the Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-the-data">2.1 - Importing the Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding">3 -  Encoding</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-the-sentences">3.1 Encoding the sentences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-the-labels">3.2 Encoding the labels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#padding-the-labels">3.3 Padding the labels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-label-vectorizer">3.4 Building the label vectorizer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-dataset">4 Building the Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#considerations-about-rnns-and-lstms-inputs">3.5 - Considerations about RNNs and LSTMs inputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-model">4 - Building the Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-structure">4.1 Model structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#masked-loss-and-metrics">4.2 Masked loss and metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4">Exercise 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5">Exercise 5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-on-padding">4.3 A note on padding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">4.4 - Training the Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-accuracy">5 - Compute Accuracy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-with-your-own-sentence">6 - Testing with your Own Sentence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6">Exercise 6</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

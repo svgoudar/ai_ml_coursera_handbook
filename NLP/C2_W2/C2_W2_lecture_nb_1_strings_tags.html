@@ -1,0 +1,1219 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLP/C2_W2/C2_W2_lecture_nb_1_strings_tags';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/NLP/C2_W2/C2_W2_lecture_nb_1_strings_tags.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Parts-of-Speech Tagging - Working with tags and Numpy" href="C2_W2_lecture_nb_2_numpy.html" />
+    <link rel="prev" title="Assignment 2: Parts-of-Speech Tagging (POS)" href="C2_W2_Assignment.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">NLP Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Assignment.html">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Assignment.html">Assignment 2 - Named Entity Recognition (NER)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/NLP/C2_W2/C2_W2_lecture_nb_1_strings_tags.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FNLP/C2_W2/C2_W2_lecture_nb_1_strings_tags.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/NLP/C2_W2/C2_W2_lecture_nb_1_strings_tags.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-text-data">Read Text Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-vocabulary">Creating a vocabulary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-new-text-sources">Processing new text sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-unknown-words">Dealing with unknown words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-the-correct-tag-for-a-word">Getting the correct tag for a word</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="parts-of-speech-tagging-first-steps-working-with-text-files-creating-a-vocabulary-and-handling-unknown-words">
+<h1>Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words<a class="headerlink" href="#parts-of-speech-tagging-first-steps-working-with-text-files-creating-a-vocabulary-and-handling-unknown-words" title="Link to this heading">#</a></h1>
+<p>In this lecture notebook you will create a vocabulary from a tagged dataset and learn how to deal with words that are not present in this vocabulary when working with other text sources. Aside from this you will also learn how to:</p>
+<ul class="simple">
+<li><p>read text files</p></li>
+<li><p>work with defaultdict</p></li>
+<li><p>work with string data</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="read-text-data">
+<h2>Read Text Data<a class="headerlink" href="#read-text-data" title="Link to this heading">#</a></h2>
+<p>A tagged dataset taken from the Wall Street Journal is provided in the file <code class="docutils literal notranslate"><span class="pre">WSJ_02-21.pos</span></code>.</p>
+<p>To read this file you can use Python’s context manager by using the <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword and specifying the name of the file you wish to read. To actually save the contents of the file into memory you will need to use the <code class="docutils literal notranslate"><span class="pre">readlines()</span></code> method and store its return value in a variable.</p>
+<p>Python’s context managers are great because you don’t need to explicitly close the connection to the file, this is done under the hood:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read lines from &#39;WSJ_02-21.pos&#39; file and save them into the &#39;lines&#39; variable</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./data/WSJ_02-21.pos&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To check the contents of the dataset you can print the first 5 lines:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print columns for reference</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">Word&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Tag</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Print first five lines of the dataset</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;line number </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>		Word 	Tag
+
+line number 1: In	IN
+
+line number 2: an	DT
+
+line number 3: Oct.	NNP
+
+line number 4: 19	CD
+
+line number 5: review	NN
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each line within the dataset has a word followed by its corresponding tag. However since the printing was done using a formatted string it can be inferred that the <strong>word</strong> and the <strong>tag</strong> are separated by a tab (or some spaces) and there is a newline at the end of each line (notice that there is a space between each line).</p>
+<p>If you want to understand the meaning of these tags you can take a look <a class="reference external" href="https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html">here</a>.</p>
+<p>To better understand how the information is structured in the dataset it is recommended to print an unformatted version of it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print first line (unformatted)</span>
+<span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;In\tIN\n&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Indeed there is a tab between the word and the tag and a newline at the end of each line.</p>
+</section>
+<section id="creating-a-vocabulary">
+<h2>Creating a vocabulary<a class="headerlink" href="#creating-a-vocabulary" title="Link to this heading">#</a></h2>
+<p>Now that you understand how the dataset is structured, you will create a vocabulary out of it. A vocabulary is made up of every word that appeared at least 2 times in the dataset.
+For this, follow these steps:</p>
+<ul class="simple">
+<li><p>Get only the words from the dataset</p></li>
+<li><p>Use a defaultdict to count the number of times each word appears</p></li>
+<li><p>Filter the dict to only include words that appeared at least 2 times</p></li>
+<li><p>Create a list out of the filtered dict</p></li>
+<li><p>Sort the list</p></li>
+</ul>
+<p>For step 1 you can use the fact that every word and tag are separated by a tab and that words always come first. Using list comprehension the words list can be created like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the words from each line in the dataset</span>
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Step 2 can be done easily by leveraging <code class="docutils literal notranslate"><span class="pre">defaultdict</span></code>. In case you aren’t familiar with defaultdicts they are a special kind of dictionaries that <strong>return the “zero” value of a type if you try to access a key that does not exist</strong>. Since you want the frequencies of words, you should define the defaultdict with a type of <code class="docutils literal notranslate"><span class="pre">int</span></code>.</p>
+<p>Now you don’t need to worry about the case when the word is not present within the dictionary because getting the value for that key will simply return a zero. Isn’t that cool?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define defaultdict of type &#39;int&#39;</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Count frequency of ocurrence for each word in the dataset</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="n">freq</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Filtering the <code class="docutils literal notranslate"><span class="pre">freq</span></code> dictionary can be done using list comprehensions again (aren’t they handy?). You should filter out words that appeared only once and also words that are just a newline character:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the vocabulary by filtering the &#39;freq&#39; dictionary</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">freq</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">sort</span></code> method will take care of the final step. Notice that it changes the list directly so you don’t need to reassign the <code class="docutils literal notranslate"><span class="pre">vocab</span></code> variable:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sort the vocabulary</span>
+<span class="n">vocab</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="c1"># Print some random values of the vocabulary</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">4005</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">vocab</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Early
+Earnings
+Earth
+Earthquake
+East
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you have successfully created a vocabulary from the dataset. <strong>Great job!</strong> The vocabulary is quite extensive so it is not printed out but you can still do so by creating a cell and running something like <code class="docutils literal notranslate"><span class="pre">print(vocab)</span></code>.</p>
+<p>At this point you will usually write the vocabulary into a file for future use, but that is out of the scope of this notebook. If you are curious it is very similar to how you read the file at the beginning of this notebook.</p>
+</section>
+<section id="processing-new-text-sources">
+<h2>Processing new text sources<a class="headerlink" href="#processing-new-text-sources" title="Link to this heading">#</a></h2>
+<section id="dealing-with-unknown-words">
+<h3>Dealing with unknown words<a class="headerlink" href="#dealing-with-unknown-words" title="Link to this heading">#</a></h3>
+<p>Now that you have a vocabulary, you will use it when processing new text sources. <strong>A new text will have words that do not appear in the current vocabulary</strong>. To tackle this, you can simply classify each new word as an unknown one, but you can do better by creating a function that tries to classify the type of each unknown word and assign it a corresponding <code class="docutils literal notranslate"><span class="pre">unknown</span> <span class="pre">token</span></code>.</p>
+<p>This function will do the following checks and return an appropriate token:</p>
+<ul class="simple">
+<li><p>Check if the unknown word contains any character that is a digit</p>
+<ul>
+<li><p>return <code class="docutils literal notranslate"><span class="pre">--unk_digit--</span></code></p></li>
+</ul>
+</li>
+<li><p>Check if the unknown word contains any punctuation character</p>
+<ul>
+<li><p>return <code class="docutils literal notranslate"><span class="pre">--unk_punct--</span></code></p></li>
+</ul>
+</li>
+<li><p>Check if the unknown word contains any upper-case character</p>
+<ul>
+<li><p>return <code class="docutils literal notranslate"><span class="pre">--unk_upper--</span></code></p></li>
+</ul>
+</li>
+<li><p>Check if the unknown word ends with a suffix that could indicate it is a noun, verb, adjective or adverb</p>
+<ul>
+<li><p>return <code class="docutils literal notranslate"><span class="pre">--unk_noun--</span></code>, <code class="docutils literal notranslate"><span class="pre">--unk_verb--</span></code>, <code class="docutils literal notranslate"><span class="pre">--unk_adj--</span></code>, <code class="docutils literal notranslate"><span class="pre">--unk_adv--</span></code> respectively</p></li>
+</ul>
+</li>
+</ul>
+<p>If a word fails to fall under any condition then its token will be a plain <code class="docutils literal notranslate"><span class="pre">--unk--</span></code>. The conditions will be evaluated in the same order as listed here. So if a word contains a punctuation character but does not contain digits, it will fall under the second condition. To achieve this behaviour some if/elif statements can be used along with early returns.</p>
+<p>This function is implemented next. Notice that the <code class="docutils literal notranslate"><span class="pre">any()</span></code> function is being heavily used. It returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if at least one of the cases it evaluates is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">assign_unk</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assign tokens to unknown words</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Punctuation characters</span>
+    <span class="c1"># Try printing them out in a new cell!</span>
+    <span class="n">punct</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span>
+    
+    <span class="c1"># Suffixes</span>
+    <span class="n">noun_suffix</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;ance&quot;</span><span class="p">,</span> <span class="s2">&quot;cy&quot;</span><span class="p">,</span> <span class="s2">&quot;dom&quot;</span><span class="p">,</span> <span class="s2">&quot;ee&quot;</span><span class="p">,</span> <span class="s2">&quot;ence&quot;</span><span class="p">,</span> <span class="s2">&quot;er&quot;</span><span class="p">,</span> <span class="s2">&quot;hood&quot;</span><span class="p">,</span> <span class="s2">&quot;ion&quot;</span><span class="p">,</span> <span class="s2">&quot;ism&quot;</span><span class="p">,</span> <span class="s2">&quot;ist&quot;</span><span class="p">,</span> <span class="s2">&quot;ity&quot;</span><span class="p">,</span> <span class="s2">&quot;ling&quot;</span><span class="p">,</span> <span class="s2">&quot;ment&quot;</span><span class="p">,</span> <span class="s2">&quot;ness&quot;</span><span class="p">,</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span> <span class="s2">&quot;ry&quot;</span><span class="p">,</span> <span class="s2">&quot;scape&quot;</span><span class="p">,</span> <span class="s2">&quot;ship&quot;</span><span class="p">,</span> <span class="s2">&quot;ty&quot;</span><span class="p">]</span>
+    <span class="n">verb_suffix</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ate&quot;</span><span class="p">,</span> <span class="s2">&quot;ify&quot;</span><span class="p">,</span> <span class="s2">&quot;ise&quot;</span><span class="p">,</span> <span class="s2">&quot;ize&quot;</span><span class="p">]</span>
+    <span class="n">adj_suffix</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;able&quot;</span><span class="p">,</span> <span class="s2">&quot;ese&quot;</span><span class="p">,</span> <span class="s2">&quot;ful&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;ian&quot;</span><span class="p">,</span> <span class="s2">&quot;ible&quot;</span><span class="p">,</span> <span class="s2">&quot;ic&quot;</span><span class="p">,</span> <span class="s2">&quot;ish&quot;</span><span class="p">,</span> <span class="s2">&quot;ive&quot;</span><span class="p">,</span> <span class="s2">&quot;less&quot;</span><span class="p">,</span> <span class="s2">&quot;ly&quot;</span><span class="p">,</span> <span class="s2">&quot;ous&quot;</span><span class="p">]</span>
+    <span class="n">adv_suffix</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ward&quot;</span><span class="p">,</span> <span class="s2">&quot;wards&quot;</span><span class="p">,</span> <span class="s2">&quot;wise&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Loop the characters in the word, check if any is a digit</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">char</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">word</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;--unk_digit--&quot;</span>
+
+    <span class="c1"># Loop the characters in the word, check if any is a punctuation character</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">char</span> <span class="ow">in</span> <span class="n">punct</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">word</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;--unk_punct--&quot;</span>
+
+    <span class="c1"># Loop the characters in the word, check if any is an upper case character</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">char</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">word</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;--unk_upper--&quot;</span>
+
+    <span class="c1"># Check if word ends with any noun suffix</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">noun_suffix</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;--unk_noun--&quot;</span>
+
+    <span class="c1"># Check if word ends with any verb suffix</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">verb_suffix</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;--unk_verb--&quot;</span>
+
+    <span class="c1"># Check if word ends with any adjective suffix</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">adj_suffix</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;--unk_adj--&quot;</span>
+
+    <span class="c1"># Check if word ends with any adverb suffix</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">adv_suffix</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;--unk_adv--&quot;</span>
+    
+    <span class="c1"># If none of the previous criteria is met, return plain unknown</span>
+    <span class="k">return</span> <span class="s2">&quot;--unk--&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A POS tagger will always encounter words that are not within the vocabulary that is being used. By augmenting the dataset to include these <code class="docutils literal notranslate"><span class="pre">unknown</span> <span class="pre">word</span> <span class="pre">tokens</span></code> you are helping the tagger to have a better idea of the appropriate tag for these words.</p>
+</section>
+<section id="getting-the-correct-tag-for-a-word">
+<h3>Getting the correct tag for a word<a class="headerlink" href="#getting-the-correct-tag-for-a-word" title="Link to this heading">#</a></h3>
+<p>All that is left is to implement a function that will get the correct tag for a particular word taking special considerations for unknown words. Since the dataset provides each word and tag within the same line and a word being known depends on the vocabulary used, these two elements should be arguments to this function.</p>
+<p>This function should check if a line is empty and if so, it should return a placeholder word and tag, <code class="docutils literal notranslate"><span class="pre">--n--</span></code> and <code class="docutils literal notranslate"><span class="pre">--s--</span></code> respectively.</p>
+<p>If not, it should process the line to return the correct word and tag pair, considering if a word is unknown in which scenario the function <code class="docutils literal notranslate"><span class="pre">assign_unk()</span></code> should be used.</p>
+<p>The function is implemented next. Notice that the <code class="docutils literal notranslate"><span class="pre">split()</span></code> method can be used without specifying the delimiter, in which case it will default to any whitespace.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_word_tag</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">vocab</span><span class="p">):</span>
+    <span class="c1"># If line is empty return placeholders for word and tag</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;--n--&quot;</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;--s--&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Split line to separate word and tag</span>
+        <span class="n">word</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="c1"># Check if word is not in vocabulary</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vocab</span><span class="p">:</span> 
+            <span class="c1"># Handle unknown word</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="n">assign_unk</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">word</span><span class="p">,</span> <span class="n">tag</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you can try this function with some examples to test that it is working as intended:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_word_tag</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;--n--&#39;, &#39;--s--&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since this line only includes a newline character it returns a placeholder word and tag.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_word_tag</span><span class="p">(</span><span class="s1">&#39;In</span><span class="se">\t</span><span class="s1">IN</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;In&#39;, &#39;IN&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This one is a valid line and the function does a fair job at returning the correct (word, tag) pair.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_word_tag</span><span class="p">(</span><span class="s1">&#39;tardigrade</span><span class="se">\t</span><span class="s1">NN</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;tardigrade&#39;, &#39;--unk--&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This line includes a noun that is not present in the vocabulary.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">assign_unk</span></code> function fails to detect that it is a noun so it returns an <code class="docutils literal notranslate"><span class="pre">unknown</span> <span class="pre">token</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">get_word_tag</span><span class="p">(</span><span class="s1">&#39;scrutinize</span><span class="se">\t</span><span class="s1">VB</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;scrutinize&#39;, &#39;--unk_verb--&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This line includes a verb that is not present in the vocabulary.</p>
+<p>In this case the <code class="docutils literal notranslate"><span class="pre">assign_unk</span></code> is able to detect that it is a verb so it returns an <code class="docutils literal notranslate"><span class="pre">unknown</span> <span class="pre">verb</span> <span class="pre">token</span></code>.</p>
+<p><strong>Congratulations on finishing this lecture notebook!</strong> Now you should be more familiar with working with text data and have a better understanding of how a basic POS tagger works.</p>
+<p><strong>Keep it up!</strong></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLP\C2_W2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C2_W2_Assignment.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Assignment 2: Parts-of-Speech Tagging (POS)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C2_W2_lecture_nb_2_numpy.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Parts-of-Speech Tagging - Working with tags and Numpy</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-text-data">Read Text Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-vocabulary">Creating a vocabulary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-new-text-sources">Processing new text sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-unknown-words">Dealing with unknown words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-the-correct-tag-for-a-word">Getting the correct tag for a word</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

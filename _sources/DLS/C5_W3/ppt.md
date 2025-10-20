@@ -4,7 +4,7 @@ tags: []
 
 ---
 
-## Course 3 Week 2: ML Strategy (2)
+## Course 5 Week 3: Sequence Models & Attention Mechanism
 
 ### Main Course PDF
 

@@ -1,0 +1,1879 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Assignment 1: Logistic Regression &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLP/C1_W1/C1_W1_Assignment';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/NLP/C1_W1/C1_W1_Assignment.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Preprocessing" href="C1_W1_lecture_nb_01_preprocessing.html" />
+    <link rel="prev" title="Course 1 Week 1: Introduction to Machine Learning" href="ppt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">NLP Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_1_strings_tags.html">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Assignment.html">Assignment 2 - Named Entity Recognition (NER)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/NLP/C1_W1/C1_W1_Assignment.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FNLP/C1_W1/C1_W1_Assignment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/NLP/C1_W1/C1_W1_Assignment.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Assignment 1: Logistic Regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-functions-and-data">Import Functions and Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imported-functions">Imported Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-some-helper-functions-that-we-provided-in-the-utils-py-file">Import some helper functions that we provided in the utils.py file:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-data">Prepare the Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-tweet">Process Tweet</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Expected output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">1 - Logistic Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">1.1 - Sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-sigmoid">Exercise 1 -  sigmoid</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-regression-and-a-sigmoid">Logistic Regression: Regression and a Sigmoid</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-function-and-gradient">1.2 - Cost function and Gradient</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-weights">Update the weights</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-gradientdescent">Exercise 2 - gradientDescent</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Expected output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-the-features">2 - Extracting the Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-extract-features">Exercise 3 - extract_features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Expected output</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Expected output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-your-model">3 - Training Your Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-your-logistic-regression">4 -  Test your Logistic Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-predict-tweet">Exercise 4 - predict_tweet</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-the-performance-using-the-test-set">4.1 -  Check the Performance using the Test Set</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-test-logistic-regression">Exercise 5 - test_logistic_regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Expected Output:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-analysis">5 -  Error Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-with-your-own-tweet">6 - Predict with your own Tweet</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="assignment-1-logistic-regression">
+<h1>Assignment 1: Logistic Regression<a class="headerlink" href="#assignment-1-logistic-regression" title="Link to this heading">#</a></h1>
+<p>Welcome to week one of this specialization. You will learn about logistic regression. Concretely, you will be implementing logistic regression for sentiment analysis on tweets. Given a tweet, you will decide if it has a positive sentiment or a negative one. Specifically you will:</p>
+<ul class="simple">
+<li><p>Learn how to extract features for logistic regression given some text</p></li>
+<li><p>Implement logistic regression from scratch</p></li>
+<li><p>Apply logistic regression on a natural language processing task</p></li>
+<li><p>Test using your logistic regression</p></li>
+<li><p>Perform error analysis</p></li>
+</ul>
+<section id="important-note-on-submission-to-the-autograder">
+<h2>Important Note on Submission to the AutoGrader<a class="headerlink" href="#important-note-on-submission-to-the-autograder" title="Link to this heading">#</a></h2>
+<p>Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:</p>
+<ol class="arabic simple">
+<li><p>You have not added any <em>extra</em> <code class="docutils literal notranslate"><span class="pre">print</span></code> statement(s) in the assignment.</p></li>
+<li><p>You have not added any <em>extra</em> code cell(s) in the assignment.</p></li>
+<li><p>You have not changed any of the function parameters.</p></li>
+<li><p>You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.</p></li>
+<li><p>You are not changing the assignment code where it is not required, like creating <em>extra</em> variables.</p></li>
+</ol>
+<p>If you do any of the following, you will get something like, <code class="docutils literal notranslate"><span class="pre">Grader</span> <span class="pre">Error:</span> <span class="pre">Grader</span> <span class="pre">feedback</span> <span class="pre">not</span> <span class="pre">found</span></code> (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don’t remember the changes you have made, you can get a fresh copy of the assignment by following these <a class="reference external" href="https://www.coursera.org/learn/classification-vector-spaces-in-nlp/supplement/YLuAg/h-ow-to-refresh-your-workspace">instructions</a>.</p>
+<p>Lets get started!</p>
+<p>We will be using a data set of tweets. Hopefully you will get more than 99% accuracy.<br />
+Run the cell below to load in the packages.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#0"><span class="xref myst">Import Functions and Data</span></a></p></li>
+<li><p><a class="reference internal" href="#1"><span class="xref myst">1 - Logistic Regression</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#1-1"><span class="xref myst">1.1 - Sigmoid</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-1"><span class="xref myst">Exercise 1 - sigmoid (UNQ_C1)</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#1-2"><span class="xref myst">1.2 - Cost function and Gradient</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-2"><span class="xref myst">Exercise 2 - gradientDescent (UNQ_C2)</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#2"><span class="xref myst">2 - Extracting the Features</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-3"><span class="xref myst">Exercise 3 - extract_features (UNQ_C3)</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#3"><span class="xref myst">3 - Training Your Model</span></a></p></li>
+<li><p><a class="reference internal" href="#4"><span class="xref myst">4 - Test your Logistic Regression</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-4"><span class="xref myst">Exercise 4 - predict_tweet (UNQ_C4)</span></a></p></li>
+<li><p><a class="reference internal" href="#4-1"><span class="xref myst">4.1 - Check the Performance using the Test Set</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#ex-5"><span class="xref myst">Exercise 5 - test_logistic_regression (UNQ_C5)</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#5"><span class="xref myst">5 - Error Analysis</span></a></p></li>
+<li><p><a class="reference internal" href="#6"><span class="xref myst">6 - Predict with your own Tweet</span></a></p></li>
+</ul>
+<p><a name='0'></a></p>
+</section>
+<section id="import-functions-and-data">
+<h2>Import Functions and Data<a class="headerlink" href="#import-functions-and-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run this cell to import nltk</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">getcwd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">w1_unittest</span>
+
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;twitter_samples&#39;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">-------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                     </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># run this cell to import nltk</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">getcwd</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span><span class="w"> </span><span class="nn">w1_unittest</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;nltk&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="imported-functions">
+<h3>Imported Functions<a class="headerlink" href="#imported-functions" title="Link to this heading">#</a></h3>
+<p>Download the data needed for this assignment. Check out the <a class="reference external" href="http://www.nltk.org/howto/twitter.html">documentation for the twitter_samples dataset</a>.</p>
+<ul class="simple">
+<li><p>twitter_samples: if you’re running this notebook on your local computer, you will need to download it using:</p></li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;twitter_samples&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>stopwords: if you’re running this notebook on your local computer, you will need to download it using:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;stopwords&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="import-some-helper-functions-that-we-provided-in-the-utils-py-file">
+<h4>Import some helper functions that we provided in the <a class="reference external" href="http://utils.py">utils.py</a> file:<a class="headerlink" href="#import-some-helper-functions-that-we-provided-in-the-utils-py-file" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>process_tweet: cleans the text, tokenizes it into separate words, removes stopwords, and converts words to stems.</p></li>
+<li><p>build_freqs: this counts how often a word in the ‘corpus’ (the entire set of tweets) was associated with a positive label ‘1’ or a negative label ‘0’, then builds the ‘freqs’ dictionary, where each key is the (word,label) tuple, and the value is the count of its frequency within the corpus of tweets.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filePath</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">getcwd</span><span class="p">()</span><span class="si">}</span><span class="s2">/../tmp2/&quot;</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">twitter_samples</span> 
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_tweet</span><span class="p">,</span> <span class="n">build_freqs</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="prepare-the-data">
+<h3>Prepare the Data<a class="headerlink" href="#prepare-the-data" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">twitter_samples</span></code> contains subsets of five thousand positive_tweets, five thousand negative_tweets, and the full set of 10,000 tweets.</p>
+<ul>
+<li><p>If you used all three datasets, we would introduce duplicates of the positive tweets and negative tweets.</p></li>
+<li><p>You will select just the five thousand positive tweets and five thousand negative tweets.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># select the set of positive and negative tweets</span>
+<span class="n">all_positive_tweets</span> <span class="o">=</span> <span class="n">twitter_samples</span><span class="o">.</span><span class="n">strings</span><span class="p">(</span><span class="s1">&#39;positive_tweets.json&#39;</span><span class="p">)</span>
+<span class="n">all_negative_tweets</span> <span class="o">=</span> <span class="n">twitter_samples</span><span class="o">.</span><span class="n">strings</span><span class="p">(</span><span class="s1">&#39;negative_tweets.json&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Train test split: 20% will be in the test set, and 80% in the training set.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># split the data into two pieces, one for training and one for testing (validation set) </span>
+<span class="n">test_pos</span> <span class="o">=</span> <span class="n">all_positive_tweets</span><span class="p">[</span><span class="mi">4000</span><span class="p">:]</span>
+<span class="n">train_pos</span> <span class="o">=</span> <span class="n">all_positive_tweets</span><span class="p">[:</span><span class="mi">4000</span><span class="p">]</span>
+<span class="n">test_neg</span> <span class="o">=</span> <span class="n">all_negative_tweets</span><span class="p">[</span><span class="mi">4000</span><span class="p">:]</span>
+<span class="n">train_neg</span> <span class="o">=</span> <span class="n">all_negative_tweets</span><span class="p">[:</span><span class="mi">4000</span><span class="p">]</span>
+
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">train_pos</span> <span class="o">+</span> <span class="n">train_neg</span> 
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">test_pos</span> <span class="o">+</span> <span class="n">test_neg</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Create the numpy array of positive labels and negative labels.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># combine positive and negative labels</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">train_pos</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">train_neg</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">test_pos</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">test_neg</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the shape train and test sets</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train_y.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test_y.shape = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Create the frequency dictionary using the imported build_freqs function.</p>
+<ul>
+<li><p>We highly recommend that you open <a class="reference external" href="http://utils.py">utils.py</a> and read the build_freqs function to understand what it is doing.</p></li>
+<li><p>To view the file directory, go to the menu and click File-&gt;Open.</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span>    <span class="k">for</span> <span class="n">y</span><span class="p">,</span><span class="n">tweet</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">tweets</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">process_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">):</span>
+            <span class="n">pair</span> <span class="o">=</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">freqs</span><span class="p">:</span>
+                <span class="n">freqs</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">freqs</span><span class="p">[</span><span class="n">pair</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Notice how the outer for loop goes through each tweet, and the inner for loop steps through each word in a tweet.</p></li>
+<li><p>The ‘freqs’ dictionary is the frequency dictionary that’s being built.</p></li>
+<li><p>The key is the tuple (word, label), such as (“happy”,1) or (“happy”,0).  The value stored for each key is the count of how many times the word “happy” was associated with a positive label, or how many times “happy” was associated with a negative label.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create frequency dictionary</span>
+<span class="n">freqs</span> <span class="o">=</span> <span class="n">build_freqs</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+
+<span class="c1"># check the output</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;type(freqs) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">freqs</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;len(freqs) = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">freqs</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="expected-output">
+<h4>Expected output<a class="headerlink" href="#expected-output" title="Link to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>type(freqs) = &lt;class &#39;dict&#39;&gt;
+len(freqs) = 11436
+</pre></div>
+</div>
+</section>
+</section>
+<section id="process-tweet">
+<h3>Process Tweet<a class="headerlink" href="#process-tweet" title="Link to this heading">#</a></h3>
+<p>The given function ‘process_tweet’ tokenizes the tweet into individual words, removes stop words and applies stemming.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># test the function below</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This is an example of a positive tweet: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">train_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">This is an example of the processed version of the tweet: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">process_tweet</span><span class="p">(</span><span class="n">train_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h4>Expected output<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">a</span> <span class="n">positive</span> <span class="n">tweet</span><span class="p">:</span> 
+ <span class="c1">#FollowFriday @France_Inte @PKuchly57 @Milipol_Paris for being top engaged members in my community this week :)</span>
+ 
+<span class="n">This</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">the</span> <span class="n">processes</span> <span class="n">version</span><span class="p">:</span> 
+ <span class="p">[</span><span class="s1">&#39;followfriday&#39;</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="s1">&#39;engag&#39;</span><span class="p">,</span> <span class="s1">&#39;member&#39;</span><span class="p">,</span> <span class="s1">&#39;commun&#39;</span><span class="p">,</span> <span class="s1">&#39;week&#39;</span><span class="p">,</span> <span class="s1">&#39;:)&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><a name='1'></a></p>
+</section>
+</section>
+</section>
+<section id="logistic-regression">
+<h2>1 - Logistic Regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h2>
+<p><a name='1-1'></a></p>
+<section id="sigmoid">
+<h3>1.1 - Sigmoid<a class="headerlink" href="#sigmoid" title="Link to this heading">#</a></h3>
+<p>You will learn to use logistic regression for text classification.</p>
+<ul class="simple">
+<li><p>The sigmoid function is defined as:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ h(z) = \frac{1}{1+\exp^{-z}} \tag{1}\]</div>
+<p>It maps the input ‘z’ to a value that ranges between 0 and 1, and so it can be treated as a probability.</p>
+<div style="width:image width px; font-size:100%; text-align:center;"><img src='../../assets/C1_W1/images/sigmoid_plot.jpg' alt="alternate text" width="width" height="height" style="width:300px;height:200px;" /> Figure 1 </div><p><a name='ex-1'></a></p>
+</section>
+<section id="exercise-1-sigmoid">
+<h3>Exercise 1 -  sigmoid<a class="headerlink" href="#exercise-1-sigmoid" title="Link to this heading">#</a></h3>
+<p>Implement the sigmoid function.</p>
+<ul class="simple">
+<li><p>You will want this function to work if z is a scalar as well as if it is an array.</p></li>
+</ul>
+<details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Hints</b></font>
+</summary>
+<p>
+<ul>
+    <li><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.exp.html" > numpy.exp </a> </li>
+</ul>
+</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1 GRADED FUNCTION: sigmoid</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">z</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Input:</span>
+<span class="sd">        z: is the input (can be a scalar or an array)</span>
+<span class="sd">    Output:</span>
+<span class="sd">        h: the sigmoid of z</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># calculate the sigmoid of z</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">h</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Testing your function </span>
+<span class="k">if</span> <span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SUCCESS!&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Oops!&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="mf">4.92</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.9927537604041685</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;CORRECT!&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Oops again!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_sigmoid</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="logistic-regression-regression-and-a-sigmoid">
+<h4>Logistic Regression: Regression and a Sigmoid<a class="headerlink" href="#logistic-regression-regression-and-a-sigmoid" title="Link to this heading">#</a></h4>
+<p>Logistic regression takes a regular linear regression, and applies a sigmoid to the output of the linear regression.</p>
+<p>Regression:
+$<span class="math notranslate nohighlight">\(z = \theta_0 x_0 + \theta_1 x_1 + \theta_2 x_2 + ... \theta_N x_N\)</span><span class="math notranslate nohighlight">\(
+Note that the \)</span>\theta<span class="math notranslate nohighlight">\( values are &quot;weights&quot;. If you took the deep learning specialization, we referred to the weights with the 'w' vector.  In this course, we're using a different variable \)</span>\theta$ to refer to the weights.</p>
+<p>Logistic regression
+$<span class="math notranslate nohighlight">\( h(z) = \frac{1}{1+\exp^{-z}}\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(z = \theta_0 x_0 + \theta_1 x_1 + \theta_2 x_2 + ... \theta_N x_N\)</span>$
+We will refer to ‘z’ as the ‘logits’.</p>
+<p><a name='1-2'></a></p>
+</section>
+</section>
+<section id="cost-function-and-gradient">
+<h3>1.2 - Cost function and Gradient<a class="headerlink" href="#cost-function-and-gradient" title="Link to this heading">#</a></h3>
+<p>The cost function used for logistic regression is the average of the log loss across all training examples:</p>
+<div class="math notranslate nohighlight">
+\[J(\theta) = -\frac{1}{m} \sum_{i=1}^m y^{(i)}\log (h(z(\theta)^{(i)})) + (1-y^{(i)})\log (1-h(z(\theta)^{(i)}))\tag{5} \]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(m\)</span> is the number of training examples</p></li>
+<li><p><span class="math notranslate nohighlight">\(y^{(i)}\)</span> is the actual label of training example ‘i’.</p></li>
+<li><p><span class="math notranslate nohighlight">\(h(z^{(i)})\)</span> is the model’s prediction for the training example ‘i’.</p></li>
+</ul>
+<p>The loss function for a single training example is
+$<span class="math notranslate nohighlight">\( Loss = -1 \times \left( y^{(i)}\log (h(z(\theta)^{(i)})) + (1-y^{(i)})\log (1-h(z(\theta)^{(i)})) \right)\)</span>$</p>
+<ul class="simple">
+<li><p>All the <span class="math notranslate nohighlight">\(h\)</span> values are between 0 and 1, so the logs will be negative. That is the reason for the factor of -1 applied to the sum of the two loss terms.</p></li>
+<li><p>Note that when the model predicts 1 (<span class="math notranslate nohighlight">\(h(z(\theta)) = 1\)</span>) and the label ‘y’ is also 1, the loss for that training example is 0.</p></li>
+<li><p>Similarly, when the model predicts 0 (<span class="math notranslate nohighlight">\(h(z(\theta)) = 0\)</span>) and the actual label is also 0, the loss for that training example is 0.</p></li>
+<li><p>However, when the model prediction is close to 1 (<span class="math notranslate nohighlight">\(h(z(\theta)) = 0.9999\)</span>) and the label is 0, the second term of the log loss becomes a large negative number, which is then multiplied by the overall factor of -1 to convert it to a positive loss value. <span class="math notranslate nohighlight">\(-1 \times (1 - 0) \times log(1 - 0.9999) \approx 9.2\)</span> The closer the model prediction gets to 1, the larger the loss.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># verify that when the model predicts close to 1, but the actual label is 0, the loss is a large positive value</span>
+<span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">0.9999</span><span class="p">)</span> <span class="c1"># loss is about 9.2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Likewise, if the model predicts close to 0 (<span class="math notranslate nohighlight">\(h(z) = 0.0001\)</span>) but the actual label is 1, the first term in the loss function becomes a large number: <span class="math notranslate nohighlight">\(-1 \times log(0.0001) \approx 9.2\)</span>.  The closer the prediction is to zero, the larger the loss.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># verify that when the model predicts close to 0 but the actual label is 1, the loss is a large positive value</span>
+<span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span> <span class="c1"># loss is about 9.2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="update-the-weights">
+<h4>Update the weights<a class="headerlink" href="#update-the-weights" title="Link to this heading">#</a></h4>
+<p>To update your weight vector <span class="math notranslate nohighlight">\(\theta\)</span>, you will apply gradient descent to iteratively improve your model’s predictions.<br />
+The gradient of the cost function <span class="math notranslate nohighlight">\(J\)</span> with respect to one of the weights <span class="math notranslate nohighlight">\(\theta_j\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{\theta_j}J(\theta) = \frac{1}{m} \sum_{i=1}^m(h^{(i)}-y^{(i)})x^{(i)}_j \tag{5}\]</div>
+<ul class="simple">
+<li><p>‘i’ is the index across all ‘m’ training examples.</p></li>
+<li><p>‘j’ is the index of the weight <span class="math notranslate nohighlight">\(\theta_j\)</span>, so <span class="math notranslate nohighlight">\(x^{(i)}_j\)</span> is the feature associated with weight <span class="math notranslate nohighlight">\(\theta_j\)</span></p></li>
+<li><p>To update the weight <span class="math notranslate nohighlight">\(\theta_j\)</span>, we adjust it by subtracting a fraction of the gradient determined by <span class="math notranslate nohighlight">\(\alpha\)</span>:
+$<span class="math notranslate nohighlight">\(\theta_j = \theta_j - \alpha \times \nabla_{\theta_j}J(\theta) \)</span>$</p></li>
+<li><p>The learning rate <span class="math notranslate nohighlight">\(\alpha\)</span> is a value that we choose to control how big a single update will be.</p></li>
+</ul>
+<p><a name='ex-2'></a></p>
+</section>
+</section>
+<section id="exercise-2-gradientdescent">
+<h3>Exercise 2 - gradientDescent<a class="headerlink" href="#exercise-2-gradientdescent" title="Link to this heading">#</a></h3>
+<p>Implement gradient descent function.</p>
+<ul class="simple">
+<li><p>The number of iterations ‘num_iters” is the number of times that you’ll use the entire training set.</p></li>
+<li><p>For each iteration, you’ll calculate the cost function using all training examples (there are ‘m’ training examples), and for all features.</p></li>
+<li><p>Instead of updating a single weight <span class="math notranslate nohighlight">\(\theta_i\)</span> at a time, we can update all the weights in the column vector:<br />
+$<span class="math notranslate nohighlight">\(\mathbf{\theta} = \begin{pmatrix}
+\theta_0
+\\
+\theta_1
+\\ 
+\theta_2 
+\\ 
+\vdots
+\\ 
+\theta_n
+\end{pmatrix}\)</span>$</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{\theta}\)</span> has dimensions (n+1, 1), where ‘n’ is the number of features, and there is one more element for the bias term <span class="math notranslate nohighlight">\(\theta_0\)</span> (note that the corresponding feature value <span class="math notranslate nohighlight">\(\mathbf{x_0}\)</span> is 1).</p></li>
+<li><p>The ‘logits’, ‘z’, are calculated by multiplying the feature matrix ‘x’ with the weight vector ‘theta’.  <span class="math notranslate nohighlight">\(z = \mathbf{x}\mathbf{\theta}\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}\)</span> has dimensions (m, n+1)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{\theta}\)</span>: has dimensions (n+1, 1)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{z}\)</span>: has dimensions (m, 1)</p></li>
+</ul>
+</li>
+<li><p>The prediction ‘h’, is calculated by applying the sigmoid to each element in ‘z’: <span class="math notranslate nohighlight">\(h(z) = sigmoid(z)\)</span>, and has dimensions (m,1).</p></li>
+<li><p>The cost function <span class="math notranslate nohighlight">\(J\)</span> is calculated by taking the dot product of the vectors ‘y’ and ‘log(h)’.  Since both ‘y’ and ‘h’ are column vectors (m,1), transpose the vector to the left, so that matrix multiplication of a row vector with column vector performs the dot product.
+$<span class="math notranslate nohighlight">\(J = \frac{-1}{m} \times \left(\mathbf{y}^T \cdot log(\mathbf{h}) + \mathbf{(1-y)}^T \cdot log(\mathbf{1-h}) \right)\)</span>$</p></li>
+<li><p>The update of theta is also vectorized.  Because the dimensions of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> are (m, n+1), and both <span class="math notranslate nohighlight">\(\mathbf{h}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> are (m, 1), we need to transpose the <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and place it on the left in order to perform matrix multiplication, which then yields the (n+1, 1) answer we need:
+$<span class="math notranslate nohighlight">\(\mathbf{\theta} = \mathbf{\theta} - \frac{\alpha}{m} \times \left( \mathbf{x}^T \cdot \left( \mathbf{h-y} \right) \right)\)</span>$</p></li>
+</ul>
+<details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Hints</b></font>
+</summary>
+<p>
+<ul>
+    <li>use numpy.dot for matrix multiplication.</li>
+    <li>To ensure that the fraction -1/m is a decimal value, cast either the numerator or denominator (or both), like `float(1)`, or write `1.` for the float version of 1. </li>
+</ul>
+</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C2 GRADED FUNCTION: gradientDescent</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradientDescent</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Input:</span>
+<span class="sd">        x: matrix of features which is (m,n+1)</span>
+<span class="sd">        y: corresponding labels of the input matrix x, dimensions (m,1)</span>
+<span class="sd">        theta: weight vector of dimension (n+1,1)</span>
+<span class="sd">        alpha: learning rate</span>
+<span class="sd">        num_iters: number of iterations you want to train your model for</span>
+<span class="sd">    Output:</span>
+<span class="sd">        J: the final cost</span>
+<span class="sd">        theta: your final weight vector</span>
+<span class="sd">    Hint: you might want to print the cost to make sure that it is going down.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">### START CODE HERE ###</span>
+    <span class="c1"># get &#39;m&#39;, the number of rows in matrix x</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">):</span>
+        
+        <span class="c1"># get z, the dot product of x and theta</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># get the sigmoid of z</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># calculate the cost function</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># update the weights theta</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="kc">None</span>
+        
+    <span class="c1">### END CODE HERE ###</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">J</span><span class="p">,</span> <span class="n">theta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check the function</span>
+<span class="c1"># Construct a synthetic test case using numpy PRNG functions</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># X input is 10 x 3 with ones for the bias terms</span>
+<span class="n">tmp_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2000</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Y Labels are 10 x 1</span>
+<span class="n">tmp_Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.35</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Apply gradient descent</span>
+<span class="n">tmp_J</span><span class="p">,</span> <span class="n">tmp_theta</span> <span class="o">=</span> <span class="n">gradientDescent</span><span class="p">(</span><span class="n">tmp_X</span><span class="p">,</span> <span class="n">tmp_Y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mi">700</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The cost after training is </span><span class="si">{</span><span class="n">tmp_J</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The resulting vector of weights is </span><span class="si">{</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tmp_theta</span><span class="p">)]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id2">
+<h4>Expected output<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">cost</span> <span class="n">after</span> <span class="n">training</span> <span class="ow">is</span> <span class="mf">0.67094970</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">resulting</span> <span class="n">vector</span> <span class="n">of</span> <span class="n">weights</span> <span class="ow">is</span> <span class="p">[</span><span class="mf">4.1e-07</span><span class="p">,</span> <span class="mf">0.00035658</span><span class="p">,</span> <span class="mf">7.309e-05</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_gradientDescent</span><span class="p">(</span><span class="n">gradientDescent</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='2'></a></p>
+</section>
+</section>
+</section>
+<section id="extracting-the-features">
+<h2>2 - Extracting the Features<a class="headerlink" href="#extracting-the-features" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Given a list of tweets, extract the features and store them in a matrix. You will extract two features.</p>
+<ul>
+<li><p>The first feature is the number of positive words in a tweet.</p></li>
+<li><p>The second feature is the number of negative words in a tweet.</p></li>
+</ul>
+</li>
+<li><p>Then train your logistic regression classifier on these features.</p></li>
+<li><p>Test the classifier on a validation set.</p></li>
+</ul>
+<p><a name='ex-3'></a></p>
+<section id="exercise-3-extract-features">
+<h3>Exercise 3 - extract_features<a class="headerlink" href="#exercise-3-extract-features" title="Link to this heading">#</a></h3>
+<p>Implement the extract_features function.</p>
+<ul class="simple">
+<li><p>This function takes in a single tweet.</p></li>
+<li><p>Process the tweet using the imported <code class="docutils literal notranslate"><span class="pre">process_tweet</span></code> function and save the list of tweet words.</p></li>
+<li><p>Loop through each word in the list of processed words</p>
+<ul>
+<li><p>For each word, check the ‘freqs’ dictionary for the count when that word has a positive ‘1’ label. (Check for the key (word, 1.0)</p></li>
+<li><p>Do the same for the count for when the word is associated with the negative label ‘0’. (Check for the key (word, 0.0).)</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Note:</strong> In the implementation instructions provided above, the prediction of being positive or negative depends on feature vector which counts-in duplicate words - this is different from what you have seen in the lecture videos</p>
+<details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Hints</b></font>
+</summary>
+<p>
+<ul>
+    <li>Make sure you handle cases when the (word, label) key is not found in the dictionary. </li>
+    <li> Search the web for hints about using the 'get' function of a Python dictionary.  Here is an <a href="https://www.programiz.com/python-programming/methods/dictionary/get" > example </a> </li>
+</ul>
+</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C3 GRADED FUNCTION: extract_features</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_features</span><span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">process_tweet</span><span class="o">=</span><span class="n">process_tweet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Input: </span>
+<span class="sd">        tweet: a string containing one tweet</span>
+<span class="sd">        freqs: a dictionary corresponding to the frequencies of each tuple (word, label)</span>
+<span class="sd">    Output: </span>
+<span class="sd">        x: a feature vector of dimension (1,3)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># process_tweet tokenizes, stems, and removes stopwords</span>
+    <span class="n">word_l</span> <span class="o">=</span> <span class="n">process_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">)</span>
+    
+    <span class="c1"># 3 elements for [bias, positive, negative] counts</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> 
+    
+    <span class="c1"># bias term is set to 1</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> 
+    
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># loop through each word in the list of words</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_l</span><span class="p">:</span>
+        
+        <span class="c1"># increment the word count for the positive label 1</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="kc">None</span>
+        
+        <span class="c1"># increment the word count for the negative label 0</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="kc">None</span>
+        
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># adding batch dimension for further processing</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check your function</span>
+<span class="c1"># test 1</span>
+<span class="c1"># test on training data</span>
+<span class="n">tmp1</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">train_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">freqs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tmp1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id3">
+<h4>Expected output<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">1.000e+00</span> <span class="mf">3.133e+03</span> <span class="mf">6.100e+01</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># test 2:</span>
+<span class="c1"># check for when the words are not in the freqs dictionary</span>
+<span class="n">tmp2</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="s1">&#39;blorb bleeeeb bloooob&#39;</span><span class="p">,</span> <span class="n">freqs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tmp2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h4>Expected output<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_extract_features</span><span class="p">(</span><span class="n">extract_features</span><span class="p">,</span> <span class="n">freqs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='3'></a></p>
+</section>
+</section>
+</section>
+<section id="training-your-model">
+<h2>3 - Training Your Model<a class="headerlink" href="#training-your-model" title="Link to this heading">#</a></h2>
+<p>To train the model:</p>
+<ul class="simple">
+<li><p>Stack the features for all training examples into a matrix X.</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">gradientDescent</span></code>, which you’ve implemented above.</p></li>
+</ul>
+<p>This section is given to you.  Please read it for understanding and run the cell.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># collect the features &#39;x&#39; and stack them into a matrix &#39;X&#39;</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">train_x</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_x</span><span class="p">)):</span>
+    <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">train_x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">freqs</span><span class="p">)</span>
+
+<span class="c1"># training labels corresponding to X</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">train_y</span>
+
+<span class="c1"># Apply gradient descent</span>
+<span class="n">J</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">gradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">1500</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The cost after training is </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The resulting vector of weights is </span><span class="si">{</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">theta</span><span class="p">)]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">cost</span> <span class="n">after</span> <span class="n">training</span> <span class="ow">is</span> <span class="mf">0.22525459</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">resulting</span> <span class="n">vector</span> <span class="n">of</span> <span class="n">weights</span> <span class="ow">is</span> <span class="p">[</span><span class="mf">6e-08</span><span class="p">,</span> <span class="mf">0.00053785</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.00055884</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><a name='4'></a></p>
+</section>
+<section id="test-your-logistic-regression">
+<h2>4 -  Test your Logistic Regression<a class="headerlink" href="#test-your-logistic-regression" title="Link to this heading">#</a></h2>
+<p>It is time for you to test your logistic regression function on some new input that your model has not seen before.
+<a name='ex-4'></a></p>
+<section id="exercise-4-predict-tweet">
+<h3>Exercise 4 - predict_tweet<a class="headerlink" href="#exercise-4-predict-tweet" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">predict_tweet</span></code>.
+Predict whether a tweet is positive or negative.</p>
+<ul class="simple">
+<li><p>Given a tweet, process it, then extract the features.</p></li>
+<li><p>Apply the model’s learned weights on the features to get the logits.</p></li>
+<li><p>Apply the sigmoid to the logits to get the prediction (a value between 0 and 1).</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[y_{pred} = sigmoid(\mathbf{x} \cdot \theta)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C4 GRADED FUNCTION: predict_tweet</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Input: </span>
+<span class="sd">        tweet: a string</span>
+<span class="sd">        freqs: a dictionary corresponding to the frequencies of each tuple (word, label)</span>
+<span class="sd">        theta: (3,1) vector of weights</span>
+<span class="sd">    Output: </span>
+<span class="sd">        y_pred: the probability of a tweet being positive or negative</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># extract the features of the tweet and store it into x</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1"># make the prediction using x and theta</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">y_pred</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run this cell to test your function</span>
+<span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;I am happy&#39;</span><span class="p">,</span> <span class="s1">&#39;I am bad&#39;</span><span class="p">,</span> <span class="s1">&#39;this movie should have been great.&#39;</span><span class="p">,</span> <span class="s1">&#39;great&#39;</span><span class="p">,</span> <span class="s1">&#39;great great&#39;</span><span class="p">,</span> <span class="s1">&#39;great great great&#39;</span><span class="p">,</span> <span class="s1">&#39;great great great great&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">predict_tweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">)))</span>    
+    
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="n">am</span> <span class="n">happy</span> <span class="o">-&gt;</span> <span class="mf">0.519258</span>
+<span class="n">I</span> <span class="n">am</span> <span class="n">bad</span> <span class="o">-&gt;</span> <span class="mf">0.494338</span>
+<span class="n">this</span> <span class="n">movie</span> <span class="n">should</span> <span class="n">have</span> <span class="n">been</span> <span class="n">great</span><span class="o">.</span> <span class="o">-&gt;</span> <span class="mf">0.515962</span>
+<span class="n">great</span> <span class="o">-&gt;</span> <span class="mf">0.516051</span>
+<span class="n">great</span> <span class="n">great</span> <span class="o">-&gt;</span> <span class="mf">0.532069</span>
+<span class="n">great</span> <span class="n">great</span> <span class="n">great</span> <span class="o">-&gt;</span> <span class="mf">0.548021</span>
+<span class="n">great</span> <span class="n">great</span> <span class="n">great</span> <span class="n">great</span> <span class="o">-&gt;</span> <span class="mf">0.563876</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feel free to check the sentiment of your own tweet below</span>
+<span class="n">my_tweet</span> <span class="o">=</span> <span class="s1">&#39;I am learning :)&#39;</span>
+<span class="n">predict_tweet</span><span class="p">(</span><span class="n">my_tweet</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_predict_tweet</span><span class="p">(</span><span class="n">predict_tweet</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='4-1'></a></p>
+</section>
+<section id="check-the-performance-using-the-test-set">
+<h3>4.1 -  Check the Performance using the Test Set<a class="headerlink" href="#check-the-performance-using-the-test-set" title="Link to this heading">#</a></h3>
+<p>After training your model using the training set above, check how your model might perform on real, unseen data, by testing it against the test set.</p>
+<p><a name='ex-5'></a></p>
+</section>
+<section id="exercise-5-test-logistic-regression">
+<h3>Exercise 5 - test_logistic_regression<a class="headerlink" href="#exercise-5-test-logistic-regression" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">test_logistic_regression</span></code>.</p>
+<ul class="simple">
+<li><p>Given the test data and the weights of your trained model, calculate the accuracy of your logistic regression model.</p></li>
+<li><p>Use your ‘predict_tweet’ function to make predictions on each tweet in the test set.</p></li>
+<li><p>If the prediction is &gt; 0.5, set the model’s classification ‘y_hat’ to 1, otherwise set the model’s classification ‘y_hat’ to 0.</p></li>
+<li><p>A prediction is accurate when the y_hat equals the test_y.  Sum up all the instances when they are equal and divide by m.</p></li>
+</ul>
+<details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Hints</b></font>
+</summary>
+<p>
+<ul>
+    <li>Use np.asarray() to convert a list to a numpy array</li>
+    <li>Use numpy.squeeze() to make an (m,1) dimensional array into an (m,) array </li>
+</ul>
+</p><div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C5 GRADED FUNCTION: test_logistic_regression</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_logistic_regression</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">predict_tweet</span><span class="o">=</span><span class="n">predict_tweet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Input: </span>
+<span class="sd">        test_x: a list of tweets</span>
+<span class="sd">        test_y: (m, 1) vector with the corresponding labels for the list of tweets</span>
+<span class="sd">        freqs: a dictionary with the frequency of each pair (or tuple)</span>
+<span class="sd">        theta: weight vector of dimension (3, 1)</span>
+<span class="sd">    Output: </span>
+<span class="sd">        accuracy: (# of tweets classified correctly) / (total # of tweets)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># the list for storing predictions</span>
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">test_x</span><span class="p">:</span>
+        <span class="c1"># get the label prediction for the tweet</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="k">if</span> <span class="n">y_pred</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="c1"># append 1.0 to the list</span>
+            <span class="n">y_hat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># append 0 to the list</span>
+            <span class="n">y_hat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="c1"># With the above implementation, y_hat is a list, but test_y is (m,1) array</span>
+    <span class="c1"># convert both to one-dimensional arrays in order to compare them using the &#39;==&#39; operator</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1">### END CODE HERE ###</span>
+    
+    <span class="k">return</span> <span class="n">accuracy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmp_accuracy</span> <span class="o">=</span> <span class="n">test_logistic_regression</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logistic regression model&#39;s accuracy = </span><span class="si">{</span><span class="n">tmp_accuracy</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id5">
+<h4>Expected Output:<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">0.9950</span></code><br />
+Pretty good!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
+<span class="n">w1_unittest</span><span class="o">.</span><span class="n">unittest_test_logistic_regression</span><span class="p">(</span><span class="n">test_logistic_regression</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name='5'></a></p>
+</section>
+</section>
+</section>
+<section id="error-analysis">
+<h2>5 -  Error Analysis<a class="headerlink" href="#error-analysis" title="Link to this heading">#</a></h2>
+<p>In this part you will see some tweets that your model misclassified. Why do you think the misclassifications happened? Specifically what kind of tweets does your model misclassify?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Some error analysis done for you</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Label Predicted Tweet&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span><span class="n">test_y</span><span class="p">):</span>
+    <span class="n">y_hat</span> <span class="o">=</span> <span class="n">predict_tweet</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">y_hat</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;THE TWEET IS:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;THE PROCESSED TWEET IS:&#39;</span><span class="p">,</span> <span class="n">process_tweet</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="se">\t</span><span class="si">%0.8f</span><span class="se">\t</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">process_tweet</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Later in this specialization, we will see how we can use deeplearning to improve the prediction performance.</p>
+<p><a name='6'></a></p>
+</section>
+<section id="predict-with-your-own-tweet">
+<h2>6 - Predict with your own Tweet<a class="headerlink" href="#predict-with-your-own-tweet" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feel free to change the tweet below</span>
+<span class="n">my_tweet</span> <span class="o">=</span> <span class="s1">&#39;This is a ridiculously bright movie. The plot was terrible and I was sad until the ending!&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">process_tweet</span><span class="p">(</span><span class="n">my_tweet</span><span class="p">))</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">predict_tweet</span><span class="p">(</span><span class="n">my_tweet</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_hat</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">y_hat</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Positive sentiment&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Negative sentiment&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLP\C1_W1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ppt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Course 1 Week 1: Introduction to Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C1_W1_lecture_nb_01_preprocessing.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Preprocessing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-submission-to-the-autograder">Important Note on Submission to the AutoGrader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-functions-and-data">Import Functions and Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imported-functions">Imported Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#import-some-helper-functions-that-we-provided-in-the-utils-py-file">Import some helper functions that we provided in the utils.py file:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-data">Prepare the Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-tweet">Process Tweet</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Expected output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">1 - Logistic Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">1.1 - Sigmoid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-sigmoid">Exercise 1 -  sigmoid</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-regression-and-a-sigmoid">Logistic Regression: Regression and a Sigmoid</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-function-and-gradient">1.2 - Cost function and Gradient</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-weights">Update the weights</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-gradientdescent">Exercise 2 - gradientDescent</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Expected output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-the-features">2 - Extracting the Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-extract-features">Exercise 3 - extract_features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Expected output</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Expected output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-your-model">3 - Training Your Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-your-logistic-regression">4 -  Test your Logistic Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-predict-tweet">Exercise 4 - predict_tweet</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-the-performance-using-the-test-set">4.1 -  Check the Performance using the Test Set</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-test-logistic-regression">Exercise 5 - test_logistic_regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Expected Output:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-analysis">5 -  Error Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-with-your-own-tweet">6 - Predict with your own Tweet</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

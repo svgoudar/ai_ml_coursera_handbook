@@ -1,0 +1,1679 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Word Embeddings: Training the CBOW model &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'NLP/C2_W4/C2_W4_lecture_nb_3_training_the_CBOW';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/NLP/C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Word Embeddings: Hands On" href="C2_W4_lecture_nb_4_word_embeddings_hands_on.html" />
+    <link rel="prev" title="Word Embeddings: Intro to CBOW model, activation functions and working with Numpy" href="C2_W4_lecture_nb_2_intro_to_CBOW.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../MLS/overview.html">Machine Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">NLP Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Assignment.html">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W4/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_1_strings_tags.html">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Assignment.html">Assignment 2 - Named Entity Recognition (NER)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W2/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/NLP/C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FNLP/C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/NLP/C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Word Embeddings: Training the CBOW model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation">Forward propagation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-of-the-weights-and-biases">Initialization of the weights and biases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-example">Training example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values-of-the-hidden-layer">Values of the hidden layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values-of-the-output-layer">Values of the output layer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-loss">Cross-entropy loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation">Backpropagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-practice-relates-to-and-differs-from-the-upcoming-graded-assignment">How this practice relates to and differs from the upcoming graded assignment</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="word-embeddings-training-the-cbow-model">
+<h1>Word Embeddings: Training the CBOW model<a class="headerlink" href="#word-embeddings-training-the-cbow-model" title="Link to this heading">#</a></h1>
+<p>In previous lecture notebooks you saw how to prepare data before feeding it to a continuous bag-of-words model, the model itself, its architecture and activation functions. This notebook will walk you through:</p>
+<ul class="simple">
+<li><p>Forward propagation.</p></li>
+<li><p>Cross-entropy loss.</p></li>
+<li><p>Backpropagation.</p></li>
+<li><p>Gradient descent.</p></li>
+</ul>
+<p>Which are concepts necessary to understand how the training of the model works.</p>
+<p>Let’s dive into it!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils2</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_dict</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="forward-propagation">
+<h2>Forward propagation<a class="headerlink" href="#forward-propagation" title="Link to this heading">#</a></h2>
+<p>Let’s dive into the neural network itself, which is shown below with all the dimensions and formulas you’ll need.</p>
+<div style="width:image width px; font-size:100%; text-align:center;"><img src= '../../assets/C2_W4/images/cbow_model_dimensions_single_input.png' alt="alternate text" width="width" height="height" style="width:839;height:349;" /> Figure 2 </div><p>Set <span class="math notranslate nohighlight">\(N\)</span> equal to 3. Remember that <span class="math notranslate nohighlight">\(N\)</span> is a hyperparameter of the CBOW model that represents the size of the word embedding vectors, as well as the size of the hidden layer.</p>
+<p>Also set <span class="math notranslate nohighlight">\(V\)</span> equal to 5, which is the size of the vocabulary we have used so far.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the size of the word embedding vectors and save it in the variable &#39;N&#39;</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># Define V. Remember this was the size of the vocabulary in the previous lecture notebooks</span>
+<span class="n">V</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="initialization-of-the-weights-and-biases">
+<h3>Initialization of the weights and biases<a class="headerlink" href="#initialization-of-the-weights-and-biases" title="Link to this heading">#</a></h3>
+<p>Before you start training the neural network, you need to initialize the weight matrices and bias vectors with random values.</p>
+<p>In the assignment you will implement a function to do this yourself using <code class="docutils literal notranslate"><span class="pre">numpy.random.rand</span></code>. In this notebook, we’ve pre-populated these matrices and vectors for you.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define first matrix of weights</span>
+<span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.41687358</span><span class="p">,</span>  <span class="mf">0.08854191</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.23495225</span><span class="p">,</span>  <span class="mf">0.28320538</span><span class="p">,</span>  <span class="mf">0.41800106</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mf">0.32735501</span><span class="p">,</span>  <span class="mf">0.22795148</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.23951958</span><span class="p">,</span>  <span class="mf">0.4117634</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.23924344</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mf">0.26637602</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.23846886</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.37770863</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.11399446</span><span class="p">,</span>  <span class="mf">0.34008124</span><span class="p">]])</span>
+
+<span class="c1"># Define second matrix of weights</span>
+<span class="n">W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.22182064</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.43008631</span><span class="p">,</span>  <span class="mf">0.13310965</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mf">0.08476603</span><span class="p">,</span>  <span class="mf">0.08123194</span><span class="p">,</span>  <span class="mf">0.1772054</span> <span class="p">],</span>
+               <span class="p">[</span> <span class="mf">0.1871551</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.06107263</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1790735</span> <span class="p">],</span>
+               <span class="p">[</span> <span class="mf">0.07055222</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02015138</span><span class="p">,</span>  <span class="mf">0.36107434</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mf">0.33480474</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.39423389</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.43959196</span><span class="p">]])</span>
+
+<span class="c1"># Define first vector of biases</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.09688219</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mf">0.29239497</span><span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">0.27364426</span><span class="p">]])</span>
+
+<span class="c1"># Define second vector of biases</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.0352008</span> <span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">0.36393384</span><span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">0.12775555</span><span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">0.34802326</span><span class="p">],</span>
+               <span class="p">[</span><span class="o">-</span><span class="mf">0.07017815</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Check that the dimensions of these matrices match those shown in the figure above.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;V (vocabulary size): </span><span class="si">{</span><span class="n">V</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;N (embedding size / size of the hidden layer): </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of W1: </span><span class="si">{</span><span class="n">W1</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (NxV)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of b1: </span><span class="si">{</span><span class="n">b1</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (Nx1)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of W2: </span><span class="si">{</span><span class="n">W2</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (VxN)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of b2: </span><span class="si">{</span><span class="n">b2</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (Vx1)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>V (vocabulary size): 5
+N (embedding size / size of the hidden layer): 3
+size of W1: (3, 5) (NxV)
+size of b1: (3, 1) (Nx1)
+size of W2: (5, 3) (VxN)
+size of b2: (5, 1) (Vx1)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before moving forward, you will need some functions and variables defined in previous notebooks. They can be found next. Be sure you understand everything that is going on in the next cell, if not consider doing a refresh of the first lecture notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the tokenized version of the corpus</span>
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="s1">&#39;because&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;learning&#39;</span><span class="p">]</span>
+
+<span class="c1"># Get &#39;word2Ind&#39; and &#39;Ind2word&#39; dictionaries for the tokenized corpus</span>
+<span class="n">word2Ind</span><span class="p">,</span> <span class="n">Ind2word</span> <span class="o">=</span> <span class="n">get_dict</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+
+<span class="c1"># Define the &#39;get_windows&#39; function as seen in a previous notebook</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_windows</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">C</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">-</span> <span class="n">C</span><span class="p">:</span>
+        <span class="n">center_word</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">context_words</span> <span class="o">=</span> <span class="n">words</span><span class="p">[(</span><span class="n">i</span> <span class="o">-</span> <span class="n">C</span><span class="p">):</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">words</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">):(</span><span class="n">i</span><span class="o">+</span><span class="n">C</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">yield</span> <span class="n">context_words</span><span class="p">,</span> <span class="n">center_word</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># Define the &#39;word_to_one_hot_vector&#39; function as seen in a previous notebook</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">word_to_one_hot_vector</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">word2Ind</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+    <span class="n">one_hot_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">one_hot_vector</span><span class="p">[</span><span class="n">word2Ind</span><span class="p">[</span><span class="n">word</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">one_hot_vector</span>
+
+<span class="c1"># Define the &#39;context_words_to_vector&#39; function as seen in a previous notebook</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">context_words_to_vector</span><span class="p">(</span><span class="n">context_words</span><span class="p">,</span> <span class="n">word2Ind</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+    <span class="n">context_words_vectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_to_one_hot_vector</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">word2Ind</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">context_words</span><span class="p">]</span>
+    <span class="n">context_words_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">context_words_vectors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">context_words_vectors</span>
+
+<span class="c1"># Define the generator function &#39;get_training_example&#39; as seen in a previous notebook</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_training_example</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">word2Ind</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">context_words</span><span class="p">,</span> <span class="n">center_word</span> <span class="ow">in</span> <span class="n">get_windows</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">context_words_to_vector</span><span class="p">(</span><span class="n">context_words</span><span class="p">,</span> <span class="n">word2Ind</span><span class="p">,</span> <span class="n">V</span><span class="p">),</span> <span class="n">word_to_one_hot_vector</span><span class="p">(</span><span class="n">center_word</span><span class="p">,</span> <span class="n">word2Ind</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-example">
+<h3>Training example<a class="headerlink" href="#training-example" title="Link to this heading">#</a></h3>
+<p>Run the next cells to get the first training example, made of the vector representing the context words “i am because i”, and the target which is the one-hot vector representing the center word “happy”.</p>
+<blockquote>
+<div><p>You don’t need to worry about the Python syntax, but there are some explanations below if you want to know what’s happening behind the scenes.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save generator object in the &#39;training_examples&#39; variable with the desired arguments</span>
+<span class="n">training_examples</span> <span class="o">=</span> <span class="n">get_training_example</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">word2Ind</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">get_training_examples</span></code>, which uses the <code class="docutils literal notranslate"><span class="pre">yield</span></code> keyword, is known as a generator. When run, it builds an iterator, which is a special type of object that… you can iterate on (using a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop for instance), to retrieve the successive values that the function generates.</p>
+<p>In this case <code class="docutils literal notranslate"><span class="pre">get_training_examples</span></code> <code class="docutils literal notranslate"><span class="pre">yield</span></code>s training examples, and iterating on <code class="docutils literal notranslate"><span class="pre">training_examples</span></code> will return the successive training examples.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get first values from generator</span>
+<span class="n">x_array</span><span class="p">,</span> <span class="n">y_array</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">training_examples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">next</span></code> is another special keyword, which gets the next available value from an iterator. Here, you’ll get the very first value, which is the first training example. If you run this cell again, you’ll get the next value, and so on until the iterator runs out of values to return.</p>
+<p>In this notebook <code class="docutils literal notranslate"><span class="pre">next</span></code> is used because you will only be performing one iteration of training. In this week’s assignment with the full training over several iterations you’ll use regular <code class="docutils literal notranslate"><span class="pre">for</span></code> loops with the iterator that supplies the training examples.</p>
+</div></blockquote>
+<p>The vector representing the context words, which will be fed into the neural network, is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print context words vector</span>
+<span class="n">x_array</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.25, 0.25, 0.  , 0.5 , 0.  ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The one-hot vector representing the center word to be predicted is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print one hot vector of center word</span>
+<span class="n">y_array</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0., 0., 1., 0., 0.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now convert these vectors into matrices (or 2D arrays) to be able to perform matrix multiplication on the right types of objects, as explained in a previous notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copy vector</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x_array</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Reshape it</span>
+<span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Print it</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;x:</span><span class="se">\n</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Copy vector</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y_array</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Reshape it</span>
+<span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Print it</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;y:</span><span class="se">\n</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x:
+[[0.25]
+ [0.25]
+ [0.  ]
+ [0.5 ]
+ [0.  ]]
+
+y:
+[[0.]
+ [0.]
+ [1.]
+ [0.]
+ [0.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now you will need the activation functions seen before. Again, if this feel unfamiliar consider checking the previous lecture notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the &#39;relu&#39; function as seen in the previous lecture notebook</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">relu</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">result</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># Define the &#39;softmax&#39; function as seen in the previous lecture notebook</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">e_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">sum_e_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">e_z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">e_z</span> <span class="o">/</span> <span class="n">sum_e_z</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="values-of-the-hidden-layer">
+<h3>Values of the hidden layer<a class="headerlink" href="#values-of-the-hidden-layer" title="Link to this heading">#</a></h3>
+<p>Now that you have initialized all the variables that you need for forward propagation, you can calculate the values of the hidden layer using the following formulas:</p>
+<p>\begin{align}
+\mathbf{z_1} = \mathbf{W_1}\mathbf{x} + \mathbf{b_1}  \tag{1} \
+\mathbf{h} = \mathrm{ReLU}(\mathbf{z_1})  \tag{2} \
+\end{align}</p>
+<p>First, you can calculate the value of <span class="math notranslate nohighlight">\(\mathbf{z_1}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute z1 (values of first hidden layer before applying the ReLU function)</span>
+<span class="n">z1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">b1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">np.dot</span></code> is numpy’s function for matrix multiplication.</p>
+</div></blockquote>
+<p>As expected you get an <span class="math notranslate nohighlight">\(N\)</span> by 1 matrix, or column vector with <span class="math notranslate nohighlight">\(N\)</span> elements, where <span class="math notranslate nohighlight">\(N\)</span> is equal to the embedding size, which is 3 in this example.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print z1</span>
+<span class="n">z1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.36483875],
+       [ 0.63710329],
+       [-0.3236647 ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can now take the ReLU of <span class="math notranslate nohighlight">\(\mathbf{z_1}\)</span> to get <span class="math notranslate nohighlight">\(\mathbf{h}\)</span>, the vector with the values of the hidden layer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute h (z1 after applying ReLU function)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
+
+<span class="c1"># Print h</span>
+<span class="n">h</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.36483875],
+       [0.63710329],
+       [0.        ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Applying ReLU means that the negative element of <span class="math notranslate nohighlight">\(\mathbf{z_1}\)</span> has been replaced with a zero.</p>
+</section>
+<section id="values-of-the-output-layer">
+<h3>Values of the output layer<a class="headerlink" href="#values-of-the-output-layer" title="Link to this heading">#</a></h3>
+<p>Here are the formulas you need to calculate the values of the output layer, represented by the vector <span class="math notranslate nohighlight">\(\mathbf{\hat y}\)</span>:</p>
+<p>\begin{align}
+\mathbf{z_2} &amp;= \mathbf{W_2}\mathbf{h} + \mathbf{b_2}   \tag{3} \
+\mathbf{\hat y} &amp;= \mathrm{softmax}(\mathbf{z_2})   \tag{4} \
+\end{align}</p>
+<p><strong>First, calculate <span class="math notranslate nohighlight">\(\mathbf{z_2}\)</span>.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute z2 (values of the output layer before applying the softmax function)</span>
+<span class="n">z2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="n">b2</span>
+
+<span class="c1"># Print z2</span>
+<span class="n">z2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.31973737],
+       [-0.28125477],
+       [-0.09838369],
+       [-0.33512159],
+       [-0.19919612]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>array([[-0.31973737],
+       [-0.28125477],
+       [-0.09838369],
+       [-0.33512159],
+       [-0.19919612]])
+</pre></div>
+</div>
+<p>This is a <span class="math notranslate nohighlight">\(V\)</span> by 1 matrix, where <span class="math notranslate nohighlight">\(V\)</span> is the size of the vocabulary, which is 5 in this example.</p>
+<p><strong>Now calculate the value of <span class="math notranslate nohighlight">\(\mathbf{\hat y}\)</span>.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute y_hat (z2 after applying softmax function)</span>
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">z2</span><span class="p">)</span>
+
+<span class="c1"># Print y_hat</span>
+<span class="n">y_hat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.18519074],
+       [0.19245626],
+       [0.23107446],
+       [0.18236353],
+       [0.20891502]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>array([[0.18519074],
+       [0.19245626],
+       [0.23107446],
+       [0.18236353],
+       [0.20891502]])
+</pre></div>
+</div>
+<p>As you’ve performed the calculations with random matrices and vectors (apart from the input vector), the output of the neural network is essentially random at this point. The learning process will adjust the weights and biases to match the actual targets better.</p>
+<p><strong>That being said, what word did the neural network predict?</strong></p>
+<details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Solution</b></font>
+</summary>
+<p>The neural network predicted the word "happy": the largest element of $\mathbf{\hat y}$ is the third one, and the third word of the vocabulary is "happy".</p>
+<p>Here's how you could implement this in Python:</p>
+<p><code>print(Ind2word[np.argmax(y_hat)])</code></p><p>Well done, you’ve completed the forward propagation phase!</p>
+</section>
+</section>
+<section id="cross-entropy-loss">
+<h2>Cross-entropy loss<a class="headerlink" href="#cross-entropy-loss" title="Link to this heading">#</a></h2>
+<p>Now that you have the network’s prediction, you can calculate the cross-entropy loss to determine how accurate the prediction was compared to the actual target.</p>
+<blockquote>
+<div><p>Remember that you are working on a single training example, not on a batch of examples, which is why you are using <em>loss</em> and not <em>cost</em>, which is the generalized form of loss.</p>
+</div></blockquote>
+<p>First let’s recall what the prediction was.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print prediction</span>
+<span class="n">y_hat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.18519074],
+       [0.19245626],
+       [0.23107446],
+       [0.18236353],
+       [0.20891502]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the actual target value is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print target value</span>
+<span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.],
+       [0.],
+       [1.],
+       [0.],
+       [0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The formula for cross-entropy loss is:</p>
+<div class="math notranslate nohighlight">
+\[ J=-\sum\limits_{k=1}^{V}y_k\log{\hat{y}_k} \tag{6}\]</div>
+<p><strong>Try implementing the cross-entropy loss function so you get more familiar working with numpy</strong></p>
+<p>Here are a some hints if you’re stuck.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cross_entropy_loss</span><span class="p">(</span><span class="n">y_predicted</span><span class="p">,</span> <span class="n">y_actual</span><span class="p">):</span>
+    <span class="c1"># Fill the loss variable with your code</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Hint 1</b></font>
+</summary>
+    <p>To multiply two numpy matrices (such as <code>y</code> and <code>y_hat</code>) element-wise, you can simply use the <code>*</code> operator.</p><details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Hint 2</b></font>
+</summary>
+<p>Once you have a vector equal to the element-wise multiplication of <code>y</code> and <code>y_hat</code>, you can use <code>np.sum</code> to calculate the sum of the elements of this vector.</p><details>    
+<summary>
+    <font size="3" color="darkgreen"><b>Solution</b></font>
+</summary>
+<p><code>loss = np.sum(-np.log(y_hat)*y)</code></p><p>Don’t forget to run the cell containing the <code class="docutils literal notranslate"><span class="pre">cross_entropy_loss</span></code> function once it is solved.</p>
+<p><strong>Now use this function to calculate the loss with the actual values of <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{\hat y}\)</span>.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print value of cross entropy loss for prediction and target value</span>
+<span class="n">cross_entropy_loss</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1.4650152923611106
+</pre></div>
+</div>
+<p>This value is neither good nor bad, which is expected as the neural network hasn’t learned anything yet.</p>
+<p>The actual learning will start during the next phase: backpropagation.</p>
+</section>
+<section id="backpropagation">
+<h2>Backpropagation<a class="headerlink" href="#backpropagation" title="Link to this heading">#</a></h2>
+<p>The formulas that you will implement for backpropagation are the following.</p>
+<p>\begin{align}
+\frac{\partial J}{\partial \mathbf{W_1}} &amp;= \rm{ReLU}\left ( \mathbf{W_2^\top} (\mathbf{\hat{y}} - \mathbf{y})\right )\mathbf{x}^\top \tag{7}\
+\frac{\partial J}{\partial \mathbf{W_2}} &amp;= (\mathbf{\hat{y}} - \mathbf{y})\mathbf{h^\top} \tag{8}\
+\frac{\partial J}{\partial \mathbf{b_1}} &amp;= \rm{ReLU}\left ( \mathbf{W_2^\top} (\mathbf{\hat{y}} - \mathbf{y})\right ) \tag{9}\
+\frac{\partial J}{\partial \mathbf{b_2}} &amp;= \mathbf{\hat{y}} - \mathbf{y} \tag{10}
+\end{align}</p>
+<blockquote>
+<div><p>Note: these formulas are slightly simplified compared to the ones in the lecture as you’re working on a single training example, whereas the lecture provided the formulas for a batch of examples. In the assignment you’ll be implementing the latter.</p>
+</div></blockquote>
+<p>Let’s start with an easy one.</p>
+<p><strong>Calculate the partial derivative of the loss function with respect to <span class="math notranslate nohighlight">\(\mathbf{b_2}\)</span>, and store the result in <code class="docutils literal notranslate"><span class="pre">grad_b2</span></code>.</strong></p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial J}{\partial \mathbf{b_2}} = \mathbf{\hat{y}} - \mathbf{y} \tag{10}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute vector with partial derivatives of loss function with respect to b2</span>
+<span class="n">grad_b2</span> <span class="o">=</span> <span class="n">y_hat</span> <span class="o">-</span> <span class="n">y</span>
+
+<span class="c1"># Print this vector</span>
+<span class="n">grad_b2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.18519074],
+       [ 0.19245626],
+       [-0.76892554],
+       [ 0.18236353],
+       [ 0.20891502]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 0.18519074],
+       [ 0.19245626],
+       [-0.76892554],
+       [ 0.18236353],
+       [ 0.20891502]])
+</pre></div>
+</div>
+<p><strong>Next, calculate the partial derivative of the loss function with respect to <span class="math notranslate nohighlight">\(\mathbf{W_2}\)</span>, and store the result in <code class="docutils literal notranslate"><span class="pre">grad_W2</span></code>.</strong></p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial J}{\partial \mathbf{W_2}} = (\mathbf{\hat{y}} - \mathbf{y})\mathbf{h^\top} \tag{8}\]</div>
+<blockquote>
+<div><p>Hint: use <code class="docutils literal notranslate"><span class="pre">.T</span></code> to get a transposed matrix, e.g. <code class="docutils literal notranslate"><span class="pre">h.T</span></code> returns <span class="math notranslate nohighlight">\(\mathbf{h^\top}\)</span>.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute matrix with partial derivatives of loss function with respect to W2</span>
+<span class="n">grad_W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y_hat</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="c1"># Print matrix</span>
+<span class="n">grad_W2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.06756476,  0.11798563,  0.        ],
+       [ 0.0702155 ,  0.12261452,  0.        ],
+       [-0.28053384, -0.48988499,  0.        ],
+       [ 0.06653328,  0.1161844 ,  0.        ],
+       [ 0.07622029,  0.13310045,  0.        ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 0.06756476,  0.11798563,  0.        ],
+       [ 0.0702155 ,  0.12261452,  0.        ],
+       [-0.28053384, -0.48988499,  0.        ],
+       [ 0.06653328,  0.1161844 ,  0.        ],
+       [ 0.07622029,  0.13310045,  0.        ]])
+</pre></div>
+</div>
+<p><strong>Now calculate the partial derivative with respect to <span class="math notranslate nohighlight">\(\mathbf{b_1}\)</span> and store the result in <code class="docutils literal notranslate"><span class="pre">grad_b1</span></code>.</strong></p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial J}{\partial \mathbf{b_1}} = \rm{ReLU}\left ( \mathbf{W_2^\top} (\mathbf{\hat{y}} - \mathbf{y})\right ) \tag{9}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute vector with partial derivatives of loss function with respect to b1</span>
+<span class="n">grad_b1</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">y_hat</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span>
+
+<span class="c1"># Print vector</span>
+<span class="n">grad_b1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.        ],
+       [0.        ],
+       [0.17045858]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>array([[0.        ],
+       [0.        ],
+       [0.17045858]])
+</pre></div>
+</div>
+<p><strong>Finally, calculate the partial derivative of the loss with respect to <span class="math notranslate nohighlight">\(\mathbf{W_1}\)</span>, and store it in <code class="docutils literal notranslate"><span class="pre">grad_W1</span></code>.</strong></p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial J}{\partial \mathbf{W_1}} = \rm{ReLU}\left ( \mathbf{W_2^\top} (\mathbf{\hat{y}} - \mathbf{y})\right )\mathbf{x}^\top \tag{7}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute matrix with partial derivatives of loss function with respect to W1</span>
+<span class="n">grad_W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">relu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">y_hat</span> <span class="o">-</span> <span class="n">y</span><span class="p">)),</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="c1"># Print matrix</span>
+<span class="n">grad_W1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.        , 0.        , 0.        , 0.        , 0.        ],
+       [0.        , 0.        , 0.        , 0.        , 0.        ],
+       [0.04261464, 0.04261464, 0.        , 0.08522929, 0.        ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>array([[0.        , 0.        , 0.        , 0.        , 0.        ],
+       [0.        , 0.        , 0.        , 0.        , 0.        ],
+       [0.04261464, 0.04261464, 0.        , 0.08522929, 0.        ]])
+</pre></div>
+</div>
+<p>Before moving on to gradient descent, double-check that all the matrices have the expected dimensions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;V (vocabulary size): </span><span class="si">{</span><span class="n">V</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;N (embedding size / size of the hidden layer): </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of grad_W1: </span><span class="si">{</span><span class="n">grad_W1</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (NxV)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of grad_b1: </span><span class="si">{</span><span class="n">grad_b1</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (Nx1)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of grad_W2: </span><span class="si">{</span><span class="n">grad_W2</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (VxN)&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;size of grad_b2: </span><span class="si">{</span><span class="n">grad_b2</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> (Vx1)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>V (vocabulary size): 5
+N (embedding size / size of the hidden layer): 3
+size of grad_W1: (3, 5) (NxV)
+size of grad_b1: (3, 1) (Nx1)
+size of grad_W2: (5, 3) (VxN)
+size of grad_b2: (5, 1) (Vx1)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="gradient-descent">
+<h2>Gradient descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h2>
+<p>During the gradient descent phase, you will update the weights and biases by subtracting <span class="math notranslate nohighlight">\(\alpha\)</span> times the gradient from the original matrices and vectors, using the following formulas.</p>
+<p>\begin{align}
+\mathbf{W_1} &amp;:= \mathbf{W_1} - \alpha \frac{\partial J}{\partial \mathbf{W_1}} \tag{11}\
+\mathbf{W_2} &amp;:= \mathbf{W_2} - \alpha \frac{\partial J}{\partial \mathbf{W_2}} \tag{12}\
+\mathbf{b_1} &amp;:= \mathbf{b_1} - \alpha \frac{\partial J}{\partial \mathbf{b_1}} \tag{13}\
+\mathbf{b_2} &amp;:= \mathbf{b_2} - \alpha \frac{\partial J}{\partial \mathbf{b_2}} \tag{14}\
+\end{align}</p>
+<p>First, let set a value for <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define alpha</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.03</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The updated weight matrix <span class="math notranslate nohighlight">\(\mathbf{W_1}\)</span> will be:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute updated W1</span>
+<span class="n">W1_new</span> <span class="o">=</span> <span class="n">W1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">grad_W1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s compare the previous and new values of <span class="math notranslate nohighlight">\(\mathbf{W_1}\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;old value of W1:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">W1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;new value of W1:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">W1_new</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>old value of W1:
+[[ 0.41687358  0.08854191 -0.23495225  0.28320538  0.41800106]
+ [ 0.32735501  0.22795148 -0.23951958  0.4117634  -0.23924344]
+ [ 0.26637602 -0.23846886 -0.37770863 -0.11399446  0.34008124]]
+
+new value of W1:
+[[ 0.41687358  0.08854191 -0.23495225  0.28320538  0.41800106]
+ [ 0.32735501  0.22795148 -0.23951958  0.4117634  -0.23924344]
+ [ 0.26509758 -0.2397473  -0.37770863 -0.11655134  0.34008124]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The difference is very subtle (hint: take a closer look at the last row), which is why it takes a fair amount of iterations to train the neural network until it reaches optimal weights and biases starting from random values.</p>
+<p><strong>Now calculate the new values of <span class="math notranslate nohighlight">\(\mathbf{W_2}\)</span> (to be stored in <code class="docutils literal notranslate"><span class="pre">W2_new</span></code>), <span class="math notranslate nohighlight">\(\mathbf{b_1}\)</span> (in <code class="docutils literal notranslate"><span class="pre">b1_new</span></code>), and <span class="math notranslate nohighlight">\(\mathbf{b_2}\)</span> (in <code class="docutils literal notranslate"><span class="pre">b2_new</span></code>).</strong></p>
+<p>\begin{align}
+\mathbf{W_2} &amp;:= \mathbf{W_2} - \alpha \frac{\partial J}{\partial \mathbf{W_2}} \tag{12}\
+\mathbf{b_1} &amp;:= \mathbf{b_1} - \alpha \frac{\partial J}{\partial \mathbf{b_1}} \tag{13}\
+\mathbf{b_2} &amp;:= \mathbf{b_2} - \alpha \frac{\partial J}{\partial \mathbf{b_2}} \tag{14}\
+\end{align}</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute updated W2</span>
+<span class="n">W2_new</span> <span class="o">=</span> <span class="n">W2</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">grad_W2</span>
+
+<span class="c1"># Compute updated b1</span>
+<span class="n">b1_new</span> <span class="o">=</span> <span class="n">b1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">grad_b1</span>
+
+<span class="c1"># Compute updated b2</span>
+<span class="n">b2_new</span> <span class="o">=</span> <span class="n">b2</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">grad_b2</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;W2_new&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">W2_new</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;b1_new&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b1_new</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;b2_new&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b2_new</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>W2_new
+[[-0.22384758 -0.43362588  0.13310965]
+ [ 0.08265956  0.0775535   0.1772054 ]
+ [ 0.19557112 -0.04637608 -0.1790735 ]
+ [ 0.06855622 -0.02363691  0.36107434]
+ [ 0.33251813 -0.3982269  -0.43959196]]
+
+b1_new
+[[ 0.09688219]
+ [ 0.29239497]
+ [-0.27875802]]
+
+b2_new
+[[ 0.02964508]
+ [-0.36970753]
+ [-0.10468778]
+ [-0.35349417]
+ [-0.0764456 ]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>W2_new
+[[-0.22384758 -0.43362588  0.13310965]
+ [ 0.08265956  0.0775535   0.1772054 ]
+ [ 0.19557112 -0.04637608 -0.1790735 ]
+ [ 0.06855622 -0.02363691  0.36107434]
+ [ 0.33251813 -0.3982269  -0.43959196]]
+
+b1_new
+[[ 0.09688219]
+ [ 0.29239497]
+ [-0.27875802]]
+
+b2_new
+[[ 0.02964508]
+ [-0.36970753]
+ [-0.10468778]
+ [-0.35349417]
+ [-0.0764456 ]]
+</pre></div>
+</div>
+<p>Congratulations, you have completed one iteration of training using one training example!</p>
+<p>You’ll need many more iterations to fully train the neural network, and you can optimize the learning process by training on batches of examples, as described in the lecture. You will get to do this during this week’s assignment.</p>
+<section id="how-this-practice-relates-to-and-differs-from-the-upcoming-graded-assignment">
+<h3>How this practice relates to and differs from the upcoming graded assignment<a class="headerlink" href="#how-this-practice-relates-to-and-differs-from-the-upcoming-graded-assignment" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>In the assignment, for each iteration of training you will use batches of examples instead of a single example. The formulas for forward propagation and backpropagation will be modified accordingly, and you will use cross-entropy cost instead of cross-entropy loss.</p></li>
+<li><p>You will also complete several iterations of training, until you reach an acceptably low cross-entropy cost, at which point you can extract good word embeddings from the weight matrices.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./NLP\C2_W4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="C2_W4_lecture_nb_2_intro_to_CBOW.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C2_W4_lecture_nb_4_word_embeddings_hands_on.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Word Embeddings: Hands On</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-propagation">Forward propagation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-of-the-weights-and-biases">Initialization of the weights and biases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-example">Training example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values-of-the-hidden-layer">Values of the hidden layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values-of-the-output-layer">Values of the output layer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-loss">Cross-entropy loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation">Backpropagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-practice-relates-to-and-differs-from-the-upcoming-graded-assignment">How this practice relates to and differs from the upcoming graded assignment</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

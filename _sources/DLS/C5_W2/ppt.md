@@ -4,7 +4,7 @@ tags: []
 
 ---
 
-## Course 3 Week 2: ML Strategy (2)
+## Course 5 Week 2: Natural Language Processing & Word Embeddings
 
 ### Main Course PDF
 

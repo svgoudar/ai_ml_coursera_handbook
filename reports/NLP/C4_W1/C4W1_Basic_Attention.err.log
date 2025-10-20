@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Run this to test your alignment function
+scores = alignment(encoder_states, decoder_state)
+print(scores)
+------------------
+
+
+[31m-------------------------------------------------------------------------[39m
+[31mAttributeError[39m                          Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 2[39m
+[32m      1[39m [38;5;66;03m# Run this to test your alignment function[39;00m
+[32m----> [39m[32m2[39m scores = [43malignment[49m[43m([49m[43mencoder_states[49m[43m,[49m[43m [49m[43mdecoder_state[49m[43m)[49m
+[32m      3[39m [38;5;28mprint[39m(scores)
+
+[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 20[39m, in [36malignment[39m[34m(encoder_states, decoder_state)[39m
+[32m     17[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34malignment[39m(encoder_states, decoder_state):
+[32m     18[39m     [38;5;66;03m# First, concatenate the encoder states and the decoder state[39;00m
+[32m     19[39m     inputs = [38;5;28;01mNone[39;00m
+[32m---> [39m[32m20[39m     [38;5;28;01massert[39;00m [43minputs[49m[43m.[49m[43mshape[49m == (input_length, [32m2[39m * hidden_size)
+[32m     22[39m     [38;5;66;03m# Matrix multiplication of the concatenated inputs and layer_1, with tanh activation[39;00m
+[32m     23[39m     activations = [38;5;28;01mNone[39;00m
+
+[31mAttributeError[39m: 'NoneType' object has no attribute 'shape'
+

@@ -1,3 +1,9 @@
+---
+noteId: "cc743120ad6e11f09e4cf9d4f2965b4e"
+tags: []
+
+---
+
 
 ## Course 1 Week 2: Neural Networks Basics
 
@@ -23,7 +29,4 @@
 <iframe src="../../assets/C1_W2/4. Logistic_Regression_Cost_Function.pdf" width="100%" height="600px" frameborder="0">
 </iframe>
 
-#### 5. Size of the Development and Test Sets
 
-<iframe src="../../assets/C1_W2/5 - Size_of_the_development_and_test_sets.pdf" width="100%" height="600px" frameborder="0">
-</iframe>

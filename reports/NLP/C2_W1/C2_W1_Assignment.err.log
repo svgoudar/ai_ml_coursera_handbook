@@ -1,0 +1,65 @@
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Test your function
+w1_unittest.test_get_count(get_count, word_l)
+------------------
+
+
+[31m-------------------------------------------------------------------------[39m
+[31mAssertionError[39m                          Traceback (most recent call last)
+[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\NLP\C2_W1\w1_unittest.py:161[39m, in [36mtest_get_count[39m[34m(target, word_l)[39m
+[32m    160[39m [38;5;28;01mtry[39;00m:
+[32m--> [39m[32m161[39m     [38;5;28;01massert[39;00m [38;5;28mlen[39m(result) == test_case[[33m"[39m[33mexpected[39m[33m"[39m][[33m"[39m[33mexpected_key_value_pairs[39m[33m"[39m]
+[32m    162[39m     successful_cases += [32m1[39m
+
+[31mAssertionError[39m: 
+
+During handling of the above exception, another exception occurred:
+
+[31mKeyError[39m                                Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[7][39m[32m, line 2[39m
+[32m      1[39m [38;5;66;03m# Test your function[39;00m
+[32m----> [39m[32m2[39m [43mw1_unittest[49m[43m.[49m[43mtest_get_count[49m[43m([49m[43mget_count[49m[43m,[49m[43m [49m[43mword_l[49m[43m)[49m
+
+[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\NLP\C2_W1\w1_unittest.py:167[39m, in [36mtest_get_count[39m[34m(target, word_l)[39m
+[32m    162[39m     successful_cases += [32m1[39m
+[32m    163[39m [38;5;28;01mexcept[39;00m:
+[32m    164[39m     failed_cases.append(
+[32m    165[39m         {
+[32m    166[39m             [33m"[39m[33mname[39m[33m"[39m: test_case[[33m"[39m[33mname[39m[33m"[39m],
+[32m--> [39m[32m167[39m             [33m"[39m[33mexpected[39m[33m"[39m: [43mtest_case[49m[43m[[49m[33;43m"[39;49m[33;43mexpected[39;49m[33;43m"[39;49m[43m][49m[43m[[49m[33;43m"[39;49m[33;43mexpected_n_words[39;49m[33;43m"[39;49m[43m][49m,
+[32m    168[39m             [33m"[39m[33mgot[39m[33m"[39m: n_words,
+[32m    169[39m         }
+[32m    170[39m     )
+[32m    171[39m     [38;5;28mprint[39m(
+[32m    172[39m         [33mf[39m[33m"[39m[33mWrong number of key-value pairs. Check that you are not skipping any word in the loop.[39m[38;5;130;01m\n[39;00m[38;5;130;01m\t[39;00m[33mExpected: [39m[38;5;132;01m{[39;00mfailed_cases[-[32m1[39m].get([33m'[39m[33mexpected[39m[33m'[39m)[38;5;132;01m}[39;00m[33m.[39m[38;5;130;01m\n[39;00m[38;5;130;01m\t[39;00m[33mGot: [39m[38;5;132;01m{[39;00mfailed_cases[-[32m1[39m].get([33m'[39m[33mgot[39m[33m'[39m)[38;5;132;01m}[39;00m[33m.[39m[33m"[39m
+[32m    173[39m     )
+[32m    175[39m [38;5;28;01mtry[39;00m:
+
+[31mKeyError[39m: 'expected_n_words'
+
