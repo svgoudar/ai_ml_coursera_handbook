@@ -35,14 +35,22 @@ import sacrebleu                    # import sacrebleu in order compute the BLEU
 import matplotlib.pyplot as plt     # import pyplot in order to make some illustrations.
 ------------------
 
+----- stderr -----
+[nltk_data] Error loading punkt: <urlopen error [Errno 11001]
+[nltk_data]     getaddrinfo failed>
+----- stderr -----
+ERROR: Invalid requirement: "'sacrebleu'": Expected package name at the start of dependency specifier
+    'sacrebleu'
+    ^
+------------------
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m                  [38;5;66;03m# import numpy to make numerical computations.[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnltk[39;00m                         [38;5;66;03m# import NLTK to handle simple NL tasks like tokenization.[39;00m
-[32m      3[39m nltk.download([33m"[39m[33mpunkt[39m[33m"[39m)
-[32m      4[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mnltk[39;00m[34;01m.[39;00m[34;01mutil[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m ngrams
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 7[39m
+[32m      5[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mcollections[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m Counter     [38;5;66;03m# import a counter.[39;00m
+[32m      6[39m get_ipython().system([33m"[39m[33mpip3 install [39m[33m'[39m[33msacrebleu[39m[33m'[39m[33m           # install the sacrebleu package.[39m[33m"[39m)
+[32m----> [39m[32m7[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01msacrebleu[39;00m                    [38;5;66;03m# import sacrebleu in order compute the BLEU score.[39;00m
+[32m      8[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m     [38;5;66;03m# import pyplot in order to make some illustrations.[39;00m
 
-[31mModuleNotFoundError[39m: No module named 'nltk'
+[31mModuleNotFoundError[39m: No module named 'sacrebleu'
 

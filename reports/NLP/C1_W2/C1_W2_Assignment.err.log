@@ -25,35 +25,29 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from utils import process_tweet, lookup
-import pdb
-from nltk.corpus import stopwords, twitter_samples
-import numpy as np
-import pandas as pd
-import nltk
-import string
-from nltk.tokenize import TweetTokenizer
-from os import getcwd
-import w2_unittest
+# Testing your function
 
-nltk.download('twitter_samples')
-nltk.download('stopwords')
+result = {}
+tweets = ['i am happy', 'i am tricked', 'i am sad', 'i am tired', 'i am tired']
+ys = [1, 0, 0, 0, 0]
+count_tweets(result, tweets, ys)
 ------------------
 
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 1[39m
-[32m----> [39m[32m1[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mutils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m process_tweet, lookup
-[32m      2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpdb[39;00m
-[32m      3[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mnltk[39;00m[34;01m.[39;00m[34;01mcorpus[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m stopwords, twitter_samples
+[31m---------------------------------------------------------------------------[39m
+[31mTypeError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 6[39m
+[32m      4[39m tweets = [[33m'[39m[33mi am happy[39m[33m'[39m, [33m'[39m[33mi am tricked[39m[33m'[39m, [33m'[39m[33mi am sad[39m[33m'[39m, [33m'[39m[33mi am tired[39m[33m'[39m, [33m'[39m[33mi am tired[39m[33m'[39m]
+[32m      5[39m ys = [[32m1[39m, [32m0[39m, [32m0[39m, [32m0[39m, [32m0[39m]
+[32m----> [39m[32m6[39m [43mcount_tweets[49m[43m([49m[43mresult[49m[43m,[49m[43m [49m[43mtweets[49m[43m,[49m[43m [49m[43mys[49m[43m)[49m
 
-[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\NLP\C1_W2\utils.py:4[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mre[39;00m
-[32m      2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mstring[39;00m
-[32m----> [39m[32m4[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mnltk[39;00m[34;01m.[39;00m[34;01mcorpus[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m stopwords
-[32m      5[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mnltk[39;00m[34;01m.[39;00m[34;01mstem[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m PorterStemmer
-[32m      6[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mnltk[39;00m[34;01m.[39;00m[34;01mtokenize[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m TweetTokenizer
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 20[39m, in [36mcount_tweets[39m[34m(result, tweets, ys)[39m
+[32m     18[39m [38;5;66;03m# if the key exists in the dictionary, increment the count[39;00m
+[32m     19[39m [38;5;28;01mif[39;00m pair [38;5;129;01min[39;00m result:
+[32m---> [39m[32m20[39m     [43mresult[49m[43m[[49m[43mpair[49m[43m][49m[43m [49m[43m+[49m[43m=[49m[43m [49m[38;5;28;43;01mNone[39;49;00m
+[32m     22[39m [38;5;66;03m# else, if the key is new, add it to the dictionary and set the count to 1[39;00m
+[32m     23[39m [38;5;28;01melse[39;00m:
+[32m     24[39m     result[pair] = [38;5;28;01mNone[39;00m
 
-[31mModuleNotFoundError[39m: No module named 'nltk'
+[31mTypeError[39m: unsupported operand type(s) for +=: 'NoneType' and 'NoneType'
 

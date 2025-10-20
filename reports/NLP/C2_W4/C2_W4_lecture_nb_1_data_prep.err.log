@@ -25,25 +25,47 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import re
-import nltk
+# Print the tokenized version of the corpus
+print(f'Initial list of tokens:  {data}')
 
-nltk.download('punkt')
+# Filter tokenized corpus using list comprehension
+data = [ ch.lower() for ch in data
+         if ch.isalpha()
+         or ch == '.'
+         or emoji.get_emoji_regexp().search(ch)
+       ]
 
-import emoji
-import numpy as np
-from nltk.tokenize import word_tokenize
-from utils2 import get_dict
+# Print the tokenized and filtered version of the corpus
+print(f'After cleaning:  {data}')
 ------------------
 
+----- stdout -----
+Initial list of tokens:  ['Who', '❤️', '``', 'word', 'embeddings', "''", 'in', '2020', '.', 'I', 'do', '.']
+------------------
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mre[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnltk[39;00m
-[32m      4[39m nltk.download([33m'[39m[33mpunkt[39m[33m'[39m)
-[32m      6[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01memoji[39;00m
+[31m---------------------------------------------------------------------------[39m
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 5[39m
+[32m      2[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mInitial list of tokens:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
+[32m      4[39m [38;5;66;03m# Filter tokenized corpus using list comprehension[39;00m
+[32m----> [39m[32m5[39m data = [43m[[49m[43m [49m[43mch[49m[43m.[49m[43mlower[49m[43m([49m[43m)[49m[43m [49m[38;5;28;43;01mfor[39;49;00m[43m [49m[43mch[49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[43mdata[49m
+[32m      6[39m [43m         [49m[38;5;28;43;01mif[39;49;00m[43m [49m[43mch[49m[43m.[49m[43misalpha[49m[43m([49m[43m)[49m
+[32m      7[39m [43m         [49m[38;5;129;43;01mor[39;49;00m[43m [49m[43mch[49m[43m [49m[43m==[49m[43m [49m[33;43m'[39;49m[33;43m.[39;49m[33;43m'[39;49m
+[32m      8[39m [43m         [49m[38;5;129;43;01mor[39;49;00m[43m [49m[43memoji[49m[43m.[49m[43mget_emoji_regexp[49m[43m([49m[43m)[49m[43m.[49m[43msearch[49m[43m([49m[43mch[49m[43m)[49m
+[32m      9[39m [43m       [49m[43m][49m
+[32m     11[39m [38;5;66;03m# Print the tokenized and filtered version of the corpus[39;00m
+[32m     12[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mAfter cleaning:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
 
-[31mModuleNotFoundError[39m: No module named 'nltk'
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 8[39m, in [36m<listcomp>[39m[34m(.0)[39m
+[32m      2[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mInitial list of tokens:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
+[32m      4[39m [38;5;66;03m# Filter tokenized corpus using list comprehension[39;00m
+[32m      5[39m data = [ ch.lower() [38;5;28;01mfor[39;00m ch [38;5;129;01min[39;00m data
+[32m      6[39m          [38;5;28;01mif[39;00m ch.isalpha()
+[32m      7[39m          [38;5;129;01mor[39;00m ch == [33m'[39m[33m.[39m[33m'[39m
+[32m----> [39m[32m8[39m          [38;5;129;01mor[39;00m [43memoji[49m[43m.[49m[43mget_emoji_regexp[49m().search(ch)
+[32m      9[39m        ]
+[32m     11[39m [38;5;66;03m# Print the tokenized and filtered version of the corpus[39;00m
+[32m     12[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mAfter cleaning:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
+
+[31mAttributeError[39m: module 'emoji' has no attribute 'get_emoji_regexp'
 

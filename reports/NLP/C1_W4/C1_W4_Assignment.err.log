@@ -25,32 +25,35 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import pdb
-import pickle
-import string
+# UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)
+# You do not have to input any code in this cell, but it is relevant to grading, so please do not change anything
 
-import time
-
-import nltk
-import numpy as np
-from nltk.corpus import stopwords, twitter_samples
-
-from utils import (cosine_similarity, get_dict,
-                   process_tweet)
-from os import getcwd
-
-import w4_unittest
+# getting the training set:
+X_train, Y_train = get_matrices(
+    en_fr_train, fr_embeddings_subset, en_embeddings_subset)
 ------------------
 
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 7[39m
-[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mstring[39;00m
-[32m      5[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mtime[39;00m
-[32m----> [39m[32m7[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnltk[39;00m
-[32m      8[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m
-[32m      9[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mnltk[39;00m[34;01m.[39;00m[34;01mcorpus[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m stopwords, twitter_samples
+[31m---------------------------------------------------------------------------[39m
+[31mTypeError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 5[39m
+[32m      1[39m [38;5;66;03m# UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)[39;00m
+[32m      2[39m [38;5;66;03m# You do not have to input any code in this cell, but it is relevant to grading, so please do not change anything[39;00m
+[32m      3[39m 
+[32m      4[39m [38;5;66;03m# getting the training set:[39;00m
+[32m----> [39m[32m5[39m X_train, Y_train = [43mget_matrices[49m[43m([49m
+[32m      6[39m [43m    [49m[43men_fr_train[49m[43m,[49m[43m [49m[43mfr_embeddings_subset[49m[43m,[49m[43m [49m[43men_embeddings_subset[49m[43m)[49m
 
-[31mModuleNotFoundError[39m: No module named 'nltk'
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 38[39m, in [36mget_matrices[39m[34m(en_fr, french_vecs, english_vecs)[39m
+[32m     34[39m [38;5;66;03m# loop through all english, french word pairs in the english french dictionary[39;00m
+[32m     35[39m [38;5;28;01mfor[39;00m en_word, fr_word [38;5;129;01min[39;00m en_fr.items():
+[32m     36[39m 
+[32m     37[39m     [38;5;66;03m# check that the french word has an embedding and that the english word has an embedding[39;00m
+[32m---> [39m[32m38[39m     [38;5;28;01mif[39;00m [43mfr_word[49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[43mfrench_set[49m [38;5;129;01mand[39;00m en_word [38;5;129;01min[39;00m english_set:
+[32m     39[39m 
+[32m     40[39m         [38;5;66;03m# get the english embedding[39;00m
+[32m     41[39m         en_vec = english_vecs[en_word]
+[32m     43[39m         [38;5;66;03m# get the french embedding[39;00m
+
+[31mTypeError[39m: argument of type 'NoneType' is not iterable
 

@@ -25,21 +25,16 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import nltk                                  # Python library for NLP
-from nltk.corpus import twitter_samples      # sample Twitter dataset from NLTK
-import matplotlib.pyplot as plt              # visualization library
-import numpy as np                           # library for scientific computing and matrix operations
-
-nltk.download('twitter_samples')
+# The output of this line is intended to produce a KeyError
+print(dictionary['key8'])
 ------------------
 
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 1[39m
-[32m----> [39m[32m1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnltk[39;00m                                  [38;5;66;03m# Python library for NLP[39;00m
-[32m      2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mnltk[39;00m[34;01m.[39;00m[34;01mcorpus[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m twitter_samples      [38;5;66;03m# sample Twitter dataset from NLTK[39;00m
-[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m              [38;5;66;03m# visualization library[39;00m
+[31m---------------------------------------------------------------------------[39m
+[31mKeyError[39m                                  Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[8][39m[32m, line 2[39m
+[32m      1[39m [38;5;66;03m# The output of this line is intended to produce a KeyError[39;00m
+[32m----> [39m[32m2[39m [38;5;28mprint[39m([43mdictionary[49m[43m[[49m[33;43m'[39;49m[33;43mkey8[39;49m[33;43m'[39;49m[43m][49m)
 
-[31mModuleNotFoundError[39m: No module named 'nltk'
+[31mKeyError[39m: 'key8'
 

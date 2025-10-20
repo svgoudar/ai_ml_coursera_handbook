@@ -25,26 +25,33 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import math
-import random
-import numpy as np
-import pandas as pd
-import nltk
-nltk.download('punkt')
+with open("./data/en_US.twitter.txt", "r") as f:
+    data = f.read()
+print("Data type:", type(data))
+print("Number of letters:", len(data))
+print("First 300 letters of the data")
+print("-------")
+display(data[0:300])
+print("-------")
 
-import w3_unittest
-nltk.data.path.append('.')
+print("Last 300 letters of the data")
+print("-------")
+display(data[-300:])
+print("-------")
 ------------------
 
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 5[39m
-[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m
-[32m      4[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
-[32m----> [39m[32m5[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnltk[39;00m
-[32m      6[39m nltk.download([33m'[39m[33mpunkt[39m[33m'[39m)
-[32m      8[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mw3_unittest[39;00m
+[31m---------------------------------------------------------------------------[39m
+[31mUnicodeDecodeError[39m                        Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 2[39m
+[32m      1[39m [38;5;28;01mwith[39;00m [38;5;28mopen[39m([33m"[39m[33m./data/en_US.twitter.txt[39m[33m"[39m, [33m"[39m[33mr[39m[33m"[39m) [38;5;28;01mas[39;00m f:
+[32m----> [39m[32m2[39m     data = [43mf[49m[43m.[49m[43mread[49m[43m([49m[43m)[49m
+[32m      3[39m [38;5;28mprint[39m([33m"[39m[33mData type:[39m[33m"[39m, [38;5;28mtype[39m(data))
+[32m      4[39m [38;5;28mprint[39m([33m"[39m[33mNumber of letters:[39m[33m"[39m, [38;5;28mlen[39m(data))
 
-[31mModuleNotFoundError[39m: No module named 'nltk'
+[36mFile [39m[32m~\Python\Lib\encodings\cp1252.py:23[39m, in [36mIncrementalDecoder.decode[39m[34m(self, input, final)[39m
+[32m     22[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mdecode[39m([38;5;28mself[39m, [38;5;28minput[39m, final=[38;5;28;01mFalse[39;00m):
+[32m---> [39m[32m23[39m     [38;5;28;01mreturn[39;00m codecs.charmap_decode([38;5;28minput[39m,[38;5;28mself[39m.errors,decoding_table)[[32m0[39m]
+
+[31mUnicodeDecodeError[39m: 'charmap' codec can't decode byte 0x9d in position 1457: character maps to <undefined>
 

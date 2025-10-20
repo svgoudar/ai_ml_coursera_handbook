@@ -25,23 +25,35 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# run this cell to import nltk
-import nltk
-from os import getcwd
-import w1_unittest
+# Check the function
+# Construct a synthetic test case using numpy PRNG functions
+np.random.seed(1)
+# X input is 10 x 3 with ones for the bias terms
+tmp_X = np.append(np.ones((10, 1)), np.random.rand(10, 2) * 2000, axis=1)
+# Y Labels are 10 x 1
+tmp_Y = (np.random.rand(10, 1) > 0.35).astype(float)
 
-nltk.download('twitter_samples')
-nltk.download('stopwords')
+# Apply gradient descent
+tmp_J, tmp_theta = gradientDescent(tmp_X, tmp_Y, np.zeros((3, 1)), 1e-8, 700)
+print(f"The cost after training is {tmp_J:.8f}.")
+print(f"The resulting vector of weights is {[round(t, 8) for t in np.squeeze(tmp_theta)]}")
 ------------------
 
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
-[32m      1[39m [38;5;66;03m# run this cell to import nltk[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnltk[39;00m
-[32m      3[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mos[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m getcwd
-[32m      4[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mw1_unittest[39;00m
+[31m---------------------------------------------------------------------------[39m
+[31mTypeError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[16][39m[32m, line 10[39m
+[32m      7[39m tmp_Y = (np.random.rand([32m10[39m, [32m1[39m) > [32m0.35[39m).astype([38;5;28mfloat[39m)
+[32m      9[39m [38;5;66;03m# Apply gradient descent[39;00m
+[32m---> [39m[32m10[39m tmp_J, tmp_theta = [43mgradientDescent[49m[43m([49m[43mtmp_X[49m[43m,[49m[43m [49m[43mtmp_Y[49m[43m,[49m[43m [49m[43mnp[49m[43m.[49m[43mzeros[49m[43m([49m[43m([49m[32;43m3[39;49m[43m,[49m[43m [49m[32;43m1[39;49m[43m)[49m[43m)[49m[43m,[49m[43m [49m[32;43m1e-8[39;49m[43m,[49m[43m [49m[32;43m700[39;49m[43m)[49m
+[32m     11[39m [38;5;28mprint[39m([33mf[39m[33m"[39m[33mThe cost after training is [39m[38;5;132;01m{[39;00mtmp_J[38;5;132;01m:[39;00m[33m.8f[39m[38;5;132;01m}[39;00m[33m.[39m[33m"[39m)
+[32m     12[39m [38;5;28mprint[39m([33mf[39m[33m"[39m[33mThe resulting vector of weights is [39m[38;5;132;01m{[39;00m[[38;5;28mround[39m(t,[38;5;250m [39m[32m8[39m)[38;5;250m [39m[38;5;28;01mfor[39;00m[38;5;250m [39mt[38;5;250m [39m[38;5;129;01min[39;00m[38;5;250m [39mnp.squeeze(tmp_theta)][38;5;132;01m}[39;00m[33m"[39m)
 
-[31mModuleNotFoundError[39m: No module named 'nltk'
+[36mCell[39m[36m [39m[32mIn[15][39m[32m, line 34[39m, in [36mgradientDescent[39m[34m(x, y, theta, alpha, num_iters)[39m
+[32m     31[39m     theta = [38;5;28;01mNone[39;00m
+[32m     33[39m [38;5;66;03m### END CODE HERE ###[39;00m
+[32m---> [39m[32m34[39m J = [38;5;28mfloat[39m(J)
+[32m     35[39m [38;5;28;01mreturn[39;00m J, theta
+
+[31mTypeError[39m: float() argument must be a string or a real number, not 'NoneType'
 

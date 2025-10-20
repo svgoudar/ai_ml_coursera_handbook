@@ -41,15 +41,28 @@ from tensorflow.keras.losses import MSE
 from tensorflow.keras.optimizers import Adam
 ------------------
 
+----- stderr -----
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+------------------
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 4[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mtime[39;00m
-[32m      2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mcollections[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m deque, namedtuple
-[32m----> [39m[32m4[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mgym[39;00m
-[32m      5[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 8[39m
 [32m      6[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mPIL[39;00m[34;01m.[39;00m[34;01mImage[39;00m
+[32m      7[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mtensorflow[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mtf[39;00m
+[32m----> [39m[32m8[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mutils[39;00m
+[32m     10[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mpyvirtualdisplay[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m Display
+[32m     11[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mtensorflow[39;00m[34;01m.[39;00m[34;01mkeras[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m Sequential
 
-[31mModuleNotFoundError[39m: No module named 'gym'
+[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\MLS\C3_W3\utils.py:11[39m
+[32m      8[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mrandom[39;00m
+[32m      9[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mitertools[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m zip_longest
+[32m---> [39m[32m11[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mimageio[39;00m
+[32m     12[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mIPython[39;00m
+[32m     13[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m
+
+[31mModuleNotFoundError[39m: No module named 'imageio'
 

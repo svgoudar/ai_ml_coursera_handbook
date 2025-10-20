@@ -25,26 +25,33 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import w2_unittest
+train_sentences = load_data('data/large/train/sentences.txt')
+train_labels = load_data('data/large/train/labels.txt')
+
+val_sentences = load_data('data/large/val/sentences.txt')
+val_labels = load_data('data/large/val/labels.txt')
+
+test_sentences = load_data('data/large/test/sentences.txt')
+test_labels = load_data('data/large/test/labels.txt')
 ------------------
 
 
-[31m-------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                     Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 1[39m
-[32m----> [39m[32m1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mw2_unittest[39;00m
+[31m---------------------------------------------------------------------------[39m
+[31mUnicodeDecodeError[39m                        Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m train_sentences = [43mload_data[49m[43m([49m[33;43m'[39;49m[33;43mdata/large/train/sentences.txt[39;49m[33;43m'[39;49m[43m)[49m
+[32m      2[39m train_labels = load_data([33m'[39m[33mdata/large/train/labels.txt[39m[33m'[39m)
+[32m      4[39m val_sentences = load_data([33m'[39m[33mdata/large/val/sentences.txt[39m[33m'[39m)
 
-[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\NLP\C3_W2\w2_unittest.py:12[39m
-[32m     10[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mtensorflow[39;00m[34;01m.[39;00m[34;01mkeras[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mkeras[39;00m
-[32m     11[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mtensorflow[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mtf[39;00m
-[32m---> [39m[32m12[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mregex[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mre[39;00m
-[32m     13[39m [38;5;66;03m# UNIT TEST[39;00m
-[32m     14[39m [38;5;66;03m# test data_generator[39;00m
-[32m     17[39m TAG_MAP_SET = [38;5;28mset[39m({[33m'[39m[33mB-art[39m[33m'[39m,
-[32m     18[39m  [33m'[39m[33mB-eve[39m[33m'[39m,
-[32m     19[39m  [33m'[39m[33mB-geo[39m[33m'[39m,
-[32m   (...)[39m[32m     32[39m  [33m'[39m[33mI-tim[39m[33m'[39m,
-[32m     33[39m  [33m'[39m[33mO[39m[33m'[39m})
+[36mCell[39m[36m [39m[32mIn[4][39m[32m, line 3[39m, in [36mload_data[39m[34m(file_path)[39m
+[32m      1[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mload_data[39m(file_path):
+[32m      2[39m     [38;5;28;01mwith[39;00m [38;5;28mopen[39m(file_path,[33m'[39m[33mr[39m[33m'[39m) [38;5;28;01mas[39;00m file:
+[32m----> [39m[32m3[39m         data = np.array([line.strip() [38;5;28;01mfor[39;00m line [38;5;129;01min[39;00m [43mfile[49m[43m.[49m[43mreadlines[49m[43m([49m[43m)[49m])
+[32m      4[39m     [38;5;28;01mreturn[39;00m data
 
-[31mModuleNotFoundError[39m: No module named 'regex'
+[36mFile [39m[32m~\Python\Lib\encodings\cp1252.py:23[39m, in [36mIncrementalDecoder.decode[39m[34m(self, input, final)[39m
+[32m     22[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mdecode[39m([38;5;28mself[39m, [38;5;28minput[39m, final=[38;5;28;01mFalse[39;00m):
+[32m---> [39m[32m23[39m     [38;5;28;01mreturn[39;00m codecs.charmap_decode([38;5;28minput[39m,[38;5;28mself[39m.errors,decoding_table)[[32m0[39m]
+
+[31mUnicodeDecodeError[39m: 'charmap' codec can't decode byte 0x9d in position 4593: character maps to <undefined>
 
