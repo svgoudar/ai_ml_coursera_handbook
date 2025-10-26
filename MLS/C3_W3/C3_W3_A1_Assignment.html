@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -853,6 +856,26 @@ document.write(`
 <p>Run the cell below to import all the necessary packages.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>gym<span class="w"> </span>pyvirtualdisplay
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: gym in c:\users\sangouda\python_apps\lib\site-packages (0.26.2)
+Requirement already satisfied: pyvirtualdisplay in c:\users\sangouda\python_apps\lib\site-packages (3.0)
+Requirement already satisfied: numpy&gt;=1.18.0 in c:\users\sangouda\python_apps\lib\site-packages (from gym) (2.3.4)
+Requirement already satisfied: cloudpickle&gt;=1.2.0 in c:\users\sangouda\python_apps\lib\site-packages (from gym) (3.1.1)
+Requirement already satisfied: gym_notices&gt;=0.0.4 in c:\users\sangouda\python_apps\lib\site-packages (from gym) (0.1.0)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">namedtuple</span>
 
@@ -877,31 +900,13 @@ Users of this version of Gym should be able to simply replace &#39;import gym&#3
 See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span><span class="w"> </span><span class="nn">PIL.Image</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
-<span class="ne">----&gt; </span><span class="mi">8</span> <span class="kn">import</span><span class="w"> </span><span class="nn">utils</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pyvirtualdisplay</span><span class="w"> </span><span class="kn">import</span> <span class="n">Display</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequential</span>
-
-<span class="n">File</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Github</span>\<span class="n">Coursera_Materials</span>\<span class="n">coursera_notes</span>\<span class="n">MLS</span>\<span class="n">C3_W3</span>\<span class="n">utils</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">11</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">zip_longest</span>
-<span class="ne">---&gt; </span><span class="mi">11</span> <span class="kn">import</span><span class="w"> </span><span class="nn">imageio</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">import</span><span class="w"> </span><span class="nn">IPython</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;imageio&#39;
-</pre></div>
-</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up a virtual display to render the Lunar Lander environment.</span>
-<span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">840</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span><span class="o">.</span><span class="n">start</span><span class="p">();</span>
+
+<span class="c1"># Display(visible=0, size=(840, 480)).start();</span>
 
 <span class="c1"># Set the random seed for TensorFlow</span>
 <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">SEED</span><span class="p">)</span>
@@ -998,7 +1003,14 @@ See the migration guide at https://gymnasium.farama.org/introduction/migration_g
 <p>We start by loading the <code class="docutils literal notranslate"><span class="pre">LunarLander-v2</span></code> environment from the <code class="docutils literal notranslate"><span class="pre">gym</span></code> library by using the <code class="docutils literal notranslate"><span class="pre">.make()</span></code> method. <code class="docutils literal notranslate"><span class="pre">LunarLander-v2</span></code> is the latest version of the Lunar Lander environment and you can read about its version history in the <a class="reference external" href="https://www.gymlibrary.dev/environments/box2d/lunar_lander/#version-history">Open AI Gym documentation</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;LunarLander-v2&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install gym[box2d]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># env = gym.make(&#39;LunarLander-v2&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -1006,8 +1018,8 @@ See the migration guide at https://gymnasium.farama.org/introduction/migration_g
 <p>Once we load the environment we use the <code class="docutils literal notranslate"><span class="pre">.reset()</span></code> method to reset the environment to the initial state. The lander starts at the top center of the environment and we can render the first frame of the environment by using the <code class="docutils literal notranslate"><span class="pre">.render()</span></code> method.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-<span class="n">PIL</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rgb_array&#39;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># env.reset()</span>
+<span class="c1"># PIL.Image.fromarray(env.render(mode=&#39;rgb_array&#39;))</span>
 </pre></div>
 </div>
 </div>
@@ -1015,11 +1027,11 @@ See the migration guide at https://gymnasium.farama.org/introduction/migration_g
 <p>In order to build our neural network later on we need to know the size of the state vector and the number of valid actions. We can get this information from our environment by using the <code class="docutils literal notranslate"><span class="pre">.observation_space.shape</span></code> and <code class="docutils literal notranslate"><span class="pre">action_space.n</span></code> methods, respectively.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state_size</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">observation_space</span><span class="o">.</span><span class="n">shape</span>
-<span class="n">num_actions</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">n</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># state_size = env.observation_space.shape</span>
+<span class="c1"># num_actions = env.action_space.n</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;State Shape:&#39;</span><span class="p">,</span> <span class="n">state_size</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of actions:&#39;</span><span class="p">,</span> <span class="n">num_actions</span><span class="p">)</span>
+<span class="c1"># print(&#39;State Shape:&#39;, state_size)</span>
+<span class="c1"># print(&#39;Number of actions:&#39;, num_actions)</span>
 </pre></div>
 </div>
 </div>
@@ -1050,7 +1062,7 @@ See the migration guide at https://gymnasium.farama.org/introduction/migration_g
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reset the environment and get the initial state.</span>
-<span class="n">current_state</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="c1"># current_state = env.reset()</span>
 </pre></div>
 </div>
 </div>
@@ -1065,17 +1077,17 @@ See the migration guide at https://gymnasium.farama.org/introduction/migration_g
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select an action</span>
-<span class="n">action</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Select an action</span>
+<span class="c1"># action = 0</span>
 
-<span class="c1"># Run a single time step of the environment&#39;s dynamics with the given action.</span>
-<span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="c1"># # Run a single time step of the environment&#39;s dynamics with the given action.</span>
+<span class="c1"># next_state, reward, done, _ = env.step(action)</span>
 
-<span class="c1"># Display table with values.</span>
-<span class="n">utils</span><span class="o">.</span><span class="n">display_table</span><span class="p">(</span><span class="n">current_state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">)</span>
+<span class="c1"># # Display table with values.</span>
+<span class="c1"># utils.display_table(current_state, action, next_state, reward, done)</span>
 
-<span class="c1"># Replace the `current_state` with the state after the action is taken</span>
-<span class="n">current_state</span> <span class="o">=</span> <span class="n">next_state</span>
+<span class="c1"># # Replace the `current_state` with the state after the action is taken</span>
+<span class="c1"># current_state = next_state</span>
 </pre></div>
 </div>
 </div>
@@ -1140,44 +1152,44 @@ w^-\leftarrow \tau w + (1 - \tau) w^-
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNQ_C1</span>
-<span class="c1"># GRADED CELL</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # UNQ_C1</span>
+<span class="c1"># # GRADED CELL</span>
 
-<span class="c1"># Create the Q-Network</span>
-<span class="n">q_network</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
-    <span class="c1">### START CODE HERE ### </span>
-    
-    
-    
-    
-    <span class="c1">### END CODE HERE ### </span>
-    <span class="p">])</span>
+<span class="c1"># # Create the Q-Network</span>
+<span class="c1"># q_network = Sequential([</span>
+<span class="c1">#     ### START CODE HERE ### </span>
+<span class="c1">#     Input(shape=state_size),</span>
+<span class="c1">#     Dense(units=64, activation=&#39;relu&#39;),</span>
+<span class="c1">#     Dense(units=64, activation=&#39;relu&#39;),</span>
+<span class="c1">#     Dense(units=num_actions, activation=&#39;linear&#39;)</span>
+<span class="c1">#     ### END CODE HERE ### </span>
+<span class="c1">#     ])</span>
 
-<span class="c1"># Create the target Q^-Network</span>
-<span class="n">target_q_network</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
-    <span class="c1">### START CODE HERE ### </span>
-    
-    
-    
-    
-    <span class="c1">### END CODE HERE ###</span>
-    <span class="p">])</span>
+<span class="c1"># # Create the target Q^-Network</span>
+<span class="c1"># target_q_network = Sequential([</span>
+<span class="c1">#     ### START CODE HERE ### </span>
+<span class="c1">#     Input(shape=state_size),</span>
+<span class="c1">#     Dense(units=64, activation=&#39;relu&#39;),</span>
+<span class="c1">#     Dense(units=64, activation=&#39;relu&#39;),</span>
+<span class="c1">#     Dense(units=num_actions, activation=&#39;linear&#39;)</span>
+<span class="c1">#     ### END CODE HERE ###</span>
+<span class="c1">#     ])</span>
 
-<span class="c1">### START CODE HERE ### </span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="c1">### END CODE HERE ###</span>
+<span class="c1"># ### START CODE HERE ### </span>
+<span class="c1"># optimizer = Adam(learning_rate=ALPHA)</span>
+<span class="c1"># ### END CODE HERE ###</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNIT TEST</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # UNIT TEST</span>
+<span class="c1"># from public_tests import *</span>
 
-<span class="n">test_network</span><span class="p">(</span><span class="n">q_network</span><span class="p">)</span>
-<span class="n">test_network</span><span class="p">(</span><span class="n">target_q_network</span><span class="p">)</span>
-<span class="n">test_optimizer</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">ALPHA</span><span class="p">)</span> 
+<span class="c1"># test_network(q_network)</span>
+<span class="c1"># test_network(target_q_network)</span>
+<span class="c1"># test_optimizer(optimizer, ALPHA) </span>
 </pre></div>
 </div>
 </div>
@@ -1280,7 +1292,7 @@ w^-\leftarrow \tau w + (1 - \tau) w^-
     
     <span class="c1"># Set y = R if episode terminates, otherwise set y = R + γ max Q^(s,a).</span>
     <span class="c1">### START CODE HERE ### </span>
-    <span class="n">y_targets</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">y_targets</span> <span class="o">=</span> <span class="n">rewards</span> <span class="o">+</span> <span class="p">(</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">max_qsa</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">done_vals</span><span class="p">))</span>
     <span class="c1">### END CODE HERE ###</span>
     
     <span class="c1"># Get the q_values and reshape to match y_targets</span>
@@ -1290,7 +1302,7 @@ w^-\leftarrow \tau w + (1 - \tau) w^-
         
     <span class="c1"># Compute the loss</span>
     <span class="c1">### START CODE HERE ### </span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span> 
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">y_targets</span><span class="p">,</span> <span class="n">q_values</span><span class="p">)</span>
     <span class="c1">### END CODE HERE ### </span>
     
     <span class="k">return</span> <span class="n">loss</span>
@@ -1301,7 +1313,7 @@ w^-\leftarrow \tau w + (1 - \tau) w^-
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># UNIT TEST    </span>
-<span class="n">test_compute_loss</span><span class="p">(</span><span class="n">compute_loss</span><span class="p">)</span>
+<span class="c1"># test_compute_loss(compute_loss)</span>
 </pre></div>
 </div>
 </div>
@@ -1412,80 +1424,80 @@ w^-\leftarrow \tau w + (1 - \tau) w^-
 <p><strong>Note:</strong> With this notebook’s default parameters, the following cell takes between 10 to 15 minutes to run.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># start = time.time()</span>
 
-<span class="n">num_episodes</span> <span class="o">=</span> <span class="mi">2000</span>
-<span class="n">max_num_timesteps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="c1"># num_episodes = 2000</span>
+<span class="c1"># max_num_timesteps = 1000</span>
 
-<span class="n">total_point_history</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># total_point_history = []</span>
 
-<span class="n">num_p_av</span> <span class="o">=</span> <span class="mi">100</span>    <span class="c1"># number of total points to use for averaging</span>
-<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span>     <span class="c1"># initial ε value for ε-greedy policy</span>
+<span class="c1"># num_p_av = 100    # number of total points to use for averaging</span>
+<span class="c1"># epsilon = 1.0     # initial ε value for ε-greedy policy</span>
 
-<span class="c1"># Create a memory buffer D with capacity N</span>
-<span class="n">memory_buffer</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">MEMORY_SIZE</span><span class="p">)</span>
+<span class="c1"># # Create a memory buffer D with capacity N</span>
+<span class="c1"># memory_buffer = deque(maxlen=MEMORY_SIZE)</span>
 
-<span class="c1"># Set the target network weights equal to the Q-Network weights</span>
-<span class="n">target_q_network</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">q_network</span><span class="o">.</span><span class="n">get_weights</span><span class="p">())</span>
+<span class="c1"># # Set the target network weights equal to the Q-Network weights</span>
+<span class="c1"># target_q_network.set_weights(q_network.get_weights())</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+<span class="c1"># for i in range(num_episodes):</span>
     
-    <span class="c1"># Reset the environment to the initial state and get the initial state</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-    <span class="n">total_points</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1">#     # Reset the environment to the initial state and get the initial state</span>
+<span class="c1">#     state = env.reset()</span>
+<span class="c1">#     total_points = 0</span>
     
-    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_timesteps</span><span class="p">):</span>
+<span class="c1">#     for t in range(max_num_timesteps):</span>
         
-        <span class="c1"># From the current state S choose an action A using an ε-greedy policy</span>
-        <span class="n">state_qn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># state needs to be the right shape for the q_network</span>
-        <span class="n">q_values</span> <span class="o">=</span> <span class="n">q_network</span><span class="p">(</span><span class="n">state_qn</span><span class="p">)</span>
-        <span class="n">action</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_action</span><span class="p">(</span><span class="n">q_values</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+<span class="c1">#         # From the current state S choose an action A using an ε-greedy policy</span>
+<span class="c1">#         state_qn = np.expand_dims(state, axis=0)  # state needs to be the right shape for the q_network</span>
+<span class="c1">#         q_values = q_network(state_qn)</span>
+<span class="c1">#         action = utils.get_action(q_values, epsilon)</span>
         
-        <span class="c1"># Take action A and receive reward R and the next state S&#39;</span>
-        <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="c1">#         # Take action A and receive reward R and the next state S&#39;</span>
+<span class="c1">#         next_state, reward, done, _ = env.step(action)</span>
         
-        <span class="c1"># Store experience tuple (S,A,R,S&#39;) in the memory buffer.</span>
-        <span class="c1"># We store the done variable as well for convenience.</span>
-        <span class="n">memory_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">experience</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">done</span><span class="p">))</span>
+<span class="c1">#         # Store experience tuple (S,A,R,S&#39;) in the memory buffer.</span>
+<span class="c1">#         # We store the done variable as well for convenience.</span>
+<span class="c1">#         memory_buffer.append(experience(state, action, reward, next_state, done))</span>
         
-        <span class="c1"># Only update the network every NUM_STEPS_FOR_UPDATE time steps.</span>
-        <span class="n">update</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">check_update_conditions</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">NUM_STEPS_FOR_UPDATE</span><span class="p">,</span> <span class="n">memory_buffer</span><span class="p">)</span>
+<span class="c1">#         # Only update the network every NUM_STEPS_FOR_UPDATE time steps.</span>
+<span class="c1">#         update = utils.check_update_conditions(t, NUM_STEPS_FOR_UPDATE, memory_buffer)</span>
         
-        <span class="k">if</span> <span class="n">update</span><span class="p">:</span>
-            <span class="c1"># Sample random mini-batch of experience tuples (S,A,R,S&#39;) from D</span>
-            <span class="n">experiences</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_experiences</span><span class="p">(</span><span class="n">memory_buffer</span><span class="p">)</span>
+<span class="c1">#         if update:</span>
+<span class="c1">#             # Sample random mini-batch of experience tuples (S,A,R,S&#39;) from D</span>
+<span class="c1">#             experiences = utils.get_experiences(memory_buffer)</span>
             
-            <span class="c1"># Set the y targets, perform a gradient descent step,</span>
-            <span class="c1"># and update the network weights.</span>
-            <span class="n">agent_learn</span><span class="p">(</span><span class="n">experiences</span><span class="p">,</span> <span class="n">GAMMA</span><span class="p">)</span>
+<span class="c1">#             # Set the y targets, perform a gradient descent step,</span>
+<span class="c1">#             # and update the network weights.</span>
+<span class="c1">#             agent_learn(experiences, GAMMA)</span>
         
-        <span class="n">state</span> <span class="o">=</span> <span class="n">next_state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">total_points</span> <span class="o">+=</span> <span class="n">reward</span>
+<span class="c1">#         state = next_state.copy()</span>
+<span class="c1">#         total_points += reward</span>
         
-        <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
-            <span class="k">break</span>
+<span class="c1">#         if done:</span>
+<span class="c1">#             break</span>
             
-    <span class="n">total_point_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">total_points</span><span class="p">)</span>
-    <span class="n">av_latest_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">total_point_history</span><span class="p">[</span><span class="o">-</span><span class="n">num_p_av</span><span class="p">:])</span>
+<span class="c1">#     total_point_history.append(total_points)</span>
+<span class="c1">#     av_latest_points = np.mean(total_point_history[-num_p_av:])</span>
     
-    <span class="c1"># Update the ε value</span>
-    <span class="n">epsilon</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_new_eps</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
+<span class="c1">#     # Update the ε value</span>
+<span class="c1">#     epsilon = utils.get_new_eps(epsilon)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Episode </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> | Total point average of the last </span><span class="si">{</span><span class="n">num_p_av</span><span class="si">}</span><span class="s2"> episodes: </span><span class="si">{</span><span class="n">av_latest_points</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="c1">#     print(f&quot;\rEpisode {i+1} | Total point average of the last {num_p_av} episodes: {av_latest_points:.2f}&quot;, end=&quot;&quot;)</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">num_p_av</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">Episode </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> | Total point average of the last </span><span class="si">{</span><span class="n">num_p_av</span><span class="si">}</span><span class="s2"> episodes: </span><span class="si">{</span><span class="n">av_latest_points</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1">#     if (i+1) % num_p_av == 0:</span>
+<span class="c1">#         print(f&quot;\rEpisode {i+1} | Total point average of the last {num_p_av} episodes: {av_latest_points:.2f}&quot;)</span>
 
-    <span class="c1"># We will consider that the environment is solved if we get an</span>
-    <span class="c1"># average of 200 points in the last 100 episodes.</span>
-    <span class="k">if</span> <span class="n">av_latest_points</span> <span class="o">&gt;=</span> <span class="mf">200.0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Environment solved in </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> episodes!&quot;</span><span class="p">)</span>
-        <span class="n">q_network</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;lunar_lander_model.h5&#39;</span><span class="p">)</span>
-        <span class="k">break</span>
+<span class="c1">#     # We will consider that the environment is solved if we get an</span>
+<span class="c1">#     # average of 200 points in the last 100 episodes.</span>
+<span class="c1">#     if av_latest_points &gt;= 200.0:</span>
+<span class="c1">#         print(f&quot;\n\nEnvironment solved in {i+1} episodes!&quot;)</span>
+<span class="c1">#         q_network.save(&#39;lunar_lander_model.h5&#39;)</span>
+<span class="c1">#         break</span>
         
-<span class="n">tot_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="c1"># tot_time = time.time() - start</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total Runtime: </span><span class="si">{</span><span class="n">tot_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s (</span><span class="si">{</span><span class="p">(</span><span class="n">tot_time</span><span class="o">/</span><span class="mi">60</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> min)&quot;</span><span class="p">)</span>
+<span class="c1"># print(f&quot;\nTotal Runtime: {tot_time:.2f} s ({(tot_time/60):.2f} min)&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -1494,7 +1506,7 @@ w^-\leftarrow \tau w + (1 - \tau) w^-
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the total point history along with the moving average</span>
-<span class="n">utils</span><span class="o">.</span><span class="n">plot_history</span><span class="p">(</span><span class="n">total_point_history</span><span class="p">)</span>
+<span class="c1"># utils.plot_history(total_point_history)</span>
 </pre></div>
 </div>
 </div>
@@ -1517,10 +1529,10 @@ w^-\leftarrow \tau w + (1 - \tau) w^-
 <p>We should note that since the lunar lander starts with a random initial force applied to its center of mass, every time you run the cell below you will see a different video. If the agent was trained properly, it should be able to land the lunar lander in the landing pad every time, regardless of the initial force applied to its center of mass.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;./videos/lunar_lander.mp4&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># filename = &quot;./videos/lunar_lander.mp4&quot;</span>
 
-<span class="n">utils</span><span class="o">.</span><span class="n">create_video</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">q_network</span><span class="p">)</span>
-<span class="n">utils</span><span class="o">.</span><span class="n">embed_mp4</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="c1"># # utils.create_video(filename, env, q_network)</span>
+<span class="c1"># utils.embed_mp4(filename)</span>
 </pre></div>
 </div>
 </div>

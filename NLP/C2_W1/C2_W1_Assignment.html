@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -1104,10 +1107,14 @@ Detailed hints if you're stuck
     <span class="c1">### START CODE HERE ### </span>
     
     <span class="c1">#Open the file, read its contents into a string variable</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">file_contents</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     
     <span class="c1"># convert all letters to lower case</span>
+    <span class="n">file_contents</span> <span class="o">=</span> <span class="n">file_contents</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     
     <span class="c1">#Convert every word to lower case and return them in a list.</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">,</span> <span class="n">file_contents</span><span class="p">)</span>
     
     <span class="c1">### END CODE HERE ###</span>
     
@@ -1129,8 +1136,8 @@ Detailed hints if you're stuck
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The first ten words in the text are: 
-[]
-There are 0 unique words in the vocabulary.
+[&#39;o&#39;, &#39;for&#39;, &#39;a&#39;, &#39;muse&#39;, &#39;of&#39;, &#39;fire&#39;, &#39;that&#39;, &#39;would&#39;, &#39;ascend&#39;, &#39;the&#39;]
+There are 6116 unique words in the vocabulary.
 </pre></div>
 </div>
 </div>
@@ -1151,17 +1158,7 @@ There are 0 unique words in the vocabulary.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wrong output. Take a look at how you are reading the file.
-	Expected: [&#39;o&#39;, &#39;for&#39;, &#39;a&#39;, &#39;muse&#39;, &#39;of&#39;, &#39;fire&#39;, &#39;that&#39;, &#39;would&#39;, &#39;ascend&#39;, &#39;the&#39;].
-	Got: [].
-Wrong output. Take a look at how you are reading the file.
-	Expected: [&#39;whilst&#39;, &#39;you&#39;, &#39;abide&#39;, &#39;here&#39;, &#39;enobarbus&#39;, &#39;humbly&#39;, &#39;sir&#39;, &#39;i&#39;, &#39;thank&#39;, &#39;you&#39;].
-	Got: [].
-Wrong number of words. Take a look at how you are extracting every word in the list.
-	Expected: 6116.
-	Got: 0.
- 0  Tests passed
- 3  Tests failed
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -1229,7 +1226,11 @@ Implement a <code class="docutils literal notranslate"><span class="pre">get_cou
     
     <span class="n">word_count_dict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># fill this with word counts</span>
     <span class="c1">### START CODE HERE </span>
-            
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_l</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_count_dict</span><span class="p">:</span>
+            <span class="n">word_count_dict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">word_count_dict</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="c1">### END CODE HERE ### </span>
     <span class="k">return</span> <span class="n">word_count_dict</span>
 </pre></div>
@@ -1246,8 +1247,8 @@ Implement a <code class="docutils literal notranslate"><span class="pre">get_cou
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 0 key values pairs
-The count for the word &#39;thee&#39; is 0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 6116 key values pairs
+The count for the word &#39;thee&#39; is 240
 </pre></div>
 </div>
 </div>
@@ -1266,38 +1267,7 @@ The count for the word &#39;thee&#39; is 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="nn">File C:\Github\Coursera_Materials\coursera_notes\NLP\C2_W1\w1_unittest.py:161,</span> in <span class="ni">test_get_count</span><span class="nt">(target, word_l)</span>
-<span class="g g-Whitespace">    </span><span class="mi">160</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">161</span>     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="n">test_case</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">][</span><span class="s2">&quot;expected_key_value_pairs&quot;</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">162</span>     <span class="n">successful_cases</span> <span class="o">+=</span> <span class="mi">1</span>
-
-<span class="ne">AssertionError</span>: 
-
-<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
-
-<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Test your function</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_get_count</span><span class="p">(</span><span class="n">get_count</span><span class="p">,</span> <span class="n">word_l</span><span class="p">)</span>
-
-<span class="nn">File C:\Github\Coursera_Materials\coursera_notes\NLP\C2_W1\w1_unittest.py:167,</span> in <span class="ni">test_get_count</span><span class="nt">(target, word_l)</span>
-<span class="g g-Whitespace">    </span><span class="mi">162</span>     <span class="n">successful_cases</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="g g-Whitespace">    </span><span class="mi">163</span> <span class="k">except</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">164</span>     <span class="n">failed_cases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">165</span>         <span class="p">{</span>
-<span class="g g-Whitespace">    </span><span class="mi">166</span>             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">test_case</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
-<span class="ne">--&gt; </span><span class="mi">167</span>             <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="n">test_case</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">][</span><span class="s2">&quot;expected_n_words&quot;</span><span class="p">],</span>
-<span class="g g-Whitespace">    </span><span class="mi">168</span>             <span class="s2">&quot;got&quot;</span><span class="p">:</span> <span class="n">n_words</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">169</span>         <span class="p">}</span>
-<span class="g g-Whitespace">    </span><span class="mi">170</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">171</span>     <span class="nb">print</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">172</span>         <span class="sa">f</span><span class="s2">&quot;Wrong number of key-value pairs. Check that you are not skipping any word in the loop.</span><span class="se">\n\t</span><span class="s2">Expected: </span><span class="si">{</span><span class="n">failed_cases</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;expected&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">.</span><span class="se">\n\t</span><span class="s2">Got: </span><span class="si">{</span><span class="n">failed_cases</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;got&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">173</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">175</span> <span class="k">try</span><span class="p">:</span>
-
-<span class="ne">KeyError</span>: &#39;expected_n_words&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -1353,6 +1323,11 @@ General advice
     <span class="c1">### START CODE HERE ###</span>
     
     <span class="c1"># get the total count of words for all words in the dictionary</span>
+    <span class="n">total_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">word_count_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    
+    <span class="c1"># calculate probability for each word</span>
+    <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">word_count_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">probs</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="n">total_count</span>
     
     <span class="c1">### END CODE HERE ###</span>
     <span class="k">return</span> <span class="n">probs</span>
@@ -1369,6 +1344,12 @@ General advice
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Length of probs is 6116
+P(&#39;thee&#39;) is 0.0045
+</pre></div>
+</div>
+</div>
 </div>
 <section id="id2">
 <h4><a class="toc-backref" href="#id30" role="doc-backlink">Expected Output</a><a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
@@ -1380,6 +1361,11 @@ General advice
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_get_probs</span><span class="p">(</span><span class="n">get_probs</span><span class="p">,</span> <span class="n">word_count_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -1472,6 +1458,12 @@ This can be done in a single line with a list comprehension. You can make use of
     
     <span class="c1">### START CODE HERE ###</span>
     
+    <span class="c1"># Create all possible splits of the word</span>
+    <span class="n">split_l</span> <span class="o">=</span> <span class="p">[(</span><span class="n">word</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    
+    <span class="c1"># Create deletions by combining L + R[1:] (skip first character of right part)</span>
+    <span class="n">delete_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">L</span> <span class="o">+</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="ow">in</span> <span class="n">split_l</span> <span class="k">if</span> <span class="n">R</span><span class="p">]</span>
+    
     <span class="c1">### END CODE HERE ###</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input word </span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s2">, </span><span class="se">\n</span><span class="s2">split_l = </span><span class="si">{</span><span class="n">split_l</span><span class="si">}</span><span class="s2">, </span><span class="se">\n</span><span class="s2">delete_l = </span><span class="si">{</span><span class="n">delete_l</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1485,6 +1477,13 @@ This can be done in a single line with a list comprehension. You can make use of
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">delete_word_l</span> <span class="o">=</span> <span class="n">delete_letter</span><span class="p">(</span><span class="n">word</span><span class="o">=</span><span class="s2">&quot;cans&quot;</span><span class="p">,</span>
                         <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>input word cans, 
+split_l = [(&#39;&#39;, &#39;cans&#39;), (&#39;c&#39;, &#39;ans&#39;), (&#39;ca&#39;, &#39;ns&#39;), (&#39;can&#39;, &#39;s&#39;), (&#39;cans&#39;, &#39;&#39;)], 
+delete_l = [&#39;ans&#39;, &#39;cns&#39;, &#39;cas&#39;, &#39;can&#39;]
 </pre></div>
 </div>
 </div>
@@ -1532,6 +1531,11 @@ This can be done in a single line with a list comprehension. You can make use of
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of outputs of delete_letter(&#39;at&#39;) is 2
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id4">
@@ -1543,6 +1547,11 @@ This can be done in a single line with a list comprehension. You can make use of
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_delete_letter</span><span class="p">(</span><span class="n">delete_letter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -1607,6 +1616,13 @@ This can be done in a single line with a list comprehension. You can make use of
     
     <span class="c1">### START CODE HERE ###</span>
     
+    <span class="c1"># Create all possible splits of the word</span>
+    <span class="n">split_l</span> <span class="o">=</span> <span class="p">[(</span><span class="n">word</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    
+    <span class="c1"># Create switches by swapping adjacent characters</span>
+    <span class="c1"># We need L + R[1] + R[0] + R[2:] where R has at least 2 characters</span>
+    <span class="n">switch_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">L</span> <span class="o">+</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="k">for</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="ow">in</span> <span class="n">split_l</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">]</span>
+    
     <span class="c1">### END CODE HERE ###</span>
     
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input word = </span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">split_l = </span><span class="si">{</span><span class="n">split_l</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">switch_l = </span><span class="si">{</span><span class="n">switch_l</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> 
@@ -1620,6 +1636,13 @@ This can be done in a single line with a list comprehension. You can make use of
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">switch_word_l</span> <span class="o">=</span> <span class="n">switch_letter</span><span class="p">(</span><span class="n">word</span><span class="o">=</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span>
                          <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input word = eta 
+split_l = [(&#39;&#39;, &#39;eta&#39;), (&#39;e&#39;, &#39;ta&#39;), (&#39;et&#39;, &#39;a&#39;), (&#39;eta&#39;, &#39;&#39;)] 
+switch_l = [&#39;tea&#39;, &#39;eat&#39;]
 </pre></div>
 </div>
 </div>
@@ -1663,6 +1686,11 @@ This can be done in a single line with a list comprehension. You can make use of
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of outputs of switch_letter(&#39;at&#39;) is 1
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id8">
@@ -1674,6 +1702,11 @@ This can be done in a single line with a list comprehension. You can make use of
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_switch_letter</span><span class="p">(</span><span class="n">switch_letter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -1717,6 +1750,17 @@ It is expected in this routine that one or more of the replacements will include
     
     <span class="c1">### START CODE HERE ###</span>
     
+    <span class="c1"># Create all possible splits of the word</span>
+    <span class="n">split_l</span> <span class="o">=</span> <span class="p">[(</span><span class="n">word</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    
+    <span class="c1"># Create replacements by trying each letter at each position</span>
+    <span class="k">for</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="ow">in</span> <span class="n">split_l</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">R</span><span class="p">:</span>  <span class="c1"># Only if right part is not empty</span>
+            <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">letters</span><span class="p">:</span>
+                <span class="n">new_word</span> <span class="o">=</span> <span class="n">L</span> <span class="o">+</span> <span class="n">letter</span> <span class="o">+</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># Replace first char of R with letter</span>
+                <span class="k">if</span> <span class="n">new_word</span> <span class="o">!=</span> <span class="n">word</span><span class="p">:</span>  <span class="c1"># Don&#39;t include the original word</span>
+                    <span class="n">replace_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_word</span><span class="p">)</span>
+    
     <span class="c1">### END CODE HERE ###</span>
     
     <span class="c1"># Sort the list, for easier viewing</span>
@@ -1733,6 +1777,13 @@ It is expected in this routine that one or more of the replacements will include
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">replace_l</span> <span class="o">=</span> <span class="n">replace_letter</span><span class="p">(</span><span class="n">word</span><span class="o">=</span><span class="s1">&#39;can&#39;</span><span class="p">,</span>
                               <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input word = can 
+split_l = [(&#39;&#39;, &#39;can&#39;), (&#39;c&#39;, &#39;an&#39;), (&#39;ca&#39;, &#39;n&#39;), (&#39;can&#39;, &#39;&#39;)] 
+replace_l [&#39;aan&#39;, &#39;ban&#39;, &#39;caa&#39;, &#39;cab&#39;, &#39;cac&#39;, &#39;cad&#39;, &#39;cae&#39;, &#39;caf&#39;, &#39;cag&#39;, &#39;cah&#39;, &#39;cai&#39;, &#39;caj&#39;, &#39;cak&#39;, &#39;cal&#39;, &#39;cam&#39;, &#39;cao&#39;, &#39;cap&#39;, &#39;caq&#39;, &#39;car&#39;, &#39;cas&#39;, &#39;cat&#39;, &#39;cau&#39;, &#39;cav&#39;, &#39;caw&#39;, &#39;cax&#39;, &#39;cay&#39;, &#39;caz&#39;, &#39;cbn&#39;, &#39;ccn&#39;, &#39;cdn&#39;, &#39;cen&#39;, &#39;cfn&#39;, &#39;cgn&#39;, &#39;chn&#39;, &#39;cin&#39;, &#39;cjn&#39;, &#39;ckn&#39;, &#39;cln&#39;, &#39;cmn&#39;, &#39;cnn&#39;, &#39;con&#39;, &#39;cpn&#39;, &#39;cqn&#39;, &#39;crn&#39;, &#39;csn&#39;, &#39;ctn&#39;, &#39;cun&#39;, &#39;cvn&#39;, &#39;cwn&#39;, &#39;cxn&#39;, &#39;cyn&#39;, &#39;czn&#39;, &#39;dan&#39;, &#39;ean&#39;, &#39;fan&#39;, &#39;gan&#39;, &#39;han&#39;, &#39;ian&#39;, &#39;jan&#39;, &#39;kan&#39;, &#39;lan&#39;, &#39;man&#39;, &#39;nan&#39;, &#39;oan&#39;, &#39;pan&#39;, &#39;qan&#39;, &#39;ran&#39;, &#39;san&#39;, &#39;tan&#39;, &#39;uan&#39;, &#39;van&#39;, &#39;wan&#39;, &#39;xan&#39;, &#39;yan&#39;, &#39;zan&#39;]
 </pre></div>
 </div>
 </div>
@@ -1779,6 +1830,11 @@ It is expected in this routine that one or more of the replacements will include
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of outputs of replace_letter(&#39;at&#39;) is 50
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id12">
@@ -1790,6 +1846,11 @@ It is expected in this routine that one or more of the replacements will include
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_replace_letter</span><span class="p">(</span><span class="n">replace_letter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -1819,6 +1880,14 @@ It is expected in this routine that one or more of the replacements will include
     <span class="n">split_l</span> <span class="o">=</span> <span class="p">[]</span>
     
     <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># Create all possible splits of the word</span>
+    <span class="n">split_l</span> <span class="o">=</span> <span class="p">[(</span><span class="n">word</span><span class="p">[:</span><span class="n">i</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    
+    <span class="c1"># Create insertions by adding each letter at each split position</span>
+    <span class="k">for</span> <span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="ow">in</span> <span class="n">split_l</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">letters</span><span class="p">:</span>
+            <span class="n">insert_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span> <span class="o">+</span> <span class="n">letter</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span>
         
     <span class="c1">### END CODE HERE ###</span>
     
@@ -1833,6 +1902,14 @@ It is expected in this routine that one or more of the replacements will include
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">insert_l</span> <span class="o">=</span> <span class="n">insert_letter</span><span class="p">(</span><span class="s1">&#39;at&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of strings output by insert_letter(&#39;at&#39;) is </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">insert_l</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input word at 
+split_l = [(&#39;&#39;, &#39;at&#39;), (&#39;a&#39;, &#39;t&#39;), (&#39;at&#39;, &#39;&#39;)] 
+insert_l = [&#39;aat&#39;, &#39;bat&#39;, &#39;cat&#39;, &#39;dat&#39;, &#39;eat&#39;, &#39;fat&#39;, &#39;gat&#39;, &#39;hat&#39;, &#39;iat&#39;, &#39;jat&#39;, &#39;kat&#39;, &#39;lat&#39;, &#39;mat&#39;, &#39;nat&#39;, &#39;oat&#39;, &#39;pat&#39;, &#39;qat&#39;, &#39;rat&#39;, &#39;sat&#39;, &#39;tat&#39;, &#39;uat&#39;, &#39;vat&#39;, &#39;wat&#39;, &#39;xat&#39;, &#39;yat&#39;, &#39;zat&#39;, &#39;aat&#39;, &#39;abt&#39;, &#39;act&#39;, &#39;adt&#39;, &#39;aet&#39;, &#39;aft&#39;, &#39;agt&#39;, &#39;aht&#39;, &#39;ait&#39;, &#39;ajt&#39;, &#39;akt&#39;, &#39;alt&#39;, &#39;amt&#39;, &#39;ant&#39;, &#39;aot&#39;, &#39;apt&#39;, &#39;aqt&#39;, &#39;art&#39;, &#39;ast&#39;, &#39;att&#39;, &#39;aut&#39;, &#39;avt&#39;, &#39;awt&#39;, &#39;axt&#39;, &#39;ayt&#39;, &#39;azt&#39;, &#39;ata&#39;, &#39;atb&#39;, &#39;atc&#39;, &#39;atd&#39;, &#39;ate&#39;, &#39;atf&#39;, &#39;atg&#39;, &#39;ath&#39;, &#39;ati&#39;, &#39;atj&#39;, &#39;atk&#39;, &#39;atl&#39;, &#39;atm&#39;, &#39;atn&#39;, &#39;ato&#39;, &#39;atp&#39;, &#39;atq&#39;, &#39;atr&#39;, &#39;ats&#39;, &#39;att&#39;, &#39;atu&#39;, &#39;atv&#39;, &#39;atw&#39;, &#39;atx&#39;, &#39;aty&#39;, &#39;atz&#39;]
+Number of strings output by insert_letter(&#39;at&#39;) is 78
 </pre></div>
 </div>
 </div>
@@ -1885,6 +1962,11 @@ It is expected in this routine that one or more of the replacements will include
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
+</pre></div>
+</div>
+</div>
 </div>
 <p><a name='3'></a></p>
 </section>
@@ -1928,6 +2010,14 @@ It is expected in this routine that one or more of the replacements will include
     
     <span class="c1">### START CODE HERE ###</span>
     
+    <span class="c1"># Get all possible one-letter edits</span>
+    <span class="n">edit_one_set</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">delete_letter</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+    <span class="n">edit_one_set</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">replace_letter</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+    <span class="n">edit_one_set</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">insert_letter</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">allow_switches</span><span class="p">:</span>
+        <span class="n">edit_one_set</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">switch_letter</span><span class="p">(</span><span class="n">word</span><span class="p">))</span>
+    
     <span class="c1">### END CODE HERE ###</span>
     
     <span class="c1"># return this as a set and not a list</span>
@@ -1949,6 +2039,16 @@ It is expected in this routine that one or more of the replacements will include
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>input word at 
+edit_one_l 
+[&#39;a&#39;, &#39;aa&#39;, &#39;aat&#39;, &#39;ab&#39;, &#39;abt&#39;, &#39;ac&#39;, &#39;act&#39;, &#39;ad&#39;, &#39;adt&#39;, &#39;ae&#39;, &#39;aet&#39;, &#39;af&#39;, &#39;aft&#39;, &#39;ag&#39;, &#39;agt&#39;, &#39;ah&#39;, &#39;aht&#39;, &#39;ai&#39;, &#39;ait&#39;, &#39;aj&#39;, &#39;ajt&#39;, &#39;ak&#39;, &#39;akt&#39;, &#39;al&#39;, &#39;alt&#39;, &#39;am&#39;, &#39;amt&#39;, &#39;an&#39;, &#39;ant&#39;, &#39;ao&#39;, &#39;aot&#39;, &#39;ap&#39;, &#39;apt&#39;, &#39;aq&#39;, &#39;aqt&#39;, &#39;ar&#39;, &#39;art&#39;, &#39;as&#39;, &#39;ast&#39;, &#39;ata&#39;, &#39;atb&#39;, &#39;atc&#39;, &#39;atd&#39;, &#39;ate&#39;, &#39;atf&#39;, &#39;atg&#39;, &#39;ath&#39;, &#39;ati&#39;, &#39;atj&#39;, &#39;atk&#39;, &#39;atl&#39;, &#39;atm&#39;, &#39;atn&#39;, &#39;ato&#39;, &#39;atp&#39;, &#39;atq&#39;, &#39;atr&#39;, &#39;ats&#39;, &#39;att&#39;, &#39;atu&#39;, &#39;atv&#39;, &#39;atw&#39;, &#39;atx&#39;, &#39;aty&#39;, &#39;atz&#39;, &#39;au&#39;, &#39;aut&#39;, &#39;av&#39;, &#39;avt&#39;, &#39;aw&#39;, &#39;awt&#39;, &#39;ax&#39;, &#39;axt&#39;, &#39;ay&#39;, &#39;ayt&#39;, &#39;az&#39;, &#39;azt&#39;, &#39;bat&#39;, &#39;bt&#39;, &#39;cat&#39;, &#39;ct&#39;, &#39;dat&#39;, &#39;dt&#39;, &#39;eat&#39;, &#39;et&#39;, &#39;fat&#39;, &#39;ft&#39;, &#39;gat&#39;, &#39;gt&#39;, &#39;hat&#39;, &#39;ht&#39;, &#39;iat&#39;, &#39;it&#39;, &#39;jat&#39;, &#39;jt&#39;, &#39;kat&#39;, &#39;kt&#39;, &#39;lat&#39;, &#39;lt&#39;, &#39;mat&#39;, &#39;mt&#39;, &#39;nat&#39;, &#39;nt&#39;, &#39;oat&#39;, &#39;ot&#39;, &#39;pat&#39;, &#39;pt&#39;, &#39;qat&#39;, &#39;qt&#39;, &#39;rat&#39;, &#39;rt&#39;, &#39;sat&#39;, &#39;st&#39;, &#39;t&#39;, &#39;ta&#39;, &#39;tat&#39;, &#39;tt&#39;, &#39;uat&#39;, &#39;ut&#39;, &#39;vat&#39;, &#39;vt&#39;, &#39;wat&#39;, &#39;wt&#39;, &#39;xat&#39;, &#39;xt&#39;, &#39;yat&#39;, &#39;yt&#39;, &#39;zat&#39;, &#39;zt&#39;]
+
+The type of the returned object should be a set &lt;class &#39;set&#39;&gt;
+Number of outputs from edit_one_letter(&#39;at&#39;) is 129
+</pre></div>
+</div>
+</div>
 </div>
 <section id="id16">
 <h4><a class="toc-backref" href="#id57" role="doc-backlink">Expected Output</a><a class="headerlink" href="#id16" title="Link to this heading">#</a></h4>
@@ -1964,6 +2064,11 @@ It is expected in this routine that one or more of the replacements will include
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_edit_one_letter</span><span class="p">(</span><span class="n">edit_one_letter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -2005,6 +2110,13 @@ It is expected in this routine that one or more of the replacements will include
     <span class="n">edit_two_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     
     <span class="c1">### START CODE HERE ###</span>
+    
+    <span class="c1"># Get all words that are one edit away</span>
+    <span class="n">edit_one_set</span> <span class="o">=</span> <span class="n">edit_one_letter</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">allow_switches</span><span class="p">)</span>
+    
+    <span class="c1"># For each word that is one edit away, get all words that are one edit away from it</span>
+    <span class="k">for</span> <span class="n">edited_word</span> <span class="ow">in</span> <span class="n">edit_one_set</span><span class="p">:</span>
+        <span class="n">edit_two_set</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">edit_one_letter</span><span class="p">(</span><span class="n">edited_word</span><span class="p">,</span> <span class="n">allow_switches</span><span class="p">))</span>
         
     <span class="c1">### END CODE HERE ###</span>
     
@@ -2026,6 +2138,20 @@ It is expected in this routine that one or more of the replacements will include
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of strings with edit distance of two: 2654
+First 10 strings [&#39;&#39;, &#39;a&#39;, &#39;aa&#39;, &#39;aaa&#39;, &#39;aab&#39;, &#39;aac&#39;, &#39;aad&#39;, &#39;aae&#39;, &#39;aaf&#39;, &#39;aag&#39;]
+Last 10 strings [&#39;zv&#39;, &#39;zva&#39;, &#39;zw&#39;, &#39;zwa&#39;, &#39;zx&#39;, &#39;zxa&#39;, &#39;zy&#39;, &#39;zya&#39;, &#39;zz&#39;, &#39;zza&#39;]
+The data type of the returned object should be a set &lt;class &#39;set&#39;&gt;
+Number of strings that are 2 edit distances from &#39;at&#39; is 7154
+
+First 10 strings [&#39;&#39;, &#39;a&#39;, &#39;aa&#39;, &#39;aaa&#39;, &#39;aab&#39;, &#39;aac&#39;, &#39;aad&#39;, &#39;aae&#39;, &#39;aaf&#39;, &#39;aag&#39;]
+Last 10 strings [&#39;zv&#39;, &#39;zva&#39;, &#39;zw&#39;, &#39;zwa&#39;, &#39;zx&#39;, &#39;zxa&#39;, &#39;zy&#39;, &#39;zya&#39;, &#39;zz&#39;, &#39;zza&#39;]
+The data type of the returned object should be a set &lt;class &#39;set&#39;&gt;
+Number of strings that are 2 edit distances from &#39;at&#39; is 7154
+</pre></div>
+</div>
+</div>
 </div>
 <section id="id17">
 <h4><a class="toc-backref" href="#id60" role="doc-backlink">Expected Output</a><a class="headerlink" href="#id17" title="Link to this heading">#</a></h4>
@@ -2040,6 +2166,11 @@ It is expected in this routine that one or more of the replacements will include
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_edit_two_letters</span><span class="p">(</span><span class="n">edit_two_letters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -2083,6 +2214,14 @@ It is expected in this routine that one or more of the replacements will include
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+[&#39;a&#39;, &#39;b&#39;]
+[&#39;Most&#39;, &#39;Likely&#39;]
+[&#39;least&#39;, &#39;of&#39;, &#39;all&#39;]
+</pre></div>
+</div>
+</div>
 </div>
 <p>The logical <code class="docutils literal notranslate"><span class="pre">or</span></code> could be used to implement the suggestion algorithm very compactly. Alternately, if/elif/else constructs could be used.</p>
 <p><strong>Step 2</strong>: Create a ‘best_words’ dictionary where the ‘key’ is a suggestion and the ‘value’ is the probability of that word in your vocabulary. If the word is not in the vocabulary, assign it a probability of 0.</p>
@@ -2122,13 +2261,27 @@ It is expected in this routine that one or more of the replacements will include
     
     <span class="c1">### START CODE HERE ###</span>
     <span class="c1">#Step 1: create suggestions as described above    </span>
-    <span class="n">suggestions</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">vocab</span><span class="p">:</span>
+        <span class="n">suggestions</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Try one edit suggestions first</span>
+        <span class="n">edit_one_suggestions</span> <span class="o">=</span> <span class="n">edit_one_letter</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">vocab</span>
+        <span class="k">if</span> <span class="n">edit_one_suggestions</span><span class="p">:</span>
+            <span class="n">suggestions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">edit_one_suggestions</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If no one-edit suggestions, try two-edit suggestions</span>
+            <span class="n">edit_two_suggestions</span> <span class="o">=</span> <span class="n">edit_two_letters</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">vocab</span>
+            <span class="n">suggestions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">edit_two_suggestions</span><span class="p">)</span>
                     
     <span class="c1">#Step 2: determine probability of suggestions</span>
+    <span class="n">best_words</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">suggestion</span> <span class="ow">in</span> <span class="n">suggestions</span><span class="p">:</span>
+        <span class="n">best_words</span><span class="p">[</span><span class="n">suggestion</span><span class="p">]</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">suggestion</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     
     <span class="c1">#Step 3: Get all your best words and return the most probable top n_suggested words as n_best</span>
-    
-    <span class="n">n_best</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">best_words</span><span class="p">)</span>
+    <span class="n">n_best</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     
     <span class="c1">### END CODE HERE ###</span>
     
@@ -2152,6 +2305,15 @@ It is expected in this routine that one or more of the replacements will include
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>entered word =  dys 
+suggestions =  [&#39;days&#39;, &#39;dye&#39;]
+word 0: days, probability 0.000410
+word 1: dye, probability 0.000019
+data type of corrections &lt;class &#39;list&#39;&gt;
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id18">
@@ -2170,6 +2332,11 @@ It is expected in this routine that one or more of the replacements will include
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_get_corrections</span><span class="p">(</span><span class="n">get_corrections</span><span class="p">,</span> <span class="n">probs</span><span class="p">,</span> <span class="n">vocab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -2320,34 +2487,36 @@ rep_cost; &amp; if src[i]\neq tar[j]\
     <span class="c1">### START CODE HERE (Replace instances of &#39;None&#39; with your code) ###</span>
     
     <span class="c1"># Fill in column 0, from row 1 to row m, both inclusive</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">):</span> <span class="c1"># Replace None with the proper range</span>
-        <span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span> <span class="c1"># Replace None with the proper range</span>
+        <span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">del_cost</span>
         
     <span class="c1"># Fill in row 0, for all columns from 1 to n, both inclusive</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">):</span> <span class="c1"># Replace None with the proper range</span>
-        <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span> <span class="c1"># Replace None with the proper range</span>
+        <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">col</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ins_cost</span>
         
     <span class="c1"># Loop through row 1 to row m, both inclusive</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         
         <span class="c1"># Loop through column 1 to column n, both inclusive</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             
             <span class="c1"># Intialize r_cost to the &#39;replace&#39; cost that is passed into this function</span>
-            <span class="n">r_cost</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">r_cost</span> <span class="o">=</span> <span class="n">rep_cost</span>
             
             <span class="c1"># Check to see if source character at the previous row</span>
             <span class="c1"># matches the target character at the previous column, </span>
-            <span class="k">if</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># Replace None with a proper comparison</span>
+            <span class="k">if</span> <span class="n">source</span><span class="p">[</span><span class="n">row</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">[</span><span class="n">col</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="c1"># Replace None with a proper comparison</span>
                 <span class="c1"># Update the replacement cost to 0 if source and target are the same</span>
-                <span class="n">r_cost</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">r_cost</span> <span class="o">=</span> <span class="mi">0</span>
                 
             <span class="c1"># Update the cost at row, col based on previous entries in the cost matrix</span>
             <span class="c1"># Refer to the equation calculate for D[i,j] (the minimum of three calculated costs)</span>
-            <span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">col</span><span class="p">]</span> <span class="o">+</span> <span class="n">del_cost</span><span class="p">,</span>    <span class="c1"># deletion</span>
+                            <span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ins_cost</span><span class="p">,</span>     <span class="c1"># insertion</span>
+                            <span class="n">D</span><span class="p">[</span><span class="n">row</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">col</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">r_cost</span><span class="p">)</span>     <span class="c1"># replacement</span>
             
     <span class="c1"># Set the minimum edit distance with the cost found at row m, column n </span>
-    <span class="n">med</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">med</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">]</span>
     
     <span class="c1">### END CODE HERE ###</span>
     <span class="k">return</span> <span class="n">D</span><span class="p">,</span> <span class="n">med</span>
@@ -2367,6 +2536,18 @@ rep_cost; &amp; if src[i]\neq tar[j]\
 <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="n">target</span><span class="p">)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span> <span class="n">cols</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>minimum edits:  4 
+
+   #  s  t  a  y
+#  0  1  2  3  4
+p  1  2  3  4  5
+l  2  3  4  5  6
+a  3  4  5  4  5
+y  4  5  6  5  4
 </pre></div>
 </div>
 </div>
@@ -2399,6 +2580,17 @@ rep_cost; &amp; if src[i]\neq tar[j]\
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>minimum edits:  3 
+
+   #  n  e  a  r
+#  0  1  2  3  4
+e  1  2  1  2  3
+e  2  3  2  3  4
+r  3  4  3  4  3
+</pre></div>
+</div>
+</div>
 </div>
 <p><strong>Expected Results</strong></p>
 <div class="highlight-CPP notranslate"><div class="highlight"><pre><span></span><span class="n">minimum</span><span class="w"> </span><span class="n">edits</span><span class="o">:</span><span class="w">  </span><span class="mi">3</span><span class="w"> </span>
@@ -2414,6 +2606,11 @@ rep_cost; &amp; if src[i]\neq tar[j]\
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function</span>
 <span class="n">w1_unittest</span><span class="o">.</span><span class="n">test_min_edit_distance</span><span class="p">(</span><span class="n">min_edit_distance</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> All tests passed
 </pre></div>
 </div>
 </div>
@@ -2442,6 +2639,11 @@ rep_cost; &amp; if src[i]\neq tar[j]\
 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">min_edits</span> <span class="o">=</span> <span class="n">min_edit_distance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># set ins, del, sub costs all to one</span>
     <span class="k">if</span> <span class="n">min_edits</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">min_edits</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">min_edits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eer eer 0
 </pre></div>
 </div>
 </div>

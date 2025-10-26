@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -836,6 +839,25 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### v1.1</span>
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>dlai_tools
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>ml_dtypes
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: dlai_tools in c:\users\sangouda\python_apps\lib\site-packages (0.6.1)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: ml_dtypes in c:\users\sangouda\python_apps\lib\site-packages (0.5.3)
+Requirement already satisfied: numpy&gt;=1.21 in c:\users\sangouda\python_apps\lib\site-packages (from ml_dtypes) (2.3.4)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
 </pre></div>
 </div>
 </div>
@@ -863,26 +885,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sklearn</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span><span class="w"> </span><span class="nn">sklearn.datasets</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">init_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">sigmoid</span><span class="p">,</span> <span class="n">relu</span><span class="p">,</span> <span class="n">compute_loss</span><span class="p">,</span> <span class="n">forward_propagation</span><span class="p">,</span> <span class="n">backward_propagation</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">init_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_parameters</span><span class="p">,</span> <span class="n">predict</span><span class="p">,</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">plot_decision_boundary</span><span class="p">,</span> <span class="n">predict_dec</span>
-
-<span class="n">File</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Github</span>\<span class="n">Coursera_Materials</span>\<span class="n">coursera_notes</span>\<span class="n">DLS</span>\<span class="n">C2_W1</span>\<span class="n">public_tests</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">dlai_tools.testing_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">single_test</span><span class="p">,</span> <span class="n">multiple_test</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">def</span><span class="w"> </span><span class="nf">compute_cost_with_regularization_test</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;dlai_tools&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <p><a name='2'></a></p>
 </section>
@@ -893,6 +895,9 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">test_X</span><span class="p">,</span> <span class="n">test_Y</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f268695e228dc8e5c5772f6060e6fb08f88926c04d0616118d96428a85e23626.png" src="../../_images/f268695e228dc8e5c5772f6060e6fb08f88926c04d0616118d96428a85e23626.png" />
 </div>
 </div>
 <p>For this classifier, you want to separate the blue dots from the red dots.</p>
@@ -1011,6 +1016,8 @@ document.write(`
         <span class="c1"># parameters[&#39;b&#39; + str(l)] = </span>
         <span class="c1"># YOUR CODE STARTS HERE</span>
         
+        <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
         
         <span class="c1"># YOUR CODE ENDS HERE</span>
     <span class="k">return</span> <span class="n">parameters</span>
@@ -1029,6 +1036,17 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>W1 = [[0. 0. 0.]
+ [0. 0. 0.]]
+b1 = [[0.]
+ [0.]]
+W2 = [[0. 0.]]
+b2 = [[0.]]
+ All tests passed.
+</pre></div>
+</div>
+</div>
 </div>
 <p>Run the following code to train your model on 15,000 iterations using zeros initialization.</p>
 <div class="cell docutils container">
@@ -1041,12 +1059,72 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 0: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 1000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 2000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 3000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 4000: 0.6931471805599453
+Cost after iteration 5000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 6000: 0.6931471805599453
+Cost after iteration 7000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 8000: 0.6931471805599453
+Cost after iteration 9000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 10000: 0.6931471805599455
+Cost after iteration 11000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 12000: 0.6931471805599453
+Cost after iteration 13000: 0.6931471805599453
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 14000: 0.6931471805599453
+</pre></div>
+</div>
+<img alt="../../_images/0d7edee4590bf80443187418812f21c9b6690f609b963622aae6c1b12ebc83d2.png" src="../../_images/0d7edee4590bf80443187418812f21c9b6690f609b963622aae6c1b12ebc83d2.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>On the train set:
+Accuracy: 0.5
+On the test set:
+Accuracy: 0.5
+</pre></div>
+</div>
+</div>
 </div>
 <p>The performance is terrible, the cost doesn’t decrease, and the algorithm performs no better than random guessing. Why? Take a look at the details of the predictions and the decision boundary:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;predictions_train = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">predictions_train</span><span class="p">))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;predictions_test = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">predictions_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>predictions_train = [[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0]]
+predictions_test = [[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]]
 </pre></div>
 </div>
 </div>
@@ -1060,6 +1138,9 @@ document.write(`
 <span class="n">plot_decision_boundary</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">predict_dec</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ee4304ee918e4274a318c43fae98490254f5473b8d030a885bee32f965022bd1.png" src="../../_images/ee4304ee918e4274a318c43fae98490254f5473b8d030a885bee32f965022bd1.png" />
 </div>
 </div>
 <p>For a comprehensive explanation of this, you can read <em>Paul Mielke</em>’s post, <a class="reference external" href="https://community.deeplearning.ai/t/symmetry-breaking-versus-zero-initialization/16061">Symmetry Breaking versus Zero Initialization</a>.</p>
@@ -1127,6 +1208,8 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
         <span class="c1"># parameters[&#39;b&#39; + str(l)] =</span>
         <span class="c1"># YOUR CODE STARTS HERE</span>
         
+        <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mi">10</span>
+        <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
         
         <span class="c1"># YOUR CODE ENDS HERE</span>
 
@@ -1146,6 +1229,17 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>W1 = [[ 17.88628473   4.36509851   0.96497468]
+ [-18.63492703  -2.77388203  -3.54758979]]
+b1 = [[0.]
+ [0.]]
+W2 = [[-0.82741481 -6.27000677]]
+b2 = [[0.]]
+ All tests passed.
+</pre></div>
+</div>
+</div>
 </div>
 <p>Run the following code to train your model on 15,000 iterations using random initialization.</p>
 <div class="cell docutils container">
@@ -1155,6 +1249,56 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
 <span class="n">predictions_train</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;On the test set:&quot;</span><span class="p">)</span>
 <span class="n">predictions_test</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">,</span> <span class="n">test_Y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 0: inf
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Github\Coursera_Materials\coursera_notes\DLS\C2_W1\init_utils.py:145: RuntimeWarning: divide by zero encountered in log
+  logprobs = np.multiply(-np.log(a3),Y) + np.multiply(-np.log(1 - a3), 1 - Y)
+C:\Github\Coursera_Materials\coursera_notes\DLS\C2_W1\init_utils.py:145: RuntimeWarning: invalid value encountered in multiply
+  logprobs = np.multiply(-np.log(a3),Y) + np.multiply(-np.log(1 - a3), 1 - Y)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 1000: 0.6244633539548546
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 2000: 0.5979515302175168
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 3000: 0.5637268887887664
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 4000: 0.5501339086560004
+Cost after iteration 5000: 0.5444208078041783
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 6000: 0.5374183338193007
+Cost after iteration 7000: 0.47406094779900765
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 8000: 0.397762829863247
+Cost after iteration 9000: 0.39347104444669706
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 10000: 0.3920233025629581
+Cost after iteration 11000: 0.38922094583102895
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 12000: 0.38614145828692353
+Cost after iteration 13000: 0.3849798116135391
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 14000: 0.38278175354946176
+</pre></div>
+</div>
+<img alt="../../_images/faf157e207e5ee93498a078838e6c489493be6835bad3918590be4e346c412e8.png" src="../../_images/faf157e207e5ee93498a078838e6c489493be6835bad3918590be4e346c412e8.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>On the train set:
+Accuracy: 0.83
+On the test set:
+Accuracy: 0.86
 </pre></div>
 </div>
 </div>
@@ -1168,6 +1312,22 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1 0 1 1 0 0 1 1 1 1 1 0 1 0 0 1 0 1 1 0 0 0 1 0 1 1 1 1 1 1 0 1 1 0 0 1
+  1 1 1 1 1 1 1 0 1 1 1 1 0 1 0 1 1 1 1 0 0 1 1 1 1 0 1 1 0 1 0 1 1 1 1 0
+  0 0 0 0 1 0 1 0 1 1 1 0 0 1 1 1 1 1 1 0 0 1 1 1 0 1 1 0 1 0 1 1 0 1 1 0
+  1 0 1 1 0 0 1 0 0 1 1 0 1 1 1 0 1 0 0 1 0 1 1 1 1 1 1 1 0 1 1 0 0 1 1 0
+  0 0 1 0 1 0 1 0 1 1 1 0 0 1 1 1 1 0 1 1 0 1 0 1 1 0 1 0 1 1 1 1 0 1 1 1
+  1 0 1 0 1 0 1 1 1 1 0 1 1 0 1 1 0 1 1 0 1 0 1 1 1 0 1 1 1 0 1 0 1 0 0 1
+  0 1 1 0 1 1 0 1 1 0 1 1 1 0 1 1 1 1 0 1 0 0 1 1 0 1 1 1 0 0 0 1 1 0 1 1
+  1 1 0 1 1 0 1 1 1 0 0 1 0 0 0 1 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 0 0 1 1 1
+  1 1 1 1 0 0 0 1 1 1 1 0]]
+[[1 1 1 1 0 1 0 1 1 0 1 1 1 0 0 0 0 1 0 1 0 0 1 0 1 0 1 1 1 1 1 0 0 0 0 1
+  0 1 1 0 0 1 1 1 1 1 0 1 1 1 0 1 0 1 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 0 1 0
+  1 1 1 1 1 0 1 0 0 1 0 0 0 1 1 0 1 1 0 0 0 1 1 0 1 1 0 0]]
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1178,6 +1338,9 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
 <span class="n">plot_decision_boundary</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">predict_dec</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ee21088edc0c643997557c459537d5947309f85e566a01902c85f72d29a6cd43.png" src="../../_images/ee21088edc0c643997557c459537d5947309f85e566a01902c85f72d29a6cd43.png" />
 </div>
 </div>
 <p><strong>Observations</strong>:</p>
@@ -1240,6 +1403,8 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
         <span class="c1"># parameters[&#39;b&#39; + str(l)] =</span>
         <span class="c1"># YOUR CODE STARTS HERE</span>
         
+        <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">layers_dims</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
         
         <span class="c1"># YOUR CODE ENDS HERE</span>
         
@@ -1258,6 +1423,21 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
 
 <span class="n">initialize_parameters_he_test</span><span class="p">(</span><span class="n">initialize_parameters_he</span><span class="p">)</span>
 <span class="c1"># parameters</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>W1 = [[ 1.78862847  0.43650985]
+ [ 0.09649747 -1.8634927 ]
+ [-0.2773882  -0.35475898]
+ [-0.08274148 -0.62700068]]
+b1 = [[0.]
+ [0.]
+ [0.]
+ [0.]]
+W2 = [[-0.03098412 -0.33744411 -0.92904268  0.62552248]]
+b2 = [[0.]]
+ All tests passed.
 </pre></div>
 </div>
 </div>
@@ -1283,6 +1463,60 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 0: 0.8830537463419761
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 1000: 0.6879825919728063
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 2000: 0.6751286264523372
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 3000: 0.6526117768893807
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 4000: 0.6082958970572938
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 5000: 0.5304944491717495
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 6000: 0.41386458170717944
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 7000: 0.3117803464844441
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 8000: 0.23696215330322562
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 9000: 0.18597287209206836
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 10000: 0.15015556280371808
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 11000: 0.12325079292273548
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 12000: 0.09917746546525934
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 13000: 0.08457055954024273
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost after iteration 14000: 0.07357895962677362
+</pre></div>
+</div>
+<img alt="../../_images/1d07a8b328faed06f7252d4a3dd06e6ab4f8d4a3876edb37d1b1270d0b4c61f0.png" src="../../_images/1d07a8b328faed06f7252d4a3dd06e6ab4f8d4a3876edb37d1b1270d0b4c61f0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>On the train set:
+Accuracy: 0.9933333333333333
+On the test set:
+Accuracy: 0.96
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1293,6 +1527,9 @@ $<span class="math notranslate nohighlight">\( \mathcal{L}(a, y) =  - y  \ln(y_{
 <span class="n">plot_decision_boundary</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">predict_dec</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/34766e668d55ee28dd0881efd48bdf918fdb38946da854e169997d76395fdfc2.png" src="../../_images/34766e668d55ee28dd0881efd48bdf918fdb38946da854e169997d76395fdfc2.png" />
 </div>
 </div>
 <p><strong>Observations</strong>:</p>

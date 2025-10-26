@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -786,78 +789,11 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">plt_logistic_loss</span><span class="w"> </span><span class="kn">import</span>  <span class="n">plt_logistic_cost</span><span class="p">,</span> <span class="n">plt_two_logistic_loss_curves</span><span class="p">,</span> <span class="n">plt_simple_example</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">plt_logistic_loss</span><span class="w"> </span><span class="kn">import</span> <span class="n">soup_bowl</span><span class="p">,</span> <span class="n">plt_logistic_squared_error</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;./deeplearning.mplstyle&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">File ~\Python\Lib\site-packages\matplotlib\backends\registry.py:407,</span> in <span class="ni">BackendRegistry.resolve_gui_or_backend</span><span class="nt">(self, gui_or_backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">406</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">407</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_backend</span><span class="p">(</span><span class="n">gui_or_backend</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">408</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># KeyError ?</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\matplotlib\backends\registry.py:369,</span> in <span class="ni">BackendRegistry.resolve_backend</span><span class="nt">(self, backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">368</span> <span class="k">if</span> <span class="n">gui</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">369</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&#39; is not a recognised backend name&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">371</span> <span class="k">return</span> <span class="n">backend</span><span class="p">,</span> <span class="n">gui</span> <span class="k">if</span> <span class="n">gui</span> <span class="o">!=</span> <span class="s2">&quot;headless&quot;</span> <span class="k">else</span> <span class="kc">None</span>
-
-<span class="ne">RuntimeError</span>: &#39;widget&#39; is not a recognised backend name
-
-<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
-
-<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;widget&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">plt_logistic_loss</span><span class="w"> </span><span class="kn">import</span>  <span class="n">plt_logistic_cost</span><span class="p">,</span> <span class="n">plt_two_logistic_loss_curves</span><span class="p">,</span> <span class="n">plt_simple_example</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\interactiveshell.py:2504,</span> in <span class="ni">InteractiveShell.run_line_magic</span><span class="nt">(self, magic_name, line, _stack_depth)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2502</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;local_ns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_local_scope</span><span class="p">(</span><span class="n">stack_depth</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2503</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2504</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2506</span> <span class="c1"># The code below prevents the output from being displayed</span>
-<span class="g g-Whitespace">   </span><span class="mi">2507</span> <span class="c1"># when using magics with decorator @output_can_be_silenced</span>
-<span class="g g-Whitespace">   </span><span class="mi">2508</span> <span class="c1"># when the last Python token in the expression is a &#39;;&#39;.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2509</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">magic</span><span class="o">.</span><span class="n">MAGIC_OUTPUT_CAN_BE_SILENCED</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\magics\pylab.py:103,</span> in <span class="ni">PylabMagics.matplotlib</span><span class="nt">(self, line)</span>
-<span class="g g-Whitespace">     </span><span class="mi">98</span>     <span class="nb">print</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">99</span>         <span class="s2">&quot;Available matplotlib backends: </span><span class="si">%s</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">100</span>         <span class="o">%</span> <span class="n">_list_matplotlib_backends_and_gui_loops</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">102</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">103</span>     <span class="n">gui</span><span class="p">,</span> <span class="n">backend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">enable_matplotlib</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">gui</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_show_matplotlib_backend</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">gui</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\interactiveshell.py:3787,</span> in <span class="ni">InteractiveShell.enable_matplotlib</span><span class="nt">(self, gui)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3784</span>     <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib_inline.backend_inline</span>
-<span class="g g-Whitespace">   </span><span class="mi">3786</span> <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">pylabtools</span> <span class="k">as</span> <span class="n">pt</span>
-<span class="ne">-&gt; </span><span class="mi">3787</span> <span class="n">gui</span><span class="p">,</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">find_gui_and_backend</span><span class="p">(</span><span class="n">gui</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab_gui_select</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3789</span> <span class="k">if</span> <span class="n">gui</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">3790</span>     <span class="c1"># If we have our first gui selection, store it</span>
-<span class="g g-Whitespace">   </span><span class="mi">3791</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab_gui_select</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\pylabtools.py:349,</span> in <span class="ni">find_gui_and_backend</span><span class="nt">(gui, gui_select)</span>
-<span class="g g-Whitespace">    </span><span class="mi">347</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span>     <span class="n">gui</span> <span class="o">=</span> <span class="n">_convert_gui_to_matplotlib</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">349</span>     <span class="n">backend</span><span class="p">,</span> <span class="n">gui</span> <span class="o">=</span> <span class="n">backend_registry</span><span class="o">.</span><span class="n">resolve_gui_or_backend</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">351</span> <span class="n">gui</span> <span class="o">=</span> <span class="n">_convert_gui_from_matplotlib</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="k">return</span> <span class="n">gui</span><span class="p">,</span> <span class="n">backend</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\matplotlib\backends\registry.py:409,</span> in <span class="ni">BackendRegistry.resolve_gui_or_backend</span><span class="nt">(self, gui_or_backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">407</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_backend</span><span class="p">(</span><span class="n">gui_or_backend</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">408</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># KeyError ?</span>
-<span class="ne">--&gt; </span><span class="mi">409</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">410</span>         <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">gui_or_backend</span><span class="si">}</span><span class="s2"> is not a recognised GUI loop or backend name&quot;</span><span class="p">)</span>
-
-<span class="ne">RuntimeError</span>: &#39;widget is not a recognised GUI loop or backend name
 </pre></div>
 </div>
 </div>
@@ -878,6 +814,9 @@ $<span class="math notranslate nohighlight">\(f_{w,b}(x^{(i)}) = wx^{(i)} + b \t
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/d55eb764ab33d4901fbd544e9a55d189efb2710272831aa3950f92b07da8739a.png" src="../../_images/d55eb764ab33d4901fbd544e9a55d189efb2710272831aa3950f92b07da8739a.png" />
+</div>
 </div>
 <p>This cost function worked well for linear regression, it is natural to consider it for logistic regression as well. However, as the slide above points out, <span class="math notranslate nohighlight">\(f_{wb}(x)\)</span> now has a non-linear component, the sigmoid function:   <span class="math notranslate nohighlight">\(f_{w,b}(x^{(i)}) = sigmoid(wx^{(i)} + b )\)</span>.   Let’s try a squared error cost on the example from an earlier lab, now including the sigmoid.</p>
 <p>Here is our training data:</p>
@@ -888,6 +827,9 @@ $<span class="math notranslate nohighlight">\(f_{w,b}(x^{(i)}) = wx^{(i)} + b \t
 <span class="n">plt_simple_example</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c1de48acfc5d3fa736b2ca56434ab90606f06453a52715a50069e9836b77a50e.png" src="../../_images/c1de48acfc5d3fa736b2ca56434ab90606f06453a52715a50069e9836b77a50e.png" />
 </div>
 </div>
 <p>Now, let’s get a surface plot of the cost using a <em>squared error cost</em>:
@@ -903,6 +845,9 @@ $<span class="math notranslate nohighlight">\(f_{w,b}(x^{(i)}) = sigmoid(wx^{(i)
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/fe62787d37a069c635b5bd54b4369d6160c1fff195ce5a1009317afcfa673fee.png" src="../../_images/fe62787d37a069c635b5bd54b4369d6160c1fff195ce5a1009317afcfa673fee.png" />
 </div>
 </div>
 <p>While this produces a pretty interesting plot, the surface above not nearly as smooth as the ‘soup bowl’ from linear regression!</p>
@@ -940,6 +885,9 @@ loss(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = \begin{cases}
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/193eef83b7a3fde901a4f7b1a4b28e86505bbcefddab12fb98e0547bf9dde759.png" src="../../_images/193eef83b7a3fde901a4f7b1a4b28e86505bbcefddab12fb98e0547bf9dde759.png" />
+</div>
 </div>
 <p>Combined, the curves are similar to the quadratic curve of the squared error loss. Note, the x-axis is <span class="math notranslate nohighlight">\(f_{\mathbf{w},b}\)</span> which is the output of a sigmoid. The sigmoid output is strictly between 0 and 1.</p>
 <p>The loss function above can be rewritten to be easier to implement.
@@ -966,6 +914,9 @@ and when \)</span> y^{(i)} = 1<span class="math notranslate nohighlight">\(, the
 <span class="n">cst</span> <span class="o">=</span> <span class="n">plt_logistic_cost</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/62fa839958940186e26a9f922415f0aad074c8461b9e9d38e60c8c8ba4e509dd.png" src="../../_images/62fa839958940186e26a9f922415f0aad074c8461b9e9d38e60c8c8ba4e509dd.png" />
 </div>
 </div>
 <p>This curve is well suited to gradient descent! It does not have plateaus, local minima, or discontinuities. Note, it is not a bowl as in the case of squared error. Both the cost and the log of the cost are plotted to illuminate the fact that the curve, when the cost is small, has a slope and continues to decline. Reminder: you can rotate the above plots using your mouse.</p>

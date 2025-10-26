@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -845,83 +848,61 @@ document.write(`
 <p>Working through this lab will give you insight into a key algorithm used by most machine learning frameworks. Gradient descent requires the derivative of the cost with respect to each parameter in the network.  Neural networks can have millions or even billions of parameters. The <em>back propagation</em> algorithm is used to compute those derivatives. <em>Computation graphs</em> are used to simplify the operation. Let’s dig into this below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>ipympl
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: ipympl in c:\users\sangouda\python_apps\lib\site-packages (0.9.8)
+Requirement already satisfied: ipython&lt;10 in c:\users\sangouda\python_apps\lib\site-packages (from ipympl) (9.6.0)
+Requirement already satisfied: ipywidgets&lt;9,&gt;=7.6.0 in c:\users\sangouda\python_apps\lib\site-packages (from ipympl) (8.1.7)
+Requirement already satisfied: matplotlib&lt;4,&gt;=3.5.0 in c:\users\sangouda\python_apps\lib\site-packages (from ipympl) (3.10.7)
+Requirement already satisfied: numpy in c:\users\sangouda\python_apps\lib\site-packages (from ipympl) (2.3.4)
+Requirement already satisfied: pillow in c:\users\sangouda\python_apps\lib\site-packages (from ipympl) (11.3.0)
+Requirement already satisfied: traitlets&lt;6 in c:\users\sangouda\python_apps\lib\site-packages (from ipympl) (5.14.3)
+Requirement already satisfied: colorama in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (0.4.6)
+Requirement already satisfied: decorator in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (5.2.1)
+Requirement already satisfied: ipython-pygments-lexers in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (1.1.1)
+Requirement already satisfied: jedi&gt;=0.16 in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (0.19.2)
+Requirement already satisfied: matplotlib-inline in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (0.1.7)
+Requirement already satisfied: prompt_toolkit&lt;3.1.0,&gt;=3.0.41 in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (3.0.52)
+Requirement already satisfied: pygments&gt;=2.4.0 in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (2.19.2)
+Requirement already satisfied: stack_data in c:\users\sangouda\python_apps\lib\site-packages (from ipython&lt;10-&gt;ipympl) (0.6.3)
+Requirement already satisfied: comm&gt;=0.1.3 in c:\users\sangouda\python_apps\lib\site-packages (from ipywidgets&lt;9,&gt;=7.6.0-&gt;ipympl) (0.2.3)
+Requirement already satisfied: widgetsnbextension~=4.0.14 in c:\users\sangouda\python_apps\lib\site-packages (from ipywidgets&lt;9,&gt;=7.6.0-&gt;ipympl) (4.0.14)
+Requirement already satisfied: jupyterlab_widgets~=3.0.15 in c:\users\sangouda\python_apps\lib\site-packages (from ipywidgets&lt;9,&gt;=7.6.0-&gt;ipympl) (3.0.15)
+Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\sangouda\python_apps\lib\site-packages (from matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (1.3.3)
+Requirement already satisfied: cycler&gt;=0.10 in c:\users\sangouda\python_apps\lib\site-packages (from matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\sangouda\python_apps\lib\site-packages (from matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (4.60.1)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in c:\users\sangouda\python_apps\lib\site-packages (from matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (1.4.9)
+Requirement already satisfied: packaging&gt;=20.0 in c:\users\sangouda\python_apps\lib\site-packages (from matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (25.0)
+Requirement already satisfied: pyparsing&gt;=3 in c:\users\sangouda\python_apps\lib\site-packages (from matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (3.2.5)
+Requirement already satisfied: python-dateutil&gt;=2.7 in c:\users\sangouda\python_apps\lib\site-packages (from matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (2.9.0.post0)
+Requirement already satisfied: parso&lt;0.9.0,&gt;=0.8.4 in c:\users\sangouda\python_apps\lib\site-packages (from jedi&gt;=0.16-&gt;ipython&lt;10-&gt;ipympl) (0.8.5)
+Requirement already satisfied: wcwidth in c:\users\sangouda\python_apps\lib\site-packages (from prompt_toolkit&lt;3.1.0,&gt;=3.0.41-&gt;ipython&lt;10-&gt;ipympl) (0.2.14)
+Requirement already satisfied: six&gt;=1.5 in c:\users\sangouda\python_apps\lib\site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib&lt;4,&gt;=3.5.0-&gt;ipympl) (1.17.0)
+Requirement already satisfied: executing&gt;=1.2.0 in c:\users\sangouda\python_apps\lib\site-packages (from stack_data-&gt;ipython&lt;10-&gt;ipympl) (2.2.1)
+Requirement already satisfied: asttokens&gt;=2.1.0 in c:\users\sangouda\python_apps\lib\site-packages (from stack_data-&gt;ipython&lt;10-&gt;ipympl) (3.0.0)
+Requirement already satisfied: pure-eval in c:\users\sangouda\python_apps\lib\site-packages (from stack_data-&gt;ipython&lt;10-&gt;ipympl) (0.2.3)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="o">%</span><span class="k">matplotlib</span> widget
+<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextBox</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Button</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lab_utils_backprop</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">File ~\Python\Lib\site-packages\matplotlib\backends\registry.py:407,</span> in <span class="ni">BackendRegistry.resolve_gui_or_backend</span><span class="nt">(self, gui_or_backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">406</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">407</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_backend</span><span class="p">(</span><span class="n">gui_or_backend</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">408</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># KeyError ?</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\matplotlib\backends\registry.py:369,</span> in <span class="ni">BackendRegistry.resolve_backend</span><span class="nt">(self, backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">368</span> <span class="k">if</span> <span class="n">gui</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">369</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&#39; is not a recognised backend name&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">371</span> <span class="k">return</span> <span class="n">backend</span><span class="p">,</span> <span class="n">gui</span> <span class="k">if</span> <span class="n">gui</span> <span class="o">!=</span> <span class="s2">&quot;headless&quot;</span> <span class="k">else</span> <span class="kc">None</span>
-
-<span class="ne">RuntimeError</span>: &#39;widget&#39; is not a recognised backend name
-
-<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
-
-<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;widget&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextBox</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\interactiveshell.py:2504,</span> in <span class="ni">InteractiveShell.run_line_magic</span><span class="nt">(self, magic_name, line, _stack_depth)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2502</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;local_ns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_local_scope</span><span class="p">(</span><span class="n">stack_depth</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2503</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2504</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2506</span> <span class="c1"># The code below prevents the output from being displayed</span>
-<span class="g g-Whitespace">   </span><span class="mi">2507</span> <span class="c1"># when using magics with decorator @output_can_be_silenced</span>
-<span class="g g-Whitespace">   </span><span class="mi">2508</span> <span class="c1"># when the last Python token in the expression is a &#39;;&#39;.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2509</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">magic</span><span class="o">.</span><span class="n">MAGIC_OUTPUT_CAN_BE_SILENCED</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\magics\pylab.py:103,</span> in <span class="ni">PylabMagics.matplotlib</span><span class="nt">(self, line)</span>
-<span class="g g-Whitespace">     </span><span class="mi">98</span>     <span class="nb">print</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">99</span>         <span class="s2">&quot;Available matplotlib backends: </span><span class="si">%s</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">100</span>         <span class="o">%</span> <span class="n">_list_matplotlib_backends_and_gui_loops</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">101</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">102</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">103</span>     <span class="n">gui</span><span class="p">,</span> <span class="n">backend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">enable_matplotlib</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">gui</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">104</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_show_matplotlib_backend</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">gui</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\interactiveshell.py:3787,</span> in <span class="ni">InteractiveShell.enable_matplotlib</span><span class="nt">(self, gui)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3784</span>     <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib_inline.backend_inline</span>
-<span class="g g-Whitespace">   </span><span class="mi">3786</span> <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">pylabtools</span> <span class="k">as</span> <span class="n">pt</span>
-<span class="ne">-&gt; </span><span class="mi">3787</span> <span class="n">gui</span><span class="p">,</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">find_gui_and_backend</span><span class="p">(</span><span class="n">gui</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab_gui_select</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3789</span> <span class="k">if</span> <span class="n">gui</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">3790</span>     <span class="c1"># If we have our first gui selection, store it</span>
-<span class="g g-Whitespace">   </span><span class="mi">3791</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab_gui_select</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\IPython\core\pylabtools.py:349,</span> in <span class="ni">find_gui_and_backend</span><span class="nt">(gui, gui_select)</span>
-<span class="g g-Whitespace">    </span><span class="mi">347</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span>     <span class="n">gui</span> <span class="o">=</span> <span class="n">_convert_gui_to_matplotlib</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">349</span>     <span class="n">backend</span><span class="p">,</span> <span class="n">gui</span> <span class="o">=</span> <span class="n">backend_registry</span><span class="o">.</span><span class="n">resolve_gui_or_backend</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">351</span> <span class="n">gui</span> <span class="o">=</span> <span class="n">_convert_gui_from_matplotlib</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="k">return</span> <span class="n">gui</span><span class="p">,</span> <span class="n">backend</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\matplotlib\backends\registry.py:409,</span> in <span class="ni">BackendRegistry.resolve_gui_or_backend</span><span class="nt">(self, gui_or_backend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">407</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_backend</span><span class="p">(</span><span class="n">gui_or_backend</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">408</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># KeyError ?</span>
-<span class="ne">--&gt; </span><span class="mi">409</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">410</span>         <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">gui_or_backend</span><span class="si">}</span><span class="s2"> is not a recognised GUI loop or backend name&quot;</span><span class="p">)</span>
-
-<span class="ne">RuntimeError</span>: &#39;widget is not a recognised GUI loop or backend name
 </pre></div>
 </div>
 </div>
@@ -933,9 +914,13 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-<span class="n">plt_network</span><span class="p">(</span><span class="n">config_nw0</span><span class="p">,</span> <span class="s2">&quot;./images/C2_W2_BP_network0.PNG&quot;</span><span class="p">)</span>
+<span class="n">plt_network</span><span class="p">(</span><span class="n">config_nw0</span><span class="p">,</span> <span class="s2">&quot;../../assets/C2_W2/images/C2_W2_BP_network0.PNG&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/cac93243a91249bc263e8f9ed0bc9b3f807257c4e8e05182a6fa29876f3fd0e8.png" src="../../_images/cac93243a91249bc263e8f9ed0bc9b3f807257c4e8e05182a6fa29876f3fd0e8.png" />
 </div>
 </div>
 <p>Above, you can see we broke the expression into two nodes which we can work on independently. If you already have a good understanding of the process from the lecture, you can go ahead and fill in the boxes in the diagram above. You will want to first fill in the blue boxes going left to right and then fill in the green boxes starting on the right and moving to the left.
@@ -953,6 +938,11 @@ If you have the correct values, the values will show as green or blue. If the va
 <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">w</span>
 <span class="n">J</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;a = </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">, J = </span><span class="si">{</span><span class="n">J</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = 11, J = 121
 </pre></div>
 </div>
 </div>
@@ -977,6 +967,11 @@ If you have the correct values, the values will show as green or blue. If the va
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>J = 121, J_epsilon = 121.02200099999999, dJ_da ~= k = 22.000999999988835 
+</pre></div>
+</div>
+</div>
 </div>
 <p><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a}\)</span> is 22 which is <span class="math notranslate nohighlight">\(2\times a\)</span>. Our result is not exactly <span class="math notranslate nohighlight">\(2 \times a\)</span> because our epsilon value is not infinitesimally small.</p>
 </section>
@@ -991,12 +986,20 @@ If you have the correct values, the values will show as green or blue. If the va
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle a^{2}\]</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sJ</span><span class="o">.</span><span class="n">subs</span><span class="p">([(</span><span class="n">sa</span><span class="p">,</span><span class="n">a</span><span class="p">)])</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 121\]</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -1005,6 +1008,10 @@ If you have the correct values, the values will show as green or blue. If the va
 <span class="n">dJ_da</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 2 a\]</div>
 </div>
 </div>
 <p>So, <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a} = 2a\)</span>. When <span class="math notranslate nohighlight">\(a=11\)</span>, <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a} = 22\)</span>. This matches our arithmetic calculation above.
@@ -1026,6 +1033,11 @@ If you have not already done so, you can go back to the diagram above and fill i
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = 11, a_epsilon = 11.003, da_dw ~= k = 3.0000000000001137 
+</pre></div>
+</div>
+</div>
 </div>
 <p>Calculated arithmetically,  <span class="math notranslate nohighlight">\(\frac{\partial a}{\partial w} \approx 3\)</span>. Let’s try it with SymPy.</p>
 <div class="cell docutils container">
@@ -1035,6 +1047,10 @@ If you have not already done so, you can go back to the diagram above and fill i
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 3 w + 2\]</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1042,6 +1058,10 @@ If you have not already done so, you can go back to the diagram above and fill i
 <span class="n">da_dw</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 3\]</div>
 </div>
 </div>
 <blockquote>
@@ -1064,6 +1084,10 @@ $<span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w} = \f
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 6 a\]</div>
+</div>
 </div>
 <p>And <span class="math notranslate nohighlight">\(a\)</span> is 11 in this example so <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w} = 66\)</span>. We can check this arithmetically:</p>
 <div class="cell docutils container">
@@ -1073,6 +1097,11 @@ $<span class="math notranslate nohighlight">\(\frac{\partial J}{\partial w} = \f
 <span class="n">J_epsilon</span> <span class="o">=</span> <span class="n">a_epsilon</span><span class="o">**</span><span class="mi">2</span>
 <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">J_epsilon</span> <span class="o">-</span> <span class="n">J</span><span class="p">)</span><span class="o">/</span><span class="mf">0.001</span>   <span class="c1"># difference divided by epsilon</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;J = </span><span class="si">{</span><span class="n">J</span><span class="si">}</span><span class="s2">, J_epsilon = </span><span class="si">{</span><span class="n">J_epsilon</span><span class="si">}</span><span class="s2">, dJ_dw ~= k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>J = 121, J_epsilon = 121.06600900000001, dJ_dw ~= k = 66.0090000000082 
 </pre></div>
 </div>
 </div>
@@ -1090,10 +1119,17 @@ A small change in <span class="math notranslate nohighlight">\(w\)</span> is mul
 <p>Below is a graph of the neural network used in the lecture with different values. Try and fill in the values in the boxes. Note, the interactive graphic is not particularly robust. If you run into trouble with the interface, run the cell below again to restart.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">im</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
 <span class="n">plt_network</span><span class="p">(</span><span class="n">config_nw1</span><span class="p">,</span> <span class="s2">&quot;../../assets/C2_W2/images/C2_W2_BP_network1.PNG&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;lab_utils_backprop.plt_network at 0x1a8681156d0&gt;
+</pre></div>
+</div>
+<img alt="../../_images/fac7931aec8810fc86c36f977ba84a45e014812c612886718320b5aebd9449eb.png" src="../../_images/fac7931aec8810fc86c36f977ba84a45e014812c612886718320b5aebd9449eb.png" />
 </div>
 </div>
 <p>Below, we will go through the computations required to fill in the above computation graph in detail. We start with the forward path.</p>
@@ -1113,6 +1149,11 @@ A small change in <span class="math notranslate nohighlight">\(w\)</span> is mul
 <span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">y</span>
 <span class="n">J</span> <span class="o">=</span> <span class="n">d</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;J=</span><span class="si">{</span><span class="n">J</span><span class="si">}</span><span class="s2">, d=</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">, a=</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">, c=</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>J=4.5, d=3, a=4, c=-4
 </pre></div>
 </div>
 </div>
@@ -1136,6 +1177,11 @@ A small change in <span class="math notranslate nohighlight">\(w\)</span> is mul
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>J = 4.5, J_epsilon = 4.5030005, dJ_dd ~= k = 3.0004999999997395 
+</pre></div>
+</div>
+</div>
 </div>
 <p><span class="math notranslate nohighlight">\(\frac{\partial J}{\partial d}\)</span> is 3, which is the value of <span class="math notranslate nohighlight">\(d\)</span>. Our result is not exactly <span class="math notranslate nohighlight">\(d\)</span> because our epsilon value is not infinitesimally small.</p>
 </section>
@@ -1151,12 +1197,20 @@ A small change in <span class="math notranslate nohighlight">\(w\)</span> is mul
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \frac{d^{2}}{2}\]</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sJ</span><span class="o">.</span><span class="n">subs</span><span class="p">([(</span><span class="n">sd</span><span class="p">,</span><span class="n">d</span><span class="p">)])</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \frac{9}{2}\]</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -1165,6 +1219,10 @@ A small change in <span class="math notranslate nohighlight">\(w\)</span> is mul
 <span class="n">dJ_dd</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle d\]</div>
 </div>
 </div>
 <p>So, <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial d}\)</span> = d. When <span class="math notranslate nohighlight">\(d=3\)</span>, <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial d}\)</span> = 3. This matches our arithmetic calculation above.
@@ -1186,6 +1244,11 @@ If you have not already done so, you can go back to the diagram above and fill i
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>d = 3, d_epsilon = 3.0010000000000003, dd_da ~= k = 1.000000000000334 
+</pre></div>
+</div>
+</div>
 </div>
 <p>Calculated arithmetically,  <span class="math notranslate nohighlight">\(\frac{\partial d}{\partial a} \approx 1\)</span>. Let’s try it with SymPy.</p>
 </section>
@@ -1198,6 +1261,10 @@ If you have not already done so, you can go back to the diagram above and fill i
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle a - y\]</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1205,6 +1272,10 @@ If you have not already done so, you can go back to the diagram above and fill i
 <span class="n">dd_da</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 1\]</div>
 </div>
 </div>
 <p>Calculated arithmetically,  <span class="math notranslate nohighlight">\(\frac{\partial d}{\partial a}\)</span> also equals 1.</p>
@@ -1227,6 +1298,10 @@ $<span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a} = \f
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle d\]</div>
+</div>
 </div>
 <p>And <span class="math notranslate nohighlight">\(d\)</span> is 3 in this example so <span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a} = 3\)</span>. We can check this arithmetically:</p>
 <div class="cell docutils container">
@@ -1236,6 +1311,11 @@ $<span class="math notranslate nohighlight">\(\frac{\partial J}{\partial a} = \f
 <span class="n">J_epsilon</span> <span class="o">=</span> <span class="n">d_epsilon</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span>
 <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">J_epsilon</span> <span class="o">-</span> <span class="n">J</span><span class="p">)</span><span class="o">/</span><span class="mf">0.001</span>   
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;J = </span><span class="si">{</span><span class="n">J</span><span class="si">}</span><span class="s2">, J_epsilon = </span><span class="si">{</span><span class="n">J_epsilon</span><span class="si">}</span><span class="s2">, dJ_da ~= k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>J = 4.5, J_epsilon = 4.503000500000001, dJ_da ~= k = 3.0005000000006277 
 </pre></div>
 </div>
 </div>
@@ -1265,6 +1345,10 @@ working right to left, for each node:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle b + c\]</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1274,12 +1358,22 @@ working right to left, for each node:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 1
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dJ_dc</span> <span class="o">=</span> <span class="n">da_dc</span> <span class="o">*</span> <span class="n">dJ_da</span>
 <span class="n">dJ_db</span> <span class="o">=</span> <span class="n">da_db</span> <span class="o">*</span> <span class="n">dJ_da</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dJ_dc = </span><span class="si">{</span><span class="n">dJ_dc</span><span class="si">}</span><span class="s2">,  dJ_db = </span><span class="si">{</span><span class="n">dJ_db</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dJ_dc = d,  dJ_db = d
 </pre></div>
 </div>
 </div>
@@ -1297,6 +1391,10 @@ working right to left, for each node:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle w x\]</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1304,6 +1402,10 @@ working right to left, for each node:</p>
 <span class="n">dc_dw</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x\]</div>
 </div>
 </div>
 <p>This derivative is a bit more exciting than the last one. This will vary depending on the value of <span class="math notranslate nohighlight">\(x\)</span>. This is 2 in our example.</p>
@@ -1315,10 +1417,19 @@ working right to left, for each node:</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle d x\]</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dJ_dw = </span><span class="si">{</span><span class="n">dJ_dw</span><span class="o">.</span><span class="n">subs</span><span class="p">([(</span><span class="n">sd</span><span class="p">,</span><span class="n">d</span><span class="p">),(</span><span class="n">sx</span><span class="p">,</span><span class="n">x</span><span class="p">)])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dJ_dw = 2*d
 </pre></div>
 </div>
 </div>
@@ -1330,6 +1441,11 @@ Let’s test this arithmetically:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J_epsilon</span> <span class="o">=</span> <span class="p">((</span><span class="n">w</span><span class="o">+</span><span class="mf">0.001</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span>
 <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">J_epsilon</span> <span class="o">-</span> <span class="n">J</span><span class="p">)</span><span class="o">/</span><span class="mf">0.001</span>  
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;J = </span><span class="si">{</span><span class="n">J</span><span class="si">}</span><span class="s2">, J_epsilon = </span><span class="si">{</span><span class="n">J_epsilon</span><span class="si">}</span><span class="s2">, dJ_dw ~= k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>J = 4.5, J_epsilon = 4.506002, dJ_dw ~= k = 6.001999999999619 
 </pre></div>
 </div>
 </div>

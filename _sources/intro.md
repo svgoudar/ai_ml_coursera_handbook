@@ -1,9 +1,3 @@
----
-noteId: "2dd4b1f0ad9d11f083e3e1614abf7d32"
-tags: []
-
----
-
 # Welcome to your Jupyter Book
 
 This is a small sample book to give you a feel for how book content is

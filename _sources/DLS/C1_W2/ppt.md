@@ -1,9 +1,3 @@
----
-noteId: "5633bca0ad9c11f083e3e1614abf7d32"
-tags: []
-
----
-
 
 ## Course 1 Week 2: Neural Networks Basics
 

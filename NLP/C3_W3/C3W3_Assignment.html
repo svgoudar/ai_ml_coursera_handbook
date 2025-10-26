@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -923,24 +926,53 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">w3_unittest</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>dlai_grader
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">w3_unittest</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting dlai_grader
+  Downloading dlai_grader-1.22.2-py3-none-any.whl.metadata (8.6 kB)
+Requirement already satisfied: nbformat&gt;=5.1.3 in c:\users\sangouda\python_apps\lib\site-packages (from dlai_grader) (5.10.4)
+Collecting jupytext&gt;=1.13.0 (from dlai_grader)
+  Downloading jupytext-1.18.1-py3-none-any.whl.metadata (15 kB)
+Requirement already satisfied: markdown-it-py&gt;=1.0 in c:\users\sangouda\python_apps\lib\site-packages (from jupytext&gt;=1.13.0-&gt;dlai_grader) (4.0.0)
+Collecting mdit-py-plugins (from jupytext&gt;=1.13.0-&gt;dlai_grader)
+  Downloading mdit_py_plugins-0.5.0-py3-none-any.whl.metadata (2.8 kB)
+Requirement already satisfied: packaging in c:\users\sangouda\python_apps\lib\site-packages (from jupytext&gt;=1.13.0-&gt;dlai_grader) (25.0)
+Requirement already satisfied: pyyaml in c:\users\sangouda\python_apps\lib\site-packages (from jupytext&gt;=1.13.0-&gt;dlai_grader) (6.0.3)
+Requirement already satisfied: fastjsonschema&gt;=2.15 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (2.21.2)
+Requirement already satisfied: jsonschema&gt;=2.6 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (4.25.1)
+Requirement already satisfied: jupyter-core!=5.0.*,&gt;=4.12 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (5.9.1)
+Requirement already satisfied: traitlets&gt;=5.1 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (5.14.3)
+Requirement already satisfied: attrs&gt;=22.2.0 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (25.4.0)
+Requirement already satisfied: jsonschema-specifications&gt;=2023.03.6 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (2025.9.1)
+Requirement already satisfied: referencing&gt;=0.28.4 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (0.37.0)
+Requirement already satisfied: rpds-py&gt;=0.7.1 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (0.27.1)
+Requirement already satisfied: platformdirs&gt;=2.5 in c:\users\sangouda\python_apps\lib\site-packages (from jupyter-core!=5.0.*,&gt;=4.12-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (4.5.0)
+Requirement already satisfied: mdurl~=0.1 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from markdown-it-py&gt;=1.0-&gt;jupytext&gt;=1.13.0-&gt;dlai_grader) (0.1.2)
+Requirement already satisfied: typing-extensions&gt;=4.4.0 in c:\users\sangouda\python_apps\lib\site-packages (from referencing&gt;=0.28.4-&gt;jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (4.15.0)
+Downloading dlai_grader-1.22.2-py3-none-any.whl (19 kB)
+Downloading jupytext-1.18.1-py3-none-any.whl (167 kB)
+Downloading mdit_py_plugins-0.5.0-py3-none-any.whl (57 kB)
+Installing collected packages: mdit-py-plugins, jupytext, dlai_grader
+Successfully installed dlai_grader-1.22.2 jupytext-1.18.1 mdit-py-plugins-0.5.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  WARNING: The scripts jupytext-config.exe and jupytext.exe are installed in &#39;C:\Users\sangouda\python_apps\Scripts&#39; which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script dlai_grader.exe is installed in &#39;C:\Users\sangouda\python_apps\Scripts&#39; which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
 
-<span class="n">File</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Github</span>\<span class="n">Coursera_Materials</span>\<span class="n">coursera_notes</span>\<span class="n">NLP</span>\<span class="n">C3_W3</span>\<span class="n">w3_unittest</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">4</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">dlai_grader.grading</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_case</span><span class="p">,</span> <span class="n">LearnerSubmission</span><span class="p">,</span> <span class="n">object_to_grade</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">dlai_grader.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">grading_function</span><span class="p">,</span> <span class="n">grading_wrapper</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">dlai_grader.grading</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_grading_score</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;dlai_grader&#39;
+[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">w3_unittest</span>
 </pre></div>
 </div>
 </div>
@@ -955,6 +987,85 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of question pairs:  404351
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>qid1</th>
+      <th>qid2</th>
+      <th>question1</th>
+      <th>question2</th>
+      <th>is_duplicate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>What is the step by step guide to invest in sh...</td>
+      <td>What is the step by step guide to invest in sh...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>3</td>
+      <td>4</td>
+      <td>What is the story of Kohinoor (Koh-i-Noor) Dia...</td>
+      <td>What would happen if the Indian government sto...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>5</td>
+      <td>6</td>
+      <td>How can I increase the speed of my internet co...</td>
+      <td>How can Internet speed be increased by hacking...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>7</td>
+      <td>8</td>
+      <td>Why am I mentally very lonely? How can I solve...</td>
+      <td>Find the remainder when [math]23^{24}[/math] i...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>9</td>
+      <td>10</td>
+      <td>Which one dissolve in water quikly sugar, salt...</td>
+      <td>Which fish would survive in salt water?</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>First, you will need to split the data into a training and test set. The test set will be used later to evaluate your model.</p>
 <div class="cell docutils container">
@@ -965,6 +1076,11 @@ document.write(`
 <span class="n">data_test</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">N_train</span><span class="p">:</span><span class="n">N_train</span> <span class="o">+</span> <span class="n">N_test</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train set:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">),</span> <span class="s2">&quot;Test set:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_test</span><span class="p">))</span>
 <span class="k">del</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># remove to free memory</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train set: 300000 Test set: 10240
 </pre></div>
 </div>
 </div>
@@ -983,6 +1099,12 @@ The test set uses the original pairs of questions and the status describing if t
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of duplicate questions:  111486
+Indexes of first ten duplicate questions: [5, 7, 11, 12, 13, 15, 16, 18, 20, 29]
+</pre></div>
+</div>
+</div>
 </div>
 <p>You will first need to split the data into a training and test set. The test set will be used later to evaluate your model.</p>
 <div class="cell docutils container">
@@ -990,6 +1112,13 @@ The test set uses the original pairs of questions and the status describing if t
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_train</span><span class="p">[</span><span class="s1">&#39;question1&#39;</span><span class="p">][</span><span class="mi">5</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data_train</span><span class="p">[</span><span class="s1">&#39;question2&#39;</span><span class="p">][</span><span class="mi">5</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;is_duplicate: &#39;</span><span class="p">,</span> <span class="n">data_train</span><span class="p">[</span><span class="s1">&#39;is_duplicate&#39;</span><span class="p">][</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Astrology: I am a Capricorn Sun Cap moon and cap rising...what does that say about me?
+I&#39;m a triple Capricorn (Sun, Moon and ascendant in Capricorn) What does this say about me?
+is_duplicate:  1
 </pre></div>
 </div>
 </div>
@@ -1023,6 +1152,24 @@ The test set uses the original pairs of questions and the status describing if t
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TRAINING QUESTIONS:
+
+Question 1:  Astrology: I am a Capricorn Sun Cap moon and cap rising...what does that say about me?
+Question 2:  I&#39;m a triple Capricorn (Sun, Moon and ascendant in Capricorn) What does this say about me? 
+
+Question 1:  What would a Trump presidency mean for current international master’s students on an F1 visa?
+Question 2:  How will a Trump presidency affect the students presently in US or planning to study in US? 
+
+TESTING QUESTIONS:
+
+Question 1:  How do I prepare for interviews for cse?
+Question 2:  What is the best way to prepare for cse? 
+
+is_duplicate = 0 
+</pre></div>
+</div>
+</div>
 </div>
 <p>Finally, split your training set into training/validation sets so that you can use them at training time.</p>
 <div class="cell docutils container">
@@ -1034,6 +1181,13 @@ The test set uses the original pairs of questions and the status describing if t
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of duplicate questions: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Q1_train</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The length of the training set is:  &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_Q1</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The length of the validation set is: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_Q1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of duplicate questions:  111486
+The length of the training set is:   89188
+The length of the validation set is:  22298
 </pre></div>
 </div>
 </div>
@@ -1061,6 +1215,11 @@ The test set uses the original pairs of questions and the status describing if t
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vocabulary size: 36224
+</pre></div>
+</div>
+</div>
 </div>
 <p>You can also call <code class="docutils literal notranslate"><span class="pre">text_vectorization</span></code> to see what the encoding looks like for the first questions of the training and test datasets</p>
 <div class="cell docutils container">
@@ -1074,6 +1233,25 @@ The test set uses the original pairs of questions and the status describing if t
 <span class="nb">print</span><span class="p">(</span><span class="n">Q1_test</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;encoded version:&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">text_vectorization</span><span class="p">(</span><span class="n">Q1_test</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>first question in the train set:
+
+Astrology: I am a Capricorn Sun Cap moon and cap rising...what does that say about me? 
+
+encoded version:
+tf.Tensor(
+[ 6984     6   178    10  8988  2442 35393   761    13  6636 28205    31
+    28   483    45    98], shape=(16,), dtype=int64) 
+
+first question in the test set:
+
+How do I prepare for interviews for cse? 
+
+encoded version:
+tf.Tensor([    4     8     6   160    17  2079    17 11775], shape=(8,), dtype=int64)
 </pre></div>
 </div>
 </div>
@@ -1164,48 +1342,35 @@ tf.Tensor([    4     8     6   160    17  2079    17 11775], shape=(8,), dtype=i
 </ul>
 <div class="cell tag_graded docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: Siamese</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">Siamese</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">,</span> <span class="n">vocab_size</span><span class="o">=</span><span class="mi">36224</span><span class="p">,</span> <span class="n">d_feature</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a Siamese model.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        text_vectorizer (TextVectorization): TextVectorization instance, already adapted to your training data.</span>
-<span class="sd">        vocab_size (int, optional): Length of the vocabulary. Defaults to 56400.</span>
-<span class="sd">        d_feature (int, optional): Depth of the model. Defaults to 128.</span>
-<span class="sd">        </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        tf.model.Model: A Siamese model. </span>
-<span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="c1"># GRADED FUNCTION: Siamese</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Siamese</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">,</span> <span class="n">vocab_size</span><span class="o">=</span><span class="mi">36224</span><span class="p">,</span> <span class="n">d_feature</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a Siamese model.&quot;&quot;&quot;</span>
+
     <span class="c1">### START CODE HERE ###</span>
 
+    <span class="c1"># Shared branch</span>
     <span class="n">branch</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;sequential&#39;</span><span class="p">)</span> 
-    <span class="c1"># Add the text_vectorizer layer. This is the text_vectorizer you instantiated and trained before </span>
-    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="c1"># Add the Embedding layer. Remember to call it &#39;embedding&#39; using the parameter `name`</span>
-    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="c1"># Add the LSTM layer, recall from W2 that you want to the LSTM layer to return sequences, ot just one value. </span>
-    <span class="c1"># Remember to call it &#39;LSTM&#39; using the parameter `name`</span>
-    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="c1"># Add the GlobalAveragePooling1D layer. Remember to call it &#39;mean&#39; using the parameter `name`</span>
-    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="c1"># Add the normalizing layer using the Lambda function. Remember to call it &#39;out&#39; using the parameter `name`</span>
-    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    
-    <span class="c1"># Define both inputs. Remember to call then &#39;input_1&#39; and &#39;input_2&#39; using the `name` parameter. </span>
-    <span class="c1"># Be mindful of the data type and size</span>
-    <span class="n">input1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input_1&#39;</span><span class="p">)</span>
-    <span class="n">input2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input_2&#39;</span><span class="p">)</span>
-    <span class="c1"># Define the output of each branch of your Siamese network. Remember that both branches have the same coefficients, </span>
-    <span class="c1"># but they each receive different inputs.</span>
-    <span class="n">branch1</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">branch2</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># Define the Concatenate layer. You should concatenate columns, you can fix this using the `axis`parameter. </span>
-    <span class="c1"># This layer is applied over the outputs of each branch of the Siamese network</span>
-    <span class="n">conc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conc_1_2&#39;</span><span class="p">)([</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span> 
-    
+    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">)</span>
+    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">d_feature</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;embedding&#39;</span><span class="p">))</span>
+    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">d_feature</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;LSTM&#39;</span><span class="p">))</span>
+    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">GlobalAveragePooling1D</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">))</span>
+    <span class="n">branch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">l2_normalize</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;out&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Inputs</span>
+    <span class="n">input1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input_1&#39;</span><span class="p">)</span>  <span class="c1"># scalar string</span>
+    <span class="n">input2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">string</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input_2&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Forward pass through shared branch</span>
+    <span class="n">branch1</span> <span class="o">=</span> <span class="n">branch</span><span class="p">(</span><span class="n">input1</span><span class="p">)</span>
+    <span class="n">branch2</span> <span class="o">=</span> <span class="n">branch</span><span class="p">(</span><span class="n">input2</span><span class="p">)</span>
+
+    <span class="c1"># Concatenate outputs</span>
+    <span class="n">conc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Concatenate</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conc_1_2&#39;</span><span class="p">)([</span><span class="n">branch1</span><span class="p">,</span> <span class="n">branch2</span><span class="p">])</span>
+
     <span class="c1">### END CODE HERE ###</span>
-    
+
     <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input1</span><span class="p">,</span> <span class="n">input2</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="n">conc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SiameseModel&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1222,6 +1387,55 @@ tf.Tensor([    4     8     6   160    17  2079    17 11775], shape=(8,), dtype=i
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "SiameseModel"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)        </span>┃<span style="font-weight: bold"> Output Shape      </span>┃<span style="font-weight: bold">    Param # </span>┃<span style="font-weight: bold"> Connected to      </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│ input_1             │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>)            │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ -                 │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">InputLayer</span>)        │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ input_2             │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>)            │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ -                 │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">InputLayer</span>)        │                   │            │                   │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ sequential          │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)       │  <span style="color: #00af00; text-decoration-color: #00af00">4,768,256</span> │ input_1[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>],    │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">Sequential</span>)        │                   │            │ input_2[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]     │
+├─────────────────────┼───────────────────┼────────────┼───────────────────┤
+│ conc_1_2            │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">256</span>)       │          <span style="color: #00af00; text-decoration-color: #00af00">0</span> │ sequential[<span style="color: #00af00; text-decoration-color: #00af00">0</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>], │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">Concatenate</span>)       │                   │            │ sequential[<span style="color: #00af00; text-decoration-color: #00af00">1</span>][<span style="color: #00af00; text-decoration-color: #00af00">0</span>]  │
+└─────────────────────┴───────────────────┴────────────┴───────────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">4,768,256</span> (18.19 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">4,768,256</span> (18.19 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "sequential"</span>
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)                    </span>┃<span style="font-weight: bold"> Output Shape           </span>┃<span style="font-weight: bold">       Param # </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ text_vectorization              │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>)           │             <span style="color: #00af00; text-decoration-color: #00af00">0</span> │
+│ (<span style="color: #0087ff; text-decoration-color: #0087ff">TextVectorization</span>)             │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ embedding (<span style="color: #0087ff; text-decoration-color: #0087ff">Embedding</span>)           │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)      │     <span style="color: #00af00; text-decoration-color: #00af00">4,636,672</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ LSTM (<span style="color: #0087ff; text-decoration-color: #0087ff">LSTM</span>)                     │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)      │       <span style="color: #00af00; text-decoration-color: #00af00">131,584</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ mean (<span style="color: #0087ff; text-decoration-color: #0087ff">GlobalAveragePooling1D</span>)   │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │             <span style="color: #00af00; text-decoration-color: #00af00">0</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ out (<span style="color: #0087ff; text-decoration-color: #0087ff">Lambda</span>)                    │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │             <span style="color: #00af00; text-decoration-color: #00af00">0</span> │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">4,768,256</span> (18.19 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">4,768,256</span> (18.19 MB)
+</pre>
+</div><div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div></div>
 </div>
 <p><strong>Expected output:</strong></p>
 <font size=2>
@@ -1269,6 +1483,27 @@ _________________________________________________________________
 </font><p>You can also draw the model for a clearer view of your Siamese network</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pydot
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting pydot
+  Using cached pydot-4.0.1-py3-none-any.whl.metadata (11 kB)
+Requirement already satisfied: pyparsing&gt;=3.1.0 in c:\users\sangouda\python_apps\lib\site-packages (from pydot) (3.2.5)
+Using cached pydot-4.0.1-py3-none-any.whl (37 kB)
+Installing collected packages: pydot
+Successfully installed pydot-4.0.1
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span>
     <span class="n">model</span><span class="p">,</span>
     <span class="n">to_file</span><span class="o">=</span><span class="s2">&quot;model.png&quot;</span><span class="p">,</span>
@@ -1280,11 +1515,34 @@ _________________________________________________________________
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You must install pydot (`pip install pydot`) for `plot_model` to work.
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function!</span>
 <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_Siamese</span><span class="p">(</span><span class="n">Siamese</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">36</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Test your function!</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_Siamese</span><span class="p">(</span><span class="n">Siamese</span><span class="p">)</span>
+
+<span class="nn">File c:\Github\Coursera_Materials\coursera_notes\NLP\C3_W3\w3_unittest.py:110,</span> in <span class="ni">test_Siamese</span><span class="nt">(learner_func)</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span> <span class="k">for</span> <span class="n">layer</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">output_shape</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">layers</span><span class="p">,</span> <span class="n">expected_input_shape</span><span class="p">,</span> <span class="n">expected_output_shape</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span>     <span class="n">t</span> <span class="o">=</span> <span class="n">test_case</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">110</span>     <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">!=</span> <span class="n">input_shape</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span>         <span class="n">t</span><span class="o">.</span><span class="n">failed</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>         <span class="n">t</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Layer &#39;</span><span class="si">{</span><span class="n">layer</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has an incorrect input shape.&quot;</span>
+
+<span class="ne">AttributeError</span>: &#39;InputLayer&#39; object has no attribute &#39;input_shape&#39;
 </pre></div>
 </div>
 </div>
@@ -1328,55 +1586,59 @@ As explained in the lecture, you will be using all the questions from each batch
 <p>Next, we’ll create <em>mean_negative</em>. As the name suggests, this is the mean of all the ‘negative’/blue values in <code class="docutils literal notranslate"><span class="pre">score</span></code> on a row by row basis. You can use <code class="docutils literal notranslate"><span class="pre">tf.linalg.diag</span></code> to create a diagonal matrix, where the diagonal matches <code class="docutils literal notranslate"><span class="pre">positive</span></code>, and just subtract it from <code class="docutils literal notranslate"><span class="pre">score</span></code> to get just the ‘negative’ values. This is <code class="docutils literal notranslate"><span class="pre">negative_zero_on_duplicate</span></code> in the code. Compute the mean by using <code class="docutils literal notranslate"><span class="pre">tf.math.reduce_sum</span></code> on <code class="docutils literal notranslate"><span class="pre">negative_zero_on_duplicate</span></code> for <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> and divide it by <code class="docutils literal notranslate"><span class="pre">(batch_size</span> <span class="pre">-</span> <span class="pre">1)</span></code>. This is <code class="docutils literal notranslate"><span class="pre">mean_negative</span></code>.</p>
 <p>Now, you can compute loss using the two equations above and <code class="docutils literal notranslate"><span class="pre">tf.maximum</span></code>. This will form <code class="docutils literal notranslate"><span class="pre">triplet_loss1</span></code> and <code class="docutils literal notranslate"><span class="pre">triplet_loss2</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">triplet_loss</span></code> is the <code class="docutils literal notranslate"><span class="pre">tf.math.reduce_sum</span></code> of the sum of the two individual losses.</p>
-<div class="cell tag_graded docutils container">
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: TripletLossFn</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">TripletLossFn</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span>  <span class="n">margin</span><span class="o">=</span><span class="mf">0.25</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom Loss function.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+
+<span class="c1"># GRADED FUNCTION: TripletLossFn</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">TripletLossFn</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="mf">0.25</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom Triplet Loss function.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        v1 (numpy.ndarray or Tensor): Array with dimension (batch_size, model_dimension) associated to Q1.</span>
-<span class="sd">        v2 (numpy.ndarray or Tensor): Array with dimension (batch_size, model_dimension) associated to Q2.</span>
-<span class="sd">        margin (float, optional): Desired margin. Defaults to 0.25.</span>
+<span class="sd">        v1 (tf.Tensor): (batch_size, model_dim) - first set of embeddings</span>
+<span class="sd">        v2 (tf.Tensor): (batch_size, model_dim) - second set of embeddings</span>
+<span class="sd">        margin (float): margin for triplet loss</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        triplet_loss (numpy.ndarray or Tensor)</span>
+<span class="sd">        triplet_loss (tf.Tensor)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-   
+
     <span class="c1">### START CODE HERE ###</span>
 
-    <span class="c1"># use `tf.linalg.matmul` to take the dot product of the two batches. </span>
-    <span class="c1"># Don&#39;t forget to transpose the second argument using `transpose_b=True`</span>
-    <span class="n">scores</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># calculate new batch size and cast it as the same datatype as scores. </span>
+    <span class="c1"># 1. Compute similarity scores (dot product)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">transpose_b</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># shape: (batch_size, batch_size)</span>
 
-    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">v1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scores</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> 
-    <span class="c1"># use `tf.linalg.diag_part` to grab the cosine similarity of all positive examples</span>
-    <span class="n">positive</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># subtract the diagonal from scores. You can do this by creating a diagonal matrix with the values </span>
-    <span class="c1"># of all positive examples using `tf.linalg.diag`</span>
-    <span class="n">negative_zero_on_duplicate</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># use `tf.math.reduce_sum` on `negative_zero_on_duplicate` for `axis=1` and divide it by `(batch_size - 1)`</span>
-    <span class="n">mean_negative</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># create a composition of two masks: </span>
-    <span class="c1"># the first mask to extract the diagonal elements, </span>
-    <span class="c1"># the second mask to extract elements in the negative_zero_on_duplicate matrix that are larger than the elements in the diagonal </span>
-    <span class="n">mask_exclude_positives</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">((</span><span class="kc">None</span><span class="p">)</span><span class="o">|</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span>
-                                    <span class="n">scores</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="c1"># multiply `mask_exclude_positives` with 2.0 and subtract it out of `negative_zero_on_duplicate`</span>
-    <span class="n">negative_without_positive</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># take the row by row `max` of `negative_without_positive`. </span>
-    <span class="c1"># Hint: `tf.math.reduce_max(negative_without_positive, axis = None</span>
-    <span class="n">closest_negative</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># compute `tf.maximum` among 0.0 and `A`</span>
-    <span class="c1"># A = subtract `positive` from `margin` and add `closest_negative` </span>
-    <span class="n">triplet_loss1</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># compute `tf.maximum` among 0.0 and `B`</span>
-    <span class="c1"># B = subtract `positive` from `margin` and add `mean_negative` </span>
-    <span class="n">triplet_loss2</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># add the two losses together and take the `tf.math.reduce_sum` of it</span>
-    <span class="n">triplet_loss</span> <span class="o">=</span> <span class="kc">None</span>
-    
+    <span class="c1"># 2. Get batch size</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">v1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scores</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="c1"># 3. Positive scores (diagonal)</span>
+    <span class="n">positive</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">diag_part</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>  <span class="c1"># shape: (batch_size,)</span>
+
+    <span class="c1"># 4. Create negative scores matrix with zeros on diagonal</span>
+    <span class="n">negative_zero_on_duplicate</span> <span class="o">=</span> <span class="n">scores</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">positive</span><span class="p">)</span>
+
+    <span class="c1"># 5. Mean of negatives</span>
+    <span class="n">mean_negative</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">negative_zero_on_duplicate</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># 6. Mask to exclude positives or negatives greater than positive</span>
+    <span class="n">mask_exclude_positives</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">negative_zero_on_duplicate</span> <span class="o">&gt;</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">positive</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 7. Negative scores without positives</span>
+    <span class="n">negative_without_positive</span> <span class="o">=</span> <span class="n">negative_zero_on_duplicate</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">mask_exclude_positives</span>
+
+    <span class="c1"># 8. Closest negative (row-wise max)</span>
+    <span class="n">closest_negative</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">negative_without_positive</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># 9. Triplet loss components</span>
+    <span class="n">triplet_loss1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">margin</span> <span class="o">-</span> <span class="n">positive</span> <span class="o">+</span> <span class="n">closest_negative</span><span class="p">)</span>
+    <span class="n">triplet_loss2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">margin</span> <span class="o">-</span> <span class="n">positive</span> <span class="o">+</span> <span class="n">mean_negative</span><span class="p">)</span>
+
+    <span class="c1"># 10. Final loss (sum over batch)</span>
+    <span class="n">triplet_loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">triplet_loss1</span> <span class="o">+</span> <span class="n">triplet_loss2</span><span class="p">)</span>
+
     <span class="c1">### END CODE HERE ###</span>
 
     <span class="k">return</span> <span class="n">triplet_loss</span>
@@ -1390,6 +1652,11 @@ As explained in the lecture, you will be using all the questions from each batch
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.26726124</span><span class="p">,</span> <span class="mf">0.53452248</span><span class="p">,</span> <span class="mf">0.80178373</span><span class="p">],[</span><span class="mf">0.5178918</span> <span class="p">,</span> <span class="mf">0.57543534</span><span class="p">,</span> <span class="mf">0.63297887</span><span class="p">]])</span>
 <span class="n">v2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.26726124</span><span class="p">,</span>  <span class="mf">0.53452248</span><span class="p">,</span>  <span class="mf">0.80178373</span><span class="p">],[</span><span class="o">-</span><span class="mf">0.5178918</span> <span class="p">,</span> <span class="o">-</span><span class="mf">0.57543534</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.63297887</span><span class="p">]])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Triplet Loss:&quot;</span><span class="p">,</span> <span class="n">TripletLossFn</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Triplet Loss: 0.7035076825158911
 </pre></div>
 </div>
 </div>
@@ -1415,6 +1682,11 @@ As explained in the lecture, you will be using all the questions from each batch
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function!</span>
 <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_TripletLoss</span><span class="p">(</span><span class="n">TripletLoss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All tests passed!
 </pre></div>
 </div>
 </div>
@@ -1482,17 +1754,17 @@ As explained in the lecture, you will be using all the questions from each batch
     <span class="c1">## START CODE HERE ###</span>
 
     <span class="c1"># Instantiate your Siamese model</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Siamese</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">vocab_size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="c1">#set vocab_size accordingly to the size of your vocabulary</span>
-                    <span class="n">d_feature</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Siamese</span><span class="p">(</span><span class="n">text_vectorizer</span><span class="p">,</span>
+                    <span class="n">vocab_size</span> <span class="o">=</span> <span class="n">text_vectorizer</span><span class="o">.</span><span class="n">vocabulary_size</span><span class="p">(),</span> <span class="c1">#set vocab_size accordingly to the size of your vocabulary</span>
+                    <span class="n">d_feature</span> <span class="o">=</span> <span class="n">d_feature</span><span class="p">)</span>
     <span class="c1"># Compile the model</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">optimizer</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">TripletLoss</span><span class="p">,</span>
+                  <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
             <span class="p">)</span>
     <span class="c1"># Train the model </span>
-    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span>
-              <span class="n">epochs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-              <span class="n">validation_data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
+              <span class="n">epochs</span> <span class="o">=</span> <span class="n">epochs</span><span class="p">,</span>
+              <span class="n">validation_data</span> <span class="o">=</span> <span class="n">val_dataset</span><span class="p">,</span>
              <span class="p">)</span>
              
     <span class="c1">### END CODE HERE ###</span>
@@ -1521,12 +1793,28 @@ As explained in the lecture, you will be using all the questions from each batch
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/2
+<span class=" -Color -Color-Bold">349/349</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">95s</span> 257ms/step - loss: 58.1876 - val_loss: 15.4692
+Epoch 2/2
+<span class=" -Color -Color-Bold">349/349</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">95s</span> 257ms/step - loss: 58.1876 - val_loss: 15.4692
+Epoch 2/2
+<span class=" -Color -Color-Bold">349/349</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">85s</span> 242ms/step - loss: 11.3915 - val_loss: 11.1187
+<span class=" -Color -Color-Bold">349/349</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">85s</span> 242ms/step - loss: 11.3915 - val_loss: 11.1187
+</pre></div>
+</div>
+</div>
 </div>
 <p>The model was only trained for 2 steps because training the whole Siamese network takes too long, and produces slightly different results for each run. For the rest of the assignment you will be using a pretrained model, but this small example should help you understand how the training can be done.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function!</span>
 <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_train_model</span><span class="p">(</span><span class="n">train_model</span><span class="p">,</span> <span class="n">Siamese</span><span class="p">,</span> <span class="n">TripletLoss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All tests passed!
 </pre></div>
 </div>
 </div>
@@ -1542,10 +1830,122 @@ As explained in the lecture, you will be using all the questions from each batch
 <p>In this section you will learn how to evaluate a Siamese network. You will start by loading a pretrained model, and then you will use it to predict. For the prediction you will need to take the output of your model and compute the cosine loss between each pair of questions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;model/trained_model.keras&#39;</span><span class="p">,</span> <span class="n">safe_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Since we can&#39;t load the pre-trained model due to compatibility issues,</span>
+<span class="c1"># let&#39;s create our own model for testing</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Siamese</span><span class="p">(</span><span class="n">text_vectorization</span><span class="p">,</span> <span class="n">vocab_size</span><span class="o">=</span><span class="n">text_vectorization</span><span class="o">.</span><span class="n">vocabulary_size</span><span class="p">())</span>
 
 <span class="c1"># Show the model architecture</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\serialization_lib.py:799,</span> in <span class="ni">_retrieve_class_or_fn</span><span class="nt">(name, registered_name, module, obj_type, full_config, custom_objects)</span>
+<span class="g g-Whitespace">    </span><span class="mi">798</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">799</span>     <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">800</span>     <span class="n">obj</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="nn">File c:\Users\sangouda\python_apps\Lib\importlib\__init__.py:90,</span> in <span class="ni">import_module</span><span class="nt">(name, package)</span>
+<span class="g g-Whitespace">     </span><span class="mi">89</span>         <span class="n">level</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="ne">---&gt; </span><span class="mi">90</span> <span class="k">return</span> <span class="n">_bootstrap</span><span class="o">.</span><span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">level</span><span class="p">:],</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1387,</span> in <span class="ni">_gcd_import</span><span class="nt">(name, package, level)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1360,</span> in <span class="ni">_find_and_load</span><span class="nt">(name, import_)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1310,</span> in <span class="ni">_find_and_load_unlocked</span><span class="nt">(name, import_)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:488,</span> in <span class="ni">_call_with_frames_removed</span><span class="nt">(f, *args, **kwds)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1387,</span> in <span class="ni">_gcd_import</span><span class="nt">(name, package, level)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1360,</span> in <span class="ni">_find_and_load</span><span class="nt">(name, import_)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1324,</span> in <span class="ni">_find_and_load_unlocked</span><span class="nt">(name, import_)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;keras.src.engine&#39;
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">46</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;model/trained_model.keras&#39;</span><span class="p">,</span> <span class="n">safe_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Show the model architecture</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_api.py:189,</span> in <span class="ni">load_model</span><span class="nt">(filepath, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>         <span class="n">is_keras_zip</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span> <span class="k">if</span> <span class="n">is_keras_zip</span> <span class="ow">or</span> <span class="n">is_keras_dir</span> <span class="ow">or</span> <span class="n">is_hf</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">189</span>     <span class="k">return</span> <span class="n">saving_lib</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>         <span class="n">filepath</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">191</span>         <span class="n">custom_objects</span><span class="o">=</span><span class="n">custom_objects</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span>         <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span>         <span class="n">safe_mode</span><span class="o">=</span><span class="n">safe_mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.h5&quot;</span><span class="p">,</span> <span class="s2">&quot;.hdf5&quot;</span><span class="p">)):</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="k">return</span> <span class="n">legacy_h5_format</span><span class="o">.</span><span class="n">load_model_from_hdf5</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>         <span class="n">filepath</span><span class="p">,</span> <span class="n">custom_objects</span><span class="o">=</span><span class="n">custom_objects</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="p">)</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_lib.py:370,</span> in <span class="ni">load_model</span><span class="nt">(filepath, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">365</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">366</span>         <span class="s2">&quot;Invalid filename: expected a `.keras` extension. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">367</span>         <span class="sa">f</span><span class="s2">&quot;Received: filepath=</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">368</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">370</span>     <span class="k">return</span> <span class="n">_load_model_from_fileobj</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">371</span>         <span class="n">f</span><span class="p">,</span> <span class="n">custom_objects</span><span class="p">,</span> <span class="nb">compile</span><span class="p">,</span> <span class="n">safe_mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span>     <span class="p">)</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_lib.py:447,</span> in <span class="ni">_load_model_from_fileobj</span><span class="nt">(fileobj, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span> <span class="k">with</span> <span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">_CONFIG_FILENAME</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span>     <span class="n">config_json</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">447</span> <span class="n">model</span> <span class="o">=</span> <span class="n">_model_from_config</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">448</span>     <span class="n">config_json</span><span class="p">,</span> <span class="n">custom_objects</span><span class="p">,</span> <span class="nb">compile</span><span class="p">,</span> <span class="n">safe_mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">451</span> <span class="n">all_filenames</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">namelist</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">452</span> <span class="n">extract_dir</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_lib.py:436,</span> in <span class="ni">_model_from_config</span><span class="nt">(config_json, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span> <span class="c1"># Construct the model from the configuration file in the archive.</span>
+<span class="g g-Whitespace">    </span><span class="mi">435</span> <span class="k">with</span> <span class="n">ObjectSharingScope</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">436</span>     <span class="n">model</span> <span class="o">=</span> <span class="n">deserialize_keras_object</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">437</span>         <span class="n">config_dict</span><span class="p">,</span> <span class="n">custom_objects</span><span class="p">,</span> <span class="n">safe_mode</span><span class="o">=</span><span class="n">safe_mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">438</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">439</span> <span class="k">return</span> <span class="n">model</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\serialization_lib.py:694,</span> in <span class="ni">deserialize_keras_object</span><span class="nt">(config, custom_objects, safe_mode, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">691</span>     <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">692</span>         <span class="k">return</span> <span class="n">obj</span>
+<span class="ne">--&gt; </span><span class="mi">694</span> <span class="bp">cls</span> <span class="o">=</span> <span class="n">_retrieve_class_or_fn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span>     <span class="n">class_name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">696</span>     <span class="n">registered_name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span>     <span class="n">module</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span>     <span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span>     <span class="n">full_config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">700</span>     <span class="n">custom_objects</span><span class="o">=</span><span class="n">custom_objects</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">701</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">704</span>     <span class="k">return</span> <span class="bp">cls</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\serialization_lib.py:804,</span> in <span class="ni">_retrieve_class_or_fn</span><span class="nt">(name, registered_name, module, obj_type, full_config, custom_objects)</span>
+<span class="g g-Whitespace">    </span><span class="mi">802</span>                 <span class="k">return</span> <span class="n">obj</span>
+<span class="g g-Whitespace">    </span><span class="mi">803</span>         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">804</span>             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">805</span>                 <span class="sa">f</span><span class="s2">&quot;Could not deserialize </span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; because &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">806</span>                 <span class="sa">f</span><span class="s2">&quot;its parent module </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> cannot be imported. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">807</span>                 <span class="sa">f</span><span class="s2">&quot;Full object config: </span><span class="si">{</span><span class="n">full_config</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">808</span>             <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">810</span> <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">811</span>     <span class="sa">f</span><span class="s2">&quot;Could not locate </span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">812</span>     <span class="s2">&quot;Make sure custom classes are decorated with &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">813</span>     <span class="s2">&quot;`@keras.saving.register_keras_serializable()`. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">814</span>     <span class="sa">f</span><span class="s2">&quot;Full object config: </span><span class="si">{</span><span class="n">full_config</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">815</span> <span class="p">)</span>
+
+<span class="ne">TypeError</span>: Could not deserialize class &#39;Functional&#39; because its parent module keras.src.engine.functional cannot be imported. Full object config: {&#39;module&#39;: &#39;keras.src.engine.functional&#39;, &#39;class_name&#39;: &#39;Functional&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;SiameseModel&#39;, &#39;trainable&#39;: True, &#39;layers&#39;: [{&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;InputLayer&#39;, &#39;config&#39;: {&#39;batch_input_shape&#39;: [None, 1], &#39;dtype&#39;: &#39;string&#39;, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;name&#39;: &#39;input_1&#39;}, &#39;registered_name&#39;: None, &#39;name&#39;: &#39;input_1&#39;, &#39;inbound_nodes&#39;: []}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;InputLayer&#39;, &#39;config&#39;: {&#39;batch_input_shape&#39;: [None, 1], &#39;dtype&#39;: &#39;string&#39;, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;name&#39;: &#39;input_2&#39;}, &#39;registered_name&#39;: None, &#39;name&#39;: &#39;input_2&#39;, &#39;inbound_nodes&#39;: []}, {&#39;module&#39;: &#39;keras&#39;, &#39;class_name&#39;: &#39;Sequential&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;sequential&#39;, &#39;layers&#39;: [{&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;InputLayer&#39;, &#39;config&#39;: {&#39;batch_input_shape&#39;: [None], &#39;dtype&#39;: &#39;string&#39;, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;name&#39;: &#39;text_vectorization_input&#39;}, &#39;registered_name&#39;: None}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;TextVectorization&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;text_vectorization&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;string&#39;, &#39;batch_input_shape&#39;: [None], &#39;max_tokens&#39;: None, &#39;standardize&#39;: &#39;strip_punctuation&#39;, &#39;split&#39;: &#39;whitespace&#39;, &#39;ngrams&#39;: None, &#39;output_mode&#39;: &#39;int&#39;, &#39;output_sequence_length&#39;: None, &#39;pad_to_max_tokens&#39;: False, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;vocabulary&#39;: None, &#39;idf_weights&#39;: None, &#39;encoding&#39;: &#39;utf-8&#39;, &#39;vocabulary_size&#39;: 36224}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;Embedding&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;embedding&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;batch_input_shape&#39;: [None, None], &#39;input_dim&#39;: 36224, &#39;output_dim&#39;: 128, &#39;embeddings_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;RandomUniform&#39;, &#39;config&#39;: {&#39;minval&#39;: -0.05, &#39;maxval&#39;: 0.05, &#39;seed&#39;: None}, &#39;registered_name&#39;: None}, &#39;embeddings_regularizer&#39;: None, &#39;activity_regularizer&#39;: None, &#39;embeddings_constraint&#39;: None, &#39;mask_zero&#39;: False, &#39;input_length&#39;: None}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, None]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;LSTM&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;LSTM&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;return_sequences&#39;: True, &#39;return_state&#39;: False, &#39;go_backwards&#39;: False, &#39;stateful&#39;: False, &#39;unroll&#39;: False, &#39;time_major&#39;: False, &#39;units&#39;: 128, &#39;activation&#39;: &#39;tanh&#39;, &#39;recurrent_activation&#39;: &#39;sigmoid&#39;, &#39;use_bias&#39;: True, &#39;kernel_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;GlorotUniform&#39;, &#39;config&#39;: {&#39;seed&#39;: None}, &#39;registered_name&#39;: None, &#39;shared_object_id&#39;: 139904809072768}, &#39;recurrent_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;Orthogonal&#39;, &#39;config&#39;: {&#39;gain&#39;: 1.0, &#39;seed&#39;: None}, &#39;registered_name&#39;: None, &#39;shared_object_id&#39;: 139904809072912}, &#39;bias_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;Zeros&#39;, &#39;config&#39;: {}, &#39;registered_name&#39;: None, &#39;shared_object_id&#39;: 139904809073392}, &#39;unit_forget_bias&#39;: True, &#39;kernel_regularizer&#39;: None, &#39;recurrent_regularizer&#39;: None, &#39;bias_regularizer&#39;: None, &#39;activity_regularizer&#39;: None, &#39;kernel_constraint&#39;: None, &#39;recurrent_constraint&#39;: None, &#39;bias_constraint&#39;: None, &#39;dropout&#39;: 0.0, &#39;recurrent_dropout&#39;: 0.0, &#39;implementation&#39;: 2}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, None, 128]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;GlobalAveragePooling1D&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;mean&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;data_format&#39;: &#39;channels_last&#39;, &#39;keepdims&#39;: False}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, None, 128]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;Lambda&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;out&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;function&#39;: [&#39;4wEAAAAAAAAAAAAAAAEAAAAEAAAAUwAAAHMQAAAAdABqAWoCfABkAWQCjQJTACkDTukBAAAAKQHa\nBGF4aXMpA9oCdGbaBG1hdGjaDGwyX25vcm1hbGl6ZSkB2gF4qQByBwAAAPoiL3RtcC9pcHlrZXJu\nZWxfMTYyMzYvMjQ0OTMwMDM2Mi5wedoIPGxhbWJkYT4QAAAA8wAAAAA=\n&#39;, None, None], &#39;function_type&#39;: &#39;lambda&#39;, &#39;module&#39;: &#39;__main__&#39;, &#39;output_shape&#39;: None, &#39;output_shape_type&#39;: &#39;raw&#39;, &#39;output_shape_module&#39;: None, &#39;arguments&#39;: {}}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, 128]}}]}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None]}, &#39;name&#39;: &#39;sequential&#39;, &#39;inbound_nodes&#39;: [[[&#39;input_1&#39;, 0, 0, {}]], [[&#39;input_2&#39;, 0, 0, {}]]]}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;Concatenate&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;conc_1_2&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;axis&#39;: 1}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [[None, 128], [None, 128]]}, &#39;name&#39;: &#39;conc_1_2&#39;, &#39;inbound_nodes&#39;: [[[&#39;sequential&#39;, 1, 0, {}], [&#39;sequential&#39;, 2, 0, {}]]]}], &#39;input_layers&#39;: [[&#39;input_1&#39;, 0, 0], [&#39;input_2&#39;, 0, 0]], &#39;output_layers&#39;: [[&#39;conc_1_2&#39;, 0, 0]]}, &#39;registered_name&#39;: &#39;Functional&#39;, &#39;build_config&#39;: {&#39;input_shape&#39;: [[None, 1], [None, 1]]}, &#39;compile_config&#39;: None}
 </pre></div>
 </div>
 </div>
@@ -1595,20 +1995,22 @@ This routine will run all the test question pairs through the model, compute the
     
     <span class="c1">### START CODE HERE ###</span>
 
-    <span class="n">pred</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">n_feat</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">v1</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">v2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># Get all predictions from the model</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_gen</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">n_feat</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">shape</span>
+    <span class="c1"># Split into v1 and v2</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="n">pred</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_feat</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="n">pred</span><span class="p">[:,</span> <span class="n">n_feat</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span>
     
     <span class="c1"># Compute the cosine similarity. Using `tf.math.reduce_sum`. </span>
     <span class="c1"># Don&#39;t forget to use the appropriate axis argument.</span>
-    <span class="n">d</span>  <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">v1</span> <span class="o">*</span> <span class="n">v2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># Check if d&gt;threshold to make predictions</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">d</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="c1"># take the average of correct predictions to get the accuracy</span>
-    <span class="n">accuracy</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">)),</span> <span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
     <span class="c1"># compute the confusion matrix using `tf.math.confusion_matrix`</span>
-    <span class="n">cm</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span>
     
     <span class="c1">### END CODE HERE ###</span>
     
@@ -1626,6 +2028,20 @@ This routine will run all the test question pairs through the model, compute the
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">20/20</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">4s</span> 197ms/step
+<span class=" -Color -Color-Bold">20/20</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">4s</span> 197ms/step
+Accuracy 0.7412109375
+Confusion matrix:
+[[4500 1882]
+ [ 768 3090]]
+Accuracy 0.7412109375
+Confusion matrix:
+[[4500 1882]
+ [ 768 3090]]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="expected-result">
@@ -1640,6 +2056,24 @@ This routine will run all the test question pairs through the model, compute the
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function!</span>
 <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_classify</span><span class="p">(</span><span class="n">classify</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">49</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Test your function!</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_classify</span><span class="p">(</span><span class="n">classify</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+
+<span class="nn">File c:\Github\Coursera_Materials\coursera_notes\NLP\C3_W3\w3_unittest.py:286,</span> in <span class="ni">test_classify</span><span class="nt">(learner_func, model)</span>
+<span class="g g-Whitespace">    </span><span class="mi">284</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_classify</span><span class="p">(</span><span class="n">learner_func</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span>     <span class="n">Q1_test</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">286</span>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/tf/support_files/classify_fn/Q1_test_words.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span>         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">288</span>             <span class="k">try</span><span class="p">:</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/tf/support_files/classify_fn/Q1_test_words.pkl&#39;
 </pre></div>
 </div>
 </div>
@@ -1683,15 +2117,16 @@ This routine will run all the test question pairs through the model, compute the
     <span class="c1">### START CODE HERE ###</span>
     
     <span class="c1"># Call the predict method of your model and save the output into v1v2</span>
-    <span class="n">v1v2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">v1v2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
     <span class="c1"># Extract v1 and v2 from the model output</span>
-    <span class="n">v1</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">v2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">n_feat</span> <span class="o">=</span> <span class="n">v1v2</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="n">v1v2</span><span class="p">[:,</span> <span class="p">:</span><span class="n">n_feat</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="n">v1v2</span><span class="p">[:,</span> <span class="n">n_feat</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span>
     <span class="c1"># Take the dot product to compute cos similarity of each pair of entries, v1, v2</span>
     <span class="c1"># Since v1 and v2 are both vectors, use the function tf.math.reduce_sum instead of tf.linalg.matmul</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">v1</span> <span class="o">*</span> <span class="n">v2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># Is d greater than the threshold?</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">threshold</span>
 
     <span class="c1">### END CODE HERE ###</span>
     
@@ -1712,6 +2147,23 @@ This routine will run all the test question pairs through the model, compute the
 <span class="n">question2</span> <span class="o">=</span> <span class="s2">&quot;When can I see you again?&quot;</span>
 <span class="c1"># 1 means it is duplicated, 0 otherwise</span>
 <span class="n">predict</span><span class="p">(</span><span class="n">question1</span> <span class="p">,</span> <span class="n">question2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 357ms/step
+Q1  =  When will I see you? 
+Q2  =  When can I see you again?
+d   =  [0.8068728]
+res =  [ True]
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 357ms/step
+Q1  =  When will I see you? 
+Q2  =  When can I see you again?
+d   =  [0.8068728]
+res =  [ True]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ True])
 </pre></div>
 </div>
 </div>
@@ -1741,6 +2193,23 @@ res =  True
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 16ms/step
+<span class=" -Color -Color-Bold">1/1</span> <span class=" -Color -Color-Green">━━━━━━━━━━━━━━━━━━━━</span> <span class=" -Color -Color-Bold">0s</span> 16ms/step
+Q1  =  Do they enjoy eating the dessert? 
+Q2  =  Do they like hiking in the desert?
+d   =  [0.65009964]
+res =  [False]
+Q1  =  Do they enjoy eating the dessert? 
+Q2  =  Do they like hiking in the desert?
+d   =  [0.65009964]
+res =  [False]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([False])
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="id2">
@@ -1765,6 +2234,122 @@ False
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test your function!</span>
 <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_predict</span><span class="p">(</span><span class="n">predict</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\serialization_lib.py:799,</span> in <span class="ni">_retrieve_class_or_fn</span><span class="nt">(name, registered_name, module, obj_type, full_config, custom_objects)</span>
+<span class="g g-Whitespace">    </span><span class="mi">798</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">799</span>     <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">800</span>     <span class="n">obj</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="nn">File c:\Users\sangouda\python_apps\Lib\importlib\__init__.py:90,</span> in <span class="ni">import_module</span><span class="nt">(name, package)</span>
+<span class="g g-Whitespace">     </span><span class="mi">89</span>         <span class="n">level</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="ne">---&gt; </span><span class="mi">90</span> <span class="k">return</span> <span class="n">_bootstrap</span><span class="o">.</span><span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">level</span><span class="p">:],</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1387,</span> in <span class="ni">_gcd_import</span><span class="nt">(name, package, level)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1360,</span> in <span class="ni">_find_and_load</span><span class="nt">(name, import_)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1310,</span> in <span class="ni">_find_and_load_unlocked</span><span class="nt">(name, import_)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:488,</span> in <span class="ni">_call_with_frames_removed</span><span class="nt">(f, *args, **kwds)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1387,</span> in <span class="ni">_gcd_import</span><span class="nt">(name, package, level)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1360,</span> in <span class="ni">_find_and_load</span><span class="nt">(name, import_)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1324,</span> in <span class="ni">_find_and_load_unlocked</span><span class="nt">(name, import_)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;keras.src.engine&#39;
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">53</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Test your function!</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">w3_unittest</span><span class="o">.</span><span class="n">test_predict</span><span class="p">(</span><span class="n">predict</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+
+<span class="nn">File c:\Github\Coursera_Materials\coursera_notes\NLP\C3_W3\w3_unittest.py:351,</span> in <span class="ni">test_predict</span><span class="nt">(learner_func, model)</span>
+<span class="g g-Whitespace">    </span><span class="mi">349</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test_case</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">trained_model</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">351</span>     <span class="n">t</span><span class="o">.</span><span class="n">failed</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">352</span>     <span class="n">t</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Wrong learning rate&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">353</span>     <span class="n">t</span><span class="o">.</span><span class="n">want</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_api.py:189,</span> in <span class="ni">load_model</span><span class="nt">(filepath, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>         <span class="n">is_keras_zip</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span> <span class="k">if</span> <span class="n">is_keras_zip</span> <span class="ow">or</span> <span class="n">is_keras_dir</span> <span class="ow">or</span> <span class="n">is_hf</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">189</span>     <span class="k">return</span> <span class="n">saving_lib</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>         <span class="n">filepath</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">191</span>         <span class="n">custom_objects</span><span class="o">=</span><span class="n">custom_objects</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">192</span>         <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span>         <span class="n">safe_mode</span><span class="o">=</span><span class="n">safe_mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s2">&quot;.h5&quot;</span><span class="p">,</span> <span class="s2">&quot;.hdf5&quot;</span><span class="p">)):</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="k">return</span> <span class="n">legacy_h5_format</span><span class="o">.</span><span class="n">load_model_from_hdf5</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>         <span class="n">filepath</span><span class="p">,</span> <span class="n">custom_objects</span><span class="o">=</span><span class="n">custom_objects</span><span class="p">,</span> <span class="nb">compile</span><span class="o">=</span><span class="nb">compile</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>     <span class="p">)</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_lib.py:370,</span> in <span class="ni">load_model</span><span class="nt">(filepath, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">365</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">366</span>         <span class="s2">&quot;Invalid filename: expected a `.keras` extension. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">367</span>         <span class="sa">f</span><span class="s2">&quot;Received: filepath=</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">368</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">370</span>     <span class="k">return</span> <span class="n">_load_model_from_fileobj</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">371</span>         <span class="n">f</span><span class="p">,</span> <span class="n">custom_objects</span><span class="p">,</span> <span class="nb">compile</span><span class="p">,</span> <span class="n">safe_mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span>     <span class="p">)</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_lib.py:447,</span> in <span class="ni">_load_model_from_fileobj</span><span class="nt">(fileobj, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span> <span class="k">with</span> <span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">_CONFIG_FILENAME</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">445</span>     <span class="n">config_json</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">447</span> <span class="n">model</span> <span class="o">=</span> <span class="n">_model_from_config</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">448</span>     <span class="n">config_json</span><span class="p">,</span> <span class="n">custom_objects</span><span class="p">,</span> <span class="nb">compile</span><span class="p">,</span> <span class="n">safe_mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">451</span> <span class="n">all_filenames</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">namelist</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">452</span> <span class="n">extract_dir</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\saving_lib.py:436,</span> in <span class="ni">_model_from_config</span><span class="nt">(config_json, custom_objects, compile, safe_mode)</span>
+<span class="g g-Whitespace">    </span><span class="mi">434</span> <span class="c1"># Construct the model from the configuration file in the archive.</span>
+<span class="g g-Whitespace">    </span><span class="mi">435</span> <span class="k">with</span> <span class="n">ObjectSharingScope</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">436</span>     <span class="n">model</span> <span class="o">=</span> <span class="n">deserialize_keras_object</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">437</span>         <span class="n">config_dict</span><span class="p">,</span> <span class="n">custom_objects</span><span class="p">,</span> <span class="n">safe_mode</span><span class="o">=</span><span class="n">safe_mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">438</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">439</span> <span class="k">return</span> <span class="n">model</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\serialization_lib.py:694,</span> in <span class="ni">deserialize_keras_object</span><span class="nt">(config, custom_objects, safe_mode, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">691</span>     <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">692</span>         <span class="k">return</span> <span class="n">obj</span>
+<span class="ne">--&gt; </span><span class="mi">694</span> <span class="bp">cls</span> <span class="o">=</span> <span class="n">_retrieve_class_or_fn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span>     <span class="n">class_name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">696</span>     <span class="n">registered_name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span>     <span class="n">module</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span>     <span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span>     <span class="n">full_config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">700</span>     <span class="n">custom_objects</span><span class="o">=</span><span class="n">custom_objects</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">701</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">704</span>     <span class="k">return</span> <span class="bp">cls</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python312\site-packages\keras\src\saving\serialization_lib.py:804,</span> in <span class="ni">_retrieve_class_or_fn</span><span class="nt">(name, registered_name, module, obj_type, full_config, custom_objects)</span>
+<span class="g g-Whitespace">    </span><span class="mi">802</span>                 <span class="k">return</span> <span class="n">obj</span>
+<span class="g g-Whitespace">    </span><span class="mi">803</span>         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">804</span>             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">805</span>                 <span class="sa">f</span><span class="s2">&quot;Could not deserialize </span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; because &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">806</span>                 <span class="sa">f</span><span class="s2">&quot;its parent module </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> cannot be imported. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">807</span>                 <span class="sa">f</span><span class="s2">&quot;Full object config: </span><span class="si">{</span><span class="n">full_config</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">808</span>             <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">810</span> <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">811</span>     <span class="sa">f</span><span class="s2">&quot;Could not locate </span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s2"> &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">812</span>     <span class="s2">&quot;Make sure custom classes are decorated with &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">813</span>     <span class="s2">&quot;`@keras.saving.register_keras_serializable()`. &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">814</span>     <span class="sa">f</span><span class="s2">&quot;Full object config: </span><span class="si">{</span><span class="n">full_config</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">815</span> <span class="p">)</span>
+
+<span class="ne">TypeError</span>: Could not deserialize class &#39;Functional&#39; because its parent module keras.src.engine.functional cannot be imported. Full object config: {&#39;module&#39;: &#39;keras.src.engine.functional&#39;, &#39;class_name&#39;: &#39;Functional&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;SiameseModel&#39;, &#39;trainable&#39;: True, &#39;layers&#39;: [{&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;InputLayer&#39;, &#39;config&#39;: {&#39;batch_input_shape&#39;: [None, 1], &#39;dtype&#39;: &#39;string&#39;, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;name&#39;: &#39;input_1&#39;}, &#39;registered_name&#39;: None, &#39;name&#39;: &#39;input_1&#39;, &#39;inbound_nodes&#39;: []}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;InputLayer&#39;, &#39;config&#39;: {&#39;batch_input_shape&#39;: [None, 1], &#39;dtype&#39;: &#39;string&#39;, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;name&#39;: &#39;input_2&#39;}, &#39;registered_name&#39;: None, &#39;name&#39;: &#39;input_2&#39;, &#39;inbound_nodes&#39;: []}, {&#39;module&#39;: &#39;keras&#39;, &#39;class_name&#39;: &#39;Sequential&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;sequential&#39;, &#39;layers&#39;: [{&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;InputLayer&#39;, &#39;config&#39;: {&#39;batch_input_shape&#39;: [None], &#39;dtype&#39;: &#39;string&#39;, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;name&#39;: &#39;text_vectorization_input&#39;}, &#39;registered_name&#39;: None}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;TextVectorization&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;text_vectorization&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;string&#39;, &#39;batch_input_shape&#39;: [None], &#39;max_tokens&#39;: None, &#39;standardize&#39;: &#39;strip_punctuation&#39;, &#39;split&#39;: &#39;whitespace&#39;, &#39;ngrams&#39;: None, &#39;output_mode&#39;: &#39;int&#39;, &#39;output_sequence_length&#39;: None, &#39;pad_to_max_tokens&#39;: False, &#39;sparse&#39;: False, &#39;ragged&#39;: False, &#39;vocabulary&#39;: None, &#39;idf_weights&#39;: None, &#39;encoding&#39;: &#39;utf-8&#39;, &#39;vocabulary_size&#39;: 36224}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;Embedding&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;embedding&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;batch_input_shape&#39;: [None, None], &#39;input_dim&#39;: 36224, &#39;output_dim&#39;: 128, &#39;embeddings_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;RandomUniform&#39;, &#39;config&#39;: {&#39;minval&#39;: -0.05, &#39;maxval&#39;: 0.05, &#39;seed&#39;: None}, &#39;registered_name&#39;: None}, &#39;embeddings_regularizer&#39;: None, &#39;activity_regularizer&#39;: None, &#39;embeddings_constraint&#39;: None, &#39;mask_zero&#39;: False, &#39;input_length&#39;: None}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, None]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;LSTM&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;LSTM&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;return_sequences&#39;: True, &#39;return_state&#39;: False, &#39;go_backwards&#39;: False, &#39;stateful&#39;: False, &#39;unroll&#39;: False, &#39;time_major&#39;: False, &#39;units&#39;: 128, &#39;activation&#39;: &#39;tanh&#39;, &#39;recurrent_activation&#39;: &#39;sigmoid&#39;, &#39;use_bias&#39;: True, &#39;kernel_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;GlorotUniform&#39;, &#39;config&#39;: {&#39;seed&#39;: None}, &#39;registered_name&#39;: None, &#39;shared_object_id&#39;: 139904809072768}, &#39;recurrent_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;Orthogonal&#39;, &#39;config&#39;: {&#39;gain&#39;: 1.0, &#39;seed&#39;: None}, &#39;registered_name&#39;: None, &#39;shared_object_id&#39;: 139904809072912}, &#39;bias_initializer&#39;: {&#39;module&#39;: &#39;keras.initializers&#39;, &#39;class_name&#39;: &#39;Zeros&#39;, &#39;config&#39;: {}, &#39;registered_name&#39;: None, &#39;shared_object_id&#39;: 139904809073392}, &#39;unit_forget_bias&#39;: True, &#39;kernel_regularizer&#39;: None, &#39;recurrent_regularizer&#39;: None, &#39;bias_regularizer&#39;: None, &#39;activity_regularizer&#39;: None, &#39;kernel_constraint&#39;: None, &#39;recurrent_constraint&#39;: None, &#39;bias_constraint&#39;: None, &#39;dropout&#39;: 0.0, &#39;recurrent_dropout&#39;: 0.0, &#39;implementation&#39;: 2}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, None, 128]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;GlobalAveragePooling1D&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;mean&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;data_format&#39;: &#39;channels_last&#39;, &#39;keepdims&#39;: False}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, None, 128]}}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;Lambda&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;out&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;function&#39;: [&#39;4wEAAAAAAAAAAAAAAAEAAAAEAAAAUwAAAHMQAAAAdABqAWoCfABkAWQCjQJTACkDTukBAAAAKQHa\nBGF4aXMpA9oCdGbaBG1hdGjaDGwyX25vcm1hbGl6ZSkB2gF4qQByBwAAAPoiL3RtcC9pcHlrZXJu\nZWxfMTYyMzYvMjQ0OTMwMDM2Mi5wedoIPGxhbWJkYT4QAAAA8wAAAAA=\n&#39;, None, None], &#39;function_type&#39;: &#39;lambda&#39;, &#39;module&#39;: &#39;__main__&#39;, &#39;output_shape&#39;: None, &#39;output_shape_type&#39;: &#39;raw&#39;, &#39;output_shape_module&#39;: None, &#39;arguments&#39;: {}}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None, 128]}}]}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [None]}, &#39;name&#39;: &#39;sequential&#39;, &#39;inbound_nodes&#39;: [[[&#39;input_1&#39;, 0, 0, {}]], [[&#39;input_2&#39;, 0, 0, {}]]]}, {&#39;module&#39;: &#39;keras.layers&#39;, &#39;class_name&#39;: &#39;Concatenate&#39;, &#39;config&#39;: {&#39;name&#39;: &#39;conc_1_2&#39;, &#39;trainable&#39;: True, &#39;dtype&#39;: &#39;float32&#39;, &#39;axis&#39;: 1}, &#39;registered_name&#39;: None, &#39;build_config&#39;: {&#39;input_shape&#39;: [[None, 128], [None, 128]]}, &#39;name&#39;: &#39;conc_1_2&#39;, &#39;inbound_nodes&#39;: [[[&#39;sequential&#39;, 1, 0, {}], [&#39;sequential&#39;, 2, 0, {}]]]}], &#39;input_layers&#39;: [[&#39;input_1&#39;, 0, 0], [&#39;input_2&#39;, 0, 0]], &#39;output_layers&#39;: [[&#39;conc_1_2&#39;, 0, 0]]}, &#39;registered_name&#39;: &#39;Functional&#39;, &#39;build_config&#39;: {&#39;input_shape&#39;: [[None, 1], [None, 1]]}, &#39;compile_config&#39;: None}
 </pre></div>
 </div>
 </div>

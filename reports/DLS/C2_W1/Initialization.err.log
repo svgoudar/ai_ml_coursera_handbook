@@ -1,27 +1,17 @@
 Traceback (most recent call last):
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
-    asyncio.get_running_loop()
-RuntimeError: no running event loop
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
     executenb(
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 1319, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\asyncio\base_events.py", line 649, in run_until_complete
     return future.result()
-           ^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 709, in async_execute
     await self.async_execute_cell(
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
@@ -46,20 +36,20 @@ plt.rcParams['image.cmap'] = 'gray'
 ------------------
 
 
-[31m---------------------------------------------------------------------------[39m
-[31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 5[39m
-[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01msklearn[39;00m
-[32m      4[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01msklearn[39;00m[34;01m.[39;00m[34;01mdatasets[39;00m
-[32m----> [39m[32m5[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mpublic_tests[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m *
-[32m      6[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01minit_utils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m sigmoid, relu, compute_loss, forward_propagation, backward_propagation
-[32m      7[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01minit_utils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m update_parameters, predict, load_dataset, plot_decision_boundary, predict_dec
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [1;32mIn[2], line 5[0m
+[0;32m      3[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m
+[0;32m      4[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdatasets[39;00m
+[1;32m----> 5[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mpublic_tests[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m [38;5;241m*[39m
+[0;32m      6[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01minit_utils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m sigmoid, relu, compute_loss, forward_propagation, backward_propagation
+[0;32m      7[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01minit_utils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m update_parameters, predict, load_dataset, plot_decision_boundary, predict_dec
 
-[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\DLS\C2_W1\public_tests.py:2[39m
-[32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mnp[39;00m
-[32m----> [39m[32m2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mdlai_tools[39;00m[34;01m.[39;00m[34;01mtesting_utils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m single_test, multiple_test
-[32m      4[39m [38;5;28;01mdef[39;00m[38;5;250m [39m[34mcompute_cost_with_regularization_test[39m(target):
-[32m      5[39m     np.random.seed([32m1[39m)
+File [1;32mC:\Github\Coursera_Materials\coursera_notes\DLS\C2_W1\public_tests.py:2[0m
+[0;32m      1[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mnp[39;00m
+[1;32m----> 2[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mdlai_tools[39;00m[38;5;21;01m.[39;00m[38;5;21;01mtesting_utils[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m single_test, multiple_test
+[0;32m      4[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mcompute_cost_with_regularization_test[39m(target):
+[0;32m      5[0m     np[38;5;241m.[39mrandom[38;5;241m.[39mseed([38;5;241m1[39m)
 
-[31mModuleNotFoundError[39m: No module named 'dlai_tools'
+[1;31mModuleNotFoundError[0m: No module named 'dlai_tools'
 

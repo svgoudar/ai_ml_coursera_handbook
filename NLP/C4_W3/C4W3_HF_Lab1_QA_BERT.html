@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 4 Week 3: Question Answering</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -798,117 +801,6 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The task &quot;question-answering&quot; will return a QuestionAnsweringPipeline object</span>
 <span class="n">question_answerer</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s2">&quot;question-answering&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;distilbert-base-cased-distilled-squad&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">File</span> <span class="o">~</span>\<span class="n">Python</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">transformers</span>\<span class="n">activations_tf</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">22</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">22</span>     <span class="kn">import</span><span class="w"> </span><span class="nn">tf_keras</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">keras</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">except</span> <span class="p">(</span><span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;tf_keras&#39;
-
-<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
-
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># The task &quot;question-answering&quot; will return a QuestionAnsweringPipeline object</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">question_answerer</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s2">&quot;question-answering&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;distilbert-base-cased-distilled-squad&quot;</span><span class="p">)</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\transformers\pipelines\__init__.py:1027,</span> in <span class="ni">pipeline</span><span class="nt">(task, model, config, tokenizer, feature_extractor, image_processor, processor, framework, revision, use_fast, token, device, device_map, dtype, trust_remote_code, model_kwargs, pipeline_class, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1025</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="n">framework</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1026</span>     <span class="n">model_classes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tf&quot;</span><span class="p">:</span> <span class="n">targeted_task</span><span class="p">[</span><span class="s2">&quot;tf&quot;</span><span class="p">],</span> <span class="s2">&quot;pt&quot;</span><span class="p">:</span> <span class="n">targeted_task</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]}</span>
-<span class="ne">-&gt; </span><span class="mi">1027</span>     <span class="n">framework</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">infer_framework_load_model</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1028</span>         <span class="n">adapter_path</span> <span class="k">if</span> <span class="n">adapter_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">model</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1029</span>         <span class="n">model_classes</span><span class="o">=</span><span class="n">model_classes</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1030</span>         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1031</span>         <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1032</span>         <span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1033</span>         <span class="o">**</span><span class="n">hub_kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1034</span>         <span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1035</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1037</span> <span class="n">hub_kwargs</span><span class="p">[</span><span class="s2">&quot;_commit_hash&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">_commit_hash</span>
-<span class="g g-Whitespace">   </span><span class="mi">1039</span> <span class="c1"># Check which preprocessing classes the pipeline uses</span>
-<span class="g g-Whitespace">   </span><span class="mi">1040</span> <span class="c1"># None values indicate optional classes that the pipeline can run without, we don&#39;t raise errors if loading fails</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\transformers\pipelines\base.py:268,</span> in <span class="ni">infer_framework_load_model</span><span class="nt">(model, config, model_classes, task, framework, **model_kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">266</span>         <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_class</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">267</span> <span class="k">if</span> <span class="n">look_tf</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">268</span>     <span class="n">_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">transformers_module</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;TF</span><span class="si">{</span><span class="n">architecture</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">269</span>     <span class="k">if</span> <span class="n">_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">270</span>         <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_class</span><span class="p">)</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\transformers\utils\import_utils.py:2317,</span> in <span class="ni">_LazyModule.__getattr__</span><span class="nt">(self, name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2315</span> <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_class_to_module</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2316</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2317</span>         <span class="n">module</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_class_to_module</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
-<span class="g g-Whitespace">   </span><span class="mi">2318</span>         <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2319</span>     <span class="k">except</span> <span class="p">(</span><span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\transformers\utils\import_utils.py:2347,</span> in <span class="ni">_LazyModule._get_module</span><span class="nt">(self, module_name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2345</span>     <span class="k">return</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">module_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2346</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2347</span>     <span class="k">raise</span> <span class="n">e</span>
-
-<span class="nn">File ~\Python\Lib\site-packages\transformers\utils\import_utils.py:2345,</span> in <span class="ni">_LazyModule._get_module</span><span class="nt">(self, module_name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2343</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">2344</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2345</span>         <span class="k">return</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">module_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2346</span>     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2347</span>         <span class="k">raise</span> <span class="n">e</span>
-
-<span class="nn">File ~\Python\Lib\importlib\__init__.py:126,</span> in <span class="ni">import_module</span><span class="nt">(name, package)</span>
-<span class="g g-Whitespace">    </span><span class="mi">124</span>             <span class="k">break</span>
-<span class="g g-Whitespace">    </span><span class="mi">125</span>         <span class="n">level</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="ne">--&gt; </span><span class="mi">126</span> <span class="k">return</span> <span class="n">_bootstrap</span><span class="o">.</span><span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">level</span><span class="p">:],</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1204,</span> in <span class="ni">_gcd_import</span><span class="nt">(name, package, level)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1176,</span> in <span class="ni">_find_and_load</span><span class="nt">(name, import_)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1147,</span> in <span class="ni">_find_and_load_unlocked</span><span class="nt">(name, import_)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:690,</span> in <span class="ni">_load_unlocked</span><span class="nt">(spec)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap_external&gt;:940,</span> in <span class="ni">exec_module</span><span class="nt">(self, module)</span>
-
-<span class="nn">File &lt;frozen importlib._bootstrap&gt;:241,</span> in <span class="ni">_call_with_frames_removed</span><span class="nt">(f, *args, **kwds)</span>
-
-<span class="n">File</span> <span class="o">~</span>\<span class="n">Python</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">transformers</span>\<span class="n">models</span>\<span class="n">distilbert</span>\<span class="n">modeling_tf_distilbert</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">26</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
-<span class="ne">---&gt; </span><span class="mi">26</span> <span class="kn">from</span><span class="w"> </span><span class="nn">...activations_tf</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tf_activation</span>
-<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="kn">from</span><span class="w"> </span><span class="nn">...modeling_tf_outputs</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span>     <span class="n">TFBaseModelOutput</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span>     <span class="n">TFMaskedLMOutput</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">33</span>     <span class="n">TFTokenClassifierOutput</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="kn">from</span><span class="w"> </span><span class="nn">...modeling_tf_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">36</span>     <span class="n">TFMaskedLanguageModelingLoss</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">37</span>     <span class="n">TFModelInputType</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">46</span>     <span class="n">unpack_inputs</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="p">)</span>
-
-<span class="n">File</span> <span class="o">~</span>\<span class="n">Python</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">transformers</span>\<span class="n">activations_tf</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">27</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span>     <span class="kn">import</span><span class="w"> </span><span class="nn">keras</span>
-<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="k">if</span> <span class="n">parse</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span><span class="o">.</span><span class="n">major</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">27</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span>             <span class="s2">&quot;Your currently installed version of Keras is Keras 3, but this is not yet supported in &quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span>             <span class="s2">&quot;Transformers. Please install the backwards-compatible tf-keras package with &quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span>             <span class="s2">&quot;`pip install tf-keras`.&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">31</span>         <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="k">def</span><span class="w"> </span><span class="nf">_gelu</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">35</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">36</span><span class="sd">     Gaussian Error Linear Unit. Original Implementation of the gelu activation function in Google Bert repo when</span>
-<span class="g g-Whitespace">     </span><span class="mi">37</span><span class="sd">     initially created. For information: OpenAI GPT&#39;s gelu is slightly different (and gives slightly different results):</span>
-<span class="g g-Whitespace">     </span><span class="mi">38</span><span class="sd">     0.5 * x * (1 + torch.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * torch.pow(x, 3)))) Also see</span>
-<span class="g g-Whitespace">     </span><span class="mi">39</span><span class="sd">     https://huggingface.co/papers/1606.08415</span>
-<span class="g g-Whitespace">     </span><span class="mi">40</span><span class="sd">     &quot;&quot;&quot;</span>
-
-<span class="ne">ValueError</span>: Your currently installed version of Keras is Keras 3, but this is not yet supported in Transformers. Please install the backwards-compatible tf-keras package with `pip install tf-keras`.
 </pre></div>
 </div>
 </div>

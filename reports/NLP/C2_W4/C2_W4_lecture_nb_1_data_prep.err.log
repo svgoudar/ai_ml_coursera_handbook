@@ -1,27 +1,17 @@
 Traceback (most recent call last):
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
-    asyncio.get_running_loop()
-RuntimeError: no running event loop
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
     executenb(
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 1319, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\asyncio\base_events.py", line 649, in run_until_complete
     return future.result()
-           ^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 709, in async_execute
     await self.async_execute_cell(
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+  File "C:\Users\sangouda\AppData\Local\anaconda3\envs\myenv\lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
@@ -43,29 +33,29 @@ print(f'After cleaning:  {data}')
 Initial list of tokens:  ['Who', '❤️', '``', 'word', 'embeddings', "''", 'in', '2020', '.', 'I', 'do', '.']
 ------------------
 
-[31m---------------------------------------------------------------------------[39m
-[31mAttributeError[39m                            Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 5[39m
-[32m      2[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mInitial list of tokens:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
-[32m      4[39m [38;5;66;03m# Filter tokenized corpus using list comprehension[39;00m
-[32m----> [39m[32m5[39m data = [43m[[49m[43m [49m[43mch[49m[43m.[49m[43mlower[49m[43m([49m[43m)[49m[43m [49m[38;5;28;43;01mfor[39;49;00m[43m [49m[43mch[49m[43m [49m[38;5;129;43;01min[39;49;00m[43m [49m[43mdata[49m
-[32m      6[39m [43m         [49m[38;5;28;43;01mif[39;49;00m[43m [49m[43mch[49m[43m.[49m[43misalpha[49m[43m([49m[43m)[49m
-[32m      7[39m [43m         [49m[38;5;129;43;01mor[39;49;00m[43m [49m[43mch[49m[43m [49m[43m==[49m[43m [49m[33;43m'[39;49m[33;43m.[39;49m[33;43m'[39;49m
-[32m      8[39m [43m         [49m[38;5;129;43;01mor[39;49;00m[43m [49m[43memoji[49m[43m.[49m[43mget_emoji_regexp[49m[43m([49m[43m)[49m[43m.[49m[43msearch[49m[43m([49m[43mch[49m[43m)[49m
-[32m      9[39m [43m       [49m[43m][49m
-[32m     11[39m [38;5;66;03m# Print the tokenized and filtered version of the corpus[39;00m
-[32m     12[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mAfter cleaning:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mAttributeError[0m                            Traceback (most recent call last)
+Cell [1;32mIn[5], line 5[0m
+[0;32m      2[0m [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m'[39m[38;5;124mInitial list of tokens:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[38;5;124m'[39m)
+[0;32m      4[0m [38;5;66;03m# Filter tokenized corpus using list comprehension[39;00m
+[1;32m----> 5[0m data [38;5;241m=[39m [ ch[38;5;241m.[39mlower() [38;5;28;01mfor[39;00m ch [38;5;129;01min[39;00m data
+[0;32m      6[0m          [38;5;28;01mif[39;00m ch[38;5;241m.[39misalpha()
+[0;32m      7[0m          [38;5;129;01mor[39;00m ch [38;5;241m==[39m [38;5;124m'[39m[38;5;124m.[39m[38;5;124m'[39m
+[0;32m      8[0m          [38;5;129;01mor[39;00m emoji[38;5;241m.[39mget_emoji_regexp()[38;5;241m.[39msearch(ch)
+[0;32m      9[0m        ]
+[0;32m     11[0m [38;5;66;03m# Print the tokenized and filtered version of the corpus[39;00m
+[0;32m     12[0m [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m'[39m[38;5;124mAfter cleaning:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[38;5;124m'[39m)
 
-[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 8[39m, in [36m<listcomp>[39m[34m(.0)[39m
-[32m      2[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mInitial list of tokens:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
-[32m      4[39m [38;5;66;03m# Filter tokenized corpus using list comprehension[39;00m
-[32m      5[39m data = [ ch.lower() [38;5;28;01mfor[39;00m ch [38;5;129;01min[39;00m data
-[32m      6[39m          [38;5;28;01mif[39;00m ch.isalpha()
-[32m      7[39m          [38;5;129;01mor[39;00m ch == [33m'[39m[33m.[39m[33m'[39m
-[32m----> [39m[32m8[39m          [38;5;129;01mor[39;00m [43memoji[49m[43m.[49m[43mget_emoji_regexp[49m().search(ch)
-[32m      9[39m        ]
-[32m     11[39m [38;5;66;03m# Print the tokenized and filtered version of the corpus[39;00m
-[32m     12[39m [38;5;28mprint[39m([33mf[39m[33m'[39m[33mAfter cleaning:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[33m'[39m)
+Cell [1;32mIn[5], line 8[0m, in [0;36m<listcomp>[1;34m(.0)[0m
+[0;32m      2[0m [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m'[39m[38;5;124mInitial list of tokens:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[38;5;124m'[39m)
+[0;32m      4[0m [38;5;66;03m# Filter tokenized corpus using list comprehension[39;00m
+[0;32m      5[0m data [38;5;241m=[39m [ ch[38;5;241m.[39mlower() [38;5;28;01mfor[39;00m ch [38;5;129;01min[39;00m data
+[0;32m      6[0m          [38;5;28;01mif[39;00m ch[38;5;241m.[39misalpha()
+[0;32m      7[0m          [38;5;129;01mor[39;00m ch [38;5;241m==[39m [38;5;124m'[39m[38;5;124m.[39m[38;5;124m'[39m
+[1;32m----> 8[0m          [38;5;129;01mor[39;00m [43memoji[49m[38;5;241;43m.[39;49m[43mget_emoji_regexp[49m()[38;5;241m.[39msearch(ch)
+[0;32m      9[0m        ]
+[0;32m     11[0m [38;5;66;03m# Print the tokenized and filtered version of the corpus[39;00m
+[0;32m     12[0m [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m'[39m[38;5;124mAfter cleaning:  [39m[38;5;132;01m{[39;00mdata[38;5;132;01m}[39;00m[38;5;124m'[39m)
 
-[31mAttributeError[39m: module 'emoji' has no attribute 'get_emoji_regexp'
+[1;31mAttributeError[0m: module 'emoji' has no attribute 'get_emoji_regexp'
 

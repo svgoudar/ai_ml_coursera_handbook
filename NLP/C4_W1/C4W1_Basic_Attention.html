@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -814,36 +817,63 @@ are the weight matrices and <span class="math notranslate nohighlight">\(n\)</sp
 <p>Then, apply the first layer as a matrix multiplication between the weights and the concatenated input. Use the tanh function to get the activations. Finally, compute the matrix multiplication of the second layer weights and the activations. This returns the alignment scores.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">16</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">16</span>
 <span class="n">attention_size</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">input_length</span> <span class="o">=</span> <span class="mi">5</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="c1"># Synthetic vectors used to test</span>
+<span class="c1"># Synthetic vectors</span>
 <span class="n">encoder_states</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_length</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
 <span class="n">decoder_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
 
-<span class="c1"># Weights for the neural network, these are typically learned through training</span>
-<span class="c1"># Use these in the alignment function below as the layer weights</span>
+<span class="c1"># Neural network weights</span>
 <span class="n">layer_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">attention_size</span><span class="p">)</span>
 <span class="n">layer_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">attention_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># Implement this function. Replace None with your code. Solution at the bottom of the notebook</span>
+<span class="c1"># Alignment function</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">alignment</span><span class="p">(</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">):</span>
-    <span class="c1"># First, concatenate the encoder states and the decoder state</span>
-    <span class="n">inputs</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute attention scores between encoder states and a decoder state.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        encoder_states: (input_length, hidden_size)</span>
+<span class="sd">        decoder_state: (1, hidden_size)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        scores: (input_length, 1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># 1. Concatenate encoder states with decoder state for each time step</span>
+    <span class="c1"># Repeat decoder_state input_length times along axis 0</span>
+    <span class="n">decoder_repeated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">decoder_state</span><span class="p">,</span> <span class="n">input_length</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (input_length, hidden_size)</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_repeated</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (input_length, 2*hidden_size)</span>
     <span class="k">assert</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">input_length</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">)</span>
-    
-    <span class="c1"># Matrix multiplication of the concatenated inputs and layer_1, with tanh activation</span>
-    <span class="n">activations</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># 2. First linear layer + tanh activation</span>
+    <span class="n">activations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">layer_1</span><span class="p">))</span>  <span class="c1"># (input_length, attention_size)</span>
     <span class="k">assert</span> <span class="n">activations</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">input_length</span><span class="p">,</span> <span class="n">attention_size</span><span class="p">)</span>
-    
-    <span class="c1"># Matrix multiplication of the activations with layer_2. Remember that you don&#39;t need tanh here</span>
-    <span class="n">scores</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># 3. Second linear layer to get unnormalized attention scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">activations</span><span class="p">,</span> <span class="n">layer_2</span><span class="p">)</span>  <span class="c1"># (input_length, 1)</span>
     <span class="k">assert</span> <span class="n">scores</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">input_length</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    
+
     <span class="k">return</span> <span class="n">scores</span>
+
+<span class="c1"># Test</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">alignment</span><span class="p">(</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[4.35790943]
+ [5.92373433]
+ [4.18673175]
+ [2.11437202]
+ [0.95767155]]
 </pre></div>
 </div>
 </div>
@@ -857,22 +887,11 @@ are the weight matrices and <span class="math notranslate nohighlight">\(n\)</sp
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Run this to test your alignment function</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">alignment</span><span class="p">(</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-
-<span class="nn">Cell In[2], line 20,</span> in <span class="ni">alignment</span><span class="nt">(encoder_states, decoder_state)</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="k">def</span><span class="w"> </span><span class="nf">alignment</span><span class="p">(</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="c1"># First, concatenate the encoder states and the decoder state</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">inputs</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="ne">---&gt; </span><span class="mi">20</span>     <span class="k">assert</span> <span class="n">inputs</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">input_length</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="c1"># Matrix multiplication of the concatenated inputs and layer_1, with tanh activation</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span>     <span class="n">activations</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="ne">AttributeError</span>: &#39;NoneType&#39; object has no attribute &#39;shape&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[4.35790943]
+ [5.92373433]
+ [4.18673175]
+ [2.11437202]
+ [0.95767155]]
 </pre></div>
 </div>
 </div>
@@ -904,30 +923,45 @@ are the weight matrices and <span class="math notranslate nohighlight">\(n\)</sp
 <p>Implement these steps in the <code class="docutils literal notranslate"><span class="pre">attention</span></code> function below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Implement this function. Replace None with your code.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">attention</span><span class="p">(</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Example function that calculates attention, returns the context vector </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate attention context vector.</span>
 <span class="sd">    </span>
-<span class="sd">        Arguments:</span>
-<span class="sd">        encoder_vectors: NxM numpy array, where N is the number of vectors and M is the vector length</span>
-<span class="sd">        decoder_vector: 1xM numpy array, M is the vector length, much be the same M as encoder_vectors</span>
-<span class="sd">    &quot;&quot;&quot;</span> 
-    
-    <span class="c1"># First, calculate the alignment scores</span>
-    <span class="n">scores</span> <span class="o">=</span> <span class="kc">None</span>
-    
-    <span class="c1"># Then take the softmax of the alignment scores to get a weight distribution</span>
-    <span class="n">weights</span> <span class="o">=</span> <span class="kc">None</span>
-    
-    <span class="c1"># Multiply each encoder state by its respective weight</span>
-    <span class="n">weighted_scores</span> <span class="o">=</span> <span class="kc">None</span>
-    
-    <span class="c1"># Sum up weighted alignment vectors to get the context vector and return it</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="sd">    Args:</span>
+<span class="sd">        encoder_states: (input_length, hidden_size)</span>
+<span class="sd">        decoder_state: (1, hidden_size)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        context: (hidden_size,) context vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 1. Compute alignment scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">alignment</span><span class="p">(</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">)</span>  <span class="c1"># (input_length, 1)</span>
+
+    <span class="c1"># 2. Softmax to get attention weights</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (input_length, 1)</span>
+
+    <span class="c1"># 3. Multiply each encoder state by its weight</span>
+    <span class="n">weighted_scores</span> <span class="o">=</span> <span class="n">encoder_states</span> <span class="o">*</span> <span class="n">weights</span>  <span class="c1"># broadcasting (input_length, hidden_size)</span>
+
+    <span class="c1"># 4. Sum over time steps to get context vector</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weighted_scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (hidden_size,)</span>
+
     <span class="k">return</span> <span class="n">context</span>
 
+<span class="c1"># Test</span>
 <span class="n">context_vector</span> <span class="o">=</span> <span class="n">attention</span><span class="p">(</span><span class="n">encoder_states</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Context vector shape:&quot;</span><span class="p">,</span> <span class="n">context_vector</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">context_vector</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Context vector shape: (16,)
+[-0.63514569  0.04917298 -0.43930867 -0.9268003   1.01903919 -0.43181409
+  0.13365099 -0.84746874 -0.37572203  0.18279832 -0.90452701  0.17872958
+ -0.58015282 -0.58294027 -0.75457577  1.32985756]
 </pre></div>
 </div>
 </div>
@@ -1001,16 +1035,16 @@ are the weight matrices and <span class="math notranslate nohighlight">\(n\)</sp
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "myenv"
         },
         kernelOptions: {
-            name: "python3",
+            name: "myenv",
             path: "./NLP\C4_W1"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'myenv'</script>
 
                 </article>
               

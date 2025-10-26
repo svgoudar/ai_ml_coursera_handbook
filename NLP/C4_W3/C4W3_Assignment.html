@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../MLS/C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../MLS/C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 4 Week 3: Question Answering</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -881,6 +884,109 @@ document.write(`
 <section id="importing-the-packages">
 <h2><a class="toc-backref" href="#id6" role="doc-backlink">Importing the Packages</a><a class="headerlink" href="#importing-the-packages" title="Link to this heading">#</a></h2>
 <p>Let’s start by importing all the required libraries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">tensorflow</span><span class="o">==</span><span class="m">2</span>.16.1
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting tensorflow==2.16.1
+  Using cached tensorflow-2.16.1-cp312-cp312-win_amd64.whl.metadata (3.5 kB)
+Collecting tensorflow-intel==2.16.1 (from tensorflow==2.16.1)
+  Using cached tensorflow_intel-2.16.1-cp312-cp312-win_amd64.whl.metadata (5.0 kB)
+Requirement already satisfied: absl-py&gt;=1.0.0 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (2.3.1)
+Requirement already satisfied: astunparse&gt;=1.6.0 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (1.6.3)
+Requirement already satisfied: flatbuffers&gt;=23.5.26 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (25.9.23)
+Requirement already satisfied: gast!=0.5.0,!=0.5.1,!=0.5.2,&gt;=0.2.1 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (0.6.0)
+Requirement already satisfied: google-pasta&gt;=0.1.1 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (0.2.0)
+Requirement already satisfied: h5py&gt;=3.10.0 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.14.0)
+Requirement already satisfied: libclang&gt;=13.0.0 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (18.1.1)
+Collecting ml-dtypes~=0.3.1 (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1)
+  Using cached ml_dtypes-0.3.2-cp312-cp312-win_amd64.whl.metadata (20 kB)
+Requirement already satisfied: opt-einsum&gt;=2.3.2 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.4.0)
+Requirement already satisfied: packaging in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (25.0)
+Collecting protobuf!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,&lt;5.0.0dev,&gt;=3.20.3 (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1)
+  Using cached protobuf-4.25.8-cp310-abi3-win_amd64.whl.metadata (541 bytes)
+Requirement already satisfied: requests&lt;3,&gt;=2.21.0 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (2.32.5)
+Requirement already satisfied: setuptools in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (80.9.0)
+Requirement already satisfied: six&gt;=1.12.0 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (1.17.0)
+Requirement already satisfied: termcolor&gt;=1.1.0 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.1.0)
+Requirement already satisfied: typing-extensions&gt;=3.6.6 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (4.15.0)
+Requirement already satisfied: wrapt&gt;=1.11.0 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (2.0.0)
+Requirement already satisfied: grpcio&lt;2.0,&gt;=1.24.3 in c:\users\sangouda\python_apps\lib\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (1.76.0)
+Collecting tensorboard&lt;2.17,&gt;=2.16 (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1)
+  Using cached tensorboard-2.16.2-py3-none-any.whl.metadata (1.6 kB)
+Requirement already satisfied: keras&gt;=3.0.0 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.10.0)
+Collecting numpy&lt;2.0.0,&gt;=1.26.0 (from tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1)
+  Downloading numpy-1.26.4-cp312-cp312-win_amd64.whl.metadata (61 kB)
+Requirement already satisfied: wheel&lt;1.0,&gt;=0.23.0 in c:\users\sangouda\python_apps\lib\site-packages (from astunparse&gt;=1.6.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (0.45.1)
+Requirement already satisfied: rich in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from keras&gt;=3.0.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (14.0.0)
+Requirement already satisfied: namex in c:\users\sangouda\python_apps\lib\site-packages (from keras&gt;=3.0.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (0.1.0)
+Requirement already satisfied: optree in c:\users\sangouda\python_apps\lib\site-packages (from keras&gt;=3.0.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (0.17.0)
+Requirement already satisfied: charset_normalizer&lt;4,&gt;=2 in c:\users\sangouda\python_apps\lib\site-packages (from requests&lt;3,&gt;=2.21.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.4.4)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\sangouda\python_apps\lib\site-packages (from requests&lt;3,&gt;=2.21.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.11)
+Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\sangouda\python_apps\lib\site-packages (from requests&lt;3,&gt;=2.21.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (2.5.0)
+Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\sangouda\python_apps\lib\site-packages (from requests&lt;3,&gt;=2.21.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (2025.10.5)
+Requirement already satisfied: markdown&gt;=2.6.8 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from tensorboard&lt;2.17,&gt;=2.16-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.8.2)
+Requirement already satisfied: tensorboard-data-server&lt;0.8.0,&gt;=0.7.0 in c:\users\sangouda\python_apps\lib\site-packages (from tensorboard&lt;2.17,&gt;=2.16-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (0.7.2)
+Requirement already satisfied: werkzeug&gt;=1.0.1 in c:\users\sangouda\python_apps\lib\site-packages (from tensorboard&lt;2.17,&gt;=2.16-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.1.3)
+Requirement already satisfied: MarkupSafe&gt;=2.1.1 in c:\users\sangouda\python_apps\lib\site-packages (from werkzeug&gt;=1.0.1-&gt;tensorboard&lt;2.17,&gt;=2.16-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (3.0.3)
+Requirement already satisfied: markdown-it-py&gt;=2.2.0 in c:\users\sangouda\python_apps\lib\site-packages (from rich-&gt;keras&gt;=3.0.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (4.0.0)
+Requirement already satisfied: pygments&lt;3.0.0,&gt;=2.13.0 in c:\users\sangouda\python_apps\lib\site-packages (from rich-&gt;keras&gt;=3.0.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (2.19.2)
+Requirement already satisfied: mdurl~=0.1 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from markdown-it-py&gt;=2.2.0-&gt;rich-&gt;keras&gt;=3.0.0-&gt;tensorflow-intel==2.16.1-&gt;tensorflow==2.16.1) (0.1.2)
+Using cached tensorflow-2.16.1-cp312-cp312-win_amd64.whl (2.1 kB)
+Using cached tensorflow_intel-2.16.1-cp312-cp312-win_amd64.whl (377.1 MB)
+Using cached ml_dtypes-0.3.2-cp312-cp312-win_amd64.whl (128 kB)
+Downloading numpy-1.26.4-cp312-cp312-win_amd64.whl (15.5 MB)
+   ---------------------------------------- 0.0/15.5 MB ? eta -:--:--
+   ---------------------------------------- 0.0/15.5 MB ? eta -:--:--
+   ---- ----------------------------------- 1.8/15.5 MB 7.7 MB/s eta 0:00:02
+   -------- ------------------------------- 3.4/15.5 MB 7.5 MB/s eta 0:00:02
+   ------------ --------------------------- 5.0/15.5 MB 7.7 MB/s eta 0:00:02
+   ------------------ --------------------- 7.1/15.5 MB 8.2 MB/s eta 0:00:02
+   ----------------------- ---------------- 9.2/15.5 MB 8.5 MB/s eta 0:00:01
+   --------------------------- ------------ 10.7/15.5 MB 8.6 MB/s eta 0:00:01
+   --------------------------------- ------ 12.8/15.5 MB 8.7 MB/s eta 0:00:01
+   -------------------------------------- - 14.9/15.5 MB 8.8 MB/s eta 0:00:01
+   ---------------------------------------- 15.5/15.5 MB 8.4 MB/s eta 0:00:00
+Using cached protobuf-4.25.8-cp310-abi3-win_amd64.whl (413 kB)
+Using cached tensorboard-2.16.2-py3-none-any.whl (5.5 MB)
+Installing collected packages: protobuf, numpy, tensorboard, ml-dtypes, tensorflow-intel, tensorflow
+  Attempting uninstall: protobuf
+    Found existing installation: protobuf 6.33.0
+    Uninstalling protobuf-6.33.0:
+      Successfully uninstalled protobuf-6.33.0
+  Attempting uninstall: numpy
+    Found existing installation: numpy 2.3.4
+    Uninstalling numpy-2.3.4:
+      Successfully uninstalled numpy-2.3.4
+  Attempting uninstall: tensorboard
+    Found existing installation: tensorboard 2.20.0
+    Uninstalling tensorboard-2.20.0:
+      Successfully uninstalled tensorboard-2.20.0
+  Attempting uninstall: ml-dtypes
+    Found existing installation: ml_dtypes 0.5.3
+    Uninstalling ml_dtypes-0.5.3:
+      Successfully uninstalled ml_dtypes-0.5.3
+Successfully installed ml-dtypes-0.3.2 numpy-1.26.4 protobuf-4.25.8 tensorboard-2.16.2 tensorflow-2.16.1 tensorflow-intel-2.16.1
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  WARNING: Failed to remove contents in a temporary directory &#39;C:\Users\sangouda\python_apps\Lib\site-packages\google\~upb&#39;.
+  You can safely remove it manually.
+  WARNING: Failed to remove contents in a temporary directory &#39;C:\Users\sangouda\python_apps\Lib\site-packages\~umpy.libs&#39;.
+  You can safely remove it manually.
+  WARNING: Failed to remove contents in a temporary directory &#39;C:\Users\sangouda\python_apps\Lib\site-packages\~umpy&#39;.
+  You can safely remove it manually.
+  WARNING: Failed to remove contents in a temporary directory &#39;C:\Users\sangouda\python_apps\Lib\site-packages\~l_dtypes&#39;.
+  You can safely remove it manually.
+
+[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell tag_graded docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -894,7 +1000,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow_text</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf_text</span>
+<span class="c1"># import tensorflow_text as tf_text</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">transformer_utils</span> 
@@ -908,17 +1014,36 @@ document.write(`
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>dlai_grader
+</pre></div>
+</div>
+</div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">12</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="ne">---&gt; </span><span class="mi">12</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow_text</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf_text</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="kn">import</span><span class="w"> </span><span class="nn">transformer_utils</span> 
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;tensorflow_text&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: dlai_grader in c:\users\sangouda\python_apps\lib\site-packages (1.22.2)
+Requirement already satisfied: nbformat&gt;=5.1.3 in c:\users\sangouda\python_apps\lib\site-packages (from dlai_grader) (5.10.4)
+Requirement already satisfied: jupytext&gt;=1.13.0 in c:\users\sangouda\python_apps\lib\site-packages (from dlai_grader) (1.18.1)
+Requirement already satisfied: markdown-it-py&gt;=1.0 in c:\users\sangouda\python_apps\lib\site-packages (from jupytext&gt;=1.13.0-&gt;dlai_grader) (4.0.0)
+Requirement already satisfied: mdit-py-plugins in c:\users\sangouda\python_apps\lib\site-packages (from jupytext&gt;=1.13.0-&gt;dlai_grader) (0.5.0)
+Requirement already satisfied: packaging in c:\users\sangouda\python_apps\lib\site-packages (from jupytext&gt;=1.13.0-&gt;dlai_grader) (25.0)
+Requirement already satisfied: pyyaml in c:\users\sangouda\python_apps\lib\site-packages (from jupytext&gt;=1.13.0-&gt;dlai_grader) (6.0.3)
+Requirement already satisfied: fastjsonschema&gt;=2.15 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (2.21.2)
+Requirement already satisfied: jsonschema&gt;=2.6 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (4.25.1)
+Requirement already satisfied: jupyter-core!=5.0.*,&gt;=4.12 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (5.9.1)
+Requirement already satisfied: traitlets&gt;=5.1 in c:\users\sangouda\python_apps\lib\site-packages (from nbformat&gt;=5.1.3-&gt;dlai_grader) (5.14.3)
+Requirement already satisfied: attrs&gt;=22.2.0 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (25.4.0)
+Requirement already satisfied: jsonschema-specifications&gt;=2023.03.6 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (2025.9.1)
+Requirement already satisfied: referencing&gt;=0.28.4 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (0.37.0)
+Requirement already satisfied: rpds-py&gt;=0.7.1 in c:\users\sangouda\python_apps\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (0.27.1)
+Requirement already satisfied: platformdirs&gt;=2.5 in c:\users\sangouda\python_apps\lib\site-packages (from jupyter-core!=5.0.*,&gt;=4.12-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (4.5.0)
+Requirement already satisfied: mdurl~=0.1 in c:\users\sangouda\appdata\roaming\python\python312\site-packages (from markdown-it-py&gt;=1.0-&gt;jupytext&gt;=1.13.0-&gt;dlai_grader) (0.1.2)
+Requirement already satisfied: typing-extensions&gt;=4.4.0 in c:\users\sangouda\python_apps\lib\site-packages (from referencing&gt;=0.28.4-&gt;jsonschema&gt;=2.6-&gt;nbformat&gt;=5.1.3-&gt;dlai_grader) (4.15.0)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
 </pre></div>
 </div>
 </div>
@@ -926,6 +1051,23 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">w3_unittest</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">w3_unittest</span>
+
+<span class="n">File</span> <span class="n">c</span><span class="p">:</span>\<span class="n">Github</span>\<span class="n">Coursera_Materials</span>\<span class="n">coursera_notes</span>\<span class="n">NLP</span>\<span class="n">C4_W3</span>\<span class="n">w3_unittest</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiHeadAttention</span><span class="p">,</span> <span class="n">ReLU</span><span class="p">,</span> <span class="n">Attention</span><span class="p">,</span> <span class="n">LayerNormalization</span><span class="p">,</span> <span class="n">Input</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow_text</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf_text</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">from</span><span class="w"> </span><span class="nn">dlai_grader.grading</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_case</span><span class="p">,</span> <span class="n">object_to_grade</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModuleType</span><span class="p">,</span> <span class="n">FunctionType</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;tensorflow_text&#39;
 </pre></div>
 </div>
 </div>
@@ -990,6 +1132,19 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Grab text field from dictionary</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">natural_language_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">example_json</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">example_json</span> <span class="ow">in</span> <span class="n">example_jsons</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Print the first text example</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="nb">print</span><span class="p">(</span><span class="n">natural_language_texts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="ne">NameError</span>: name &#39;example_jsons&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <p><a name='1-4'></a></p>
 </section>
@@ -1002,10 +1157,25 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Special tokens</span>
 <span class="c1"># PAD, EOS = 0, 1</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;./models/sentencepiece.model&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">pre_trained_tokenizer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="c1"># with open(&quot;./models/sentencepiece.model&quot;, &quot;rb&quot;) as f:</span>
+<span class="c1">#     pre_trained_tokenizer = f.read()</span>
     
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tf_text</span><span class="o">.</span><span class="n">SentencepieceTokenizer</span><span class="p">(</span><span class="n">pre_trained_tokenizer</span><span class="p">,</span> <span class="n">out_type</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="c1"># tokenizer = tf_text.SentencepieceTokenizer(pre_trained_tokenizer, out_type=tf.int32)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sentencepiece</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spm</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">spm</span><span class="o">.</span><span class="n">SentencePieceProcessor</span><span class="p">(</span><span class="n">model_file</span><span class="o">=</span><span class="s2">&quot;./models/sentencepiece.model&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import sentencepiece as spm</span>
+<span class="c1"># sp = spm.SentencePieceProcessor(model_file=&quot;./models/sentencepiece.model&quot;)</span>
+
+<span class="c1"># # Encode a sentence into integer IDs</span>
+<span class="c1"># sentence = &quot;Hello world!&quot;</span>
+<span class="c1"># ids = sp.encode(sentence, out_type=int)</span>
 </pre></div>
 </div>
 </div>
@@ -1013,9 +1183,14 @@ document.write(`
 <p>In this tokenizer the string <code class="docutils literal notranslate"><span class="pre">&lt;/s&gt;</span></code> is used as <code class="docutils literal notranslate"><span class="pre">EOS</span></code> token. By default, the tokenizer does not add the <code class="docutils literal notranslate"><span class="pre">EOS</span></code> to the end of each sentence, so you need to add it manually when required. Let’s verify what id correspond to this token:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">string_to_id</span><span class="p">(</span><span class="s2">&quot;&lt;/s&gt;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">PieceToId</span><span class="p">(</span><span class="s2">&quot;&lt;/s&gt;&quot;</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EOS: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">eos</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EOS: 1
 </pre></div>
 </div>
 </div>
@@ -1030,6 +1205,19 @@ document.write(`
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">tokenized_text</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">element</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}</span><span class="se">\t</span><span class="s2">--&gt;</span><span class="se">\t</span><span class="si">{</span><span class="n">element</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># printing the encoding of each word to see how subwords are tokenized</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">tokenized_text</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">list</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()),</span> <span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">natural_language_texts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Word</span><span class="se">\t\t</span><span class="s2">--&gt;</span><span class="se">\t</span><span class="s2">Tokenization&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;natural_language_texts&#39; is not defined
 </pre></div>
 </div>
 </div>

@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -1191,14 +1194,21 @@ Number of training examples (m): 10
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># You need to return the following variables correctly</span>
     <span class="n">entropy</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Your code here to calculate the fraction of edible examples (i.e with value = 1 in y)</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                
+        <span class="c1"># For p1 = 0 and 1, set the entropy to 0 (to handle 0log0)</span>
+        <span class="k">if</span> <span class="n">p1</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">p1</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Your code here to calculate the entropy using the formula provided above</span>
+            <span class="n">entropy</span> <span class="o">=</span> <span class="o">-</span><span class="n">p1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">entropy</span> <span class="o">=</span> <span class="mf">0.</span> 
+    <span class="c1">### END CODE HERE ###        </span>
+
     
     <span class="c1">### START CODE HERE ###</span>
     
-        
-        
-            
-        
-            
     <span class="c1">### END CODE HERE ###        </span>
     
     <span class="k">return</span> <span class="n">entropy</span>
@@ -1222,10 +1232,10 @@ Number of training examples (m): 10
 </ul>
 </li>
 </ul>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt; Click for more hints&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-    
-* Here&#39;s how you can structure the overall implementation for this function
+<details>
+          <summary><font size="2" color="darkblue"><b> Click for more hints</b></font></summary>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* Here&#39;s how you can structure the overall implementation for this function
+
 ```python 
 def compute_entropy(y):
     
@@ -1249,20 +1259,17 @@ def compute_entropy(y):
 ```
 
 If you&#39;re still stuck, you can check the hints presented below to figure out how to calculate `p1` and `entropy`.
-
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate p1&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-       &amp;emsp; &amp;emsp; You can compute p1 as &lt;code&gt;p1 = len(y[y == 1]) / len(y) &lt;/code&gt;
-&lt;/details&gt;
-
- &lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate entropy&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-      &amp;emsp; &amp;emsp; You can compute entropy as &lt;code&gt;entropy = -p1 * np.log2(p1) - (1 - p1) * np.log2(1 - p1)&lt;/code&gt;
-&lt;/details&gt;
-    
-&lt;/details&gt;
 </pre></div>
 </div>
+   <details>
+          <summary><font size="2" color="darkblue"><b>Hint to calculate p1</b></font></summary>
+           &emsp; &emsp; You can compute p1 as <code>p1 = len(y[y == 1]) / len(y) </code>
+    </details>
+   <details>
+          <summary><font size="2" color="darkblue"><b>Hint to calculate entropy</b></font></summary>
+          &emsp; &emsp; You can compute entropy as <code>entropy = -p1 * np.log2(p1) - (1 - p1) * np.log2(1 - p1)</code>
+    </details>
+   </details>
 </details>
 <p>You can check if your implementation was correct by running the following test code:</p>
 <div class="cell docutils container">
@@ -1278,24 +1285,8 @@ If you&#39;re still stuck, you can check the hints presented below to figure out
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entropy at root node:  0.0
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Entropy at root node: &quot;</span><span class="p">,</span> <span class="n">compute_entropy</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span> 
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># UNIT TESTS</span>
-<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">compute_entropy_test</span><span class="p">(</span><span class="n">compute_entropy</span><span class="p">)</span>
-
-<span class="nn">File C:\Github\Coursera_Materials\coursera_notes\MLS\C2_W4\public_tests.py:17,</span> in <span class="ni">compute_entropy_test</span><span class="nt">(target)</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">result</span> <span class="o">=</span> <span class="n">target</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">17</span> <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Entropy must be 1 with same ammount of ones and zeros&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mf">0.918295</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">),</span> <span class="s2">&quot;Wrong value. Something between 0 and 1&quot;</span>
-
-<span class="ne">AssertionError</span>: Entropy must be 1 with same ammount of ones and zeros
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entropy at root node:  1.0
+ All tests passed. 
 </pre></div>
 </div>
 </div>
@@ -1442,11 +1433,11 @@ If you&#39;re still stuck, you can check the hints presented below to figure out
     <span class="n">right_indices</span> <span class="o">=</span> <span class="p">[]</span>
     
     <span class="c1">### START CODE HERE ###</span>
-    
-        
-            
-        
-            
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">node_indices</span><span class="p">:</span>   
+        <span class="k">if</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">feature</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">left_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">right_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="c1">### END CODE HERE ###</span>
         
     <span class="k">return</span> <span class="n">left_indices</span><span class="p">,</span> <span class="n">right_indices</span>
@@ -1477,16 +1468,57 @@ def split_dataset(X, node_indices, feature):
     
 return left_indices, right_indices
 ```
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt; Click for more hints&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-    
-The condition is &lt;code&gt; if X[i][feature] == 1:&lt;/code&gt;.
-    
-&lt;/details&gt;
 </pre></div>
 </div>
+<details>
+          <summary><font size="2" color="darkblue"><b> Click for more hints</b></font></summary>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The condition is  
+&lt;code&gt; if X[i][feature] == 1:&lt;/code&gt;.
+</pre></div>
+</div>
+   </details>
 </details>
 <p>Now, let’s check your implementation using the code blocks below. Let’s try splitting the dataset at the root node, which contains all examples at feature 0 (Brown Cap) as we’d discussed above. We’ve also provided a helper function to visualize the output of the split.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pydot<span class="w"> </span>graphwiz
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pydot in c:\users\sangouda\python_apps\lib\site-packages (4.0.1)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ERROR: Could not find a version that satisfies the requirement graphwiz (from versions: none)
+
+[notice] A new release of pip is available: 25.0.1 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
+ERROR: No matching distribution found for graphwiz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>dot<span class="w"> </span>-V
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dot - graphviz version 14.0.2 (20251019.1705)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">graphviz_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Program Files\Graphviz\bin&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PATH&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">os</span><span class="o">.</span><span class="n">pathsep</span> <span class="o">+</span> <span class="n">graphviz_path</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Case 1</span>
@@ -1504,24 +1536,36 @@ The condition is &lt;code&gt; if X[i][feature] == 1:&lt;/code&gt;.
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Right indices: &quot;</span><span class="p">,</span> <span class="n">right_indices</span><span class="p">)</span>
 
 <span class="c1"># Visualize the split </span>
-<span class="n">generate_split_viz</span><span class="p">(</span><span class="n">root_indices</span><span class="p">,</span> <span class="n">left_indices</span><span class="p">,</span> <span class="n">right_indices</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
+<span class="c1"># generate_split_viz(root_indices, left_indices, right_indices, feature)</span>
 
 <span class="nb">print</span><span class="p">()</span>
 
 <span class="c1"># Case 2</span>
 
 <span class="n">root_indices_subset</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
-<span class="n">left_indices</span><span class="p">,</span> <span class="n">right_indices</span> <span class="o">=</span> <span class="n">split_dataset</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">root_indices_subset</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
+<span class="c1"># left_indices, right_indices = split_dataset(X_train, root_indices_subset, feature)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CASE 2:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Left indices: &quot;</span><span class="p">,</span> <span class="n">left_indices</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Right indices: &quot;</span><span class="p">,</span> <span class="n">right_indices</span><span class="p">)</span>
 
 <span class="c1"># Visualize the split </span>
-<span class="n">generate_split_viz</span><span class="p">(</span><span class="n">root_indices_subset</span><span class="p">,</span> <span class="n">left_indices</span><span class="p">,</span> <span class="n">right_indices</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
+<span class="c1"># generate_split_viz(root_indices_subset, left_indices, right_indices, feature)</span>
 
 <span class="c1"># UNIT TESTS    </span>
 <span class="n">split_dataset_test</span><span class="p">(</span><span class="n">split_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CASE 1:
+Left indices:  [0, 1, 2, 3, 4, 7, 9]
+Right indices:  [5, 6, 8]
+
+CASE 2:
+Left indices:  [0, 1, 2, 3, 4, 7, 9]
+Right indices:  [5, 6, 8]
+ All tests passed.
 </pre></div>
 </div>
 </div>
@@ -1592,19 +1636,16 @@ The condition is &lt;code&gt; if X[i][feature] == 1:&lt;/code&gt;.
     <span class="n">information_gain</span> <span class="o">=</span> <span class="mi">0</span>
     
     <span class="c1">### START CODE HERE ###</span>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <span class="n">node_entropy</span> <span class="o">=</span> <span class="n">compute_entropy</span><span class="p">(</span><span class="n">y_node</span><span class="p">)</span>
+    <span class="n">left_entropy</span> <span class="o">=</span> <span class="n">compute_entropy</span><span class="p">(</span><span class="n">y_left</span><span class="p">)</span>
+    <span class="n">right_entropy</span> <span class="o">=</span> <span class="n">compute_entropy</span><span class="p">(</span><span class="n">y_right</span><span class="p">)</span>
+
+    <span class="n">w_left</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_left</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_node</span><span class="p">)</span>
+    <span class="n">w_right</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_right</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_node</span><span class="p">)</span>
+
+    <span class="n">weighted_entropy</span> <span class="o">=</span> <span class="n">w_left</span> <span class="o">*</span> <span class="n">left_entropy</span> <span class="o">+</span> <span class="n">w_right</span> <span class="o">*</span> <span class="n">right_entropy</span>
+
+    <span class="n">information_gain</span> <span class="o">=</span> <span class="n">node_entropy</span> <span class="o">-</span> <span class="n">weighted_entropy</span>
     <span class="c1">### END CODE HERE ###  </span>
     
     <span class="k">return</span> <span class="n">information_gain</span>
@@ -1656,35 +1697,28 @@ def compute_information_gain(X, y, node_indices, feature):
     return information_gain
 ```
 If you&#39;re still stuck, check out the hints below.
-
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt; Hint to calculate the entropies&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-    
-&lt;code&gt;node_entropy = compute_entropy(y_node)&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;left_entropy = compute_entropy(y_left)&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;right_entropy = compute_entropy(y_right)&lt;/code&gt;
-    
-&lt;/details&gt;
-
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate w_left and w_right&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-       &lt;code&gt;w_left = len(X_left) / len(X_node)&lt;/code&gt;&lt;br&gt;
-       &lt;code&gt;w_right = len(X_right) / len(X_node)&lt;/code&gt;
-&lt;/details&gt;
-
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate weighted_entropy&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-       &lt;code&gt;weighted_entropy = w_left * left_entropy + w_right * right_entropy&lt;/code&gt;
-&lt;/details&gt;
-
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to calculate information_gain&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-       &lt;code&gt; information_gain = node_entropy - weighted_entropy&lt;/code&gt;
-&lt;/details&gt;
 </pre></div>
 </div>
-</details>
-<p>You can now check your implementation using the cell below and calculate what the information gain would be from splitting on each of the featues</p>
+  <details>
+          <summary><font size="2" color="darkblue"><b> Hint to calculate the entropies</b></font></summary>
+<p><code>node_entropy = compute_entropy(y_node)</code><br>
+<code>left_entropy = compute_entropy(y_left)</code><br>
+<code>right_entropy = compute_entropy(y_right)</code></p>
+   </details>
+   <details>
+          <summary><font size="2" color="darkblue"><b>Hint to calculate w_left and w_right</b></font></summary>
+           <code>w_left = len(X_left) / len(X_node)</code><br>
+           <code>w_right = len(X_right) / len(X_node)</code>
+    </details>
+   <details>
+          <summary><font size="2" color="darkblue"><b>Hint to calculate weighted_entropy</b></font></summary>
+           <code>weighted_entropy = w_left * left_entropy + w_right * right_entropy</code>
+    </details>
+   <details>
+          <summary><font size="2" color="darkblue"><b>Hint to calculate information_gain</b></font></summary>
+           <code> information_gain = node_entropy - weighted_entropy</code>
+    </details>
+</details><p>You can now check your implementation using the cell below and calculate what the information gain would be from splitting on each of the featues</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">info_gain0</span> <span class="o">=</span> <span class="n">compute_information_gain</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">root_indices</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1698,6 +1732,14 @@ If you&#39;re still stuck, check out the hints below.
 
 <span class="c1"># UNIT TESTS</span>
 <span class="n">compute_information_gain_test</span><span class="p">(</span><span class="n">compute_information_gain</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Information Gain from splitting the root on brown cap:  0.034851554559677034
+Information Gain from splitting the root on tapering stalk shape:  0.12451124978365313
+Information Gain from splitting the root on solitary:  0.2780719051126377
+ All tests passed.
 </pre></div>
 </div>
 </div>
@@ -1754,13 +1796,19 @@ If you get stuck, you can check out the hints presented after the cell below to 
     <span class="n">best_feature</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     
     <span class="c1">### START CODE HERE ###</span>
+    <span class="n">max_info_gain</span> <span class="o">=</span> <span class="mi">0</span>
     
-    
-    
+    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_features</span><span class="p">):</span>
+        <span class="c1"># Your code here to compute the information gain from splitting on this feature</span>
+        <span class="n">info_gain</span> <span class="o">=</span> <span class="n">compute_information_gain</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">node_indices</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
+        <span class="c1"># best_feature = feature</span>
         
-        
-            
-            
+        <span class="c1"># If the information gain is larger than the max seen so far</span>
+        <span class="k">if</span> <span class="n">info_gain</span> <span class="o">&gt;</span> <span class="n">max_info_gain</span><span class="p">:</span>  
+            <span class="c1"># Your code here to set the max_info_gain and best_feature</span>
+            <span class="n">max_info_gain</span> <span class="o">=</span> <span class="n">info_gain</span>
+            <span class="n">best_feature</span> <span class="o">=</span> <span class="n">feature</span>
+    
     <span class="c1">### END CODE HERE ##    </span>
    
     <span class="k">return</span> <span class="n">best_feature</span>
@@ -1801,20 +1849,19 @@ def get_best_split(X, y, node_indices):
 return best_feature
 ```
 If you&#39;re still stuck, check out the hints below.
-
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt; Hint to calculate info_gain&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-    
-&lt;code&gt;info_gain = compute_information_gain(X, y, node_indices, feature)&lt;/code&gt;
-&lt;/details&gt;
-
-&lt;details&gt;
-      &lt;summary&gt;&lt;font size=&quot;2&quot; color=&quot;darkblue&quot;&gt;&lt;b&gt;Hint to update the max_info_gain and best_feature&lt;/b&gt;&lt;/font&gt;&lt;/summary&gt;
-       &lt;code&gt;max_info_gain = info_gain&lt;/code&gt;&lt;br&gt;
-       &lt;code&gt;best_feature = feature&lt;/code&gt;
-&lt;/details&gt;
 </pre></div>
 </div>
+  <details>
+          <summary><font size="2" color="darkblue"><b> Hint to calculate info_gain</b></font></summary>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;code&gt;info_gain = compute_information_gain(X, y, node_indices, feature)&lt;/code&gt;
+</pre></div>
+</div>
+   </details>
+   <details>
+          <summary><font size="2" color="darkblue"><b>Hint to update the max_info_gain and best_feature</b></font></summary>
+           <code>max_info_gain = info_gain</code><br>
+           <code>best_feature = feature</code>
+    </details>
 </details>
 <p>Now, let’s check the implementation of your function using the cell below.</p>
 <div class="cell docutils container">
@@ -1824,6 +1871,12 @@ If you&#39;re still stuck, check out the hints below.
 
 <span class="c1"># UNIT TESTS</span>
 <span class="n">get_best_split_test</span><span class="p">(</span><span class="n">get_best_split</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best feature to split on: 2
+ All tests passed.
 </pre></div>
 </div>
 </div>
@@ -1883,7 +1936,18 @@ If you&#39;re still stuck, check out the hints below.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">build_tree_recursive</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">root_indices</span><span class="p">,</span> <span class="s2">&quot;Root&quot;</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">current_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">generate_tree_viz</span><span class="p">(</span><span class="n">root_indices</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
+<span class="c1"># generate_tree_viz(root_indices, y_train, tree)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Depth 0, Root: Split on feature: 2
+- Depth 1, Left: Split on feature: 0
+  -- Left leaf node with indices [0, 1, 4, 7]
+  -- Right leaf node with indices [5]
+- Depth 1, Right: Split on feature: 1
+  -- Left leaf node with indices [8]
+  -- Right leaf node with indices [2, 3, 6, 9]
 </pre></div>
 </div>
 </div>

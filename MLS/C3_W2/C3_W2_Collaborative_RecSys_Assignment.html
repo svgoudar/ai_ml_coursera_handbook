@@ -1,0 +1,1844 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Practice lab: Collaborative Filtering Recommender Systems &#8212; Cousera ML Handbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-examples.css?v=e236af4b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=40389e5b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=7f8ff830"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../_static/js/hoverxref.js"></script>
+    <script src="../../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../../_static/js/micromodal.min.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"macros": {"N": "\\mathbb{N}", "floor": ["\\lfloor#1\\rfloor", 1], "bmat": ["\\left[\\begin{array}"], "emat": ["\\end{array}\\right]"]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment';</script>
+    <link rel="canonical" href="/ai_ml_coursera_handbook/MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="PCA - An example on Exploratory Data Analysis" href="C3_W2_Lab01_PCA_Visualization_Examples.html" />
+    <link rel="prev" title="Course 3 Week 2 : Recommender Systems" href="ppt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Cousera ML Handbook - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Cousera ML Handbook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../overview.html">Machine Learning Specialization Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Lab01_Python_Jupyter_Soln.html">Optional Lab:  Brief Introduction to Python and Jupyter Notebooks</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Lab02_Model_Representation_Soln.html">Optional Lab: Model Representation</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Lab03_Cost_function_Soln.html">Optional  Lab: Cost Function</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W1/C1_W1_Lab04_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Linear Regression</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W2/ppt.html">Course 1 Week 2: Regression with multiple input variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab01_Python_Numpy_Vectorization_Soln.html">Optional Lab: Python, NumPy and Vectorization</a></li>
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab02_Multiple_Variable_Soln.html">Optional Lab: Multiple Variable Linear Regression</a></li>
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab03_Feature_Scaling_and_Learning_Rate_Soln.html">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab05_Sklearn_GD_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Lab06_Sklearn_Normal_Soln.html">Optional Lab: Linear Regression using Scikit-Learn</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W2/C1_W2_Linear_Regression.html">Practice Lab: Linear Regression</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C1_W3/ppt.html">Course 1 Week 3: Classification</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab01_Classification_Soln.html">Optional Lab: Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab02_Sigmoid_function_Soln.html">Optional Lab: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab03_Decision_Boundary_Soln.html">Optional Lab: Logistic Regression, Decision Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab04_LogisticLoss_Soln.html">Optional Lab: Logistic Regression, Logistic Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab05_Cost_Function_Soln.html">Optional Lab: Cost Function for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab06_Gradient_Descent_Soln.html">Optional Lab: Gradient Descent for Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab07_Scikit_Learn_Soln.html">Ungraded Lab:  Logistic Regression using Scikit-Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab08_Overfitting_Soln.html">Ungraded Lab:  Overfitting</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Lab09_Regularization_Soln.html">Optional Lab - Regularized Cost and Gradient</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C1_W3/C1_W3_Logistic_Regression.html">Logistic Regression</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W1/ppt.html">Course 2 Week 1 : Advanced Learning Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Assignment.html">Practice Lab: Neural Networks for Handwritten Digit Recognition, Binary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Lab01_Neurons_and_Layers.html">Optional Lab - Neurons and Layers</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Lab02_CoffeeRoasting_TF.html">Optional Lab - Simple Neural Network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W1/C2_W1_Lab03_CoffeeRoasting_Numpy.html">Optional Lab - Simple Neural Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W2/ppt.html">Course 2 Week 2 : Neural Network Training</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Backprop.html">Optional Lab: Back propagation using a computation graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Derivatives.html">Optional Lab - Derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Multiclass_TF.html">Optional Lab - Multi-class Classification</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_Relu.html">Optional Lab - ReLU activation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W2/C2_W2_SoftMax.html">Optional Lab - Softmax Function</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W3/ppt.html">Course 2 Week 3 : Advice for applying machine learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Assignment.html">Practice Lab: Advice for Applying Machine Learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Lab_01_Model_Evaluation_and_Selection.html">Optional Lab: Model Evaluation and Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W3/C2_W3_Lab_02_Diagnosing_Bias_and_Variance.html">Optional Lab: Diagnosing Bias and Variance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C2_W4/ppt.html">Course 2 Week 4 : Decision Trees</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_Decision_Tree_with_Markdown.html">Practice Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_Lab_01_Decision_Trees.html">Ungraded Lab: Decision Trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C2_W4/C2_W4_Lab_02_Tree_Ensemble.html">Ungraded Lab - Trees Ensemble</a></li>
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="ppt.html">Course 3 Week 2 : Recommender Systems</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W3/ppt.html">Course 3 Week 3 : Reinforcement Learning Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W3/C3_W3_A1_Assignment.html">Deep Q-Learning - Lunar Lander</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../DLS/overview.html">Deep Learning Specialization Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W1/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W1/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W2/ppt.html">Course 1 Week 2: Neural Networks Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Logistic_Regression_with_a_Neural_Network_mindset.html">Logistic Regression with a Neural Network mindset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W2/Python_Basics_with_Numpy.html">Python Basics with Numpy (optional assignment)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W3/ppt.html">Course 1 Week 3: Shallow Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W3/Planar_data_classification_with_one_hidden_layer.html">Planar data classification with one hidden layer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C1_W4/ppt.html">Course 1 Week 4: Deep Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Building_your_Deep_Neural_Network_Step_by_Step.html">Building your Deep Neural Network: Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C1_W4/Deep%20Neural%20Network%20-%20Application.html">Deep Neural Network for Image Classification: Application</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W1/ppt.html">Course 2 Week 1: Practical Aspects of Deep Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Gradient_Checking.html">Gradient Checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Initialization.html">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W1/Regularization.html">Regularization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W2/ppt.html">Course 2 Week 2: Optimization Algorithms</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W2/Optimization_methods.html">Optimization Methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C2_W3/ppt.html">Course 2 Week 3: Hyperparameter Tuning and Regularization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C2_W3/Tensorflow_introduction.html">Introduction to TensorFlow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W1/ppt.html">Course 3 Week 1: ML Strategy (1)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C3_W2/ppt.html">Course 3 Week 2: ML Strategy (2)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W1/ppt.html">Course 4 Week 1: Foundations of CNNs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Application.html">Convolutional Neural Networks: Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W1/Convolution_model_Step_by_Step_v1.html">Convolutional Neural Networks: Step by Step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W2/ppt.html">Course 4 Week 2: Deep Convolutional Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Residual_Networks.html">Residual Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W2/Transfer_learning_with_MobileNet_v1.html">Transfer Learning with MobileNetV2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W3/ppt.html">Course 4 Week 3: Object Detection</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W3/Autonomous_driving_application_Car_detection.html">Autonomous Driving - Car Detection</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C4_W4/ppt.html">Course 4 Week 4: Special Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Art_Generation_with_Neural_Style_Transfer.html">Deep Learning &amp; Art: Neural Style Transfer</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C4_W4/Face_Recognition.html">Face Recognition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W1/ppt.html">Course 5 Week 1: Recurrent Neural Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Building_a_Recurrent_Neural_Network_Step_by_Step.html">Building your Recurrent Neural Network - Step by Step</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Dinosaurus_Island_Character_level_language_model.html">Character level language model - Dinosaurus Island</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W1/Improvise_a_Jazz_Solo_with_an_LSTM_Network_v4.html">Improvise a Jazz Solo with an LSTM Network</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W2/ppt.html">Course 5 Week 2: Natural Language Processing &amp; Word Embeddings</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Emoji_v3a.html">Emojify!</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W2/Operations_on_word_vectors_v2a.html">Operations on Word Vectors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W3/ppt.html">Course 5 Week 3: Sequence Models &amp; Attention Mechanism</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Neural_machine_translation_with_attention_v4a.html">Neural Machine Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W3/Trigger_word_detection_v2a.html">Trigger Word Detection</a></li>
+
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/C5_W4_A1_Transformer_Subclass_v1.html">Transformer Network</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Embedding_plus_Positional_encoding.html">Transformer Pre-processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/QA_dataset.html">Transformer Network Application: Question Answering</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../DLS/C5_W4/Transformer_application_Named_Entity_Recognition.html">Transformer Network Application: Named-Entity Recognition</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../NLP/overview.html">NLP Overview</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C1_W1/ppt.html">Course 1 Week 1: Sentiment Analysis with Logistic Regression</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W1/C1_W1_Assignment.html">Assignment 1: Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W1/C1_W1_lecture_nb_01_preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W1/C1_W1_lecture_nb_02_word%20frequencies.html">Building and Visualizing word frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W1/C1_W1_lecture_nb_03_logistic_regression_model.html">Visualizing tweets and the Logistic Regression model</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C1_W2/ppt.html">Course 1 Week 2: Sentiment Analysis with Naïve Bayes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W2/C1_W2_Assignment.html">Assignment 2: Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W2/C1_W2_lecture_nb_01_visualizing_naive_bayes.html">Visualizing Naive Bayes</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C1_W3/ppt.html">Course 1 Week 3: Vector Space Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W3/C1_W3_Assignment.html">Assignment 3: Hello Vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W3/C1_W3_lecture_nb_01_linear_algebra.html">Linear algebra in Python with NumPy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W3/C1_W3_lecture_nb_02_manipulating_word_embeddings.html">Manipulating word embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W3/C1_W3_lecture_nb_03_pca.html">Another explanation about PCA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C1_W4/ppt.html">Course 1 Week 4: Machine Translation and Document Search</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W4/C1_W4_Assignment.html">Assignment 4 - Naive Machine Translation and LSH</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W4/C1_W4_lecture_nb_01_vector_manipulation.html">Vector manipulation in Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C1_W4/C1_W4_lecture_nb_02_hash_functions_and_multiplanes.html">Hash functions and multiplanes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C2_W1/ppt.html">Course 2 Week 1: Autocorrect</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W1/C2_W1_Assignment.html">Assignment 1: Autocorrect</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W1/C2_W1_lecture_nb_01_building_the_vocabulary_model.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 01</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W1/C2_W1_lecture_nb_02_candidates_from_edits.html">NLP Course 2 Week 1 Lesson : Building The Model - Lecture Exercise 02</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C2_W2/ppt.html">Course 2 Week 2: Part of Speech Tagging and Hidden Markov Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W2/C2_W2_Assignment.html">Assignment 2: Parts-of-Speech Tagging (POS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W2/C2_W2_lecture_nb_1_strings_tags.html">Parts-of-Speech Tagging - First Steps: Working with text files, Creating a Vocabulary and Handling Unknown Words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W2/C2_W2_lecture_nb_2_numpy.html">Parts-of-Speech Tagging - Working with tags and Numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C2_W3/ppt.html">Course 2 Week 3: Autocomplete and Language Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W3/C2_W3_Assignment.html">Assignment 3: Language Models: Auto-Complete</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W3/C2_W3_lecture_nb_01_corpus_preprocessing.html">N-grams Corpus preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W3/C2_W3_lecture_nb_02_building_the_language_model.html">Building the language model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W3/C2_W3_lecture_nb_03_oov.html">Out of vocabulary words (OOV)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C2_W4/ppt.html">Course 2 Week 4: Word embeddings with neural networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W4/C2_W4_lecture_nb_1_data_prep.html">Word Embeddings First Steps: Data Preparation</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W4/C2_W4_lecture_nb_2_intro_to_CBOW.html">Word Embeddings: Intro to CBOW model, activation functions and working with Numpy</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W4/C2_W4_lecture_nb_3_training_the_CBOW.html">Word Embeddings: Training the CBOW model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W4/C2_W4_lecture_nb_4_word_embeddings_hands_on.html">Word Embeddings: Hands On</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C2_W4/C2_W4_lecture_nb_5_word_embeddings_step_by_step.html">Word Embeddings: Ungraded Practice Notebook</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_TensorFlow_Tutorial.html">Lab 1: TensorFlow Tutorial and Some Useful Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_perplexity.html">Calculating perplexity using numpy: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W2/ppt.html">Course 3 Week 2: LSTMs and Named Entity Recognition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W2/C3W2_Assignment.html">Assignment 2 - Named Entity Recognition (NER)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W2/C3W2_Vanishing_Gradients.html">Vanishing Gradients and Exploding Gradients in RNNs : Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W3/ppt.html">Course 1 Week 1: Introduction to Machine Learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W3/C3W3_Accuracy.html">Evaluate a Siamese model: Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W3/C3W3_Assignment.html">Assignment 3:  Question duplicates</a></li>
+
+
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W3/C3W3_Modified_Triplet_Loss.html">Modified Triplet Loss : Ungraded Lecture Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W3/C3W3_Siamese_Network.html">Creating a Siamese model: Ungraded Lecture Notebook</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W1/ppt.html">Course 4 Week 1: Neural Machine Translation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W1/C4W1_Basic_Attention.html">Basic Attention Operation: Ungraded Lab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W1/C4W1_Bleu_Score.html">Calculating the Bilingual Evaluation Understudy (BLEU) score: Ungraded Lab</a></li>
+
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W1/C4W1_QKV_Attention.html">Scaled Dot-Product Attention: Ungraded Lab</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W2/ppt.html">Course 4 Week 2: Text Summarization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Assignment.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Masking.html">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/svgoudar/AI-ML-Essentials/blob/master/MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/svgoudar/AI-ML-Essentials/issues/new?title=Issue%20on%20page%20%2FMLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/MLS/C3_W2/C3_W2_Collaborative_RecSys_Assignment.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><img align="left" src="../../assets/C3_W2/images/movie_camera.png"     style=" width:40px;  " > Practice lab: Collaborative Filtering Recommender Systems</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages <img align="left" src="../../assets/C3_W2/images/film_strip_vertical.png" style=" width:40px;   "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation">1 - Notation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommender-systems">2 - Recommender Systems <img align="left" src="../../assets/C3_W2/images/film_rating.png" style=" width:40px;  "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#movie-ratings-dataset">3 - Movie ratings dataset <img align="left" src="../../assets/C3_W2/images/film_rating.png" style=" width:40px;  "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collaborative-filtering-learning-algorithm">4 - Collaborative filtering learning algorithm <img align="left" src="../../assets/C3_W2/images/film_filter.png" style=" width:40px;  "/></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collaborative-filtering-cost-function">4.1 Collaborative filtering cost function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-movie-recommendations">5 - Learning movie recommendations <img align="left" src="../../assets/C3_W2/images/film_man_action.png" style=" width:40px;  "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendations">6 - Recommendations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">7 - Congratulations! <img align="left" src="../../assets/C3_W2/images/film_award.png" style=" width:40px;  "/></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#practice-lab-collaborative-filtering-recommender-systems" id="id1"><img align="left" src="../../assets/C3_W2/images/movie_camera.png"     style=" width:40px;  " > Practice lab: Collaborative Filtering Recommender Systems</a></p>
+<ul>
+<li><p><a class="reference internal" href="#packages" id="id2">Packages <img align="left" src="../../assets/C3_W2/images/film_strip_vertical.png"     style=" width:40px;   " ></a></p></li>
+<li><p><a class="reference internal" href="#notation" id="id3">1 - Notation</a></p></li>
+<li><p><a class="reference internal" href="#recommender-systems" id="id4">2 - Recommender Systems <img align="left" src="../../assets/C3_W2/images/film_rating.png" style=" width:40px;  " ></a></p></li>
+<li><p><a class="reference internal" href="#movie-ratings-dataset" id="id5">3 - Movie ratings dataset <img align="left" src="../../assets/C3_W2/images/film_rating.png"     style=" width:40px;  " ></a></p></li>
+<li><p><a class="reference internal" href="#collaborative-filtering-learning-algorithm" id="id6">4 - Collaborative filtering learning algorithm <img align="left" src="../../assets/C3_W2/images/film_filter.png"     style=" width:40px;  " ></a></p>
+<ul>
+<li><p><a class="reference internal" href="#collaborative-filtering-cost-function" id="id7">4.1 Collaborative filtering cost function</a></p></li>
+<li><p><a class="reference internal" href="#exercise-1" id="id8">Exercise 1</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#learning-movie-recommendations" id="id9">5 - Learning movie recommendations <img align="left" src="../../assets/C3_W2/images/film_man_action.png" style=" width:40px;  " ></a></p></li>
+<li><p><a class="reference internal" href="#recommendations" id="id10">6 - Recommendations</a></p></li>
+<li><p><a class="reference internal" href="#congratulations" id="id11">7 - Congratulations! <img align="left" src="../../assets/C3_W2/images/film_award.png"     style=" width:40px;  " ></a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section class="tex2jax_ignore mathjax_ignore" id="practice-lab-collaborative-filtering-recommender-systems">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink"><img align="left" src="../../assets/C3_W2/images/movie_camera.png"     style=" width:40px;  " > Practice lab: Collaborative Filtering Recommender Systems</a><a class="headerlink" href="#practice-lab-collaborative-filtering-recommender-systems" title="Link to this heading">#</a></h1>
+<p>In this exercise, you will implement collaborative filtering to build a recommender system for movies.</p>
+<p><em><strong>NOTE:</strong> To prevent errors from the autograder, you are not allowed to edit or delete non-graded cells in this lab. Please also refrain from adding any new cells.
+<strong>Once you have passed this assignment</strong> and want to experiment with any of the non-graded code, you may follow the instructions at the bottom of this notebook.</em></p>
+<section id="packages">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Packages <img align="left" src="../../assets/C3_W2/images/film_strip_vertical.png"     style=" width:40px;   " ></a><a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<p>We will use the now familiar NumPy and Tensorflow Packages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">recsys_utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="1"></a></p>
+</section>
+<section id="notation">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">1 - Notation</a><a class="headerlink" href="#notation" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>General Notation</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+<th class="head"><p><strong>Python (if any)</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>$<span class="math notranslate nohighlight">\(r(i,j)\)</span>$</p></td>
+<td><p>Scalar; = 1 if user <em>j</em> rated movie <em>i</em>, = 0 otherwise</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>$<span class="math notranslate nohighlight">\(y(i,j)\)</span>$</p></td>
+<td><p>Scalar; rating given by user <em>j</em> on movie <em>i</em> (defined only if $<span class="math notranslate nohighlight">\(r(i,j) = 1\)</span>$)</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>$<span class="math notranslate nohighlight">\(\mathbf{w}^{(j)}\)</span>$</p></td>
+<td><p>Vector; parameters for user <em>j</em></p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>$<span class="math notranslate nohighlight">\(b^{(j)}\)</span>$</p></td>
+<td><p>Scalar; bias parameter for user <em>j</em></p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p>$<span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span>$</p></td>
+<td><p>Vector; feature representation of movie <em>i</em></p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p>$<span class="math notranslate nohighlight">\(n_u\)</span>$</p></td>
+<td><p>Number of users</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">num_users</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>$<span class="math notranslate nohighlight">\(n_m\)</span>$</p></td>
+<td><p>Number of movies</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">num_movies</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>$<span class="math notranslate nohighlight">\(n\)</span>$</p></td>
+<td><p>Number of features</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">num_features</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>$<span class="math notranslate nohighlight">\(\mathbf{X}\)</span>$</p></td>
+<td><p>Matrix of movie feature vectors $<span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span>$</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">X</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>$<span class="math notranslate nohighlight">\(\mathbf{W}\)</span>$</p></td>
+<td><p>Matrix of user parameter vectors $<span class="math notranslate nohighlight">\(\mathbf{w}^{(j)}\)</span>$</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">W</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>$<span class="math notranslate nohighlight">\(\mathbf{b}\)</span>$</p></td>
+<td><p>Vector of user bias terms $<span class="math notranslate nohighlight">\(b^{(j)}\)</span>$</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>$<span class="math notranslate nohighlight">\(\mathbf{R}\)</span>$</p></td>
+<td><p>Matrix of rating indicators $<span class="math notranslate nohighlight">\(r(i,j)\)</span>$</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">R</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a name="2"></a></p>
+</section>
+<section id="recommender-systems">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">2 - Recommender Systems <img align="left" src="../../assets/C3_W2/images/film_rating.png" style=" width:40px;  " ></a><a class="headerlink" href="#recommender-systems" title="Link to this heading">#</a></h2>
+<p>In this lab, you will implement the collaborative filtering learning algorithm and apply it to a dataset of movie ratings.
+The goal of a collaborative filtering recommender system is to generate two vectors: For each user, a ‘parameter vector’ that embodies the movie tastes of a user. For each movie, a feature vector of the same size which embodies some description of the movie. The dot product of the two vectors plus the bias term should produce an estimate of the rating the user might give to that movie.</p>
+<p>The diagram below details how these vectors are learned.</p>
+<figure>
+   <img src="../../assets/C3_W2/images/ColabFilterLearn.PNG"  style="width:740px;height:250px;" >
+</figure><p>Existing ratings are provided in matrix form as shown. <span class="math notranslate nohighlight">\(Y\)</span> contains ratings; 0.5 to 5 inclusive in 0.5 steps. 0 if the movie has not been rated. <span class="math notranslate nohighlight">\(R\)</span> has a 1 where movies have been rated. Movies are in rows, users in columns. Each user has a parameter vector <span class="math notranslate nohighlight">\(w^{user}\)</span> and bias. Each movie has a feature vector <span class="math notranslate nohighlight">\(x^{movie}\)</span>. These vectors are simultaneously learned by using the existing user/movie ratings as training data. One training example is shown above: <span class="math notranslate nohighlight">\(\mathbf{w}^{(1)} \cdot \mathbf{x}^{(1)} + b^{(1)} = 4\)</span>. It is worth noting that the feature vector <span class="math notranslate nohighlight">\(x^{movie}\)</span> must satisfy all the users while the user vector <span class="math notranslate nohighlight">\(w^{user}\)</span> must satisfy all the movies. This is the source of the name of this approach - all the users collaborate to generate the rating set.</p>
+<figure>
+   <img src="../../assets/C3_W2/images/ColabFilterUse.PNG"  style="width:640px;height:250px;" >
+</figure><p>Once the feature vectors and parameters are learned, they can be used to predict how a user might rate an unrated movie. This is shown in the diagram above. The equation is an example of predicting a rating for user one on movie zero.</p>
+<p>In this exercise, you will implement the function <code class="docutils literal notranslate"><span class="pre">cofiCostFunc</span></code> that computes the collaborative filtering
+objective function. After implementing the objective function, you will use a TensorFlow custom training loop to learn the parameters for collaborative filtering. The first step is to detail the data set and data structures that will be used in the lab.</p>
+<p><a name="3"></a></p>
+</section>
+<section id="movie-ratings-dataset">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">3 - Movie ratings dataset <img align="left" src="../../assets/C3_W2/images/film_rating.png"     style=" width:40px;  " ></a><a class="headerlink" href="#movie-ratings-dataset" title="Link to this heading">#</a></h2>
+<p>The data set is derived from the <a class="reference external" href="https://grouplens.org/datasets/movielens/latest/">MovieLens “ml-latest-small”</a> dataset.<br />
+[F. Maxwell Harper and Joseph A. Konstan. 2015. The MovieLens Datasets: History and Context. ACM Transactions on Interactive Intelligent Systems (TiiS) 5, 4: 19:1–19:19. <a class="reference external" href="https://doi.org/10.1145/2827872">https://doi.org/10.1145/2827872</a>]</p>
+<p>The original dataset has  9000 movies rated by 600 users. The dataset has been reduced in size to focus on movies from the years since 2000. This dataset consists of ratings on a scale of 0.5 to 5 in 0.5 step increments. The reduced dataset has <span class="math notranslate nohighlight">\(n_u = 443\)</span> users, and <span class="math notranslate nohighlight">\(n_m= 4778\)</span> movies.</p>
+<p>Below, you will load the movie dataset into the variables <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(R\)</span>.</p>
+<p>The matrix <span class="math notranslate nohighlight">\(Y\)</span> (a  <span class="math notranslate nohighlight">\(n_m \times n_u\)</span> matrix) stores the ratings <span class="math notranslate nohighlight">\(y^{(i,j)}\)</span>. The matrix <span class="math notranslate nohighlight">\(R\)</span> is an binary-valued indicator matrix, where <span class="math notranslate nohighlight">\(R(i,j) = 1\)</span> if user <span class="math notranslate nohighlight">\(j\)</span> gave a rating to movie <span class="math notranslate nohighlight">\(i\)</span>, and <span class="math notranslate nohighlight">\(R(i,j)=0\)</span> otherwise.</p>
+<p>Throughout this part of the exercise, you will also be working with the
+matrices, <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{X} = 
+\begin{bmatrix}
+--- (\mathbf{x}^{(0)})^T --- \\
+--- (\mathbf{x}^{(1)})^T --- \\
+\vdots \\
+--- (\mathbf{x}^{(n_m-1)})^T --- \\
+\end{bmatrix} , \quad
+\mathbf{W} = 
+\begin{bmatrix}
+--- (\mathbf{w}^{(0)})^T --- \\
+--- (\mathbf{w}^{(1)})^T --- \\
+\vdots \\
+--- (\mathbf{w}^{(n_u-1)})^T --- \\
+\end{bmatrix},\quad
+\mathbf{ b} = 
+\begin{bmatrix}
+ b^{(0)}  \\
+ b^{(1)} \\
+\vdots \\
+b^{(n_u-1)} \\
+\end{bmatrix}\quad
+\end{split}\]</div>
+<p>The <span class="math notranslate nohighlight">\(i\)</span>-th row of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> corresponds to the
+feature vector <span class="math notranslate nohighlight">\(x^{(i)}\)</span> for the <span class="math notranslate nohighlight">\(i\)</span>-th movie, and the <span class="math notranslate nohighlight">\(j\)</span>-th row of
+<span class="math notranslate nohighlight">\(\mathbf{W}\)</span> corresponds to one parameter vector <span class="math notranslate nohighlight">\(\mathbf{w}^{(j)}\)</span>, for the
+<span class="math notranslate nohighlight">\(j\)</span>-th user. Both <span class="math notranslate nohighlight">\(x^{(i)}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{w}^{(j)}\)</span> are <span class="math notranslate nohighlight">\(n\)</span>-dimensional
+vectors. For the purposes of this exercise, you will use <span class="math notranslate nohighlight">\(n=10\)</span>, and
+therefore, <span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{w}^{(j)}\)</span> have 10 elements.
+Correspondingly, <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> is a
+<span class="math notranslate nohighlight">\(n_m \times 10\)</span> matrix and <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> is a <span class="math notranslate nohighlight">\(n_u \times 10\)</span> matrix.</p>
+<p>We will start by loading the movie ratings dataset to understand the structure of the data.
+We will load <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(R\)</span> with the movie dataset.<br />
+We’ll also load <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> with pre-computed values. These values will be learned later in the lab, but we’ll use pre-computed values to develop the cost model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Load data</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">num_movies</span><span class="p">,</span> <span class="n">num_features</span><span class="p">,</span> <span class="n">num_users</span> <span class="o">=</span> <span class="n">load_precalc_params_small</span><span class="p">()</span>
+<span class="n">Y</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">load_ratings_small</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;num_features&quot;</span><span class="p">,</span> <span class="n">num_features</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;num_movies&quot;</span><span class="p">,</span>   <span class="n">num_movies</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;num_users&quot;</span><span class="p">,</span>    <span class="n">num_users</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Y (4778, 443) R (4778, 443)
+X (4778, 10)
+W (443, 10)
+b (1, 443)
+num_features 10
+num_movies 4778
+num_users 443
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  From the matrix, we can compute statistics like average rating.</span>
+<span class="n">tsmean</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Average rating for movie 1 : </span><span class="si">{</span><span class="n">tsmean</span><span class="si">:</span><span class="s2">0.3f</span><span class="si">}</span><span class="s2"> / 5&quot;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average rating for movie 1 : 3.400 / 5
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="4"></a></p>
+</section>
+<section id="collaborative-filtering-learning-algorithm">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">4 - Collaborative filtering learning algorithm <img align="left" src="../../assets/C3_W2/images/film_filter.png"     style=" width:40px;  " ></a><a class="headerlink" href="#collaborative-filtering-learning-algorithm" title="Link to this heading">#</a></h2>
+<p>Now, you will begin implementing the collaborative filtering learning
+algorithm. You will start by implementing the objective function.</p>
+<p>The collaborative filtering algorithm in the setting of movie
+recommendations considers a set of <span class="math notranslate nohighlight">\(n\)</span>-dimensional parameter vectors
+<span class="math notranslate nohighlight">\(\mathbf{x}^{(0)},...,\mathbf{x}^{(n_m-1)}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{w}^{(0)},...,\mathbf{w}^{(n_u-1)}\)</span> and <span class="math notranslate nohighlight">\(b^{(0)},...,b^{(n_u-1)}\)</span>, where the
+model predicts the rating for movie <span class="math notranslate nohighlight">\(i\)</span> by user <span class="math notranslate nohighlight">\(j\)</span> as
+<span class="math notranslate nohighlight">\(y^{(i,j)} = \mathbf{w}^{(j)}\cdot \mathbf{x}^{(i)} + b^{(j)}\)</span> . Given a dataset that consists of
+a set of ratings produced by some users on some movies, you wish to
+learn the parameter vectors <span class="math notranslate nohighlight">\(\mathbf{x}^{(0)},...,\mathbf{x}^{(n_m-1)},
+\mathbf{w}^{(0)},...,\mathbf{w}^{(n_u-1)}\)</span>  and <span class="math notranslate nohighlight">\(b^{(0)},...,b^{(n_u-1)}\)</span> that produce the best fit (minimizes
+the squared error).</p>
+<p>You will complete the code in cofiCostFunc to compute the cost
+function for collaborative filtering.</p>
+<p><a name="4.1"></a></p>
+<section id="collaborative-filtering-cost-function">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">4.1 Collaborative filtering cost function</a><a class="headerlink" href="#collaborative-filtering-cost-function" title="Link to this heading">#</a></h3>
+<p>The collaborative filtering cost function is given by
+$$J({\mathbf{x}^{(0)},…,\mathbf{x}^{(n_m-1)},\mathbf{w}^{(0)},b^{(0)},…,\mathbf{w}^{(n_u-1)},b^{(n_u-1)}})= \left[ \frac{1}{2}\sum_{(i,j):r(i,j)=1}(\mathbf{w}^{(j)} \cdot \mathbf{x}^{(i)} + b^{(j)} - y^{(i,j)})^2 \right]</p>
+<ul class="simple">
+<li><p>\underbrace{\left[
+\frac{\lambda}{2}
+\sum_{j=0}^{n_u-1}\sum_{k=0}^{n-1}(\mathbf{w}^{(j)}_k)^2</p></li>
+<li><p>\frac{\lambda}{2}\sum_{i=0}^{n_m-1}\sum_{k=0}^{n-1}(\mathbf{x}<em>k^{(i)})^2
+\right]}</em>{regularization}
+\tag{1}$<span class="math notranslate nohighlight">\(
+The first summation in (1) is &quot;for all \)</span>i<span class="math notranslate nohighlight">\(, \)</span>j<span class="math notranslate nohighlight">\( where \)</span>r(i,j)<span class="math notranslate nohighlight">\( equals \)</span>1$” and could be written:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+= \left[ \frac{1}{2}\sum_{j=0}^{n_u-1} \sum_{i=0}^{n_m-1}r(i,j)*(\mathbf{w}^{(j)} \cdot \mathbf{x}^{(i)} + b^{(j)} - y^{(i,j)})^2 \right]
++\text{regularization}
+\]</div>
+<p>You should now write cofiCostFunc (collaborative filtering cost function) to return this cost.</p>
+<p><a name="ex01"></a></p>
+</section>
+<section id="exercise-1">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Exercise 1</a><a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p><strong>For loop Implementation:</strong><br />
+Start by implementing the cost function using for loops.
+Consider developing the cost function in two steps. First, develop the cost function without regularization. A test case that does not include regularization is provided below to test your implementation. Once that is working, add regularization and run the tests that include regularization.  Note that you should be accumulating the cost for user <span class="math notranslate nohighlight">\(j\)</span> and movie <span class="math notranslate nohighlight">\(i\)</span> only if <span class="math notranslate nohighlight">\(R(i,j) = 1\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GRADED FUNCTION: cofi_cost_func</span>
+<span class="c1"># UNQ_C1</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cofi_cost_func</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the cost for the content-based filtering</span>
+<span class="sd">    Args:</span>
+<span class="sd">      X (ndarray (num_movies,num_features)): matrix of item features</span>
+<span class="sd">      W (ndarray (num_users,num_features)) : matrix of user parameters</span>
+<span class="sd">      b (ndarray (1, num_users)            : vector of user parameters</span>
+<span class="sd">      Y (ndarray (num_movies,num_users)    : matrix of user ratings of movies</span>
+<span class="sd">      R (ndarray (num_movies,num_users)    : matrix, where R(i, j) = 1 if the i-th movies was rated by the j-th user</span>
+<span class="sd">      lambda_ (float): regularization parameter</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      J (float) : Cost</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nm</span><span class="p">,</span> <span class="n">nu</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1">### START CODE HERE ###  </span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nu</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">j</span><span class="p">,:]</span>
+        <span class="n">b_j</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nm</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">J</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_j</span> <span class="o">-</span> <span class="n">y</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">J</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">J</span> <span class="o">+=</span> <span class="p">(</span><span class="n">lambda_</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">W</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+    <span class="c1">### END CODE HERE ### </span>
+
+    <span class="k">return</span> <span class="n">J</span>
+</pre></div>
+</div>
+</div>
+</div>
+<details>
+  <summary><font size="3" color="darkgreen"><b>Click for hints</b></font></summary>
+    You can structure the code in two for loops similar to the summation in (1).   
+    Implement the code without regularization first.   
+    Note that some of the elements in (1) are vectors. Use np.dot(). You can also use np.square().
+    Pay close attention to which elements are indexed by i and which are indexed by j. Don't forget to divide by two.
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1">### START CODE HERE ###  </span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nu</span><span class="p">):</span>
+        
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nm</span><span class="p">):</span>
+            
+            
+    <span class="c1">### END CODE HERE ### </span>
+</pre></div>
+</div>
+<details>
+    <summary><font size="2" color="darkblue"><b> Click for more hints</b></font></summary>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Here is some more details. The code below pulls out each element from the matrix before using it. 
+One could also reference the matrix directly.  
+This code does not contain regularization.
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">nm</span><span class="p">,</span><span class="n">nu</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1">### START CODE HERE ###  </span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nu</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">j</span><span class="p">,:]</span>
+        <span class="n">b_j</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nm</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> 
+            <span class="n">y</span> <span class="o">=</span> 
+            <span class="n">r</span> <span class="o">=</span>
+            <span class="n">J</span> <span class="o">+=</span> 
+    <span class="n">J</span> <span class="o">=</span> <span class="n">J</span><span class="o">/</span><span class="mi">2</span>
+    <span class="c1">### END CODE HERE ### </span>
+
+</pre></div>
+</div>
+<details>
+    <summary><font size="2" color="darkblue"><b>Last Resort (full non-regularized implementation)</b></font></summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">nm</span><span class="p">,</span><span class="n">nu</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1">### START CODE HERE ###  </span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nu</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">j</span><span class="p">,:]</span>
+        <span class="n">b_j</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nm</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">J</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_j</span> <span class="o">-</span> <span class="n">y</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">J</span><span class="o">/</span><span class="mi">2</span>
+    <span class="c1">### END CODE HERE ### </span>
+</pre></div>
+</div>
+<details>
+    <summary><font size="2" color="darkblue"><b>regularization</b></font></summary>
+     Regularization just squares each element of the W array and X array and them sums all the squared elements.
+     You can utilize np.square() and np.sum().
+<details>
+    <summary><font size="2" color="darkblue"><b>regularization details</b></font></summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">J</span> <span class="o">+=</span> <span class="p">(</span><span class="n">lambda_</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">W</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+</pre></div>
+</div>
+</details>
+</details>
+</details>
+</details>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reduce the data set size so that this runs faster</span>
+<span class="n">num_users_r</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">num_movies_r</span> <span class="o">=</span> <span class="mi">5</span> 
+<span class="n">num_features_r</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">X_r</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">num_movies_r</span><span class="p">,</span> <span class="p">:</span><span class="n">num_features_r</span><span class="p">]</span>
+<span class="n">W_r</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:</span><span class="n">num_users_r</span><span class="p">,</span>  <span class="p">:</span><span class="n">num_features_r</span><span class="p">]</span>
+<span class="n">b_r</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="n">num_users_r</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Y_r</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:</span><span class="n">num_movies_r</span><span class="p">,</span> <span class="p">:</span><span class="n">num_users_r</span><span class="p">]</span>
+<span class="n">R_r</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:</span><span class="n">num_movies_r</span><span class="p">,</span> <span class="p">:</span><span class="n">num_users_r</span><span class="p">]</span>
+
+<span class="c1"># Evaluate cost function</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">cofi_cost_func</span><span class="p">(</span><span class="n">X_r</span><span class="p">,</span> <span class="n">W_r</span><span class="p">,</span> <span class="n">b_r</span><span class="p">,</span> <span class="n">Y_r</span><span class="p">,</span> <span class="n">R_r</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cost: </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost: 13.67
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output (lambda = 0)</strong>:<br />
+<span class="math notranslate nohighlight">\(13.67\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate cost function with regularization </span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">cofi_cost_func</span><span class="p">(</span><span class="n">X_r</span><span class="p">,</span> <span class="n">W_r</span><span class="p">,</span> <span class="n">b_r</span><span class="p">,</span> <span class="n">Y_r</span><span class="p">,</span> <span class="n">R_r</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cost (with regularization): </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost (with regularization): 28.09
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:</p>
+<p>28.09</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Public tests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">public_tests</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">test_cofi_cost_func</span><span class="p">(</span><span class="n">cofi_cost_func</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All tests passed!
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Vectorized Implementation</strong></p>
+<p>It is important to create a vectorized implementation to compute <span class="math notranslate nohighlight">\(J\)</span>, since it will later be called many times during optimization. The linear algebra utilized is not the focus of this series, so the implementation is provided. If you are an expert in linear algebra, feel free to create your version without referencing the code below.</p>
+<p>Run the code below and verify that it produces the same results as the non-vectorized version.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cofi_cost_func_v</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the cost for the content-based filtering</span>
+<span class="sd">    Vectorized for speed. Uses tensorflow operations to be compatible with custom training loop.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      X (ndarray (num_movies,num_features)): matrix of item features</span>
+<span class="sd">      W (ndarray (num_users,num_features)) : matrix of user parameters</span>
+<span class="sd">      b (ndarray (1, num_users)            : vector of user parameters</span>
+<span class="sd">      Y (ndarray (num_movies,num_users)    : matrix of user ratings of movies</span>
+<span class="sd">      R (ndarray (num_movies,num_users)    : matrix, where R(i, j) = 1 if the i-th movies was rated by the j-th user</span>
+<span class="sd">      lambda_ (float): regularization parameter</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      J (float) : Cost</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">W</span><span class="p">))</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span><span class="o">*</span><span class="n">R</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">j</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">lambda_</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">W</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">J</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate cost function</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">cofi_cost_func_v</span><span class="p">(</span><span class="n">X_r</span><span class="p">,</span> <span class="n">W_r</span><span class="p">,</span> <span class="n">b_r</span><span class="p">,</span> <span class="n">Y_r</span><span class="p">,</span> <span class="n">R_r</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cost: </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Evaluate cost function with regularization </span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">cofi_cost_func_v</span><span class="p">(</span><span class="n">X_r</span><span class="p">,</span> <span class="n">W_r</span><span class="p">,</span> <span class="n">b_r</span><span class="p">,</span> <span class="n">Y_r</span><span class="p">,</span> <span class="n">R_r</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cost (with regularization): </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost: 13.67
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cost (with regularization): 28.09
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Expected Output</strong>:<br />
+Cost: 13.67<br />
+Cost (with regularization): 28.09</p>
+<p><a name="5"></a></p>
+</section>
+</section>
+<section id="learning-movie-recommendations">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">5 - Learning movie recommendations <img align="left" src="../../assets/C3_W2/images/film_man_action.png" style=" width:40px;  " ></a><a class="headerlink" href="#learning-movie-recommendations" title="Link to this heading">#</a></h2>
+<hr class="docutils" />
+<p>After you have finished implementing the collaborative filtering cost
+function, you can start training your algorithm to make
+movie recommendations for yourself.</p>
+<p>In the cell below, you can enter your own movie choices. The algorithm will then make recommendations for you! We have filled out some values according to our preferences, but after you have things working with our choices, you should change this to match your tastes.
+A list of all movies in the dataset is in the file <a class="reference download internal" download="" href="../../_downloads/ca178d5ed848493146b20a965083f276/small_movie_list.csv"><span class="xref download myst">movie list</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">movieList</span><span class="p">,</span> <span class="n">movieList_df</span> <span class="o">=</span> <span class="n">load_Movie_List_pd</span><span class="p">()</span>
+
+<span class="n">my_ratings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_movies</span><span class="p">)</span>          <span class="c1">#  Initialize my ratings</span>
+
+<span class="c1"># Check the file small_movie_list.csv for id of each movie in our dataset</span>
+<span class="c1"># For example, Toy Story 3 (2010) has ID 2700, so to rate it &quot;5&quot;, you can set</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">2700</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span> 
+
+<span class="c1">#Or suppose you did not enjoy Persuasion (2007), you can set</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">2609</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="c1"># We have selected a few movies we liked / did not like and the ratings we</span>
+<span class="c1"># gave are as follows:</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">929</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># Lord of the Rings: The Return of the King, The</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">246</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># Shrek (2001)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">2716</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>   <span class="c1"># Inception</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">1150</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># Incredibles, The (2004)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">382</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">2</span>   <span class="c1"># Amelie (Fabuleux destin d&#39;Amélie Poulain, Le)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">366</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># Harry Potter and the Sorcerer&#39;s Stone (a.k.a. Harry Potter and the Philosopher&#39;s Stone) (2001)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">622</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># Harry Potter and the Chamber of Secrets (2002)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">988</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">3</span>   <span class="c1"># Eternal Sunshine of the Spotless Mind (2004)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">2925</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Louis Theroux: Law &amp; Disorder (2008)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">2937</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1"># Nothing to Declare (Rien à déclarer)</span>
+<span class="n">my_ratings</span><span class="p">[</span><span class="mi">793</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># Pirates of the Caribbean: The Curse of the Black Pearl (2003)</span>
+<span class="n">my_rated</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">my_ratings</span><span class="p">))</span> <span class="k">if</span> <span class="n">my_ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">New user ratings:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">my_ratings</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">my_ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Rated </span><span class="si">{</span><span class="n">my_ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1"> for  </span><span class="si">{</span><span class="n">movieList_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New user ratings:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rated 5.0 for  Shrek (2001)
+Rated 5.0 for  Harry Potter and the Sorcerer&#39;s Stone (a.k.a. Harry Potter and the Philosopher&#39;s Stone) (2001)
+Rated 2.0 for  Amelie (Fabuleux destin d&#39;Amélie Poulain, Le) (2001)
+Rated 5.0 for  Harry Potter and the Chamber of Secrets (2002)
+Rated 5.0 for  Pirates of the Caribbean: The Curse of the Black Pearl (2003)
+Rated 5.0 for  Lord of the Rings: The Return of the King, The (2003)
+Rated 3.0 for  Eternal Sunshine of the Spotless Mind (2004)
+Rated 5.0 for  Incredibles, The (2004)
+Rated 2.0 for  Persuasion (2007)
+Rated 5.0 for  Toy Story 3 (2010)
+Rated 3.0 for  Inception (2010)
+Rated 1.0 for  Louis Theroux: Law &amp; Disorder (2008)
+Rated 1.0 for  Nothing to Declare (Rien à déclarer) (2010)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, let’s add these reviews to <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(R\)</span> and normalize the ratings.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reload ratings</span>
+<span class="n">Y</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">load_ratings_small</span><span class="p">()</span>
+
+<span class="c1"># Add new user ratings to Y </span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">my_ratings</span><span class="p">,</span> <span class="n">Y</span><span class="p">]</span>
+
+<span class="c1"># Add new user indicator matrix to R</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[(</span><span class="n">my_ratings</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">R</span><span class="p">]</span>
+
+<span class="c1"># Normalize the Dataset</span>
+<span class="n">Ynorm</span><span class="p">,</span> <span class="n">Ymean</span> <span class="o">=</span> <span class="n">normalizeRatings</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s prepare to train the model. Initialize the parameters and select the Adam optimizer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  Useful Values</span>
+<span class="n">num_movies</span><span class="p">,</span> <span class="n">num_users</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">num_features</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># Set Initial Parameters (W, X), use tf.Variable to track these variables</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span> <span class="c1"># for consistent results</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">((</span><span class="n">num_users</span><span class="p">,</span>  <span class="n">num_features</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;W&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">((</span><span class="n">num_movies</span><span class="p">,</span> <span class="n">num_features</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span>          <span class="n">num_users</span><span class="p">),</span>   <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+
+<span class="c1"># Instantiate an optimizer.</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s now train the collaborative filtering model. This will learn the parameters <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>, and <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>.</p>
+<p>The operations involved in learning <span class="math notranslate nohighlight">\(w\)</span>, <span class="math notranslate nohighlight">\(b\)</span>, and <span class="math notranslate nohighlight">\(x\)</span> simultaneously do not fall into the typical ‘layers’ offered in the TensorFlow neural network package.  Consequently, the flow used in Course 2: Model, Compile(), Fit(), Predict(), are not directly applicable. Instead, we can use a custom training loop.</p>
+<p>Recall from earlier labs the steps of gradient descent.</p>
+<ul class="simple">
+<li><p>repeat until convergence:</p>
+<ul>
+<li><p>compute forward pass</p></li>
+<li><p>compute the derivatives of the loss relative to parameters</p></li>
+<li><p>update the parameters using the learning rate and the computed derivatives</p></li>
+</ul>
+</li>
+</ul>
+<p>TensorFlow has the marvelous capability of calculating the derivatives for you. This is shown below. Within the <code class="docutils literal notranslate"><span class="pre">tf.GradientTape()</span></code> section, operations on Tensorflow Variables are tracked. When <code class="docutils literal notranslate"><span class="pre">tape.gradient()</span></code> is later called, it will return the gradient of the loss relative to the tracked variables. The gradients can then be applied to the parameters using an optimizer.
+This is a very brief introduction to a useful feature of TensorFlow and other machine learning frameworks. Further information can be found by investigating “custom training loops” within the framework of interest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iterations</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+    <span class="c1"># Use TensorFlow’s GradientTape</span>
+    <span class="c1"># to record the operations used to compute the cost </span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+
+        <span class="c1"># Compute the cost (forward pass included in cost)</span>
+        <span class="n">cost_value</span> <span class="o">=</span> <span class="n">cofi_cost_func_v</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">Ynorm</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">)</span>
+
+    <span class="c1"># Use the gradient tape to automatically retrieve</span>
+    <span class="c1"># the gradients of the trainable variables with respect to the loss</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span> <span class="n">cost_value</span><span class="p">,</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">b</span><span class="p">]</span> <span class="p">)</span>
+
+    <span class="c1"># Run one step of gradient descent by updating</span>
+    <span class="c1"># the value of the variables to minimize the loss.</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span> <span class="nb">zip</span><span class="p">(</span><span class="n">grads</span><span class="p">,</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">b</span><span class="p">])</span> <span class="p">)</span>
+
+    <span class="c1"># Log periodically.</span>
+    <span class="k">if</span> <span class="nb">iter</span> <span class="o">%</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training loss at iteration </span><span class="si">{</span><span class="nb">iter</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">cost_value</span><span class="si">:</span><span class="s2">0.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 0: 2321191.3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 20: 136169.3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 40: 51863.7
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 60: 24599.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 80: 13630.6
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 100: 8487.7
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 120: 5807.8
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 140: 4311.6
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 160: 3435.3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training loss at iteration 180: 2902.1
+</pre></div>
+</div>
+</div>
+</div>
+<p><a name="6"></a></p>
+</section>
+<section id="recommendations">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">6 - Recommendations</a><a class="headerlink" href="#recommendations" title="Link to this heading">#</a></h2>
+<p>Below, we compute the ratings for all the movies and users and display the movies that are recommended. These are based on the movies and ratings entered as <code class="docutils literal notranslate"><span class="pre">my_ratings[]</span></code> above. To predict the rating of movie <span class="math notranslate nohighlight">\(i\)</span> for user <span class="math notranslate nohighlight">\(j\)</span>, you compute <span class="math notranslate nohighlight">\(\mathbf{w}^{(j)} \cdot \mathbf{x}^{(i)} + b^{(j)}\)</span>. This can be computed for all ratings using matrix multiplication.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make a prediction using trained weights and biases</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="c1">#restore the mean</span>
+<span class="n">pm</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">Ymean</span>
+
+<span class="n">my_predictions</span> <span class="o">=</span> <span class="n">pm</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># sort predictions</span>
+<span class="n">ix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">my_predictions</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;DESCENDING&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">17</span><span class="p">):</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">my_rated</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Predicting rating </span><span class="si">{</span><span class="n">my_predictions</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">0.2f</span><span class="si">}</span><span class="s1"> for movie </span><span class="si">{</span><span class="n">movieList</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">Original vs Predicted ratings:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">my_ratings</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">my_ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Original </span><span class="si">{</span><span class="n">my_ratings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1">, Predicted </span><span class="si">{</span><span class="n">my_predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s1">0.2f</span><span class="si">}</span><span class="s1"> for </span><span class="si">{</span><span class="n">movieList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicting rating 4.49 for movie My Sassy Girl (Yeopgijeogin geunyeo) (2001)
+Predicting rating 4.48 for movie Martin Lawrence Live: Runteldat (2002)
+Predicting rating 4.48 for movie Memento (2000)
+Predicting rating 4.47 for movie Delirium (2014)
+Predicting rating 4.47 for movie Laggies (2014)
+Predicting rating 4.47 for movie One I Love, The (2014)
+Predicting rating 4.46 for movie Particle Fever (2013)
+Predicting rating 4.45 for movie Eichmann (2007)
+Predicting rating 4.45 for movie Battle Royale 2: Requiem (Batoru rowaiaru II: Chinkonka) (2003)
+Predicting rating 4.45 for movie Into the Abyss (2011)
+
+
+Original vs Predicted ratings:
+
+Original 5.0, Predicted 4.90 for Shrek (2001)
+Original 5.0, Predicted 4.84 for Harry Potter and the Sorcerer&#39;s Stone (a.k.a. Harry Potter and the Philosopher&#39;s Stone) (2001)
+Original 2.0, Predicted 2.13 for Amelie (Fabuleux destin d&#39;Amélie Poulain, Le) (2001)
+Original 5.0, Predicted 4.88 for Harry Potter and the Chamber of Secrets (2002)
+Original 5.0, Predicted 4.87 for Pirates of the Caribbean: The Curse of the Black Pearl (2003)
+Original 5.0, Predicted 4.89 for Lord of the Rings: The Return of the King, The (2003)
+Original 3.0, Predicted 3.00 for Eternal Sunshine of the Spotless Mind (2004)
+Original 5.0, Predicted 4.90 for Incredibles, The (2004)
+Original 2.0, Predicted 2.11 for Persuasion (2007)
+Original 5.0, Predicted 4.80 for Toy Story 3 (2010)
+Original 3.0, Predicted 3.00 for Inception (2010)
+Original 1.0, Predicted 1.41 for Louis Theroux: Law &amp; Disorder (2008)
+Original 1.0, Predicted 1.26 for Nothing to Declare (Rien à déclarer) (2010)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In practice, additional information can be utilized to enhance our predictions. Above, the predicted ratings for the first few hundred movies lie in a small range. We can augment the above by selecting from those top movies, movies that have high average ratings and movies with more than 20 ratings. This section uses a <a class="reference external" href="https://pandas.pydata.org/">Pandas</a> data frame which has many handy sorting features.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">filter</span><span class="o">=</span><span class="p">(</span><span class="n">movieList_df</span><span class="p">[</span><span class="s2">&quot;number of ratings&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">movieList_df</span><span class="p">[</span><span class="s2">&quot;pred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_predictions</span>
+<span class="n">movieList_df</span> <span class="o">=</span> <span class="n">movieList_df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pred&quot;</span><span class="p">,</span> <span class="s2">&quot;mean rating&quot;</span><span class="p">,</span> <span class="s2">&quot;number of ratings&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">])</span>
+<span class="n">movieList_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ix</span><span class="p">[:</span><span class="mi">300</span><span class="p">]]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">filter</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;mean rating&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pred</th>
+      <th>mean rating</th>
+      <th>number of ratings</th>
+      <th>title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1743</th>
+      <td>4.030961</td>
+      <td>4.252336</td>
+      <td>107</td>
+      <td>Departed, The (2006)</td>
+    </tr>
+    <tr>
+      <th>2112</th>
+      <td>3.985281</td>
+      <td>4.238255</td>
+      <td>149</td>
+      <td>Dark Knight, The (2008)</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>4.477798</td>
+      <td>4.122642</td>
+      <td>159</td>
+      <td>Memento (2000)</td>
+    </tr>
+    <tr>
+      <th>929</th>
+      <td>4.887054</td>
+      <td>4.118919</td>
+      <td>185</td>
+      <td>Lord of the Rings: The Return of the King, The...</td>
+    </tr>
+    <tr>
+      <th>2700</th>
+      <td>4.796531</td>
+      <td>4.109091</td>
+      <td>55</td>
+      <td>Toy Story 3 (2010)</td>
+    </tr>
+    <tr>
+      <th>653</th>
+      <td>4.357304</td>
+      <td>4.021277</td>
+      <td>188</td>
+      <td>Lord of the Rings: The Two Towers, The (2002)</td>
+    </tr>
+    <tr>
+      <th>1122</th>
+      <td>4.004471</td>
+      <td>4.006494</td>
+      <td>77</td>
+      <td>Shaun of the Dead (2004)</td>
+    </tr>
+    <tr>
+      <th>1841</th>
+      <td>3.980649</td>
+      <td>4.000000</td>
+      <td>61</td>
+      <td>Hot Fuzz (2007)</td>
+    </tr>
+    <tr>
+      <th>3083</th>
+      <td>4.084643</td>
+      <td>3.993421</td>
+      <td>76</td>
+      <td>Dark Knight Rises, The (2012)</td>
+    </tr>
+    <tr>
+      <th>2804</th>
+      <td>4.434171</td>
+      <td>3.989362</td>
+      <td>47</td>
+      <td>Harry Potter and the Deathly Hallows: Part 1 (...</td>
+    </tr>
+    <tr>
+      <th>773</th>
+      <td>4.289676</td>
+      <td>3.960993</td>
+      <td>141</td>
+      <td>Finding Nemo (2003)</td>
+    </tr>
+    <tr>
+      <th>1771</th>
+      <td>4.344999</td>
+      <td>3.944444</td>
+      <td>81</td>
+      <td>Casino Royale (2006)</td>
+    </tr>
+    <tr>
+      <th>2649</th>
+      <td>4.133481</td>
+      <td>3.943396</td>
+      <td>53</td>
+      <td>How to Train Your Dragon (2010)</td>
+    </tr>
+    <tr>
+      <th>2455</th>
+      <td>4.175743</td>
+      <td>3.887931</td>
+      <td>58</td>
+      <td>Harry Potter and the Half-Blood Prince (2009)</td>
+    </tr>
+    <tr>
+      <th>361</th>
+      <td>4.135287</td>
+      <td>3.871212</td>
+      <td>132</td>
+      <td>Monsters, Inc. (2001)</td>
+    </tr>
+    <tr>
+      <th>3014</th>
+      <td>3.967900</td>
+      <td>3.869565</td>
+      <td>69</td>
+      <td>Avengers, The (2012)</td>
+    </tr>
+    <tr>
+      <th>246</th>
+      <td>4.897137</td>
+      <td>3.867647</td>
+      <td>170</td>
+      <td>Shrek (2001)</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>3.971892</td>
+      <td>3.836364</td>
+      <td>110</td>
+      <td>Crouching Tiger, Hidden Dragon (Wo hu cang lon...</td>
+    </tr>
+    <tr>
+      <th>1150</th>
+      <td>4.898892</td>
+      <td>3.836000</td>
+      <td>125</td>
+      <td>Incredibles, The (2004)</td>
+    </tr>
+    <tr>
+      <th>793</th>
+      <td>4.874936</td>
+      <td>3.778523</td>
+      <td>149</td>
+      <td>Pirates of the Caribbean: The Curse of the Bla...</td>
+    </tr>
+    <tr>
+      <th>366</th>
+      <td>4.843375</td>
+      <td>3.761682</td>
+      <td>107</td>
+      <td>Harry Potter and the Sorcerer's Stone (a.k.a. ...</td>
+    </tr>
+    <tr>
+      <th>754</th>
+      <td>4.021778</td>
+      <td>3.723684</td>
+      <td>76</td>
+      <td>X2: X-Men United (2003)</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>4.242986</td>
+      <td>3.699248</td>
+      <td>133</td>
+      <td>X-Men (2000)</td>
+    </tr>
+    <tr>
+      <th>622</th>
+      <td>4.878342</td>
+      <td>3.598039</td>
+      <td>102</td>
+      <td>Harry Potter and the Chamber of Secrets (2002)</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><a name="7"></a></p>
+</section>
+<section id="congratulations">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">7 - Congratulations! <img align="left" src="../../assets/C3_W2/images/film_award.png"     style=" width:40px;  " ></a><a class="headerlink" href="#congratulations" title="Link to this heading">#</a></h2>
+<p>You have implemented a useful recommender system!</p>
+<details>
+  <summary><font size="2" color="darkgreen"><b>Please click here if you want to experiment with any of the non-graded code.</b></font></summary>
+    <p><i><b>Important Note: Please only do this when you've already passed the assignment to avoid problems with the autograder.</b></i>
+    <ol>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “Edit Metadata”</li>
+        <li> Hit the “Edit Metadata” button next to the code cell which you want to lock/unlock</li>
+        <li> Set the attribute value for “editable” to:
+            <ul>
+                <li> “true” if you want to unlock it </li>
+                <li> “false” if you want to lock it </li>
+            </ul>
+        </li>
+        <li> On the notebook’s menu, click “View” > “Cell Toolbar” > “None” </li>
+    </ol>
+    <p> Here's a short demo of how to do the steps above: 
+        <br>
+        <img src="https://lh3.google.com/u/0/d/14Xy_Mb17CZVgzVAgq7NCjMVBvSae3xO1" align="center" alt="unlock_cells.gif">
+</details></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./MLS\C3_W2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ppt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Course 3 Week 2 : Recommender Systems</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="C3_W2_Lab01_PCA_Visualization_Examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">PCA - An example on Exploratory Data Analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages <img align="left" src="../../assets/C3_W2/images/film_strip_vertical.png" style=" width:40px;   "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation">1 - Notation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommender-systems">2 - Recommender Systems <img align="left" src="../../assets/C3_W2/images/film_rating.png" style=" width:40px;  "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#movie-ratings-dataset">3 - Movie ratings dataset <img align="left" src="../../assets/C3_W2/images/film_rating.png" style=" width:40px;  "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collaborative-filtering-learning-algorithm">4 - Collaborative filtering learning algorithm <img align="left" src="../../assets/C3_W2/images/film_filter.png" style=" width:40px;  "/></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collaborative-filtering-cost-function">4.1 Collaborative filtering cost function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-movie-recommendations">5 - Learning movie recommendations <img align="left" src="../../assets/C3_W2/images/film_man_action.png" style=" width:40px;  "/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendations">6 - Recommendations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#congratulations">7 - Congratulations! <img align="left" src="../../assets/C3_W2/images/film_award.png" style=" width:40px;  "/></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By svgoudar
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

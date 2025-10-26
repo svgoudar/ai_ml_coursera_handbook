@@ -225,7 +225,6 @@
 
 
 
-
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Optional Lab: Feature scaling and Learning Rate (Multi-variable)</a></li>
 
 <li class="toctree-l3"><a class="reference internal" href="C1_W2_Lab04_FeatEng_PolyReg_Soln.html">Optional Lab: Feature Engineering and Polynomial Regression</a></li>
@@ -287,11 +286,11 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W1/ppt.html">Course 3 Week 1 : Unsupervised learning, recommender systems and reinforcement learning</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Anomaly_Detection.html">Anomaly Detection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_Collaborative_RecSys_Assignment.html">Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W1/C3_W1_KMeans_Assignment.html">K-means Clustering</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../C3_W2/ppt.html">Course 3 Week 2 : Recommender Systems</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Collaborative_RecSys_Assignment.html"><img align="left" src="../../assets/C3_W2/images/movie_camera.png" style=" width:40px;  "/> Practice lab: Collaborative Filtering Recommender Systems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../C3_W2/C3_W2_Lab01_PCA_Visualization_Examples.html">PCA - An example on Exploratory Data Analysis</a></li>
 </ul>
 </details></li>
@@ -387,7 +386,6 @@
 
 
 
-
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../DLS/C5_W4/ppt.html">Course 5 Week 4: Transformer Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -470,6 +468,7 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C3_W1/ppt.html">Course 3 Week 3: Siamese Networks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment.html">Assignment 1:  Deep N-grams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Assignment_1.html">Assignment 1:  Deep N-grams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Hidden_State_Activation.html">Hidden State Activation : Ungraded Lecture Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_Practice_Assignment.html">Assignment 1:  Sentiment with Deep Neural Networks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C3_W1/C3W1_RNNs.html">Vanilla RNNs and GRUs</a></li>
@@ -514,12 +513,16 @@
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Attention.html">The Three Ways of Attention and Dot Product Attention: Ungraded Lab Notebook</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Masking.html">Masking</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Positional_Encoding.html">Positional Encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W2/C4W2_Transformer_Summarizer.html">Assignment 2: Transformer Summarizer</a></li>
+
+
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../NLP/C4_W3/ppt.html">Course 4 Week 3: Question Answering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Assignment.html">Assignment 3: Question Answering</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab1_QA_BERT.html">Question Answering with BERT and HuggingFace</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_HF_Lab2_QA_BERT.html">Question Answering with BERT and HuggingFace 🤗 (Fine-tuning)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../NLP/C4_W3/C4W3_Question_Answering.html">Assignment 3: Question Answering</a></li>
 </ul>
 </details></li>
 </ul>
@@ -816,22 +819,73 @@ document.write(`
 </section>
 <section id="notation">
 <h2>Notation<a class="headerlink" href="#notation" title="Link to this heading">#</a></h2>
-<p>|General <br />  Notation  | Description| Python (if applicable) |
-|: ————|: ————————————————————||
-| <span class="math notranslate nohighlight">\(a\)</span> | scalar, non bold                                                      ||
-| <span class="math notranslate nohighlight">\(\mathbf{a}\)</span> | vector, bold                                                 ||
-| <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> | matrix, bold capital                                         ||
-| <strong>Regression</strong> |         |    |     |
-|  <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> | training example maxtrix                  | <code class="docutils literal notranslate"><span class="pre">X_train</span></code> |<br />
-|  <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>  | training example  targets                | <code class="docutils literal notranslate"><span class="pre">y_train</span></code>
-|  <span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span>, <span class="math notranslate nohighlight">\(y^{(i)}\)</span> | <span class="math notranslate nohighlight">\(i_{th}\)</span>Training Example | <code class="docutils literal notranslate"><span class="pre">X[i]</span></code>, <code class="docutils literal notranslate"><span class="pre">y[i]</span></code>|
-| m | number of training examples | <code class="docutils literal notranslate"><span class="pre">m</span></code>|
-| n | number of features in each example | <code class="docutils literal notranslate"><span class="pre">n</span></code>|
-|  <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>  |  parameter: weight,                       | <code class="docutils literal notranslate"><span class="pre">w</span></code>    |
-|  <span class="math notranslate nohighlight">\(b\)</span>           |  parameter: bias                                           | <code class="docutils literal notranslate"><span class="pre">b</span></code>    |<br />
-| <span class="math notranslate nohighlight">\(f_{\mathbf{w},b}(\mathbf{x}^{(i)})\)</span> | The result of the model evaluation at  <span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span> parameterized by <span class="math notranslate nohighlight">\(\mathbf{w},b\)</span>: <span class="math notranslate nohighlight">\(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)}+b\)</span>  | <code class="docutils literal notranslate"><span class="pre">f_wb</span></code> |
-|<span class="math notranslate nohighlight">\(\frac{\partial J(\mathbf{w},b)}{\partial w_j}\)</span>| the gradient or partial derivative of cost with respect to a parameter <span class="math notranslate nohighlight">\(w_j\)</span> |<code class="docutils literal notranslate"><span class="pre">dj_dw[j]</span></code>|
-|<span class="math notranslate nohighlight">\(\frac{\partial J(\mathbf{w},b)}{\partial b}\)</span>| the gradient or partial derivative of cost with respect to a parameter <span class="math notranslate nohighlight">\(b\)</span>| <code class="docutils literal notranslate"><span class="pre">dj_db</span></code>|</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>General Notation</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Python (if applicable)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(a\)</span></p></td>
+<td><p>Scalar (non-bold)</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathbf{a}\)</span></p></td>
+<td><p>Vector (bold)</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathbf{A}\)</span></p></td>
+<td><p>Matrix (bold capital)</p></td>
+<td><p>—</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Regression</strong></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathbf{X}\)</span></p></td>
+<td><p>Training example matrix</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">X_train</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathbf{y}\)</span></p></td>
+<td><p>Training example targets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">y_train</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\mathbf{x}^{(i)},\, y^{(i)}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(i\)</span>-th training example</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">X[i]</span></code>, <code class="docutils literal notranslate"><span class="pre">y[i]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(m\)</span></p></td>
+<td><p>Number of training examples</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">m</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(n\)</span></p></td>
+<td><p>Number of features per example</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\mathbf{w}\)</span></p></td>
+<td><p>Parameter: weights</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">w</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td><p>Parameter: bias</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(f_{\mathbf{w},b}(\mathbf{x}^{(i)})\)</span></p></td>
+<td><p>Model output at <span class="math notranslate nohighlight">\(\mathbf{x}^{(i)}\)</span>: <span class="math notranslate nohighlight">\(\mathbf{w} \cdot \mathbf{x}^{(i)} + b\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f_wb</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\frac{\partial J(\mathbf{w},b)}{\partial w_j}\)</span></p></td>
+<td><p>Gradient of cost w.r.t. <span class="math notranslate nohighlight">\(w_j\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dj_dw[j]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\frac{\partial J(\mathbf{w},b)}{\partial b}\)</span></p></td>
+<td><p>Gradient of cost w.r.t. <span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dj_db</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="problem-statement">
@@ -899,7 +953,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/78de17fef53b2752eb8eeb29ccc4a92ad25cd12e0cba8eba6c9c00d668644185.png" src="../../_images/78de17fef53b2752eb8eeb29ccc4a92ad25cd12e0cba8eba6c9c00d668644185.png" />
+<img alt="../../_images/4534dfbf4ec8ac6730eda8176aaf10f9a6cc99f0300aa6434bb9dce8f0f6f1ab.png" src="../../_images/4534dfbf4ec8ac6730eda8176aaf10f9a6cc99f0300aa6434bb9dce8f0f6f1ab.png" />
 </div>
 </div>
 <p>Plotting each feature vs. the target, price, provides some indication of which features have the strongest influence on price. Above, increasing size also increases price. Bedrooms and floors don’t seem to have a strong impact on price. Newer houses have higher prices than older houses.</p>
@@ -955,7 +1009,7 @@ The lectures discussed some of the issues related to setting the learning rate $
         7 7.58122e+05 -5.8e-01 -1.1e-03 -6.2e-04 -1.9e-02 -3.4e-04  1.6e+06  2.9e+03  1.5e+03  3.8e+04  1.0e+03
         8 1.02068e+06  1.2e+00  2.2e-03  1.1e-03  2.3e-02  8.3e-04 -1.8e+06 -3.3e+03 -1.7e+03 -4.2e+04 -1.2e+03
         9 1.37435e+06 -8.7e-01 -1.7e-03 -9.1e-04 -2.7e-02 -5.2e-04  2.1e+06  3.9e+03  2.0e+03  5.1e+04  1.4e+03
-w,b found by gradient descent: w: [-0.87 -0.   -0.   -0.03], b: -0.00
+w,b found by gradient descent: w: [-0.86831498 -0.00165867 -0.0009115  -0.02720726], b: -0.00
 </pre></div>
 </div>
 </div>
@@ -968,7 +1022,7 @@ w,b found by gradient descent: w: [-0.87 -0.   -0.   -0.03], b: -0.00
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/72a5221fb0f8114908ad3de0c0a54a3a99f881247c7890f8180418e25bdf16e1.png" src="../../_images/72a5221fb0f8114908ad3de0c0a54a3a99f881247c7890f8180418e25bdf16e1.png" />
+<img alt="../../_images/5f052f42e9d8319bb8dd3b3905a79f6863e508b77d404afc0deb0cd6f5354bae.png" src="../../_images/5f052f42e9d8319bb8dd3b3905a79f6863e508b77d404afc0deb0cd6f5354bae.png" />
 </div>
 </div>
 <p>The plot on the right shows the value of one of the parameters, <span class="math notranslate nohighlight">\(w_0\)</span>. At each iteration, it is overshooting the optimal value and as a result, cost ends up <em>increasing</em> rather than approaching the minimum. Note that this is not a completely accurate picture as there are 4 parameters being modified each pass rather than just one. This plot is only showing <span class="math notranslate nohighlight">\(w_0\)</span> with the other parameters fixed at benign values. In this and later plots you may notice the blue and orange lines being slightly off.</p>
@@ -996,7 +1050,7 @@ w,b found by gradient descent: w: [-0.87 -0.   -0.   -0.03], b: -0.00
         7 4.05239e+04  6.4e-02  7.0e-05  1.2e-06 -3.3e-03  7.3e-05  4.3e+05  7.9e+02  4.2e+02  1.1e+04  2.7e+02
         8 3.77849e+04  4.4e-01  7.5e-04  3.5e-04  4.9e-03  3.2e-04 -4.1e+05 -7.5e+02 -3.9e+02 -9.1e+03 -2.7e+02
         9 3.52385e+04  7.7e-02  8.3e-05 -1.1e-06 -4.2e-03  8.9e-05  4.0e+05  7.4e+02  3.9e+02  1.0e+04  2.5e+02
-w,b found by gradient descent: w: [ 7.74e-02  8.27e-05 -1.06e-06 -4.20e-03], b: 0.00
+w,b found by gradient descent: w: [ 7.73775314e-02  8.27287625e-05 -1.06291972e-06 -4.19710549e-03], b: 0.00
 </pre></div>
 </div>
 </div>
@@ -1009,7 +1063,7 @@ w,b found by gradient descent: w: [ 7.74e-02  8.27e-05 -1.06e-06 -4.20e-03], b: 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f6658414a26e3fd3dbb5e745549c6ea4a5eabcc7b7b0c2ab0bdb0d9e8dafeb26.png" src="../../_images/f6658414a26e3fd3dbb5e745549c6ea4a5eabcc7b7b0c2ab0bdb0d9e8dafeb26.png" />
+<img alt="../../_images/b50e39168a5657f88e461f3ff5cef557c984d2856a3681a3e50e93f43df5bb1e.png" src="../../_images/b50e39168a5657f88e461f3ff5cef557c984d2856a3681a3e50e93f43df5bb1e.png" />
 </div>
 </div>
 <p>On the left, you see that cost is decreasing as it should. On the right, you can see that <span class="math notranslate nohighlight">\(w_0\)</span> is still oscillating around the minimum, but the cost is decreasing with every iteration rather than increasing. Note above that <code class="docutils literal notranslate"><span class="pre">dj_dw[0]</span></code> changes sign with each iteration as <code class="docutils literal notranslate"><span class="pre">w[0]</span></code> jumps over the optimal value.
@@ -1038,7 +1092,7 @@ This alpha value will converge. You can vary the number of iterations to see how
         7 2.93826e+03  2.2e-01  3.9e-04  2.0e-04  4.6e-03  1.4e-04 -9.8e+04 -1.7e+02 -8.6e+01 -1.7e+03 -6.8e+01
         8 2.41013e+03  2.3e-01  4.1e-04  2.1e-04  4.7e-03  1.5e-04 -7.7e+04 -1.3e+02 -6.5e+01 -1.2e+03 -5.4e+01
         9 2.08734e+03  2.3e-01  4.2e-04  2.1e-04  4.8e-03  1.5e-04 -6.0e+04 -1.0e+02 -4.9e+01 -7.5e+02 -4.3e+01
-w,b found by gradient descent: w: [2.31e-01 4.18e-04 2.12e-04 4.81e-03], b: 0.00
+w,b found by gradient descent: w: [2.31283016e-01 4.17834784e-04 2.12498494e-04 4.80830049e-03], b: 0.00
 </pre></div>
 </div>
 </div>
@@ -1051,7 +1105,7 @@ w,b found by gradient descent: w: [2.31e-01 4.18e-04 2.12e-04 4.81e-03], b: 0.00
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f9542ee61346da2906bd8fe07e3dd0b9c5c8f29034909a59f8f5879357b2f720.png" src="../../_images/f9542ee61346da2906bd8fe07e3dd0b9c5c8f29034909a59f8f5879357b2f720.png" />
+<img alt="../../_images/2029906a2ae69f1754eb78696402a2c7436395ee8a8f4a739c93a7c2dfee2ef1.png" src="../../_images/2029906a2ae69f1754eb78696402a2c7436395ee8a8f4a739c93a7c2dfee2ef1.png" />
 </div>
 </div>
 <p>On the left, you see that cost is decreasing as it should. On the right, you can see that <span class="math notranslate nohighlight">\(w_0\)</span> is approaching the minimum without oscillations. <code class="docutils literal notranslate"><span class="pre">dj_w0</span></code> is negative throughout the run. This solution will also converge.</p>
@@ -1178,7 +1232,7 @@ that we had previously computed from the training set.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/fce3e7abfc2fd16766d3839ee19e60d96d855717e997fdd30354604bf993550d.png" src="../../_images/fce3e7abfc2fd16766d3839ee19e60d96d855717e997fdd30354604bf993550d.png" />
+<img alt="../../_images/a71445709a3b97659909c60d13d1ac8388997a94dc2fcf6e0f10df03bf869483.png" src="../../_images/a71445709a3b97659909c60d13d1ac8388997a94dc2fcf6e0f10df03bf869483.png" />
 </div>
 </div>
 <p>The plot above shows the relationship between two of the training set parameters, “age” and “size(sqft)”. <em>These are plotted with equal scale</em>.</p>
@@ -1199,10 +1253,10 @@ that we had previously computed from the training set.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X_mu = [1.42e+03 2.72e+00 1.38e+00 3.84e+01], 
-X_sigma = [411.62   0.65   0.49  25.78]
-Peak to Peak range by column in Raw        X:[2.41e+03 4.00e+00 1.00e+00 9.50e+01]
-Peak to Peak range by column in Normalized X:[5.85 6.14 2.06 3.69]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X_mu = [1.41837374e+03 2.71717172e+00 1.38383838e+00 3.83838384e+01], 
+X_sigma = [411.61562893   0.65196523   0.48631932  25.77788069]
+Peak to Peak range by column in Raw        X:[2.406e+03 4.000e+00 1.000e+00 9.500e+01]
+Peak to Peak range by column in Normalized X:[5.8452591  6.13529646 2.05626214 3.68533012]
 </pre></div>
 </div>
 </div>
@@ -1229,8 +1283,8 @@ Peak to Peak range by column in Normalized X:[5.85 6.14 2.06 3.69]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/b7be96c4733bda0bfedbf7ad3440c69320ee0b85adb2325b1dd6efe1c8cecc6e.png" src="../../_images/b7be96c4733bda0bfedbf7ad3440c69320ee0b85adb2325b1dd6efe1c8cecc6e.png" />
-<img alt="../../_images/8a64a3ac25ca19ac8a2f94eb7e71d985e8b253056f426c9614fc285fc0f029eb.png" src="../../_images/8a64a3ac25ca19ac8a2f94eb7e71d985e8b253056f426c9614fc285fc0f029eb.png" />
+<img alt="../../_images/2c41a44f7d07ebc3d63e2ab122d06f5551fb9a4c3af21ee317dfa0b7e95e7c82.png" src="../../_images/2c41a44f7d07ebc3d63e2ab122d06f5551fb9a4c3af21ee317dfa0b7e95e7c82.png" />
+<img alt="../../_images/3ba3a3520a6948dd9b529cad3917084dea0c5b2496aecf15c5d98118e06c3b25.png" src="../../_images/3ba3a3520a6948dd9b529cad3917084dea0c5b2496aecf15c5d98118e06c3b25.png" />
 </div>
 </div>
 <p>Notice, above, the range of the normalized data (x-axis) is centered around zero and roughly +/- 2. Most importantly, the range is similar for each feature.</p>
@@ -1253,9 +1307,11 @@ Note the <strong>vastly larger value of alpha</strong>. This will speed up gradi
       500 2.19207e+02  1.1e+02 -2.1e+01 -3.3e+01 -3.8e+01  3.6e+02 -1.1e-06  5.6e-07  6.2e-07 -2.2e-07 -2.6e-13
       600 2.19207e+02  1.1e+02 -2.1e+01 -3.3e+01 -3.8e+01  3.6e+02 -3.7e-08  1.9e-08  2.1e-08 -7.3e-09 -2.6e-13
       700 2.19207e+02  1.1e+02 -2.1e+01 -3.3e+01 -3.8e+01  3.6e+02 -1.2e-09  6.2e-10  6.9e-10 -2.4e-10 -2.6e-13
-      800 2.19207e+02  1.1e+02 -2.1e+01 -3.3e+01 -3.8e+01  3.6e+02 -4.1e-11  2.1e-11  2.3e-11 -8.1e-12 -2.7e-13
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>      800 2.19207e+02  1.1e+02 -2.1e+01 -3.3e+01 -3.8e+01  3.6e+02 -4.1e-11  2.1e-11  2.3e-11 -8.1e-12 -2.7e-13
       900 2.19207e+02  1.1e+02 -2.1e+01 -3.3e+01 -3.8e+01  3.6e+02 -1.4e-12  7.0e-13  7.6e-13 -2.7e-13 -2.6e-13
-w,b found by gradient descent: w: [110.56 -21.27 -32.71 -37.97], b: 363.16
+w,b found by gradient descent: w: [110.56039756 -21.26715096 -32.70718139 -37.97015909], b: 363.16
 </pre></div>
 </div>
 </div>
@@ -1283,7 +1339,7 @@ Let’s plot our predictions versus the target values. Note, the prediction is m
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/95a15e498840a01ee5687850ecae130bd601be6ef205a99581497d0922127c28.png" src="../../_images/95a15e498840a01ee5687850ecae130bd601be6ef205a99581497d0922127c28.png" />
+<img alt="../../_images/f5e901319e5fbb140f6d94dc169b4e8fc3e1de9b3c63cb08f766eccda4f971e8.png" src="../../_images/f5e901319e5fbb140f6d94dc169b4e8fc3e1de9b3c63cb08f766eccda4f971e8.png" />
 </div>
 </div>
 <p>The results look good. A few points to note:</p>
@@ -1305,7 +1361,7 @@ The point of generating our model is to use it to predict housing prices that ar
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.53  0.43 -0.79  0.06]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-0.53052829  0.43380884 -0.78927234  0.06269567]
  predicted price of a house with 1200 sqft, 3 bedrooms, 1 floor, 40 years old = $318709
 </pre></div>
 </div>
@@ -1321,7 +1377,7 @@ The point of generating our model is to use it to predict housing prices that ar
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2eebfb74f6b38dea8d52d21f9eb98c0699e0ab6479993788eb114feadfdfc96e.png" src="../../_images/2eebfb74f6b38dea8d52d21f9eb98c0699e0ab6479993788eb114feadfdfc96e.png" />
+<img alt="../../_images/7488fc9d217e8e3969b9a66572a412098fb5c442d9496a4f646e2978a8eebde3.png" src="../../_images/7488fc9d217e8e3969b9a66572a412098fb5c442d9496a4f646e2978a8eebde3.png" />
 </div>
 </div>
 </section>

@@ -1,53 +1,45 @@
 Traceback (most recent call last):
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
-    asyncio.get_running_loop()
-RuntimeError: no running event loop
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+  File "C:\Users\sangouda\python_apps\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
     executenb(
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1319, in execute
+  File "C:\Users\sangouda\python_apps\Lib\site-packages\nbclient\client.py", line 1319, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+  File "C:\Users\sangouda\python_apps\Lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\asyncio\base_events.py", line 654, in run_until_complete
+  File "C:\Users\sangouda\python_apps\Lib\asyncio\base_events.py", line 691, in run_until_complete
     return future.result()
            ^^^^^^^^^^^^^^^
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 709, in async_execute
+  File "C:\Users\sangouda\python_apps\Lib\site-packages\nbclient\client.py", line 709, in async_execute
     await self.async_execute_cell(
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+  File "C:\Users\sangouda\python_apps\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "C:\Users\sangouda\Python\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+  File "C:\Users\sangouda\python_apps\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# Testing your function
-
-result = {}
-tweets = ['i am happy', 'i am tricked', 'i am sad', 'i am tired', 'i am tired']
-ys = [1, 0, 0, 0, 0]
-count_tweets(result, tweets, ys)
+# Test your function
+w2_unittest.test_train_naive_bayes(train_naive_bayes, freqs, train_x, train_y)
 ------------------
 
+----- stdout -----
+Wrong number of keys in loglikelihood dictionary. 
+	Expected: 9147.
+	Got: 9143.
+------------------
 
 [31m---------------------------------------------------------------------------[39m
-[31mTypeError[39m                                 Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 6[39m
-[32m      4[39m tweets = [[33m'[39m[33mi am happy[39m[33m'[39m, [33m'[39m[33mi am tricked[39m[33m'[39m, [33m'[39m[33mi am sad[39m[33m'[39m, [33m'[39m[33mi am tired[39m[33m'[39m, [33m'[39m[33mi am tired[39m[33m'[39m]
-[32m      5[39m ys = [[32m1[39m, [32m0[39m, [32m0[39m, [32m0[39m, [32m0[39m]
-[32m----> [39m[32m6[39m [43mcount_tweets[49m[43m([49m[43mresult[49m[43m,[49m[43m [49m[43mtweets[49m[43m,[49m[43m [49m[43mys[49m[43m)[49m
+[31mKeyError[39m                                  Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[11][39m[32m, line 2[39m
+[32m      1[39m [38;5;66;03m# Test your function[39;00m
+[32m----> [39m[32m2[39m [43mw2_unittest[49m[43m.[49m[43mtest_train_naive_bayes[49m[43m([49m[43mtrain_naive_bayes[49m[43m,[49m[43m [49m[43mfreqs[49m[43m,[49m[43m [49m[43mtrain_x[49m[43m,[49m[43m [49m[43mtrain_y[49m[43m)[49m
 
-[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 20[39m, in [36mcount_tweets[39m[34m(result, tweets, ys)[39m
-[32m     18[39m [38;5;66;03m# if the key exists in the dictionary, increment the count[39;00m
-[32m     19[39m [38;5;28;01mif[39;00m pair [38;5;129;01min[39;00m result:
-[32m---> [39m[32m20[39m     [43mresult[49m[43m[[49m[43mpair[49m[43m][49m[43m [49m[43m+[49m[43m=[49m[43m [49m[38;5;28;43;01mNone[39;49;00m
-[32m     22[39m [38;5;66;03m# else, if the key is new, add it to the dictionary and set the count to 1[39;00m
-[32m     23[39m [38;5;28;01melse[39;00m:
-[32m     24[39m     result[pair] = [38;5;28;01mNone[39;00m
+[36mFile [39m[32mC:\Github\Coursera_Materials\coursera_notes\NLP\C1_W2\w2_unittest.py:371[39m, in [36mtest_train_naive_bayes[39m[34m(target, freqs, train_x, train_y)[39m
+[32m    368[39m count_good = [32m0[39m
+[32m    369[39m [38;5;28;01mfor[39;00m key, value [38;5;129;01min[39;00m test_case[[33m"[39m[33mexpected[39m[33m"[39m][[33m"[39m[33mloglikelihood[39m[33m"[39m].items():
+[32m--> [39m[32m371[39m     [38;5;28;01mif[39;00m np.isclose([43mresult2[49m[43m[[49m[43mkey[49m[43m][49m, value):
+[32m    372[39m         count_good += [32m1[39m
+[32m    374[39m [38;5;28;01mtry[39;00m:
 
-[31mTypeError[39m: unsupported operand type(s) for +=: 'NoneType' and 'NoneType'
+[31mKeyError[39m: 'ध'
 
